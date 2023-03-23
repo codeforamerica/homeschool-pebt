@@ -5,11 +5,13 @@ import formflow.library.data.Submission;
 
 import java.util.ArrayList;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
  * This will update the data submitted for Income Amounts before its saved to the database. It will take the new Income Amount
  * data and reconcile it with the data stored in the database.
  */
+@Component
 public class UpdateIncomeAmountsBeforeSaving implements Action {
 
   public void run(Submission submission, String data) {
