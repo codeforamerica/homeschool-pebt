@@ -1,0 +1,25 @@
+# .pairs - configuration for 'git pair'
+pairs:
+  # <initials>: <Firstname> <Lastname>[; <email-id>]
+  arin: Arin Choi; achoi
+  ash: Ash Campo; ash
+  eric: Eric Giannella; giannella
+  josh: Josh Stroud; jstroud
+  kristi: Kristi Lanzisera; kristi
+  lou: Lou Moore; lmoore
+  maria: Maria Quadri; mquadri
+  mike: Mike Rotondo; mrotondo
+  mob: GCF Mob
+  molly: Molly T-M; mollyt
+  nida: Nida Mirza; nmirza
+  tom: Tom Dooner; tdooner
+  vd: Vince Dorie; vdorie
+  tahsina: Tahsina Islam; tislam
+  lusen: Lusen Mendel; lusen
+  ana: Ana Medrano Fernandez; amedrano
+  maria: Maria Quadri; mquadri
+email:
+  prefix: pair
+  domain: codeforamerica.org
+  no_solo_prefix: true
+global: false  # Set to true for git-pair to change git configuration for all your projects
