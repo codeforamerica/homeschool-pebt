@@ -80,7 +80,7 @@ about static pages can be found in
 the [form-flow library documentation.](https://github.com/codeforamerica/form-flow#static-pages)
 
 This application has three static pages served up by
-the [StaticPageController](src/main/java/org/formflowstartertemplate/app/StaticPageController.java)
+the [StaticPageController](src/main/java/org/homeschoolpebt/app/StaticPageController.java)
 class:
 
 * [index.html](src/main/resources/templates/index.html)
@@ -206,7 +206,7 @@ convenience.
 - Use instructions from
   the [form-flow library here.](https://github.com/codeforamerica/form-flow#intellij-setup)
 - Run the application using the `StarterApplication` configuration (found
-  in `org.formflowstartertemplate.app`)
+  in `org.homeschoolpebt.app`)
 
 ### Contributing Live Templates to your App
 
