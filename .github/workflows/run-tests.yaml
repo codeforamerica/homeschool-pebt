@@ -8,6 +8,8 @@ on:
 env:
   USERNAME: ${{ secrets.GPR_USER }}
   TOKEN: ${{ secrets.GPR_KEY }}
+  MAILGUN_DOMAIN: example.com
+  MAILGUN_API_KEY: key-1234
 
 jobs:
   test:
