@@ -38,6 +38,8 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core'
 
+    implementation 'com.mailgun:mailgun-java:1.0.7'
+
     if (profile == 'dev') {
         implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
         println "📦 Using local library"
