@@ -20,6 +20,10 @@ form-flow:
       auth-id: ${SMARTY_AUTH_ID}
       auth-token: ${SMARTY_AUTH_TOKEN}
       license: us-core-cloud
+mail-gun:
+  sender-email: hello@${MAILGUN_DOMAIN}
+  api-key: ${MAILGUN_API_KEY}
+  domain: ${MAILGUN_DOMAIN}
 spring:
   profiles:
     group:
