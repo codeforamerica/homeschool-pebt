@@ -16,6 +16,8 @@ flow:
       - name: homeAddress
   homeAddress:
     nextScreens:
+      - name: contactInfo
+        condition: AddressValidationIsOff
       - name: verifyHomeAddress
   verifyHomeAddress:
     nextScreens:
