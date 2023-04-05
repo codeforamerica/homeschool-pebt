@@ -51,7 +51,7 @@
               <strong class="grid__item width-one-third text--right"
                       th:text="${'$' + T(org.homeschoolpebt.app.utils.SubmissionUtilities).getHouseholdTotalIncome(submission)}"></strong>
             </div>
-            <a th:href="'/' + ${flow} + '/' + ${iterationStartScreen}"
+            <a th:href="'/flow/' + ${flow} + '/' + ${iterationStartScreen}"
                th:unless="${allHouseholdMembersHaveIncome}"
                class="button spacing-above-25 spacing-below-0 spacing-right-0"
                th:text="#{annual-household-income.add-income}"></a>
