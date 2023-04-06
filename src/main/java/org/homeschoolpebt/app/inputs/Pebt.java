@@ -16,7 +16,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class Ubi extends FlowInputs {
+public class Pebt extends FlowInputs {
 
   private MultipartFile ubiFiles;
 
