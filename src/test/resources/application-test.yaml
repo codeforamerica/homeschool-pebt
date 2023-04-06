@@ -14,9 +14,14 @@ form-flow:
     path: to_be_determined.pdf
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;
-    username: sa
-    password: sa
+    url: jdbc:postgresql://localhost:5432/starter-app-test
+    username: starter-app-test
+    password: postgres
+  flyway:
+    baselineOnMigrate: true
+    clean-on-validation-error: true
+    placeholders:
+      uuid_function: "gen_random_uuid"
   thymeleaf:
     prefix: classpath:/templates/
   jpa:
@@ -24,3 +29,7 @@ spring:
       ddl-auto: create-drop
   main:
     allow-circular-references: true
+mail-gun:
+  sender-email: hello@test.com
+  api-key: 1234
+  domain: test.com
