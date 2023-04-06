@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddressValidationIsOff implements Condition {
+public class HomeAddressValidationIsOff implements Condition {
 
   @Value("${form-flow.address-validation.disabled:false}")
   private boolean isAddressValidationDisabled;

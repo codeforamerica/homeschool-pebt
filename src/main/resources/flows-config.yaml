@@ -17,8 +17,14 @@ flow:
   homeAddress:
     nextScreens:
       - name: contactInfo
-        condition: AddressValidationIsOff
+        condition: HomeAddressValidationIsOff
+      - name: pickHomeAddress
+        condition: SmartySuggestionFound
       - name: verifyHomeAddress
+        condition: SmartySuggestionNotFound
+  pickHomeAddress:
+    nextScreens:
+      - name: contactInfo
   verifyHomeAddress:
     nextScreens:
       - name: contactInfo
