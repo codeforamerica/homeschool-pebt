@@ -31,11 +31,11 @@
                                     th:text="${'$' + personsTotalIncome}"></span>
                                 <span
                                     class="grid__item width-one-third text--small spacing-below-0">
-                                  <a th:href="'/flow/ubi/incomeTypes/' + ${personsIncome.uuid} + '/edit'"
+                                  <a th:href="'/flow/pebt/incomeTypes/' + ${personsIncome.uuid} + '/edit'"
                                      th:text="#{general.edit}"
                                      th:id="'edit-iteration-' + ${personsIncome.uuid}"
                                      class="subflow-edit"></a>
-                                  <a th:href="'/flow/ubi/income/' + ${personsIncome.uuid} + '/deleteConfirmation'"
+                                  <a th:href="'/flow/pebt/income/' + ${personsIncome.uuid} + '/deleteConfirmation'"
                                      th:text="#{general.delete}"
                                      class="subflow-delete"
                                      th:id="'delete-iteration-' + ${personsIncome.uuid}"></a>

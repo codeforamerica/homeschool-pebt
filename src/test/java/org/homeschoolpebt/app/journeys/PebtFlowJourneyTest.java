@@ -7,7 +7,7 @@ import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
 import org.junit.jupiter.api.Test;
 
-public class UbiFlowJourneyTest extends AbstractBasePageTest {
+public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void fullUbiFlow() {
@@ -112,7 +112,7 @@ public class UbiFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
     // Eligibility
     testPage.clickContinue();
-    driver.navigate().to(baseUrl + "/flow/ubi/contactInfo");
+    driver.navigate().to(baseUrl + "/flow/pebt/contactInfo");
     // Contact Info
     assertThat(testPage.getTitle()).isEqualTo("Contact Info");
     testPage.enter("phoneNumber", "(312) 877-1021");
