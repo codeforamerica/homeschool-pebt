@@ -48,7 +48,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("birthMonth", "2");
     testPage.enter("birthYear", "2000");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Where are you currently living?");
+    assertThat(testPage.getTitle()).isEqualTo("Where can the State of California send you mail?");
     testPage.goBack();
     assertThat(testPage.getTitle()).isEqualTo("Personal Info");
 
@@ -57,14 +57,14 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("birthMonth", "12");
     testPage.enter("birthYear", "2000");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Where are you currently living?");
+    assertThat(testPage.getTitle()).isEqualTo("Where can the State of California send you mail?");
     testPage.goBack();
     assertThat(testPage.getTitle()).isEqualTo("Personal Info");
 
     // moved to USA date
     testPage.clickElementById("movedToUSA-No");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Where are you currently living?");
+    assertThat(testPage.getTitle()).isEqualTo("Where can the State of California send you mail?");
     testPage.goBack();
 
     // movedToUSA - check invalid date when movedToUSA=Yes
@@ -83,7 +83,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("movedToUSAMonth", "3");
     testPage.enter("movedToUSAYear", "1987");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Where are you currently living?");
+    assertThat(testPage.getTitle()).isEqualTo("Where can the State of California send you mail?");
 
     testPage.goBack();
     assertThat(testPage.getTitle()).isEqualTo("Personal Info");
@@ -101,7 +101,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("movedToUSAMonth", "2");
     testPage.enter("movedToUSAYear", "2024");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Where are you currently living?");
+    assertThat(testPage.getTitle()).isEqualTo("Where can the State of California send you mail?");
 
     // Home address
     testPage.enter("residentialAddressStreetAddress1", "1111 N State St");

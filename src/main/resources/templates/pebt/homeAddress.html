@@ -8,9 +8,9 @@
     <div class="grid">
       <div th:replace="fragments/goBack :: goBackLink"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="'fragments/icons' :: address"/>
+        <th:block th:replace="'fragments/pebtIcons' :: address"/>
         <th:block
-            th:replace="'fragments/cardHeader' :: cardHeader(header=#{homeAddress.title})"/>
+            th:replace="'fragments/cardHeader' :: cardHeader(header=#{homeAddress.title}, subtext=#{homeAddress.subtitle})"/>
         <th:block
             th:replace="'fragments/form' :: form(action=${formAction}, content=~{::formContent})">
           <th:block th:ref="formContent">
@@ -27,6 +27,9 @@
             </div>
           </th:block>
         </th:block>
+        <p class="spacing-above-35">
+          <a href="#" th:text="#{homeAddress.iDontHaveOne}"></a>
+        </p>
       </main>
     </div>
   </section>
