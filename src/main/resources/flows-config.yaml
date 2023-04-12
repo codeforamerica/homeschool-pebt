@@ -10,8 +10,6 @@ flow:
     nextScreens:
       - name: personalInfo
   personalInfo:
-    onPostAction: UpdatePersonalInfoDates
-    crossFieldValidationAction: ValidateMovedToUSADate
     nextScreens:
       - name: homeAddress
   homeAddress:
