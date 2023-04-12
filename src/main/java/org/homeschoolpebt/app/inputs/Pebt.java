@@ -30,30 +30,6 @@ public class Pebt extends FlowInputs {
   private String firstName;
   @NotBlank(message = "{personal-info.provide-last-name}")
   private String lastName;
-  @NotBlank(message = "{personal-info.provide-birth-day}")
-  @Min(value = 1, message = "{personal-info.provide-day-min}")
-  @Max(value = 31, message = "{personal-info.provide-day-max}")
-  private String birthDay;
-  @NotBlank(message = "{personal-info.provide-birth-month}")
-  @Min(value = 1, message = "{personal-info.provide-month-min}")
-  @Max(value = 12, message = "{personal-info.provide-month-max}")
-  private String birthMonth;
-  @NotBlank(message = "{personal-info.provide-birth-year}")
-  @Min(value = 1850, message = "{personal-info.provide-year-min}")
-  @Max(value = 2100, message = "{personal-info.provide-year-max}")
-  private String birthYear;
-  @Pattern(regexp = "\\d{1,2}/\\d{1,2}/\\d\\d\\d\\d", message = "{personal-info.date-invalid}")
-  private String birthDate;
-
-  private String genderIdentity;
-  // TODO: figure out how to only have day & month for a date fragment
-  private String movedToUSA;
-  private String movedToUSADay;
-  private String movedToUSAMonth;
-  private String movedToUSAYear;
-  @Pattern(regexp = "\\d{1,2}/\\d{1,2}/\\d\\d\\d\\d", message = "{personal-info.date-invalid}")
-  private String movedToUSADate;
-  private String movedFromCountry;
 
   // Home Address Screen
   @NotBlank
