@@ -23,48 +23,6 @@
                   text(inputName='lastName',
                   label=#{personal-info.last-name-label},
                   helpText=#{personal-info.last-name-help})"/>
-              <th:block th:replace="'fragments/inputs/date' ::
-                date(inputName='birth',
-                label=#{personal-info.birth-label},
-                groupName='birthDate')"/>
-              <th:block th:replace="'fragments/inputs/radioFieldset' ::
-                            radioFieldset(inputName='genderIdentity',
-                            label=#{personal-info.gender-label},
-                            content=~{::radioOptions})">
-                <th:block th:ref="radioOptions">
-                  <!-- Copy the below input if you want to add more -->
-                  <th:block
-                      th:replace="'fragments/inputs/radio' :: radio(inputName='genderIdentity',value='Man', label=#{personal-info.gender-man})"/>
-                  <th:block
-                      th:replace="'fragments/inputs/radio' :: radio(inputName='genderIdentity',value='Woman', label=#{personal-info.gender-woman})"/>
-                  <th:block
-                      th:replace="'fragments/inputs/radio' :: radio(inputName='genderIdentity',value='Non-Binary', label=#{personal-info.gender-non-binary})"/>
-                </th:block>
-              </th:block>
-              <div class="question-with-follow-up">
-                <div class="question-with-follow-up__question">
-                  <th:block th:replace="'fragments/inputs/radioFieldset' ::
-                                                        radioFieldset(inputName='movedToUSA',
-                                                        label=#{personal-info.moved-label},
-                                                        content=~{::movedToContent})">
-                    <th:block th:ref="movedToContent">
-                      <th:block
-                          th:replace="'fragments/inputs/radio' :: radio(inputName='movedToUSA',value='No', label=#{general.inputs.no})"/>
-                      <th:block
-                          th:replace="'fragments/inputs/radio' :: radio(inputName='movedToUSA',value='Yes', label=#{general.inputs.yes}, followUpId='#moved-to-usa-follow-up')"/>
-                    </th:block>
-                  </th:block>
-                </div>
-                <div class="question-with-follow-up__follow-up" id="moved-to-usa-follow-up">
-                  <th:block th:replace="'fragments/inputs/date' ::
-                                            date(inputName='movedToUSA',
-                                            label=#{personal-info.moved-when-label},
-                                            groupName='movedToUSADate')"/>
-                  <th:block th:replace="'fragments/inputs/text' ::
-                                text(inputName='movedFromCountry',
-                                label=#{personal-info.moved-from-label})"/>
-                </div>
-              </div>
               <div class="form-card__footer">
                 <th:block th:replace="fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})"/>
