@@ -33,7 +33,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("residentialAddressState", "NM - New Mexico");
     testPage.enter("residentialAddressZipCode", "88201");
     testPage.clickContinue();
-    // Eligibility
+    // Confirm address
     testPage.clickContinue();
     driver.navigate().to(baseUrl + "/flow/pebt/contactInfo");
     // Contact Info
@@ -44,6 +44,10 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.findElementById("howToContactYou-phoneNumber").isSelected()).isTrue();
     assertThat(testPage.findElementById("howToContactYou-email").isSelected()).isTrue();
     testPage.clickContinue();
+    // Review personal info
+    assertThat(testPage.getTitle()).isEqualTo("Let's review your information");
+    testPage.clickButton("Confirm");
+
     // Eligibility
     testPage.clickContinue();
     // Housemates

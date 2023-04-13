@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="fragments/head :: head(title=#{review-personal-info.title})"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="fragments/pebtIcons :: documentsSearch"></th:block>
+        <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{review-personal-info.title})"/>
+        <div class="form-card__content">
+          <h3 th:text="#{review-personal-info.name}"></h3>
+          <p th:text="${inputData.firstName + ' ' + inputData.lastName}"></p>
+
+          <hr class="spacing-above-15 spacing-below-15">
+          <h3 th:text="#{review-personal-info.mailing-address}"></h3>
+          <p>
+            <span th:text="${inputData.residentialAddressStreetAddress1}"></span>
+            <br>
+            <span th:text="${inputData.residentialAddressStreetAddress2}" th:if="${inputData.residentialAddressStreetAddress2}"></span>
+            <br>
+            <span th:text="${inputData.residentialAddressCity} + ', ' + ${inputData.residentialAddressState} + ' ' + ${inputData.residentialAddressZipCode}"></span>
+          </p>
+
+          <hr class="spacing-above-15 spacing-below-15">
+          <h3 th:text="#{review-personal-info.contact-information}"></h3>
+          <p>
+            <span th:text="${inputData.phoneNumber}" th:if="${inputData.phoneNumber}"></span>
+            <span th:text="${inputData.email}" th:if="${inputData.email}"></span>
+          </p>
+
+          <hr class="spacing-above-15 spacing-below-15">
+        </div>
+
+        <div class="form-card__footer">
+          <th:block th:replace="'fragments/continueButton' :: continue(text=#{review-personal-info.confirm})"/>
+          <a th:href="'/flow/pebt/personalInfo'"
+             th:text="#{review-personal-info.edit}"
+             class="button button--other"></a>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="fragments/footer :: footer"/>
+</body>
+</html>

@@ -29,6 +29,9 @@ flow:
   contactInfo:
     beforeSaveAction: SendConfirmationEmail
     nextScreens:
+      - name: reviewPersonalInfo
+  reviewPersonalInfo:
+    nextScreens:
       - name: eligibility
   eligibility:
     nextScreens:
