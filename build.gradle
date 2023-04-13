@@ -40,6 +40,8 @@ dependencies {
 
     implementation 'com.mailgun:mailgun-java:1.0.7'
 
+    implementation 'io.sentry:sentry-spring-boot-starter:6.17.0'
+
     if (profile == 'dev') {
         implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
         println "📦 Using local library"
