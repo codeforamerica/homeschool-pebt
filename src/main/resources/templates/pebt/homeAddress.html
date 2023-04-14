@@ -20,6 +20,11 @@
                     validate=true,
                     inputName='residentialAddress'
                   )"/>
+              <th:block th:replace="'fragments/inputs/combobox' :: combobox(
+                inputName='schoolName',
+                inputNameOther='schoolNameOther',
+                label='What school do you attend?'
+              )"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="fragments/inputs/submitButton :: submitButton(
