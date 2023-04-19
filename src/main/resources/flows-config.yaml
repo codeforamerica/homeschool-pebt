@@ -5,6 +5,9 @@ flow:
       - name: eligibility
   eligibility:
     nextScreens:
+      - name: preScreenMoreThanOneStudent
+  preScreenMoreThanOneStudent:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:

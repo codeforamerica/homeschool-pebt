@@ -5,13 +5,9 @@ import formflow.library.data.validators.Money;
 import formflow.library.data.validators.Phone;
 import formflow.library.utils.RegexUtils;
 import java.util.ArrayList;
-
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class Pebt extends FlowInputs {
 
   private MultipartFile ubiFiles;
+
+  // Pre-screen
+  private String hasMoreThanOneStudent;
 
   // Language Preferences Screen
   private String languageRead;
