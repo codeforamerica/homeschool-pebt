@@ -11,6 +11,9 @@ flow:
       - name: preScreenApplyingForSelf
   preScreenApplyingForSelf:
     nextScreens:
+      - name: preScreenEnrolledInVirtualSchool
+  preScreenEnrolledInVirtualSchool:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:
