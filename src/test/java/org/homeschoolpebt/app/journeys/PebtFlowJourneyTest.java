@@ -51,7 +51,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // School Unenrolled from
     assertThat(testPage.getTitle()).isEqualTo("Which school did you leave after January 27, 2020?");
     WebElement comboboxMenu = testPage.findElementById("ui-id-1");
-    testPage.enter("schoolName", "San Franc");
+    testPage.findElementById("combobox").sendKeys("San Franc");
     // wait for combobox to appear, then click the item for San Francisco Unified School District
     new WebDriverWait(driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(comboboxMenu));
     Optional<WebElement> comboboxItem = comboboxMenu
