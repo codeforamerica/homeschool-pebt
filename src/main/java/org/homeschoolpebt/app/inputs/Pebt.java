@@ -18,6 +18,7 @@ public class Pebt extends FlowInputs {
 
   // Pre-screen
   private String hasMoreThanOneStudent;
+  private String isApplyingForSelf;
 
   // Language Preferences Screen
   private String languageRead;

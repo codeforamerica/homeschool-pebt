@@ -8,6 +8,9 @@ flow:
       - name: preScreenMoreThanOneStudent
   preScreenMoreThanOneStudent:
     nextScreens:
+      - name: preScreenApplyingForSelf
+  preScreenApplyingForSelf:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:
