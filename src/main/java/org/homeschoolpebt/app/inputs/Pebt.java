@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
+import org.homeschoolpebt.app.data.validations.SchoolNameIsValid;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
@@ -30,6 +31,9 @@ public class Pebt extends FlowInputs {
   private String firstName;
   @NotBlank(message = "{personal-info.provide-last-name}")
   private String lastName;
+
+  @SchoolNameIsValid
+  private String schoolName;
 
   // Home Address Screen
   @NotBlank
