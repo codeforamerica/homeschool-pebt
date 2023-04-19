@@ -20,6 +20,7 @@ public class Pebt extends FlowInputs {
   private String hasMoreThanOneStudent;
   private String isApplyingForSelf;
   private String isEnrolledInVirtualSchool;
+  private String hasUnenrolled;
 
   // Language Preferences Screen
   private String languageRead;
