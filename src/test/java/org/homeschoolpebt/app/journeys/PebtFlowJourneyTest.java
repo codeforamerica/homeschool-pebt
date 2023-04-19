@@ -4,8 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
 
+import java.time.Duration;
+import java.util.Optional;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
@@ -40,10 +46,23 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("residentialAddressCity", "Roswell");
     testPage.enter("residentialAddressState", "NM - New Mexico");
     testPage.enter("residentialAddressZipCode", "88201");
+    testPage.clickContinue(); // Address validation gets skipped in test
+
+    // School Unenrolled from
+    assertThat(testPage.getTitle()).isEqualTo("Which school did you leave after January 27, 2020?");
+    WebElement comboboxMenu = testPage.findElementById("ui-id-1");
+    testPage.enter("schoolName", "San Franc");
+    // wait for combobox to appear, then click the item for San Francisco Unified School District
+    new WebDriverWait(driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(comboboxMenu));
+    Optional<WebElement> comboboxItem = comboboxMenu
+        .findElements(By.cssSelector(".ui-menu-item"))
+        .stream()
+        .filter(el -> el.getText().contains("San Francisco"))
+        .findFirst();
+    assertThat(comboboxItem.isPresent()).isTrue();
+    comboboxItem.get().click();
     testPage.clickContinue();
-    // Confirm address
-    testPage.clickContinue();
-    driver.navigate().to(baseUrl + "/flow/pebt/contactInfo");
+
     // Contact Info
     assertThat(testPage.getTitle()).isEqualTo("Contact Info");
     testPage.enter("phoneNumber", "(312) 877-1021");

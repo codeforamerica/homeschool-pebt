@@ -44,9 +44,8 @@ public class Pebt extends FlowInputs {
   @NotBlank
   private String residentialAddressZipCode;
 
-  // TODO: Custom validation that either schoolNameOther is provided OR schoolName is.
+  @NotBlank
   private String schoolName;
-  private String schoolNameOther;
 
   // Verify Home Address Screen
   private String useValidatedResidentialAddress;

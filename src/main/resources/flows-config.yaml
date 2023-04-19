@@ -29,7 +29,7 @@ flow:
       - name: homeAddress
   homeAddress:
     nextScreens:
-      - name: contactInfo
+      - name: schoolUnenrolled
         condition: HomeAddressValidationIsOff
       - name: pickHomeAddress
         condition: SmartySuggestionFound
@@ -37,8 +37,11 @@ flow:
         condition: SmartySuggestionNotFound
   pickHomeAddress:
     nextScreens:
-      - name: contactInfo
+      - name: schoolUnenrolled
   verifyHomeAddress:
+    nextScreens:
+      - name: schoolUnenrolled
+  schoolUnenrolled:
     nextScreens:
       - name: contactInfo
   contactInfo:
