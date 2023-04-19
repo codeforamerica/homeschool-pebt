@@ -8,7 +8,7 @@
     <div class="grid">
       <div th:replace="fragments/goBack :: goBackLink"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="fragments/pebtIcons :: documentsSearch"></th:block>
+        <th:block th:replace="fragments/icons :: documentsSearch"></th:block>
         <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{review-personal-info.title})"/>
         <div class="form-card__content">
           <h3 th:text="#{review-personal-info.name}"></h3>
