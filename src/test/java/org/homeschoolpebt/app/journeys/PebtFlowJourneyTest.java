@@ -20,6 +20,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Pre-screen
     testPage.clickButton("Ok, I'm ready");
     testPage.clickButton("Yes"); // More than 1 student?
+    testPage.clickButton("No"); // Applying for self?
 
     // Language preference
     testPage.clickContinue();
