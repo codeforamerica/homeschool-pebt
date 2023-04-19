@@ -16,6 +16,10 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Apply now");
     // How this works
     testPage.clickContinue();
+
+    // Pre-screen
+    testPage.clickButton("Ok, I'm ready");
+
     // Language preference
     testPage.clickContinue();
     // Getting to know you
@@ -48,8 +52,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Let's review your information");
     testPage.clickButton("Confirm");
 
-    // Eligibility
-    testPage.clickContinue();
     // Housemates
     assertThat(testPage.getTitle()).isEqualTo("Housemates");
     testPage.enter("hasHousehold", NO.getDisplayValue());
