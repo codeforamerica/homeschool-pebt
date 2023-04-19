@@ -30,6 +30,20 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes"); // Enrolled in virtual/home school?
     testPage.clickButton("Yes"); // Unenrolled during COVID?
 
+    assertThat(testPage.getTitle()).isEqualTo("Which school did the 1 or more of the students withdraw from after January 27, 2020?");
+    WebElement comboboxMenu = testPage.findElementById("ui-id-1");
+    testPage.findElementById("combobox").sendKeys("San Franc");
+    // wait for combobox to appear, then click the item for San Francisco Unified School District
+    new WebDriverWait(driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(comboboxMenu));
+    Optional<WebElement> comboboxItem = comboboxMenu
+        .findElements(By.cssSelector(".ui-menu-item"))
+        .stream()
+        .filter(el -> el.getText().contains("San Francisco"))
+        .findFirst();
+    assertThat(comboboxItem.isPresent()).isTrue();
+    comboboxItem.get().click();
+    testPage.clickContinue();
+
     // Language preference
     testPage.clickContinue();
     // Getting to know you
@@ -47,21 +61,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("residentialAddressState", "NM - New Mexico");
     testPage.enter("residentialAddressZipCode", "88201");
     testPage.clickContinue(); // Address validation gets skipped in test
-
-    // School Unenrolled from
-    assertThat(testPage.getTitle()).isEqualTo("Which school did you leave after January 27, 2020?");
-    WebElement comboboxMenu = testPage.findElementById("ui-id-1");
-    testPage.findElementById("combobox").sendKeys("San Franc");
-    // wait for combobox to appear, then click the item for San Francisco Unified School District
-    new WebDriverWait(driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(comboboxMenu));
-    Optional<WebElement> comboboxItem = comboboxMenu
-        .findElements(By.cssSelector(".ui-menu-item"))
-        .stream()
-        .filter(el -> el.getText().contains("San Francisco"))
-        .findFirst();
-    assertThat(comboboxItem.isPresent()).isTrue();
-    comboboxItem.get().click();
-    testPage.clickContinue();
 
     // Contact Info
     assertThat(testPage.getTitle()).isEqualTo("Contact Info");

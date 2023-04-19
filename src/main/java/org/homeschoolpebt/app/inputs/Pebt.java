@@ -21,6 +21,8 @@ public class Pebt extends FlowInputs {
   private String isApplyingForSelf;
   private String isEnrolledInVirtualSchool;
   private String hasUnenrolled;
+  @NotBlank
+  private String unenrolledSchoolName;
 
   // Language Preferences Screen
   private String languageRead;
@@ -43,9 +45,6 @@ public class Pebt extends FlowInputs {
   private String residentialAddressState;
   @NotBlank
   private String residentialAddressZipCode;
-
-  @NotBlank
-  private String schoolName;
 
   // Verify Home Address Screen
   private String useValidatedResidentialAddress;

@@ -17,6 +17,9 @@ flow:
       - name: preScreenUnenrolled
   preScreenUnenrolled:
     nextScreens:
+      - name: preScreenUnenrolledSchoolName
+  preScreenUnenrolledSchoolName:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:
@@ -29,7 +32,7 @@ flow:
       - name: homeAddress
   homeAddress:
     nextScreens:
-      - name: schoolUnenrolled
+      - name: contactInfo
         condition: HomeAddressValidationIsOff
       - name: pickHomeAddress
         condition: SmartySuggestionFound
@@ -37,11 +40,8 @@ flow:
         condition: SmartySuggestionNotFound
   pickHomeAddress:
     nextScreens:
-      - name: schoolUnenrolled
+      - name: contactInfo
   verifyHomeAddress:
-    nextScreens:
-      - name: schoolUnenrolled
-  schoolUnenrolled:
     nextScreens:
       - name: contactInfo
   contactInfo:
