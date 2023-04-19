@@ -2,6 +2,9 @@ name: pebt
 flow:
   howThisWorks:
     nextScreens:
+      - name: eligibility
+  eligibility:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:
@@ -31,9 +34,6 @@ flow:
     nextScreens:
       - name: reviewPersonalInfo
   reviewPersonalInfo:
-    nextScreens:
-      - name: eligibility
-  eligibility:
     nextScreens:
       - name: housemates
   housemates:

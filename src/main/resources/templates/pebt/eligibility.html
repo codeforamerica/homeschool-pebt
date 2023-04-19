@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title='Eligibility')"></head>
+<head th:replace="fragments/head :: head(title=#{eligibility.eligibility})"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="fragments/toolbar :: toolbar"></div>
@@ -9,22 +9,14 @@
       <div th:replace="fragments/goBack :: goBackLink"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="text--centered">
-          <th:block th:replace="'fragments/icons' :: household"/>
+          <th:block th:replace="'fragments/pebtIcons' :: clipboardWithEnvelope"/>
           <p class="text--grey-dark" th:text="#{eligibility.step}"></p>
           <th:block
               th:replace="'fragments/cardHeader' :: cardHeader(header=#{eligibility.eligibility})"/>
         </div>
-        <div class="boxed-content">
-          <h2 class="text--centered" th:text="#{eligibility.we-will}"></h2>
-          <ol class="list--numbered">
-            <li th:text="#{eligibility.everyone}"></li>
-            <li th:text="#{eligibility.your-income}"></li>
-            <li th:text="#{eligibility.their-income}"></li>
-            <li th:text="#{eligibility.economic}"></li>
-          </ol>
-        </div>
+        <p class="text--centered" th:text="#{eligibility.we-will}"></p>
         <div class="form-card__footer text--centered">
-          <th:block th:replace="'fragments/continueButton' :: continue"/>
+          <th:block th:replace="'fragments/continueButton' :: continue(text=#{eligibility.button})"/>
         </div>
       </main>
     </div>
