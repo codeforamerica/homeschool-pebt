@@ -1,6 +1,10 @@
 function selectCheckboxFieldIfTextFieldIsNotEmpty(textFieldId, checkboxFieldId) {
     let textField = document.getElementById(textFieldId);
     let checkboxField = document.getElementById(checkboxFieldId);
+    if (!textField) {
+        return;
+    }
+
     textField.addEventListener("input", function() {
         if (textField.value !== "") {
             checkboxField.checked = true;

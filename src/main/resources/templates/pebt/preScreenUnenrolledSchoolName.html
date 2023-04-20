@@ -1,0 +1,37 @@
+<th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf == 'true' ? 'self' : 'individual')}">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}">
+  <head th:replace="fragments/head :: head(title=${#messages.msg('pre-screen-unenrolled-school-name.title.' + messageVariant)})"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="fragments/toolbar :: toolbar"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="fragments/goBack :: goBackLink"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <th:block th:replace="'fragments/icons' :: school"/>
+          <th:block
+              th:replace="'fragments/cardHeader' :: cardHeader(header=${#messages.msg('pre-screen-unenrolled-school-name.title.' + messageVariant)}, subtext=#{pre-screen-unenrolled-school-name.subtext})"/>
+          <th:block th:replace="'fragments/form' :: form(action=${formAction}, content=~{::formContent})">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:replace="'fragments/inputs/combobox' :: combobox(
+                    inputName='unenrolledSchoolName',
+                    label=#{pre-screen-unenrolled-school-name.school}
+                  )"/>
+              </div>
+              <div class="form-card__footer">
+                <th:block th:replace="fragments/inputs/submitButton :: submitButton(
+                          text=#{general.inputs.continue})"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="fragments/footer :: footer" />
+  </body>
+  </html>
+</th:block>
+

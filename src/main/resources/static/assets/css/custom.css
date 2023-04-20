@@ -119,3 +119,57 @@
 .help--header-spacing {
   margin-top: -35px;
 }
+
+
+/*
+  *************************************************************************************************
+  SCHOOL NAME AUTOCOMPLETE
+  *************************************************************************************************
+*/
+.ui-autocomplete {
+  max-height: 260px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+  max-width: 90%;
+}
+.ui-menu .ui-menu-item-wrapper {
+  padding: 1.5rem 2.5rem !important;
+}
+
+.ui-menu-item {
+  border: 1px solid #E6E6E6; !important;
+}
+
+.ui-widget-content .ui-state-active {
+  background-color: #F7F5F4 !important;
+  color: black !important;
+  border: 1px solid #E6E6E6 !important;
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+  height: 100px;
+}
+.clearable{
+  position: relative;
+  display: inline-block;
+  width: 100% ;
+}
+.clearable .text-input{
+  padding-right: 70px;
+}
+.clear-input{
+  position: absolute;
+  right:0; top:0;
+  padding: 2rem 2.5rem;
+  font-style: normal;
+  font-size: 1.2em;
+  user-select: none;
+  cursor: pointer;
+  display: none;
+}
+.clearable input::-ms-clear {  /* Remove IE default X */
+  display: none;
+}

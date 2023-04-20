@@ -42,6 +42,8 @@ dependencies {
 
     implementation 'io.sentry:sentry-spring-boot-starter:6.17.0'
 
+    implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
+
     if (profile == 'dev') {
         implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
         println "📦 Using local library"

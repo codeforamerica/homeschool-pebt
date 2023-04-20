@@ -17,6 +17,9 @@ flow:
       - name: preScreenUnenrolled
   preScreenUnenrolled:
     nextScreens:
+      - name: preScreenUnenrolledSchoolName
+  preScreenUnenrolledSchoolName:
+    nextScreens:
       - name: languagePreference
   languagePreference:
     nextScreens:
