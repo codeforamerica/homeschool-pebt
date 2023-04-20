@@ -24,9 +24,12 @@ flow:
       - name: preScreenUnenrolledSchoolName
   preScreenUnenrolledSchoolName:
     nextScreens:
-      - name: languagePreference
+      - name: eligibilityLikely
   preScreenIneligible:
     nextScreens: []
+  eligibilityLikely:
+    nextScreens:
+      - name: languagePreference
   languagePreference:
     nextScreens:
       - name: gettingToKnowYou
