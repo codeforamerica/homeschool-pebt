@@ -8,6 +8,8 @@ flow:
       - name: preScreenMoreThanOneStudent
   preScreenMoreThanOneStudent:
     nextScreens:
+      - name: preScreenEnrolledInVirtualSchool
+        condition: PreScreenHasMoreThanOneStudent
       - name: preScreenApplyingForSelf
   preScreenApplyingForSelf:
     nextScreens:

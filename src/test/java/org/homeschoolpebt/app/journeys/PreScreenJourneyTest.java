@@ -18,6 +18,10 @@ public class PreScreenJourneyTest extends AbstractBasePageTest {
     // Pre-screen
     testPage.clickButton("Ok, I'm ready");
     testPage.clickButton("Yes"); // More than 1 student?
+    assertThat(testPage.getTitle()).contains("were 1 or more students enrolled");
+    testPage.clickLink("< Go Back");
+    testPage.clickButton("No"); // More than 1 student?
+
     testPage.clickButton("No"); // Applying for self?
     testPage.clickButton("No"); // Enrolled in virtual/home school?
 

@@ -26,7 +26,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Pre-screen
     testPage.clickButton("Ok, I'm ready");
     testPage.clickButton("Yes"); // More than 1 student?
-    testPage.clickButton("No"); // Applying for self?
     testPage.clickButton("Yes"); // Enrolled in virtual/home school?
     testPage.clickButton("Yes"); // Unenrolled during COVID?
 
