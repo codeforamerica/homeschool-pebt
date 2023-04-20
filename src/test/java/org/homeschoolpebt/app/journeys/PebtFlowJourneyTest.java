@@ -43,6 +43,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(comboboxItem.isPresent()).isTrue();
     comboboxItem.get().click();
     testPage.clickContinue();
+    testPage.clickContinue(); // Nice! You might be eligible!
 
     // Language preference
     testPage.clickContinue();

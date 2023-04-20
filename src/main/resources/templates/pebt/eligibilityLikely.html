@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{income-complete.title})"></head>
+<head th:replace="fragments/head :: head(title=#{eligibility-likely.body})"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="fragments/toolbar :: toolbar"></div>
@@ -8,20 +8,18 @@
     <div class="grid">
       <div th:replace="fragments/goBack :: goBackLink"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <div class="form-card__content text--centered">
-          <th:block th:replace="'fragments/icons' :: success"></th:block>
-          <th:block
-              th:replace="'fragments/cardHeader' :: cardHeader(header=#{
-income-complete.header})"/>
+        <div class="text--centered">
+          <th:block th:replace="'fragments/icons' :: success"/>
+          <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{eligibility-likely.header})"/>
         </div>
-        <div class="form-card__footer text--centered spacing-above-95">
+        <p class="text--centered" th:text="#{eligibility-likely.body}"></p>
+        <div class="form-card__footer text--centered">
           <th:block th:replace="'fragments/continueButton' :: continue"/>
         </div>
       </main>
     </div>
   </section>
 </div>
-<th:block th:replace="fragments/footer :: footer"/>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
-

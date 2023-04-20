@@ -30,6 +30,6 @@ public class PreScreenJourneyTest extends AbstractBasePageTest {
     testPage.clickLink("< Go Back");
     testPage.clickButton("Yes"); // Enrolled in virtual/home school?
 
-    assertThat(testPage.getTitle()).doesNotContain("Sorry");
+    assertThat(testPage.getTitle()).contains("Which school"); // Which school did the 1 or more of the students withdraw from...
   }
 }
