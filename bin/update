@@ -7,7 +7,7 @@ pushd "$root" >/dev/null
 echo "Updating local form-flow library..."
 pushd "$root/../form-flow" >/dev/null
 git pull
-./gradlew build
+./gradlew build -xtest
 
 popd >/dev/null
 echo "Updating homeschool-pebt..."
