@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{eligibility-likely.body})"></head>
-<body>
-<div class="page-wrapper">
-  <div th:replace="fragments/toolbar :: toolbar"></div>
-  <section class="slab">
-    <div class="grid">
-      <div th:replace="fragments/goBack :: goBackLink"></div>
-      <main id="content" role="main" class="form-card spacing-above-35">
-        <div class="text--centered">
-          <th:block th:replace="'fragments/icons' :: success"/>
-          <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{eligibility-likely.header})"/>
-        </div>
-        <p class="text--centered" th:text="#{eligibility-likely.body}"></p>
-        <div class="form-card__footer text--centered">
-          <th:block th:replace="'fragments/continueButton' :: continue"/>
-        </div>
-      </main>
-    </div>
-  </section>
-</div>
-<footer th:replace="fragments/footer :: footer"></footer>
-</body>
-</html>
+<th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf == 'true' ? 'self' : 'individual')}">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}">
+  <head th:replace="fragments/head :: head(title=${#messages.msg('eligibility-likely.body.' + messageVariant)})"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="fragments/toolbar :: toolbar"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="fragments/goBack :: goBackLink"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="text--centered">
+            <th:block th:replace="'fragments/icons' :: success"/>
+            <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{eligibility-likely.header})"/>
+          </div>
+          <p class="text--centered" th:text="${#messages.msg('eligibility-likely.body.' + messageVariant)}"></p>
+          <div class="form-card__footer text--centered">
+            <th:block th:replace="'fragments/continueButton' :: continue"/>
+          </div>
+        </main>
+      </div>
+    </section>
+  </div>
+  <footer th:replace="fragments/footer :: footer"></footer>
+  </body>
+  </html>
+</th:block>
