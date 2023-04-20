@@ -53,6 +53,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/starter-app
     username: starter-app
     password:
+  flyway:
+    out-of-order: true
   servlet:
     multipart:
       max-file-size: ${form-flow.uploads.max-file-size}MB
