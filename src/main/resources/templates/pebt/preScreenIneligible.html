@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="fragments/head :: head(title=#{pre-screen-ineligible.title})"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="'fragments/icons' :: error"></th:block>
+        <th:block
+            th:replace="'fragments/cardHeader' :: cardHeader(header=#{pre-screen-ineligible.title}, subtext=#{pre-screen-ineligible.subtext})"/>
+          <div class="form-card__footer">
+            <a href="https://www.getcalfresh.org" th:text="#{pre-screen-ineligible.button}"
+               class="button--primary button"></a>
+          </div>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="fragments/footer :: footer" />
+</body>
+</html>

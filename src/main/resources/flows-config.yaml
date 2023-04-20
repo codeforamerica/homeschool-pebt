@@ -14,13 +14,19 @@ flow:
       - name: preScreenEnrolledInVirtualSchool
   preScreenEnrolledInVirtualSchool:
     nextScreens:
+      - name: preScreenIneligible
+        condition: PreScreenNotEnrolledInVirtualSchool
       - name: preScreenUnenrolled
   preScreenUnenrolled:
     nextScreens:
+      - name: preScreenIneligible
+        condition: PreScreenNotUnenrolledFromVirtualSchool
       - name: preScreenUnenrolledSchoolName
   preScreenUnenrolledSchoolName:
     nextScreens:
       - name: languagePreference
+  preScreenIneligible:
+    nextScreens: []
   languagePreference:
     nextScreens:
       - name: gettingToKnowYou
