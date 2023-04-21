@@ -18,14 +18,18 @@ jobs:
           token: ${{ secrets.TX_API_TOKEN }}
           args: 'pull --force --source'
 
-      - name: Check for git diff
-        continue-on-error: true
-        run: git diff --exit-code
-
       - name: Create pull request
-        if: ${{ failure() }}
         run: |
-          git checkout -b update-english-from-transifex
-          git add --all
-          git commit -m "Update English translations from Transifex"
-          gh pr create -B main --fill
+          if git diff --exit-code; then
+            echo "No changes detected!"
+          else
+            git checkout -b update-english-from-transifex origin/main
+            git add --all
+            git commit -m "Update English translations from Transifex"
+            git push origin update-english-from-transifex --force
+            if gh pr list --state open --label transifex-auto | grep 'no pull requests match'; then
+              gh pr create -B main --fill --label transifex-auto
+            else
+              echo "Pull request already exists. Not recreating!"
+            fi
+          fi
