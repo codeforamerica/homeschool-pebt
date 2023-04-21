@@ -2,7 +2,10 @@ name: Pull Transifex English
 
 on:
   schedule:
-    - cron: '0 8-17 * * MON-FRI'
+    # Run on weekdays 8am - 5pm.
+    # 8AM PT = 15:00 UTC (PDT) or 16:00 UTC (PST)
+    # 5PM PT = 00:00 UTC (PDT) or 01:00 UTC (PST)
+    - cron: '0 0-1,15-23 * * MON-FRI'
 
 env:
   TX_API_TOKEN: ${{ secrets.TX_API_TOKEN }}
