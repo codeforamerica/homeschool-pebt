@@ -36,6 +36,7 @@ jobs:
             if gh pr list --state open --label transifex-auto | grep 'no pull requests match'; then
               gh pr create -B main --fill --label transifex-auto
             else
-              echo "Pull request already exists. Not recreating!"
+              echo "Pull request already exists. Not recreating! Open PRs:"
+              gh pr list --state open --label transifex-auto
             fi
           fi
