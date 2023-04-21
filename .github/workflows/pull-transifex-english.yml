@@ -1,6 +1,8 @@
 name: Pull Transifex English
 
-on: workflow_dispatch # Manually triggered for now
+on:
+  schedule:
+    - cron: '0 8-17 * * MON-FRI'
 
 env:
   TX_API_TOKEN: ${{ secrets.TX_API_TOKEN }}
@@ -33,5 +35,5 @@ jobs:
             git add --all
             git commit -m "Update English translations from Transifex"
             git push origin update-english-from-transifex --force
-            gh pr create -B main --fill --label transifex-auto
+            gh pr create -B main --fill --label transifex-auto || true
           fi
