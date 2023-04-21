@@ -1,3 +1,5 @@
+name: Pull Transifex English
+
 on: workflow_dispatch # Manually triggered for now
 
 env:
@@ -21,8 +23,8 @@ jobs:
 
       - name: Create pull request
         if: ${{ failure() }}
-        run:
-          - git checkout -b update-english-from-transifex
-          - git add --all
-          - git commit -m "Update English translations from Transifex"
-          - gh pr create -B main --fill
+        run: |
+          git checkout -b update-english-from-transifex
+          git add --all
+          git commit -m "Update English translations from Transifex"
+          gh pr create -B main --fill
