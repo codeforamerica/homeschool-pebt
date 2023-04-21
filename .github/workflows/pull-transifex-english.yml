@@ -8,6 +8,7 @@ env:
 jobs:
   pull_transifex_english:
     runs-on: ubuntu-latest
+    environment: transifex
     steps:
       - uses: actions/checkout@v3
 
