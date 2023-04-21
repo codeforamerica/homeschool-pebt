@@ -18,7 +18,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
   @Test
   void fullUbiFlow() {
     // Landing screen
-    assertThat(testPage.getTitle()).isEqualTo("Apply for UBI payments easily online.");
+    assertThat(testPage.getTitle()).isEqualTo("Get food money for students.");
     testPage.clickButton("Apply now");
     // How this works
     testPage.clickContinue();
