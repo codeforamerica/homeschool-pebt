@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.GH_PUSH_TOKEN }} # for cfa-pebt-deploy user
 
       - uses: actions/checkout@v3
-        if: ${{ steps.checkout-existing-branch.conclusion == 'failure' }}
+        if: ${{ steps.checkout-existing-branch.outcome == 'failure' }}
         with:
           token: ${{ secrets.GH_PUSH_TOKEN }} # for cfa-pebt-deploy user
 
