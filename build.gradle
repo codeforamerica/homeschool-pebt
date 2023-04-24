@@ -45,8 +45,11 @@ dependencies {
     implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
 
     if (profile == 'dev') {
-        implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
-        println "📦 Using local library"
+        implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
+        println "📚Using form flow library ${formFlowLibraryVersion}"
+        // TODO: Upgrade to FFL 0.0.3 (on Spring Boot 3)
+        // implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
+        // println "📦 Using local library"
     } else {
         implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
         println "📚Using form flow library ${formFlowLibraryVersion}"
