@@ -37,7 +37,7 @@ jobs:
         env:
           GIT_AUTHOR_NAME: ${{ vars.GIT_AUTHOR_NAME }}
           GIT_AUTHOR_EMAIL: ${{ vars.GIT_AUTHOR_EMAIL }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
         run: |
           if git diff -U0 --exit-code; then
             echo "No changes detected!"
