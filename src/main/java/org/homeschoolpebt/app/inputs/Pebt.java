@@ -24,6 +24,12 @@ public class Pebt extends FlowInputs {
   @NotBlank
   private String unenrolledSchoolName;
 
+  // Students subflow
+  private String studentFirstName;
+  private String studentMiddleInitial;
+  private String studentLastName;
+  private String studentSchoolType; // TODO: Make this an enum.
+
   // Language Preferences Screen
   private String languageRead;
   private String languageSpoken;
