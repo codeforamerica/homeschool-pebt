@@ -3,6 +3,8 @@ flow:
   howThisWorks:
     nextScreens:
       - name: eligibility
+
+  # Step 1 of 6: Pre-Screen
   eligibility:
     nextScreens:
       - name: preScreenMoreThanOneStudent
@@ -31,7 +33,16 @@ flow:
     nextScreens: []
   eligibilityLikely:
     nextScreens:
+      - name: studentsAdd
+
+  # Step 2 of 6: Student Information
+  # TODO: Add studentInfoSignpost page here
+  studentsAdd:
+    subflow: students
+    nextScreens:
       - name: languagePreference
+
+  # Step 3 of 6: Basic Info ("Getting to know you")
   languagePreference:
     nextScreens:
       - name: gettingToKnowYou
@@ -145,7 +156,13 @@ flow:
       - name: success
   success:
     nextScreens: null
+
 subflows:
+  students:
+    entryScreen: eligibilityLikely # TODO: studentInfoSignpost
+    iterationStartScreen: studentsAdd
+    reviewScreen: languagePreference # TODO: build this page
+    deleteConfirmationScreen: someOtherPage # TODO: bulid this page
   household:
     entryScreen: housemates
     iterationStartScreen: housemateInfo

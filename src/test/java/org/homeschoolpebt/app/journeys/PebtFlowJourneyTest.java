@@ -44,6 +44,12 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
     testPage.clickContinue(); // Nice! You might be eligible!
 
+    // Students subflow
+    assertThat(testPage.getTitle()).contains("Add a student");
+    testPage.enter("studentFirstName", "Stud");
+    testPage.enter("studentLastName", "McStudenty");
+    testPage.clickButton("Add student");
+
     // Language preference
     testPage.clickContinue();
     // Getting to know you
