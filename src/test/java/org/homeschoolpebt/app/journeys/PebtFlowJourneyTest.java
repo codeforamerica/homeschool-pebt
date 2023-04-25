@@ -50,6 +50,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("studentFirstName", "Stud");
     testPage.enter("studentLastName", "McStudenty");
     testPage.clickButton("Add student");
+    assertThat(testPage.getTitle()).contains("Do any of the following apply to Stud?");
+    testPage.findElementById("none__checkbox").click();
+    testPage.clickContinue();
 
     // Language preference
     testPage.clickContinue();

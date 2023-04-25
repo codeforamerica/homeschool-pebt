@@ -120,6 +120,12 @@
   margin-top: -35px;
 }
 
+.form-group hr {
+  background-color: #121111; /* $color-grey-darkest */
+  height: .2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
 
 /*
   *************************************************************************************************

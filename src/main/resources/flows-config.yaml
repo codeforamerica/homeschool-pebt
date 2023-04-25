@@ -42,6 +42,10 @@ flow:
   studentsAdd:
     subflow: students
     nextScreens:
+      - name: studentsDesignations
+  studentsDesignations:
+    subflow: students
+    nextScreens:
       - name: languagePreference
 
   # Step 3 of 6: Basic Info ("Getting to know you")
