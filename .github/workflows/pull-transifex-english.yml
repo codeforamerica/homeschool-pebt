@@ -42,10 +42,12 @@ jobs:
           if git diff -U0 --exit-code; then
             echo "No changes detected!"
           else
+            if git branch --show-current | grep main >/dev/null; then
+              echo "Branch does not currently exist. Will create and push new branch."
+              git checkout -b update-english-from-transifex origin/main
+            fi
             git config --global user.email "$GIT_AUTHOR_EMAIL"
             git config --global user.name "$GIT_AUTHOR_NAME"
-            git fetch --depth 1 origin '+refs/heads/main*:refs/remotes/origin/main*'
-            git checkout -b update-english-from-transifex origin/main
             git add --all
             git commit -m "Update English translations from Transifex"
             git push origin update-english-from-transifex --force
