@@ -33,10 +33,12 @@ flow:
     nextScreens: []
   eligibilityLikely:
     nextScreens:
-      - name: studentsAdd
+      - name: studentsSignpost
 
   # Step 2 of 6: Student Information
-  # TODO: Add studentInfoSignpost page here
+  studentsSignpost:
+    nextScreens:
+      - name: studentsAdd
   studentsAdd:
     subflow: students
     nextScreens:
@@ -159,7 +161,7 @@ flow:
 
 subflows:
   students:
-    entryScreen: eligibilityLikely # TODO: studentInfoSignpost
+    entryScreen: studentsSignpost
     iterationStartScreen: studentsAdd
     reviewScreen: languagePreference # TODO: build this page
     deleteConfirmationScreen: someOtherPage # TODO: bulid this page

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="fragments/head :: head(title=#{students-signpost.title})"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="text--centered">
+          <th:block th:replace="'fragments/icons' :: clipboardWithEnvelope"/>
+          <p class="text--grey-dark" th:text="#{students-signpost.step}"></p>
+          <th:block th:replace="'fragments/cardHeader' :: cardHeader(header=#{students-signpost.title})"/>
+        </div>
+        <p class="text--centered" th:text="#{students-signpost.next-lets-add-students}"></p>
+        <div class="boxed-content">
+          <h3 th:text="#{students-signpost.well-ask-about}" class="text--centered"></h3>
+          <ol class="list--numbered">
+            <li th:text="#{students-signpost.student-information}"></li>
+            <li th:text="#{students-signpost.school-enrollment}"></li>
+          </ol>
+        </div>
+        <div class="form-card__footer text--centered">
+          <th:block th:replace="'fragments/continueButton' :: continue(text=#{students-signpost.button})"/>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
