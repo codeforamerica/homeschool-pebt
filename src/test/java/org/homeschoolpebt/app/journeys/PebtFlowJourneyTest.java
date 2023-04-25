@@ -53,6 +53,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).contains("Do any of the following apply to Stud?");
     testPage.findElementById("none__checkbox").click();
     testPage.clickContinue();
+    testPage.clickContinue(); // Which school did <name> unenroll from?
 
     // Language preference
     testPage.clickContinue();

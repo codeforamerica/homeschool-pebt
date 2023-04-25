@@ -10,7 +10,8 @@
         (#arrays.length(errorMessages.get(inputName)) > 0) },
       hasAriaLabel=${!#strings.isEmpty(label)},
       hasHelpText=false,
-      allowCustomEntry=${!#strings.isEmpty(inputNameCustom)}"
+      allowCustomEntry=${!#strings.isEmpty(inputNameCustom)},
+      value=${(#strings.isEmpty(initialValue)) ? inputData.getOrDefault(inputName, '') : initialValue}"
     th:assert="
       ${!#strings.isEmpty(inputName)},
       ${!#strings.isEmpty(label)}">
@@ -32,15 +33,14 @@
   <div th:class="'form-group' + ${(hasError ? ' form-group--error' : '')}">
     <label th:text="${label}" th:for="${inputName}" class="form-question"></label>
     <span class="clearable">
-      <input type="hidden" th:name="${inputName}">
+      <input type="hidden" th:name="${inputName}" th:value="${value}">
       <input type="text" class="text-input ui-autocomplete-input"
              th:id="combobox"
              th:attr="
              aria-describedby=${hasHelpText ? inputName + '-help-text' : ''},
              aria-labelledby=${hasAriaLabel ? ariaLabel : ''},
              aria-invalid=${hasError},
-             aria-autocomplete=${'list'}"
-             th:value="${inputData.getOrDefault(inputName, '')}">
+             aria-autocomplete=${'list'}">
       <i class="icon-close clear-input" id="clear-combobox"></i>
     </span>
     <th:block

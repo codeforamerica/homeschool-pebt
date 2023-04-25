@@ -79,17 +79,28 @@ jQuery.fn.extend({
       }
     }
 
-    $clearInput.toggle(!!$input.val());
-    $input.on("input", function () {
-      $clearInput.toggle(!!this.value);
-    })
+    const initialize = function() {
+      const initialValue = $valueField.val();
+      if (initialValue) {
+        const initialItem = options.data.find(i => i.value === initialValue);
+        $input.val(initialItem.displayName);
+        $clearInput.toggle(true);
+      } else {
+        $clearInput.toggle(false);
+      }
 
-    $clearInput.on('click', function () {
-      $input.val("");
-      $valueField.val("");
-      $clearInput.toggle(false);
-      $input.focus();
-    })
+      $input.on("input", function () {
+        $clearInput.toggle(!!this.value);
+      })
+
+      $clearInput.on('click', function () {
+        $input.val("");
+        $valueField.val("");
+        $clearInput.toggle(false);
+        $input.focus();
+      })
+    }
+    initialize();
   }
 });
 

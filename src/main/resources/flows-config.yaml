@@ -47,6 +47,12 @@ flow:
     subflow: students
     nextScreens:
       - name: languagePreference
+        condition: PreScreenHasOnlyOneStudent
+      - name: studentsUnenrolledSchoolName
+  studentsUnenrolledSchoolName:
+    subflow: students
+    nextScreens:
+      - name: languagePreference
 
   # Step 3 of 6: Basic Info ("Getting to know you")
   languagePreference:
