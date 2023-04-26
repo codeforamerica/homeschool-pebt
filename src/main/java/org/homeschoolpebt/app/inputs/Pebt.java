@@ -34,6 +34,7 @@ public class Pebt extends FlowInputs {
   private String studentUnenrolledSchoolName;
   @NotBlank
   private String studentWouldAttendSchoolName;
+  private String applicantIsInHousehold;
 
   // Language Preferences Screen
   private String languageRead;

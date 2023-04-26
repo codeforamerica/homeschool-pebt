@@ -1,0 +1,19 @@
+<th:block th:with="
+  messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : 'individual'},
+  firstStudentFirstName=${inputData.students[0].studentFirstName}
+">
+  <th:block
+    th:replace="fragments/screens/screenWithYesAndNoButtons ::
+    screenWithYesAndNoButtons(
+      title=${#messages.msg('applicant-is-in-household.title.' + messageVariant, firstStudentFirstName)},
+      header=${#messages.msg('applicant-is-in-household.title.' + messageVariant, firstStudentFirstName)},
+      subtext=#{applicant-is-in-household.subtext},
+      iconName='household',
+      formAction=${formAction},
+      inputName='applicantIsInHousehold',
+      inputContent=~{::inputContent})">
+    <th:block th:ref="inputContent">
+      <!-- Be sure to have `ariaLabel='header'` to label the input with the header -->
+    </th:block>
+  </th:block>
+</th:block>
