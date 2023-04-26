@@ -46,10 +46,14 @@ flow:
   studentsDesignations:
     subflow: students
     nextScreens:
-      - name: languagePreference
+      - name: studentsWouldAttendSchoolName
         condition: PreScreenHasOnlyOneStudent
       - name: studentsUnenrolledSchoolName
   studentsUnenrolledSchoolName:
+    subflow: students
+    nextScreens:
+      - name: studentsWouldAttendSchoolName
+  studentsWouldAttendSchoolName:
     subflow: students
     nextScreens:
       - name: languagePreference
