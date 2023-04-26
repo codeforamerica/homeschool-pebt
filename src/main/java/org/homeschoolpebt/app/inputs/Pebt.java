@@ -30,7 +30,10 @@ public class Pebt extends FlowInputs {
   private String studentLastName;
   private String studentSchoolType; // TODO: Make this an enum.
   private ArrayList<String> studentDesignations; // TODO: Add validation in case the Javascript fails?
+  @NotBlank
   private String studentUnenrolledSchoolName;
+  @NotBlank
+  private String studentWouldAttendSchoolName;
 
   // Language Preferences Screen
   private String languageRead;
