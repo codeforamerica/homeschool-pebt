@@ -56,6 +56,9 @@ flow:
   studentsWouldAttendSchoolName:
     subflow: students
     nextScreens:
+      - name: studentsSummary
+  studentsSummary:
+    nextScreens:
       - name: languagePreference
 
   # Step 3 of 6: Basic Info ("Getting to know you")
@@ -180,7 +183,7 @@ subflows:
   students:
     entryScreen: studentsSignpost
     iterationStartScreen: studentsAdd
-    reviewScreen: languagePreference # TODO: build this page
+    reviewScreen: studentsSummary
     deleteConfirmationScreen: someOtherPage # TODO: bulid this page
   household:
     entryScreen: housemates
