@@ -59,7 +59,13 @@ flow:
       - name: studentsSummary
   studentsSummary:
     nextScreens:
+      - name: applicantisInHousehold
+        condition: PreScreenNotApplyingForSelf
       - name: languagePreference
+  applicantisInHousehold:
+    nextScreens:
+      - name: languagePreference
+
 
   # Step 3 of 6: Basic Info ("Getting to know you")
   languagePreference:

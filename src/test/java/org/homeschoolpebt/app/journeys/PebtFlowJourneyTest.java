@@ -55,6 +55,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue(); // Which school did <name> unenroll from?
     testPage.clickContinue(); // Which school would <name> attend?
     testPage.clickButton("Yes, this is everyone");
+    testPage.clickButton("Yes"); // Are you in the same household as the students?
 
     // Language preference
     testPage.clickContinue();

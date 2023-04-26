@@ -14,7 +14,7 @@
         <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
-              <th:block th:with="hasStudentUnenrolledSchool=${!#strings.isEmpty(currentSubflowItem.studentUnenrolledSchoolName)}">
+              <th:block th:with="hasStudentUnenrolledSchool=${!#strings.isEmpty(currentSubflowItem.getOrDefault('studentUnenrolledSchoolName', ''))}">
                 <th:block th:replace="~{'fragments/inputs/combobox' :: combobox(
                     inputName='studentWouldAttendSchoolName',
                     label=#{pre-screen-unenrolled-school-name.school},
