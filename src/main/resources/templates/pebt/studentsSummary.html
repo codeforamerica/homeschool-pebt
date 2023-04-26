@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="fragments/head :: head(title=#{students-summary.title})"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="'fragments/icons' :: people"></th:block>
+        <th:block
+            th:replace="'fragments/cardHeader' :: cardHeader(header=#{students-summary.title}, subtext=#{students-summary.subtext})"/>
+        <th:block th:replace="'fragments/form' :: form(action=${formAction}, content=~{::pageContent})">
+          <th:block th:ref="pageContent">
+            <div class="form-card__content">
+              <div class="notice spacing-below-60"
+                   th:if="${#arrays.length(inputData.students) > 6}"
+                   th:utext="#{students-summary.notice(${#arrays.length(inputData.students)})}"></div>
+              <div class="boxed-content text--centered">
+                <strong th:text="#{students-summary.your-household}"></strong>
+                <ul class="subflow-list list--bulleted">
+                  <th:block th:if="${inputData.containsKey('students')}">
+                    <li th:each="student, iter: ${inputData.students}" class="spacing-below-15">
+                      <span th:text="${student.studentFirstName}"></span>
+                      <span th:text="${student.studentMiddleInitial}" th:if="${!#strings.isEmpty(student.studentMiddleInitial)}"></span>
+                      <span th:text="${student.studentLastName}"></span>
+                    </li>
+                  </th:block>
+                </ul>
+                <a th:href="${'/flow/' + flow + '/' + iterationStartScreen}" class="button spacing-above-15"
+                   th:text="#{students-summary.add}"></a>
+              </div>
+            </div>
+            <div class="form-card__footer">
+              <th:block th:replace="fragments/inputs/submitButton :: submitButton(
+                  text=#{students-summary.this-is-everyone})"/>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="fragments/footer :: footer" />
+</body>
+</html>
