@@ -29,7 +29,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes"); // Enrolled in virtual/home school?
     testPage.clickButton("Yes"); // Unenrolled during COVID?
 
-    assertThat(testPage.getTitle()).isEqualTo("Which school did the 1 or more of the students withdraw from after January 27, 2020?");
+    assertThat(testPage.getTitle()).isEqualTo("Which school did 1 or more of the students withdraw from after January 27, 2020?");
     WebElement comboboxMenu = testPage.findElementById("ui-id-1");
     testPage.findElementById("combobox").sendKeys("San Franc");
     // wait for combobox to appear, then click the item for San Francisco Unified School District
