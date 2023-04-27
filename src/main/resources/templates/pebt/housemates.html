@@ -1,17 +1,21 @@
-<th:block
-    th:replace="fragments/screens/screenWithYesAndNoButtons ::
-  screenWithYesAndNoButtons(
-    title=#{housemates.housemates},
-    header=#{housemates.do-you},
-    formAction=${formAction},
-    inputName='hasHousehold',
-    inputContent=~{::inputContent})">
-  <th:block th:ref="inputContent">
-    <ul class="list--bulleted spacing-below-60">
-      <li th:text="#{housemates.your-spouse}"></li>
-      <li th:text="#{housemates.your-children}"></li>
-      <li th:text="#{housemates.other}"></li>
-      <li th:text="#{housemates.your-domestic}"></li>
-    </ul>
+<th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf == 'true' ? 'self' : 'individual')}">
+  <th:block
+      th:replace="fragments/screens/screenWithYesAndNoButtons ::
+    screenWithYesAndNoButtons(
+      title=${#messages.msg('housemates.do-you.' + messageVariant)},
+      header=${#messages.msg('housemates.do-you.' + messageVariant)},
+      formAction=${formAction},
+      iconName='people',
+      inputName='hasHousehold',
+      inputContent=~{::inputContent})">
+    <th:block th:ref="inputContent">
+      <p th:utext="housemates.subtext"></p>
+      <ul class="list--bulleted spacing-below-60">
+        <li th:text="#{housemates.children-not-in-school}"></li>
+        <li th:text="#{housemates.family-members}"></li>
+        <li th:text="#{housemates.unmarried-partner}"></li>
+        <li th:text="#{housemates.roommates}"></li>
+      </ul>
+    </th:block>
   </th:block>
 </th:block>
