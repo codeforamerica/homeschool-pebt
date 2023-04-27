@@ -1,12 +1,12 @@
 <th:block
-    th:replace="fragments/screens/screenWithYesAndNoButtons ::
+    th:replace="~{fragments/screens/screenWithYesAndNoButtons ::
   screenWithYesAndNoButtons(
     title=#{pre-screen-applying-for-self.title},
     header=#{pre-screen-applying-for-self.title},
     formAction=${formAction},
     inputName='isApplyingForSelf',
     inputContent=~{::inputContent},
-    iconName='face')">
+    iconName='face')}">
   <th:block th:ref="inputContent">
     <th:block th:utext="#{pre-screen-applying-for-self.body}"></th:block>
   </th:block>

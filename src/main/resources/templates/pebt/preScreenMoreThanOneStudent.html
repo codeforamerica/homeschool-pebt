@@ -1,12 +1,12 @@
 <th:block
-    th:replace="fragments/screens/screenWithYesAndNoButtons ::
+    th:replace="~{fragments/screens/screenWithYesAndNoButtons ::
   screenWithYesAndNoButtons(
     title=#{pre-screen-more-than-one-student.title},
     header=#{pre-screen-more-than-one-student.title},
     formAction=${formAction},
     inputName='hasMoreThanOneStudent',
     inputContent=~{::inputContent},
-    iconName='people')">
+    iconName='people')}">
   <th:block th:ref="inputContent">
     <th:block th:utext="#{pre-screen-more-than-one-student.body}"></th:block>
   </th:block>

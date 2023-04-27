@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{students-add.title})"></head>
+<head th:replace="~{fragments/head :: head(title=#{students-add.title})}"></head>
 <body>
 <div class="page-wrapper">
-  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="'fragments/icons' :: face"/>
+        <th:block th:replace="~{'fragments/icons' :: face}"/>
         <th:block
-            th:replace="'fragments/cardHeader' :: cardHeader(header=#{students-add.title})"/>
+            th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{students-add.title})}"/>
         <th:block
-            th:replace="'fragments/form' :: form(action=${formAction}, content=~{::formContent})">
+            th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
-              <th:block th:replace="'fragments/inputs/text' ::
+              <th:block th:replace="~{'fragments/inputs/text' ::
                   text(inputName='studentFirstName',
                   label=#{students-add.first-name},
-                  helpText=#{students-add.legally})"/>
-              <th:block th:replace="'fragments/inputs/text' ::
+                  helpText=#{students-add.legally})}"/>
+              <th:block th:replace="~{'fragments/inputs/text' ::
                   text(inputName='studentMiddleInitial',
                   label=#{students-add.middle-initial},
-                  helpText=#{students-add.legally})"/>
-              <th:block th:replace="'fragments/inputs/text' ::
+                  helpText=#{students-add.legally})}"/>
+              <th:block th:replace="~{'fragments/inputs/text' ::
                   text(inputName='studentLastName',
                   label=#{students-add.last-name},
-                  helpText=#{students-add.legally})"/>
-              <th:block th:replace="'fragments/inputs/radioFieldset' ::
+                  helpText=#{students-add.legally})}"/>
+              <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
                             radioFieldset(inputName='studentSchoolType',
                             label=#{students-add.school-type},
-                            content=~{::radioOptions})">
+                            content=~{::radioOptions})}">
                 <th:block th:ref="radioOptions">
                   <th:block
-                      th:replace="'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual})"/>
+                      th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual})}"/>
                   <th:block
-                      th:replace="'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool})"/>
+                      th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool})}"/>
                 </th:block>
               </th:block>
               <div class="form-card__footer">
-                <th:block th:replace="fragments/inputs/submitButton :: submitButton(
-                  text=#{students-add.add-student})"/>
+                <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{students-add.add-student})}"/>
               </div>
             </div>
           </th:block>
@@ -49,6 +49,6 @@
     </div>
   </section>
 </div>
-<th:block th:replace="fragments/footer :: footer"/>
+<th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
 </html>
