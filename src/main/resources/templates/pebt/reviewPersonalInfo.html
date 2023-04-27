@@ -28,6 +28,7 @@
           <h3 th:text="#{review-personal-info.contact-information}"></h3>
           <p>
             <span th:text="${inputData.phoneNumber}" th:if="${inputData.phoneNumber}"></span>
+            <br>
             <span th:text="${inputData.email}" th:if="${inputData.email}"></span>
           </p>
 
