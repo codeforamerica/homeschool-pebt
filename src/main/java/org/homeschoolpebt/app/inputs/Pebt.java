@@ -70,6 +70,9 @@ public class Pebt extends FlowInputs {
   private String householdMemberLastName;
   private String householdMemberRelationship;
   private String householdMemberRecentlyMovedToUS;
+  private String householdMemberReceivesBenefits;
+  private String householdMemberBenefitsCaseNumber;
+  private String householdMemberBenefitsCaseNumberFDPIR;
   private String householdAddressFile;  // file id
 
   // Household Member Income Screen
