@@ -1,12 +1,12 @@
 <th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf ? 'self' : 'individual')}">
-  <th:block th:replace="fragments/screens/screenWithYesAndNoButtons ::
+  <th:block th:replace="~{fragments/screens/screenWithYesAndNoButtons ::
     screenWithYesAndNoButtons(
       title=${#messages.msg('pre-screen-unenrolled.title.' + messageVariant)},
       header=${#messages.msg('pre-screen-unenrolled.title.' + messageVariant)},
       formAction=${formAction},
       inputName='hasUnenrolled',
       inputContent=~{::inputContent},
-      iconName='mapPathIcons')">
+      iconName='mapPathIcons')}">
     <th:block th:ref="inputContent">
       <th:block th:utext="#{pre-screen-unenrolled.body}"></th:block>
     </th:block>

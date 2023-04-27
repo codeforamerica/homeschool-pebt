@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{how-this-works.how-this-works})"></head>
+<head th:replace="~{fragments/head :: head(title=#{how-this-works.how-this-works})}"></head>
 <body>
 <div class="page-wrapper">
-  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="fragments/icons :: prepareToApply"></th:block>
+        <th:block th:replace="~{fragments/icons :: prepareToApply}"></th:block>
         <th:block
-            th:replace="'fragments/cardHeader' :: cardHeader(header=#{how-this-works.how-this-works}, subtext=#{how-this-works.this-application-form})"/>
+            th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{how-this-works.how-this-works}, subtext=#{how-this-works.this-application-form})}"/>
         <div class="form-card__content">
-          <th:block th:replace="'fragments/honeycrisp/accordion' :: accordion(
+          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
             buttonLabel=#{how-this-works.pre-check},
-            content=~{::preCheckAccordion})">
+            content=~{::preCheckAccordion})}">
             <th:block th:ref="preCheckAccordion">
                 <p th:utext="#{how-this-works.answer-a-few-questions}"></p>
             </th:block>
           </th:block>
-          <th:block th:replace="'fragments/honeycrisp/accordion' :: accordion(
+          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
             buttonLabel=#{how-this-works.submit-application},
-            content=~{::submitApplicationAccordion})">
+            content=~{::submitApplicationAccordion})}">
             <th:block th:ref="submitApplicationAccordion">
               <p th:utext="#{how-this-works.well-guide-you}"></p>
               <ul class="list--bulleted">
@@ -32,9 +32,9 @@
               </ul>
             </th:block>
           </th:block>
-          <th:block th:replace="'fragments/honeycrisp/accordion' :: accordion(
+          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
             buttonLabel=#{how-this-works.get-money-for-food},
-            content=~{::getMoneyAccordion})">
+            content=~{::getMoneyAccordion})}">
             <th:block th:ref="getMoneyAccordion">
               <p th:utext="#{how-this-works.well-guide-you}"></p>
               <ul class="list--bulleted">
@@ -47,7 +47,7 @@
           </th:block>
         </div>
         <div class="form-card__footer">
-          <th:block th:replace="'fragments/continueButton' :: continue"/>
+          <th:block th:replace="~{'fragments/continueButton' :: continue}"/>
           <div>
             <i class="icon-lock_outline"></i>
             <span th:utext="#{how-this-works.your-info-is-secure}"></span>
@@ -57,6 +57,6 @@
     </div>
   </section>
 </div>
-<th:block th:replace="fragments/footer :: footer"/>
+<th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
 </html>

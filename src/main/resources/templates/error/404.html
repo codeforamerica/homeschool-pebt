@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{error-404.title})"></head>
+<head th:replace="~{fragments/head :: head(title=#{error-404.title})}"></head>
 <body>
 <div class="page-wrapper">
-  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="'fragments/icons' :: error"></th:block>
+        <th:block th:replace="~{'fragments/icons' :: error}"></th:block>
         <th:block
-            th:replace="'fragments/cardHeader' :: cardHeader(header=#{error-404.header}, subtext=#{error-404.subtext})"/>
+            th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{error-404.header}, subtext=#{error-404.subtext})}"/>
       </main>
     </div>
   </section>
 </div>
-<th:block th:replace="fragments/footer :: footer"/>
+<th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
 </html>

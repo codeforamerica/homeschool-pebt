@@ -1,13 +1,13 @@
 <th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf == 'true' ? 'self' : 'individual')}">
   <th:block
-      th:replace="fragments/screens/screenWithYesAndNoButtons ::
+      th:replace="~{fragments/screens/screenWithYesAndNoButtons ::
     screenWithYesAndNoButtons(
       title=${#messages.msg('housemates.do-you.' + messageVariant)},
       header=${#messages.msg('housemates.do-you.' + messageVariant)},
       formAction=${formAction},
       iconName='people',
       inputName='hasHousehold',
-      inputContent=~{::inputContent})">
+      inputContent=~{::inputContent})}">
     <th:block th:ref="inputContent">
       <p th:utext="#{housemates.subtext}"></p>
       <ul class="list--bulleted spacing-below-60">

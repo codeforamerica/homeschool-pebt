@@ -1,12 +1,12 @@
 <th:block th:with="messageVariant=${inputData.hasMoreThanOneStudent == 'true' ? 'multiple' : (inputData.isApplyingForSelf ? 'self' : 'individual')}">
-  <th:block th:replace="fragments/screens/screenWithYesAndNoButtons ::
+  <th:block th:replace="~{fragments/screens/screenWithYesAndNoButtons ::
     screenWithYesAndNoButtons(
       title=${#messages.msg('pre-screen-enrolled-in-virtual-school.title.' + messageVariant)},
       header=${#messages.msg('pre-screen-enrolled-in-virtual-school.title.' + messageVariant)},
       formAction=${formAction},
       inputName='isEnrolledInVirtualSchool',
       inputContent=~{::inputContent},
-      iconName='school')">
+      iconName='school')}">
     <th:block th:ref="inputContent">
       <th:block th:utext="#{pre-screen-enrolled-in-virtual-school.body}"></th:block>
     </th:block>
