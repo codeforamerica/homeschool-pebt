@@ -100,6 +100,9 @@ flow:
       - name: householdList
   householdList:
     nextScreens:
+      - name: householdReceivesBenefits
+  householdReceivesBenefits:
+    nextScreens:
       - name: income
   householdDeleteConfirmation:
     nextScreens: null
@@ -109,7 +112,7 @@ flow:
   householdMemberIncome:
     subflow: income
     nextScreens:
-      - name: incomeTypes
+      - name: householdReceivesBenefits
   incomeTypes:
     subflow: income
     nextScreens:

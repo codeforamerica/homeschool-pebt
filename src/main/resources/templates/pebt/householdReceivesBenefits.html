@@ -1,0 +1,57 @@
+<th:block
+    th:replace="fragments/screens/screenWithOneInput ::
+    screenWithOneInput(
+    title=#{household-receives-benefits.title},
+    header=#{household-receives-benefits.title},
+    subtext=#{household-receives-benefits.subtext},
+    iconName='documentsSearch',
+    formAction=${formAction},
+    inputContent=~{::inputContent},
+    buttonLabel=#{general.inputs.continue})">
+  <th:block th:ref="inputContent">
+    <th:block th:replace="'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})">
+      <th:block th:ref="revealLabel">
+        <th:block th:text="#{household-receives-benefits.reveal-label}"></th:block>
+      </th:block>
+      <th:block th:ref="revealContent">
+        <p th:utext="#{household-receives-benefits.reveal-contents}"></p>
+      </th:block>
+    </th:block>
+    <div class="question-with-follow-up">
+      <div class="question-with-follow-up__question">
+        <th:block th:replace="'fragments/inputs/radioFieldset' ::
+                      radioFieldset(inputName='householdMemberReceivesBenefits',
+                      label=#{household-receives-benefits.title},
+                      content=~{::formContent})">
+          <th:block th:ref="formContent">
+            <th:block
+                th:replace="'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalFresh', label=#{household-receives-benefits.calfresh}, followUpId='#calfresh-calworks-follow-up')"/>
+            <th:block
+                th:replace="'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalWORKs', label=#{household-receives-benefits.calworks}, followUpId='#calfresh-calworks-follow-up')"/>
+            <th:block
+                th:replace="'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='FDPIR', label=#{household-receives-benefits.fdpir}, followUpId='#fdpir-follow-up')"/>
+            <hr>
+            <th:block
+                th:replace="'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='None of the Above', label=#{household-receives-benefits.none})"/>
+          </th:block>
+        </th:block>
+      </div>
+
+      <div class="question-with-follow-up__follow-up" id="calfresh-calworks-follow-up">
+        <th:block th:replace="'fragments/inputs/text' ::
+          text(inputName='householdMemberBenefitsCaseNumber',
+          label=#{household-receives-benefits.case-number-label},
+          helpText=#{household-receives-benefits.case-number-help-text})" />
+      </div>
+
+      <div class="question-with-follow-up__follow-up" id="fdpir-follow-up">
+        <th:block th:replace="'fragments/inputs/text' ::
+          text(inputName='householdMemberBenefitsCaseNumberFDPIR',
+          label=#{household-receives-benefits.fdpir-case-number-label},
+          helpText=#{household-receives-benefits.fdpir-case-number-help-text})" />
+      </div>
+    </div>
+  </th:block>
+</th:block>

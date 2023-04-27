@@ -1,7 +1,6 @@
 package org.homeschoolpebt.app.journeys;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
 
 import java.time.Duration;
@@ -85,16 +84,11 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Review personal info
     assertThat(testPage.getTitle()).isEqualTo("Let's review your information");
     testPage.clickButton("Confirm");
+    // TODO: Test of skipping the Household builder
+    testPage.clickButton("Yes"); // Are there other people in the students' household?
 
-    // Housemates
-    assertThat(testPage.getTitle()).isEqualTo("Housemates");
-    testPage.enter("hasHousehold", NO.getDisplayValue());
-    // Income screen
-    assertThat(testPage.getTitle()).isEqualTo("Income");
-    // Go back to household page and select yes instead
-    testPage.goBack();
-    testPage.enter("hasHousehold", YES.getDisplayValue());
     // Housemate Info
+    assertThat(testPage.getTitle()).isEqualTo("Housemate Info");
     testPage.enter("householdMemberFirstName", "John");
     testPage.enter("householdMemberLastName", "Doe");
     testPage.clickContinue();
@@ -121,7 +115,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Delete final household member to go back to householdList
     testPage.findElementsByClass("subflow-delete").get(0).click();
     testPage.clickButton("Yes, remove them");
-    assertThat(testPage.getTitle()).isEqualTo("Housemates");
+    assertThat(testPage.getTitle()).isEqualTo("Are there other people in the students' household?");
     // Add back household members
     testPage.enter("hasHousehold", YES.getDisplayValue());
     // Housemate Info
@@ -142,8 +136,13 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getCssSelectorText(".form-card__content")).contains("Anthony Dee");
     assertThat(testPage.getCssSelectorText(".form-card__content")).doesNotContain("John Doe");
     testPage.clickButton("Yes, this is everyone");
+    // Anyone receive benefits?
+    assertThat(testPage.getTitle()).isEqualTo("Does anyone in the student's household receive one of these benefits?");
+    testPage.findElementById("householdMemberReceivesBenefits-CalFresh").click();
+    testPage.enter("householdMemberBenefitsCaseNumber", "ABC1234");
+    testPage.clickContinue();
+
     //click on No I already know....
-    assertThat(testPage.getTitle()).isEqualTo("Income");
     testPage.clickLink("No, I already know my annual household pre-tax income - I prefer to enter it directly.");
     assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");
     testPage.clickContinue();
