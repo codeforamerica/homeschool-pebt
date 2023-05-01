@@ -98,11 +98,16 @@ flow:
   reviewPersonalInfo:
     nextScreens:
       - name: housemates
+
+  # Step 4 of 6: Household builder ("Household Details")
   housemates:
     nextScreens:
-      - name: housemateInfo
+      - name: signpostHouseholdDetails
         condition: HasHousehold
       - name: income
+  signpostHouseholdDetails:
+    nextScreens:
+      - name: housemateInfo
   housemateInfo:
     subflow: household
     nextScreens:
@@ -115,6 +120,7 @@ flow:
       - name: income
   householdDeleteConfirmation:
     nextScreens: null
+
   income:
     nextScreens:
       - name: householdMemberIncome
