@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Announce failures on Slack
-        if: failure()
+        if: ${{ failure() && github.ref == 'main' }}
         uses: ravsamhq/notify-slack-action@v2
         with:
           status: ${{ job.status }}
