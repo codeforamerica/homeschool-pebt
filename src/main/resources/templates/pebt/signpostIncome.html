@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{signpost-income.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="text--centered">
+          <th:block th:replace="~{'fragments/icons' :: onePerson}"></th:block>
+          <p class="text--grey-dark" th:text="#{signpost-income.step}"></p>
+          <th:block
+              th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{signpost-income.title})}"/>
+        </div>
+        <div class="form-card__content">
+          <div class="boxed-content">
+            <p class="text--centered"><strong th:text="#{signpost-income.ask}"></strong></p>
+            <ol class="list--numbered">
+              <li th:text="#{signpost-income.job-or-self-employment}"></li>
+              <li th:text="#{signpost-income.other-income}"></li>
+            </ol>
+          </div>
+        </div>
+        <div class="form-card__footer text--centered">
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{signpost-income.button})}">
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
