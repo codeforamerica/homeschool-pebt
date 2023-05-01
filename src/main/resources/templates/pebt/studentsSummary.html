@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="fragments/head :: head(title=#{students-summary.title})"></head>
+<head th:replace="~{fragments/head :: head(title=#{students-summary.title})}"></head>
 <body>
 <div class="page-wrapper">
-  <div th:replace="fragments/toolbar :: toolbar"></div>
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <div th:replace="fragments/goBack :: goBackLink"></div>
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="'fragments/icons' :: people"></th:block>
+        <th:block th:replace="~{'fragments/icons' :: people}"></th:block>
         <th:block
-            th:replace="'fragments/cardHeader' :: cardHeader(header=#{students-summary.title}, subtext=#{students-summary.subtext})"/>
-        <th:block th:replace="'fragments/form' :: form(action=${formAction}, content=~{::pageContent})">
+            th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{students-summary.title}, subtext=#{students-summary.subtext})}"/>
+        <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::pageContent})}">
           <th:block th:ref="pageContent">
             <div class="form-card__content">
               <div class="notice spacing-below-60"
@@ -33,8 +33,8 @@
               </div>
             </div>
             <div class="form-card__footer">
-              <th:block th:replace="fragments/inputs/submitButton :: submitButton(
-                  text=#{students-summary.this-is-everyone})"/>
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{students-summary.this-is-everyone})}"/>
             </div>
           </th:block>
         </th:block>
@@ -42,6 +42,6 @@
     </div>
   </section>
 </div>
-<th:block th:replace="fragments/footer :: footer" />
+<th:block th:replace="~{fragments/footer :: footer}" />
 </body>
 </html>
