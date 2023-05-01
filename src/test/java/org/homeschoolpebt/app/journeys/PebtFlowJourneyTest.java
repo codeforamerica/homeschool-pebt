@@ -147,6 +147,8 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("householdMemberBenefitsCaseNumber", "ABC1234");
     testPage.clickContinue();
 
+    // Income
+    testPage.clickButton("Get started"); // Income signpost
     //click on No I already know....
     testPage.clickLink("No, I already know my annual household pre-tax income - I prefer to enter it directly.");
     assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");

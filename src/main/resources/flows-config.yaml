@@ -104,7 +104,7 @@ flow:
     nextScreens:
       - name: signpostHouseholdDetails
         condition: HasHousehold
-      - name: income
+      - name: signpostIncome
   signpostHouseholdDetails:
     nextScreens:
       - name: housemateInfo
@@ -117,10 +117,14 @@ flow:
       - name: householdReceivesBenefits
   householdReceivesBenefits:
     nextScreens:
-      - name: income
+      - name: signpostIncome
   householdDeleteConfirmation:
     nextScreens: null
 
+  # Step 5 of 6: Income
+  signpostIncome:
+    nextScreens:
+      - name: income
   income:
     nextScreens:
       - name: householdMemberIncome
