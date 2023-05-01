@@ -47,8 +47,6 @@ dependencies {
     if (profile == 'dev') {
         implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
         println "📚Using form flow library ${formFlowLibraryVersion}"
-        // implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
-        // println "📦 Using local library"
     } else {
         implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
         println "📚Using form flow library ${formFlowLibraryVersion}"
