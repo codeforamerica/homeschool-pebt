@@ -149,6 +149,11 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
     // Income
     testPage.clickButton("Get started"); // Income signpost
+    assertThat(testPage.getTitle()).isEqualTo("Is anyone in the household making money from a job or self-employment?");
+    testPage.clickButton(YES.getDisplayValue()); // Has job or self-employment income
+    testPage.enter("incomeJobsCount", "1"); // Number of jobs
+    testPage.clickButton("Submit");
+
     //click on No I already know....
     testPage.clickLink("No, I already know my annual household pre-tax income - I prefer to enter it directly.");
     assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");

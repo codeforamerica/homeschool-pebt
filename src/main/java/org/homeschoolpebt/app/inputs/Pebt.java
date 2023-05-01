@@ -79,6 +79,8 @@ public class Pebt extends FlowInputs {
   private String householdMember;
 
   // Income Types Screen
+  private String hasIncome;
+
   @NotEmpty(message = "{income-types.error}")
   private ArrayList<String> incomeTypes;
 

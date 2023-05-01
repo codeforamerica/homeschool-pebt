@@ -124,7 +124,12 @@ flow:
   # Step 5 of 6: Income
   signpostIncome:
     nextScreens:
+      - name: hasIncome
+  hasIncome:
+    nextScreens:
       - name: income
+        condition: HasIncome
+      - name: economicHardship
   income:
     nextScreens:
       - name: householdMemberIncome
