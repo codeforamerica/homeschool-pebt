@@ -59,10 +59,10 @@ flow:
       - name: studentsSummary
   studentsSummary:
     nextScreens:
-      - name: applicantisInHousehold
+      - name: applicantIsInHousehold
         condition: PreScreenNotApplyingForSelf
       - name: languagePreference
-  applicantisInHousehold:
+  applicantIsInHousehold:
     nextScreens:
       - name: languagePreference
 
