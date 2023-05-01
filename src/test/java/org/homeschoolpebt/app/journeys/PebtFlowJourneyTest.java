@@ -89,6 +89,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Confirm");
     // TODO: Test of skipping the Household builder
     testPage.clickButton("Yes"); // Are there other people in the students' household?
+    testPage.clickButton("Get started"); // Household details signpost
 
     // Housemate Info
     assertThat(testPage.getTitle()).isEqualTo("Housemate Info");
@@ -121,6 +122,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Are there other people in the students' household?");
     // Add back household members
     testPage.enter("hasHousehold", YES.getDisplayValue());
+    testPage.clickButton("Get started"); // Household details signpost
     // Housemate Info
     testPage.enter("householdMemberFirstName", "John");
     testPage.enter("householdMemberLastName", "Doe");
