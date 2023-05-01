@@ -69,8 +69,6 @@ public class Pebt extends FlowInputs {
   private String householdMemberFirstName;
   @NotBlank
   private String householdMemberLastName;
-  private String householdMemberRelationship;
-  private String householdMemberRecentlyMovedToUS;
   private String householdMemberReceivesBenefits;
   private String householdMemberBenefitsCaseNumber;
   private String householdMemberBenefitsCaseNumberFDPIR;

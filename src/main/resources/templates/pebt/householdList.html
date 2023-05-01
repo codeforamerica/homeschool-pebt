@@ -8,7 +8,7 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{'fragments/icons' :: 'householdBlue'}"></th:block>
+        <th:block th:replace="~{'fragments/icons' :: 'household'}"></th:block>
         <th:block
             th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{household-list.header},
             subtext=#{household-list.include-children})}"/>
@@ -17,7 +17,7 @@
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
               <li class="spacing-below-15"
-                  th:text="${inputData.firstName} + ' ' + ${inputData.lastName}"></li>
+                  th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
               <th:block th:if="${inputData.containsKey('household')}">
                 <li th:each="householdMember, iter: ${inputData.household}"
                     class="spacing-below-15">
