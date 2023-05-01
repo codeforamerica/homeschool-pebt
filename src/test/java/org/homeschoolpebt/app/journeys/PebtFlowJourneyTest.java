@@ -114,7 +114,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.goBack();
     assertThat(testPage.getHeader()).contains("This entry has already been deleted");
     testPage.clickButton("Return to the screen I was on before");
-    assertThat(testPage.getHeader()).contains("Is this everyone that lives with you?");
+    assertThat(testPage.getHeader()).contains("Is this everyone in the student's household?");
     assertThat(testPage.findElementsByClass("subflow-delete")).hasSize(1);
     // Delete final household member to go back to householdList
     testPage.findElementsByClass("subflow-delete").get(0).click();
