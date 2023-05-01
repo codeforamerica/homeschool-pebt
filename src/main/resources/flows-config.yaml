@@ -127,9 +127,12 @@ flow:
       - name: hasIncome
   hasIncome:
     nextScreens:
-      - name: income
+      - name: incomeJobsCount
         condition: HasIncome
       - name: economicHardship
+  incomeJobsCount:
+    nextScreens:
+      - name: income
   income:
     nextScreens:
       - name: householdMemberIncome
