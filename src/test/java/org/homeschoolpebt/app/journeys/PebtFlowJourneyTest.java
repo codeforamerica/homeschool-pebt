@@ -159,7 +159,12 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeJobsCount", "1"); // Number of jobs
     testPage.clickButton("Submit");
     assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
+    testPage.clickButton("I'm done adding job income");
 
+    assertThat(testPage.getTitle()).isEqualTo("Is this everybody's income?");
+    testPage.clickButton("Yes, that's all the income");
+
+    testPage.clickContinue(); // Got it! You're done with the income section.
     // TODO: test more income cases and the rest of the flow
   }
 }
