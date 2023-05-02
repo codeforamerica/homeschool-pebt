@@ -1,0 +1,15 @@
+<th:block th:with="messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'}">
+  <th:block
+    th:replace="~{'fragments/screens/screenWithYesAndNoButtons' ::
+    screenWithYesAndNoButtons(
+      title=${#messages.msg('income-was-self-employed.title.' + messageVariant, currentSubflowItem.incomeMember)},
+      header=${#messages.msg('income-was-self-employed.title.' + messageVariant, currentSubflowItem.incomeMember)},
+      subtext=#{income-was-self-employed.subtext},
+      iconName='personWithDollarSign',
+      formAction=${formAction},
+      inputName='incomeWasSelfEmployed',
+      inputContent=~{::inputContent})}">
+    <th:block th:ref="inputContent">
+    </th:block>
+  </th:block>
+</th:block>

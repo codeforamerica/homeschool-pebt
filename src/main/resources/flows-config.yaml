@@ -137,7 +137,11 @@ flow:
   incomeJobsCount:
     subflow: income
     nextScreens:
-      - name: incomeChooseHouseholdMember # TODO: review screeen!
+      - name: incomeWasSelfEmployed
+  incomeWasSelfEmployed:
+    subflow: income
+    nextScreens:
+      - name: incomeReview
 
   incomeReview:
     nextScreens:
