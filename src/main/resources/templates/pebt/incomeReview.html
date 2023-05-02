@@ -13,8 +13,8 @@
           TODO: Put the box of household members here
         </div>
         <div class="form-card__footer">
-          <th:block
-              th:replace="~{'fragments/continueButton' :: continue(text=#{income-review.continue-button})}"/>
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-review.continue-button})}"/>
+          <a class="button button--other" href="/flow/pebt/incomeChooseHouseholdMember" th:text="#{income-review.add-income}"></a>
         </div>
       </main>
     </div>

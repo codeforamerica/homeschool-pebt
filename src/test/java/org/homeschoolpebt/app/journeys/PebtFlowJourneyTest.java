@@ -152,16 +152,14 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Is anyone in the household making money from a job or self-employment?");
     testPage.clickButton(YES.getDisplayValue());
 
-    //click on No I already know....
     assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
     testPage.findElementById("incomeMember-applicant").click();
     testPage.clickContinue();
     testPage.enter("incomeJobsCount", "1"); // Number of jobs
     testPage.clickButton("Submit");
-    assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
-    testPage.clickButton("I'm done adding job income");
+    testPage.clickButton(YES.getDisplayValue()); // Was self-employed?
 
-    assertThat(testPage.getTitle()).isEqualTo("Is this everybody's income?");
+    assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
     testPage.clickButton("Yes, that's all the income");
 
     testPage.clickContinue(); // Got it! You're done with the income section.
