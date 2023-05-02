@@ -139,6 +139,12 @@ flow:
     nextScreens:
       - name: incomeChooseHouseholdMember # TODO: review screeen!
 
+  incomeReview:
+    nextScreens:
+      - name: exceedsIncomeThreshold
+        condition: ExceedsIncomeThreshold
+      - name: incomeComplete
+
   incomeTypes:
     subflow: income
     nextScreens:
@@ -148,11 +154,6 @@ flow:
     subflow: income
     nextScreens:
       - name: annualHouseholdIncome
-  annualHouseholdIncome:
-    nextScreens:
-      - name: exceedsIncomeThreshold
-        condition: ExceedsIncomeThreshold
-      - name: incomeComplete
   incomeDeleteConfirmation:
     nextScreens: null
   reportedAnnualHouseholdIncome:
