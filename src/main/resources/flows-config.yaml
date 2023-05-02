@@ -127,19 +127,18 @@ flow:
       - name: hasIncome
   hasIncome:
     nextScreens:
-      - name: incomeJobsCount
+      - name: incomeChooseHouseholdMember
         condition: HasIncome
       - name: economicHardship
-  incomeJobsCount:
-    nextScreens:
-      - name: income
-  income:
-    nextScreens:
-      - name: householdMemberIncome
-  householdMemberIncome:
+  incomeChooseHouseholdMember:
     subflow: income
     nextScreens:
-      - name: householdReceivesBenefits
+      - name: incomeJobsCount
+  incomeJobsCount:
+    subflow: income
+    nextScreens:
+      - name: incomeChooseHouseholdMember # TODO: review screeen!
+
   incomeTypes:
     subflow: income
     nextScreens:
@@ -215,8 +214,8 @@ subflows:
     reviewScreen: householdList
     deleteConfirmationScreen: householdDeleteConfirmation
   income:
-    entryScreen: income
-    iterationStartScreen: householdMemberIncome
+    entryScreen: hasIncome
+    iterationStartScreen: incomeChooseHouseholdMember
     reviewScreen: annualHouseholdIncome
     deleteConfirmationScreen: incomeDeleteConfirmation
 ---

@@ -76,7 +76,7 @@ public class Pebt extends FlowInputs {
 
   // Household Member Income Screen
   @NotBlank(message = "{household-member-income.failed-to-make-selection}")
-  private String householdMember;
+  private String incomeMember;
 
   // Income Types Screen
   private String hasIncome;

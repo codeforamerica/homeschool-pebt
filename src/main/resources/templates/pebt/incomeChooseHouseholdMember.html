@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=#{income-choose-household-member.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{'fragments/icons' :: documentsSearch}" />
+        <th:block th:replace="~{fragments/cardHeader :: cardHeader(header=#{income-choose-household-member.title}, subtext=#{income-choose-household-member.subtext})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+          <th:block th:ref="formContent">
+            <div class="form-card__content">
+              <th:block th:ref="inputContent">
+                <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
+                    radioFieldset(inputName='incomeMember',
+                    ariaLabel='header',
+                    content=~{::householdMembers})}">
+                  <th:block th:ref="householdMembers">
+                    <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value='applicant', label=#{general.me})}"/>
+                    <th:block th:if="${inputData.containsKey('students')}">
+                      <th:block th:each="student, iter: ${inputData.students}">
+                        <th:block th:with="fullName=${student.studentFirstName + ' ' + student.studentMiddleInitial + ' ' + student.studentLastName}">
+                          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
+                        </th:block>
+                      </th:block>
+                    </th:block>
+                    <th:block th:if="${inputData.containsKey('household')}">
+                      <th:block th:each="hm, iter: ${inputData.household}"
+                                th:with="fullName=${hm.householdMemberFirstName + ' ' + hm.householdMemberLastName}">
+                        <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
+                      </th:block>
+                    </th:block>
+                  </th:block>
+                </th:block>
+              </th:block>
+            </div>
+
+            <div class="form-card__footer">
+              <th:block th:replace="~{'fragments/inputs/submitButton' :: submitButton(text=#{general.inputs.continue})}"/>
+              <a class="button button--other" th:text="#{income-choose-household-member.done-button}" href="/flows/pebt/incomeAlmostDone"></a>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

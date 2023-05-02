@@ -150,35 +150,16 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Income
     testPage.clickButton("Get started"); // Income signpost
     assertThat(testPage.getTitle()).isEqualTo("Is anyone in the household making money from a job or self-employment?");
-    testPage.clickButton(YES.getDisplayValue()); // Has job or self-employment income
-    testPage.enter("incomeJobsCount", "1"); // Number of jobs
-    testPage.clickButton("Submit");
+    testPage.clickButton(YES.getDisplayValue());
 
     //click on No I already know....
-    testPage.clickLink("No, I already know my annual household pre-tax income - I prefer to enter it directly.");
-    assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");
+    assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
+    testPage.findElementById("incomeMember-applicant").click();
     testPage.clickContinue();
-    assertThat(testPage.hasErrorText("Please enter a value")).isTrue();
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "a");
-    testPage.clickContinue();
-    assertThat(testPage.hasErrorText("Please make sure to enter a valid dollar amount.")).isTrue();
+    testPage.enter("incomeJobsCount", "1"); // Number of jobs
+    testPage.clickButton("Submit");
+    assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
 
-    // Test a high amount to see that we get the exceeds max income page
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "300000");
-    testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Exceeds Income Threshold");
-    testPage.clickButton("Apply anyway");
-    assertThat(testPage.getTitle()).isEqualTo("Economic Hardship");
-    testPage.goBack();
-    testPage.goBack();
-    assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "125");
-    testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Income Complete");
-    testPage.goBack();
-    testPage.goBack();
-    testPage.goBack();
-    testPage.goBack();
-    assertThat(testPage.getTitle()).isEqualTo("Income");
+    // TODO: test more income cases and the rest of the flow
   }
 }
