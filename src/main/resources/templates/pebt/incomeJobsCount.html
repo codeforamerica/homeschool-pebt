@@ -1,20 +1,22 @@
-<th:block
-  th:replace="fragments/screens/screenWithOneInput ::
-  screenWithOneInput(
-    title=#{income-jobs-count.title},
-    header=#{income-jobs-count.title},
-    iconName='documentsSearch',
-    formAction=${formAction},
-    inputContent=~{::inputContent})">
-  <th:block th:ref="inputContent">
-    <th:block
-        th:replace="~{'fragments/inputs/select' :: select(label=#{income-jobs-count.input-label}, ariaLabel='header', inputName='incomeJobsCount', content=~{::numJobsContent})}">
-      <th:block th:ref="numJobsContent">
-        <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='1', optionText='1')}"/>
-        <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='2', optionText='2')}"/>
-        <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='3', optionText='3')}"/>
-        <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='4', optionText='4')}"/>
-        <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='5+', optionText='5+')}"/>
+<th:block th:with="messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'}">
+  <th:block
+    th:replace="~{'fragments/screens/screenWithOneInput' ::
+    screenWithOneInput(
+      title=${#messages.msg('income-jobs-count.title.' + messageVariant, currentSubflowItem.incomeMember)},
+      header=${#messages.msg('income-jobs-count.title.' + messageVariant, currentSubflowItem.incomeMember)},
+      iconName='documentsSearch',
+      formAction=${formAction},
+      inputContent=~{::inputContent})}">
+    <th:block th:ref="inputContent">
+      <th:block
+          th:replace="~{'fragments/inputs/select' :: select(label=#{income-jobs-count.input-label}, ariaLabel='header', inputName='incomeJobsCount', content=~{::numJobsContent})}">
+        <th:block th:ref="numJobsContent">
+          <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='1', optionText='1')}"/>
+          <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='2', optionText='2')}"/>
+          <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='3', optionText='3')}"/>
+          <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='4', optionText='4')}"/>
+          <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='5+', optionText='5+')}"/>
+        </th:block>
       </th:block>
     </th:block>
   </th:block>
