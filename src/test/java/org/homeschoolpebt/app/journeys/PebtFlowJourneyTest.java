@@ -161,6 +161,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeGrossMonthlyIndividual", "100.0"); // How much did [x] make in [last month]?
     testPage.clickContinue();
     testPage.clickButton(YES.getDisplayValue()); // Is this job paid by the hour?
+    testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
+    testPage.enter("incomeHoursPerWeek", "40");
+    testPage.clickContinue();
 
     assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
     testPage.clickButton("Yes, that's all the income");

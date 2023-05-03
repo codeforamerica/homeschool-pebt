@@ -84,6 +84,11 @@ public class Pebt extends FlowInputs {
   private String incomeWasSelfEmployed;
   private String incomeGrossMonthlyIndividual;
   private String incomeIsJobHourly;
+  private String incomeHourlyWage;
+  // TODO: Validate this is a number
+  private String incomeHoursPerWeek;
+  // TODO: Validate this is a number
+  private String incomeCalculationMethod;
 
   @NotEmpty(message = "{income-types.error}")
   private ArrayList<String> incomeTypes;

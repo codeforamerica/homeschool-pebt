@@ -151,6 +151,10 @@ flow:
   incomeIsJobHourly:
     subflow: income
     nextScreens:
+      - name: incomeHourlyWageCalculator
+  incomeHourlyWageCalculator:
+    subflow: income
+    nextScreens:
       - name: incomeReview
 
   incomeReview:
