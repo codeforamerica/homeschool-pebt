@@ -14,7 +14,7 @@
   )}">
     <th:block th:ref="inputContent">
       <th:block th:replace="~{'fragments/inputs/money' :: money(inputName='incomeHourlyWage', ariaLabel='header', placeholder='0.00 / hour')}"/>
-      <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeHoursPerWeek', label=#{income-hourly-wage-calculator.hours-per-week-title}, helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(lastMonth)}, placeholder='10 hours per week')}"/>
+      <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeHoursPerWeek', label=#{income-hourly-wage-calculator.hours-per-week-title}, helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})}, placeholder='10 hours per week')}"/>
       <!-- TODO: Add "What if their pay changes often?" reveal -->
       <input type="hidden" name="incomeCalculationMethod" value="hourlyWage" />
       <!-- TODO: Add "I get paid in a different way" button -->

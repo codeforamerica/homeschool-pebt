@@ -1,0 +1,42 @@
+<th:block th:with="
+  messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  firstName=${currentSubflowItem.incomeMember}
+">
+  <th:block th:replace="~{'fragments/screens/screenWithOneInput' :: screenWithOneInput(
+    title=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
+    header=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
+    subtext=#{income-regular-pay-calculator.subtext},
+    iconName='documentsSearch',
+    formAction=${formAction},
+    inputContent=~{::inputContent},
+    buttonLabel=#{general.inputs.continue}
+  )}">
+    <th:block th:ref="inputContent">
+      <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
+        inputName='incomeRegularPayInterval',
+        ariaLabel='header',
+        content=~{::radioContent}
+      )}">
+        <th:block th:ref="radioContent">
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly})}"/>
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly})}"/>
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly})}"/>
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly})}"/>
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally})}"/>
+          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly})}"/>
+        </th:block>
+      </th:block>
+
+      <!-- TODO: Put this in a reveal, and change the copy so it's dynamic instead of "each interval" -->
+      <th:block th:replace="'fragments/inputs/money' :: money(
+        inputName='incomeRegularPayAmount',
+        label=#{income-regular-pay-calculator.amount-label},
+        helpText=#{income-regular-pay-calculator.amount-help-text}
+      )"/>
+
+      <input type="hidden" name="incomeCalculationMethod" value="regularPay" />
+      <!-- TODO: Add "What if their pay changes often?" reveal -->
+    </th:block>
+  </th:block>
+</th:block>
