@@ -1,0 +1,21 @@
+<th:block th:with="
+  messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  firstName=${currentSubflowItem.incomeMember}
+">
+  <th:block th:replace="~{'fragments/screens/screenWithOneInput' :: screenWithOneInput(
+    title=${messageVariant == 'self' ? #messages.msg('income-gross-monthly-individual.title.self', lastMonth) : #messages.msg('income-gross-monthly-individual.title.multiple', firstName, lastMonth)},
+    header=${messageVariant == 'self' ? #messages.msg('income-gross-monthly-individual.title.self', lastMonth) : #messages.msg('income-gross-monthly-individual.title.multiple', firstName, lastMonth)},
+    subtext=#{income-gross-monthly-individual.subtext},
+    iconName='documentsSearch',
+    formAction=${formAction},
+    inputContent=~{::inputContent},
+    buttonLabel=#{general.inputs.continue}
+  )}">
+    <th:block th:ref="inputContent">
+      <!-- TODO: Add "Calculating Gross monthly income" reveal -->
+      <th:block th:replace="'fragments/inputs/number' :: number(inputName='incomeGrossMonthlyIndividual', ariaLabel='header', placeholder='$0.00')"/>
+      <!-- TODO: Add "What if their pay changes a lot each month" reveal -->
+    </th:block>
+  </th:block>
+</th:block>
