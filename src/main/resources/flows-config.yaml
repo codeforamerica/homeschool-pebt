@@ -159,6 +159,10 @@ flow:
   incomeRegularPayCalculator:
     subflow: income
     nextScreens:
+      - name: incomeWillBeLess
+  incomeWillBeLess:
+    subflow: income
+    nextScreens:
       - name: incomeReview
 
   incomeReview:
