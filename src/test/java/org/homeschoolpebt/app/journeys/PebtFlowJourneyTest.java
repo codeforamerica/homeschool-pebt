@@ -170,11 +170,18 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.findElementById("incomeWillBeLess-true-label").click(); // Will income be less?
     testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
     testPage.clickContinue();
-
     assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
     testPage.clickButton("Yes, that's all the income");
+    testPage.clickLink("Keep going"); // Almost done with income!
+    testPage.findElementById("incomeTypes-incomeWorkersCompensation").click(); // Does anyone get unearned income?
+    testPage.findElementById("incomeTypes-incomeSSI").click();
+    testPage.clickButton("Submit");
+    testPage.enter("incomeWorkersCompensationAmount", "123"); // Tell us how much you made from unearned sources?
+    testPage.enter("incomeSSIAmount", "456");
+    testPage.clickContinue();
 
-    testPage.clickContinue(); // Got it! You're done with the income section.
+
+    testPage.clickLink("Next step"); // Done (with income)! Let's get your application submitted.
     // TODO: test more income cases and the rest of the flow
   }
 }

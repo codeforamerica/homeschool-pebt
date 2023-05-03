@@ -96,61 +96,31 @@ public class Pebt extends FlowInputs {
   private String incomeWillBeLessDescription;
   private String incomeCalculationMethod;
 
-  @NotEmpty(message = "{income-types.error}")
+  @NotEmpty(message = "{income-unearned-types.error}")
   private ArrayList<String> incomeTypes;
 
   // Income Amounts Screen
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeJobAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeSelfAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeUnemploymentAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeSocialSecurityAmount;
+  private String incomeWorkersCompensationAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeRetirementAmount;
+  private String incomeSpousalSupportAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeChildOrSpousalSupportAmount;
+  private String incomeChildSupportAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomePensionAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeInvestmentAmount;
+  private String incomeRetirementAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeCapitalGainsAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeRentalOrRoyaltyAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeFarmOrFishAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeAlimonyAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeTaxableScholarshipAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeCancelledDebtAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeCourtAwardsAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeGamblingAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeJuryDutyPayAmount;
+  private String incomeSSIAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeOtherAmount;
