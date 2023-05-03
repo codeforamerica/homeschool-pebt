@@ -92,6 +92,8 @@ public class Pebt extends FlowInputs {
   private String incomeRegularPayInterval;
   // TODO: Validate this is a number
   private String incomeRegularPayAmount;
+  private String incomeWillBeLess;
+  private String incomeWillBeLessDescription;
   private String incomeCalculationMethod;
 
   @NotEmpty(message = "{income-types.error}")
