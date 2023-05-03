@@ -147,6 +147,10 @@ flow:
   incomeGrossMonthlyIndividual:
     subflow: income
     nextScreens:
+      - name: incomeIsJobHourly
+  incomeIsJobHourly:
+    subflow: income
+    nextScreens:
       - name: incomeReview
 
   incomeReview:

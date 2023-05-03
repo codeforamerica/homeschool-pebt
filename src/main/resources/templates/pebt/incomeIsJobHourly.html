@@ -1,0 +1,12 @@
+<th:block
+  th:replace="~{'fragments/screens/screenWithYesAndNoButtons' ::
+  screenWithYesAndNoButtons(
+    title=#{income-is-job-hourly.title},
+    header=#{income-is-job-hourly.title},
+    iconName='documentsSearch',
+    formAction=${formAction},
+    inputName='incomeIsJobHourly',
+    inputContent=~{::inputContent})}">
+  <th:block th:ref="inputContent">
+  </th:block>
+</th:block>
