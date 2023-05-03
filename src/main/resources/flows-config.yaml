@@ -164,38 +164,26 @@ flow:
     subflow: income
     nextScreens:
       - name: incomeReview
-
   incomeReview:
     nextScreens:
-      - name: exceedsIncomeThreshold
-        condition: ExceedsIncomeThreshold
-      - name: incomeComplete
-
-  incomeTypes:
-    subflow: income
+      - name: incomeEarnedIncomeComplete
+  incomeEarnedIncomeComplete:
     nextScreens:
-      - name: incomeAmounts
-  incomeAmounts:
-    beforeSaveAction: UpdateIncomeAmountsBeforeSaving
-    subflow: income
+      - name: incomeUnearnedTypes
+  incomeUnearnedTypes:
     nextScreens:
-      - name: annualHouseholdIncome
-  incomeDeleteConfirmation:
-    nextScreens: null
-  reportedAnnualHouseholdIncome:
+      - name: incomeUnearnedAmounts
+  incomeUnearnedAmounts:
     nextScreens:
-      - name: exceedsIncomeThreshold
-        condition: ExceedsIncomeThreshold
       - name: incomeComplete
   incomeComplete:
-    nextScreens:
-      - name: economicHardship
-  exceedsIncomeThreshold:
     nextScreens:
       - name: economicHardship
   economicHardship:
     nextScreens:
       - name: addingDocuments
+
+  # Step 6 of 6: Adding documents
   addingDocuments:
     nextScreens:
       - name: howToAddDocuments

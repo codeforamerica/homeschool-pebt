@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{income-complete.header})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{income-earned-income-complete.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -10,10 +10,10 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="form-card__content text--centered">
           <th:block th:replace="~{'fragments/icons' :: success}"></th:block>
-          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{income-complete.header}, subtext=#{income-complete.subtext})}"/>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{income-earned-income-complete.title}, subtext=#{income-earned-income-complete.subtext})}"/>
         </div>
         <div class="form-card__footer text--centered spacing-above-95">
-          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-complete.button})}"/>
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-earned-income-complete.keep-going})}"/>
         </div>
       </main>
     </div>
