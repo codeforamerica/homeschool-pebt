@@ -3,13 +3,11 @@
 <head th:replace="~{fragments/head :: head(title=#{index.title})}"></head>
 <body class="template--static-page">
 <div class="page-wrapper">
-  <th:block th:replace="~{fragments/toolbar :: toolbar}"/>
-  <main id="content" role="main" class="slab slab--white spacing-below-0">
-    <section class="slab">
+  <th:block th:replace="~{fragments/toolbar :: toolbar(headerClasses='main-header--hero')}"/>
+  <main id="content" role="main" class="spacing-below-0">
+    <section class="slab slab--hero">
       <div class="grid">
         <div class="width-one-half">
-          <th:block th:replace="~{fragments/icons :: cursiveUbi}">
-          </th:block>
           <h1 class="spacing-below-35 spacing-above-5" th:text="#{index.title}"></h1>
           <p th:text="#{index.apply-for-benefits-in-10}"></p>
           <a th:text="#{index.already-applied}" href="#docUpload"></a>
@@ -23,7 +21,7 @@
           </div>
         </div>
         <div class="width-one-half">
-          <img src="/assets/images/ubi-landing-splash.png" alt="" class="nudge--large">
+          <img src="/assets/images/homepage-illustration.svg" alt="" class="nudge--large"/>
         </div>
       </div>
     </section>
@@ -34,7 +32,7 @@
         <p th:text="#{index.ubi-provides-750}"></p>
       </div>
     </section>
-    <section class="slab" id="docUpload">
+    <section class="slab slab--hero" id="docUpload">
       <div class="grid text--centered spacing-below-35">
         <th:block th:replace="~{fragments/icons :: uploadDocuments}"/>
         <h2 th:text="#{index.already-applied-additional}"></h2>
