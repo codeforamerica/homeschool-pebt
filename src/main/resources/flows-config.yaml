@@ -104,7 +104,7 @@ flow:
     nextScreens:
       - name: signpostHouseholdDetails
         condition: HasHousehold
-      - name: income
+      - name: signpostIncome
   signpostHouseholdDetails:
     nextScreens:
       - name: housemateInfo
@@ -117,47 +117,73 @@ flow:
       - name: householdReceivesBenefits
   householdReceivesBenefits:
     nextScreens:
-      - name: income
+      - name: signpostIncome
   householdDeleteConfirmation:
     nextScreens: null
 
-  income:
+  # Step 5 of 6: Income
+  signpostIncome:
     nextScreens:
-      - name: householdMemberIncome
-  householdMemberIncome:
+      - name: hasIncome
+  hasIncome:
+    nextScreens:
+      - name: incomeChooseHouseholdMember
+        condition: HasIncome
+      - name: economicHardship
+  incomeChooseHouseholdMember:
     subflow: income
     nextScreens:
-      - name: householdReceivesBenefits
-  incomeTypes:
+      - name: incomeJobsCount
+  incomeJobsCount:
     subflow: income
     nextScreens:
-      - name: incomeAmounts
-  incomeAmounts:
-    beforeSaveAction: UpdateIncomeAmountsBeforeSaving
+      - name: incomeWasSelfEmployed
+  incomeWasSelfEmployed:
     subflow: income
     nextScreens:
-      - name: annualHouseholdIncome
-  annualHouseholdIncome:
+      - name: incomeGrossMonthlyIndividual
+      # TODO: Implement this condition when FFL supports conditional pages in sub-flows.
+      # condition: HasMultipleJobsThatArentSelfEmployment
+  incomeGrossMonthlyIndividual:
+    subflow: income
     nextScreens:
-      - name: exceedsIncomeThreshold
-        condition: ExceedsIncomeThreshold
-      - name: incomeComplete
-  incomeDeleteConfirmation:
-    nextScreens: null
-  reportedAnnualHouseholdIncome:
+      - name: incomeIsJobHourly
+  incomeIsJobHourly:
+    subflow: income
     nextScreens:
-      - name: exceedsIncomeThreshold
-        condition: ExceedsIncomeThreshold
+      - name: incomeHourlyWageCalculator
+  incomeHourlyWageCalculator:
+    subflow: income
+    nextScreens:
+      - name: incomeRegularPayCalculator
+  incomeRegularPayCalculator:
+    subflow: income
+    nextScreens:
+      - name: incomeWillBeLess
+  incomeWillBeLess:
+    subflow: income
+    nextScreens:
+      - name: incomeReview
+  incomeReview:
+    nextScreens:
+      - name: incomeEarnedIncomeComplete
+  incomeEarnedIncomeComplete:
+    nextScreens:
+      - name: incomeUnearnedTypes
+  incomeUnearnedTypes:
+    nextScreens:
+      - name: incomeUnearnedAmounts
+  incomeUnearnedAmounts:
+    nextScreens:
       - name: incomeComplete
   incomeComplete:
-    nextScreens:
-      - name: economicHardship
-  exceedsIncomeThreshold:
     nextScreens:
       - name: economicHardship
   economicHardship:
     nextScreens:
       - name: addingDocuments
+
+  # Step 6 of 6: Adding documents
   addingDocuments:
     nextScreens:
       - name: howToAddDocuments
@@ -203,8 +229,8 @@ subflows:
     reviewScreen: householdList
     deleteConfirmationScreen: householdDeleteConfirmation
   income:
-    entryScreen: income
-    iterationStartScreen: householdMemberIncome
+    entryScreen: hasIncome
+    iterationStartScreen: incomeChooseHouseholdMember
     reviewScreen: annualHouseholdIncome
     deleteConfirmationScreen: incomeDeleteConfirmation
 ---

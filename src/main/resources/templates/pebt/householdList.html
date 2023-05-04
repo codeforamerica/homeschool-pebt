@@ -16,28 +16,36 @@
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <li class="spacing-below-15"
-                  th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
+              <li class="spacing-below-15" th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
+              <th:block th:if="${inputData.containsKey('students')}">
+                <li th:each="student, iter: ${inputData.students}" class="spacing-below-15">
+                  <span class="space-between">
+                    <span>
+                      <span th:text="${student.studentFirstName}"></span>
+                      <span th:text="${student.studentMiddleInitial}" th:if="${!#strings.isEmpty(student.studentMiddleInitial)}"></span>
+                      <span th:text="${student.studentLastName}"></span>
+                    </span>
+                  </span>
+                </li>
+              </th:block>
               <th:block th:if="${inputData.containsKey('household')}">
-                <li th:each="householdMember, iter: ${inputData.household}"
-                    class="spacing-below-15">
-                              <span class="space-between">
-                                <span>
-                                  <span
-                                      th:text="${householdMember.householdMemberFirstName}"></span>
-                                  <span th:text="${householdMember.householdMemberLastName}"></span>
-                                </span>
-                                <span class="text--small spacing-below-0">
-                                  <a th:href="'/flow/pebt/' + ${iterationStartScreen} + '/' + ${householdMember.uuid} + '/edit'"
-                                     th:text="#{general.edit}"
-                                     th:id="'edit-iteration-' + ${householdMember.uuid}"
-                                     class="subflow-edit"></a>
-                                  <a th:href="'/flow/pebt/household/' + ${householdMember.uuid} + '/deleteConfirmation'"
-                                     th:text="#{general.delete}"
-                                     class="subflow-delete"
-                                     th:id="'delete-iteration-' + ${householdMember.uuid}"></a>
-                                </span>
-                              </span>
+                <li th:each="householdMember, iter: ${inputData.household}" class="spacing-below-15">
+                  <span class="space-between">
+                    <span>
+                      <span th:text="${householdMember.householdMemberFirstName}"></span>
+                      <span th:text="${householdMember.householdMemberLastName}"></span>
+                    </span>
+                    <span class="text--small spacing-below-0">
+                      <a th:href="'/flow/pebt/' + ${iterationStartScreen} + '/' + ${householdMember.uuid} + '/edit'"
+                         th:text="#{general.edit}"
+                         th:id="'edit-iteration-' + ${householdMember.uuid}"
+                         class="subflow-edit"></a>
+                      <a th:href="'/flow/pebt/household/' + ${householdMember.uuid} + '/deleteConfirmation'"
+                         th:text="#{general.delete}"
+                         class="subflow-delete"
+                         th:id="'delete-iteration-' + ${householdMember.uuid}"></a>
+                    </span>
+                  </span>
                 </li>
               </th:block>
             </ul>

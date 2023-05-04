@@ -9,6 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class SubmissionUtilities {
 
@@ -167,5 +170,11 @@ public class SubmissionUtilities {
     String pattern = "MMMM d, yyyy";
     SimpleDateFormat formatDate= new SimpleDateFormat(pattern);
     return formatDate.format(submission.getSubmittedAt());
+  }
+
+  public static String getLastMonth(Submission submission) {
+    var day = new DateTime().minusMonths(1).withDayOfMonth(1);
+    DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM, yyyy");
+    return day.toString(formatter);
   }
 }

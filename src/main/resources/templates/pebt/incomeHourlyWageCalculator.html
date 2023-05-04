@@ -1,0 +1,23 @@
+<th:block th:with="
+  messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  firstName=${currentSubflowItem.incomeMember}
+">
+  <th:block th:replace="~{'fragments/screens/screenWithOneInput' :: screenWithOneInput(
+    title=${#messages.msg('income-hourly-wage-calculator.title.' + messageVariant, firstName)},
+    header=${#messages.msg('income-hourly-wage-calculator.title.' + messageVariant, firstName)},
+    subtext=#{income-hourly-wage-calculator.subtext},
+    iconName='documentsSearch',
+    formAction=${formAction},
+    inputContent=~{::inputContent},
+    buttonLabel=#{general.inputs.continue}
+  )}">
+    <th:block th:ref="inputContent">
+      <th:block th:replace="~{'fragments/inputs/money' :: money(inputName='incomeHourlyWage', ariaLabel='header', placeholder='0.00 / hour')}"/>
+      <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeHoursPerWeek', label=#{income-hourly-wage-calculator.hours-per-week-title}, helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})}, placeholder='10 hours per week')}"/>
+      <!-- TODO: Add "What if their pay changes often?" reveal -->
+      <input type="hidden" name="incomeCalculationMethod" value="hourlyWage" />
+      <!-- TODO: Add "I get paid in a different way" button -->
+    </th:block>
+  </th:block>
+</th:block>

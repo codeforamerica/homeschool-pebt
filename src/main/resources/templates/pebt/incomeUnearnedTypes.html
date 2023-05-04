@@ -1,0 +1,29 @@
+<th:block th:replace="~{fragments/screens/screenWithOneInput :: screenWithOneInput(
+  title=#{income-unearned-types.title},
+  header=#{income-unearned-types.title},
+  subtext=#{income-unearned-types.sub-header},
+  formAction=${formAction},
+  iconName='documentsSearch',
+  inputContent=~{::inputContent})
+}">
+  <th:block th:ref="inputContent">
+    <th:block th:replace="~{'fragments/inputs/checkboxFieldset' ::
+      checkboxFieldset(inputName='incomeTypes',
+      ariaLabel='header',
+      content=~{::checkboxContent})
+    }">
+      <th:block th:ref="checkboxContent">
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeUnemployment', label=#{income-shared.incomeUnemployment})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeWorkersCompensation', label=#{income-shared.incomeWorkersCompensation})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSpousalSupport', label=#{income-shared.incomeSpousalSupport})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeChildSupport', label=#{income-shared.incomeChildSupport})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomePension', label=#{income-shared.incomePension})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeRetirement', label=#{income-shared.incomeRetirement})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSSI', label=#{income-shared.incomeSSI})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeOther', label=#{income-shared.incomeOther})}"/>
+        <hr>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{students-designations.none}, noneOfTheAbove=true)}"/> <!-- TODO: Extract "None of the above" into a shared string -->
+      </th:block>
+    </th:block>
+  </th:block>
+</th:block>

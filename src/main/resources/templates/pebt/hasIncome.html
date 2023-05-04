@@ -1,0 +1,16 @@
+<th:block th:with="messageVariant=${inputData.hasHousehold == 'true' ? 'multiple' : 'individual'}">
+  <th:block
+    th:replace="fragments/screens/screenWithYesAndNoButtons ::
+    screenWithYesAndNoButtons(
+      title=${#messages.msg('has-income.title.' + messageVariant)},
+      header=${#messages.msg('has-income.title.' + messageVariant)},
+      subtext=#{has-income.subtext},
+      iconName='documentsSearch',
+      formAction=${formAction},
+      inputName='hasIncome',
+      inputContent=~{::inputContent})">
+    <th:block th:ref="inputContent">
+      <!-- Be sure to have `ariaLabel='header'` to label the input with the header -->
+    </th:block>
+  </th:block>
+</th:block>

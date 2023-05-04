@@ -147,31 +147,41 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("householdMemberBenefitsCaseNumber", "ABC1234");
     testPage.clickContinue();
 
-    //click on No I already know....
-    testPage.clickLink("No, I already know my annual household pre-tax income - I prefer to enter it directly.");
-    assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");
-    testPage.clickContinue();
-    assertThat(testPage.hasErrorText("Please enter a value")).isTrue();
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "a");
-    testPage.clickContinue();
-    assertThat(testPage.hasErrorText("Please make sure to enter a valid dollar amount.")).isTrue();
+    // Income
+    testPage.clickButton("Get started"); // Income signpost
+    assertThat(testPage.getTitle()).isEqualTo("Is anyone in the household making money from a job or self-employment?");
+    testPage.clickButton(YES.getDisplayValue());
 
-    // Test a high amount to see that we get the exceeds max income page
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "300000");
+    assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
+    testPage.findElementById("incomeMember-applicant").click();
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Exceeds Income Threshold");
-    testPage.clickButton("Apply anyway");
-    assertThat(testPage.getTitle()).isEqualTo("Economic Hardship");
-    testPage.goBack();
-    testPage.goBack();
-    assertThat(testPage.getTitle()).isEqualTo("Reported Annual Household Pre-Tax Income");
-    testPage.enter("reportedTotalAnnualHouseholdIncome", "125");
+    testPage.enter("incomeJobsCount", "1"); // Number of jobs
+    testPage.clickButton("Submit");
+    testPage.clickButton(YES.getDisplayValue()); // Was self-employed?
+    testPage.enter("incomeGrossMonthlyIndividual", "100.0"); // How much did [x] make in [last month]?
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Income Complete");
-    testPage.goBack();
-    testPage.goBack();
-    testPage.goBack();
-    testPage.goBack();
-    assertThat(testPage.getTitle()).isEqualTo("Income");
+    testPage.clickButton(YES.getDisplayValue()); // Is this job paid by the hour?
+    testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
+    testPage.enter("incomeHoursPerWeek", "40");
+    testPage.clickContinue();
+    testPage.findElementById("incomeRegularPayInterval-semimonthly-label").click(); // How does [x] get paid?
+    testPage.enter("incomeRegularPayAmount", "1000");
+    testPage.clickContinue();
+    testPage.findElementById("incomeWillBeLess-true-label").click(); // Will income be less?
+    testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
+    testPage.clickContinue();
+    assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
+    testPage.clickButton("Yes, that's all the income");
+    testPage.clickLink("Keep going"); // Almost done with income!
+    testPage.findElementById("incomeTypes-incomeWorkersCompensation").click(); // Does anyone get unearned income?
+    testPage.findElementById("incomeTypes-incomeSSI").click();
+    testPage.clickButton("Submit");
+    testPage.enter("incomeWorkersCompensationAmount", "123"); // Tell us how much you made from unearned sources?
+    testPage.enter("incomeSSIAmount", "456");
+    testPage.clickContinue();
+
+
+    testPage.clickLink("Next step"); // Done (with income)! Let's get your application submitted.
+    // TODO: test more income cases and the rest of the flow
   }
 }
