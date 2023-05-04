@@ -1,0 +1,25 @@
+<th:block th:with="
+  headerClasses=${#strings.isEmpty('headerClasses') ? '' : headerClasses}
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <body>
+  <th:block th:fragment="toolbar">
+    <header th:class="${'main-header toolbar__wrapper ' + headerClasses}">
+      <div class="toolbar">
+        <div class="toolbar__left spacing-above-0">
+          <a href="#content" id="skip-to-content" class="button button--small">Skip to content</a>
+          <a class="logo" href="/">
+            <img src="/assets/images/getpebt-logo.svg" alt="Get PEBT logo" style="width: 126px; vertical-align: text-bottom;"/>
+          </a>
+        </div>
+        <div class="toolbar__right">
+          <!--<select th:replace="~{fragments/localeSelect :: localeSelect}"></select>-->
+        </div>
+      </div>
+      <th:block th:replace="~{fragments/demoBanner :: demoBanner(demoText=#{demo.banner-text}, profile='demo')}"/>
+    </header>
+  </th:block>
+  </body>
+  </html>
+</th:block>
