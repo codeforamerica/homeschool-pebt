@@ -1,6 +1,7 @@
 # .pairs - configuration for 'git pair'
 pairs:
   # <initials>: <Firstname> <Lastname>[; <email-id>]
+  al: Asheesh Laroia; alaroia
   arin: Arin Choi; achoi
   ash: Ash Campo; ash
   eric: Eric Giannella; giannella

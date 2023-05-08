@@ -5,6 +5,7 @@
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
   <body>
   <th:block th:fragment="toolbar">
+    <th:block th:replace="~{fragments/demoBanner :: demoBanner(demoText=#{demo.banner-text}, profile='demo')}"/>
     <header th:class="${'main-header toolbar__wrapper ' + headerClasses}">
       <div class="toolbar">
         <div class="toolbar__left spacing-above-0">
@@ -17,7 +18,6 @@
           <!--<select th:replace="~{fragments/localeSelect :: localeSelect}"></select>-->
         </div>
       </div>
-      <th:block th:replace="~{fragments/demoBanner :: demoBanner(demoText=#{demo.banner-text}, profile='demo')}"/>
     </header>
   </th:block>
   </body>
