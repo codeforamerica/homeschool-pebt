@@ -36,11 +36,6 @@ public class Pebt extends FlowInputs {
   private String studentWouldAttendSchoolName;
   private String applicantIsInHousehold;
 
-  // Language Preferences Screen
-  private String languageRead;
-  private String languageSpoken;
-  private String needInterpreter;
-
   // Personal Info Screen
   @NotBlank(message = "{personal-info.provide-first-name}")
   private String firstName;
