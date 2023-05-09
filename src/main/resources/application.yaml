@@ -55,6 +55,8 @@ spring:
     password:
   flyway:
     out-of-order: true
+    placeholders:
+      uuid_function: "gen_random_uuid"
   servlet:
     multipart:
       max-file-size: ${form-flow.uploads.max-file-size}MB
