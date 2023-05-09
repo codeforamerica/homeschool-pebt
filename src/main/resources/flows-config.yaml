@@ -142,8 +142,7 @@ flow:
     subflow: income
     nextScreens:
       - name: incomeGrossMonthlyIndividual
-      # TODO: Implement this condition when FFL supports conditional pages in sub-flows.
-      # condition: HasMultipleJobsThatArentSelfEmployment
+      # TODO: Implement the self-employment flow and use a condition to go there
   incomeGrossMonthlyIndividual:
     subflow: income
     nextScreens:
@@ -152,10 +151,12 @@ flow:
     subflow: income
     nextScreens:
       - name: incomeHourlyWageCalculator
+        condition: IsJobHourly
+      - name: incomeRegularPayCalculator
   incomeHourlyWageCalculator:
     subflow: income
     nextScreens:
-      - name: incomeRegularPayCalculator
+      - name: incomeWillBeLess
   incomeRegularPayCalculator:
     subflow: income
     nextScreens:

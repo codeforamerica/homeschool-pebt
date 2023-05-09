@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.journeys;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
 
 import java.time.Duration;
@@ -164,6 +165,10 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
     testPage.clickContinue();
+    assertThat(testPage.getTitle()).isEqualTo("Do you think applicant will make less this year?"); // TODO: This should be the applicant's name, not the word "applicant".
+    testPage.goBack();
+    testPage.goBack();
+    testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?
     testPage.findElementById("incomeRegularPayInterval-semimonthly-label").click(); // How does [x] get paid?
     testPage.enter("incomeRegularPayAmount", "1000");
     testPage.clickContinue();

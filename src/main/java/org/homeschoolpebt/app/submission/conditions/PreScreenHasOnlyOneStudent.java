@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PreScreenHasOnlyOneStudent implements Condition {
   @Override
-  public Boolean run(Submission submission) {
+  public Boolean run(Submission submission, String subflowUuid) {
     if (submission.getInputData().containsKey("hasMoreThanOneStudent") && submission.getInputData().containsKey("isApplyingForSelf")) {
       return submission.getInputData().get("hasMoreThanOneStudent").equals("false") &&
           submission.getInputData().get("isApplyingForSelf").equals("false");
