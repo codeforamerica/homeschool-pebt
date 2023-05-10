@@ -91,6 +91,11 @@ flow:
   contactInfo:
     beforeSaveAction: SendConfirmationEmail
     nextScreens:
+      - name: confirmBlankEmail
+        condition: HasBlankEmail
+      - name: reviewPersonalInfo
+  confirmBlankEmail:
+    nextScreens:
       - name: reviewPersonalInfo
   reviewPersonalInfo:
     nextScreens:
