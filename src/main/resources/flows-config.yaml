@@ -61,16 +61,13 @@ flow:
     nextScreens:
       - name: applicantIsInHousehold
         condition: PreScreenNotApplyingForSelf
-      - name: languagePreference
+      - name: gettingToKnowYou
   applicantIsInHousehold:
     nextScreens:
-      - name: languagePreference
+      - name: gettingToKnowYou
 
 
   # Step 3 of 6: Basic Info ("Getting to know you")
-  languagePreference:
-    nextScreens:
-      - name: gettingToKnowYou
   gettingToKnowYou:
     nextScreens:
       - name: personalInfo
