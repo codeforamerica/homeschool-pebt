@@ -3,35 +3,34 @@
 <head th:replace="~{fragments/head :: head(title=#{confirm-blank-email.title})}"></head>
 <body>
 <div class="page-wrapper">
-    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
-    <section class="slab">
-        <div class="grid">
-            <div th:replace="~{fragments/goBack :: goBackLink}"></div>
-            <th:block th:if="${true}">
-                <main
-
-                        id="content" role="main" class="form-card spacing-above-35">
-                    <div class="form-card__content">
-                        <th:block th:replace="~{'fragments/icons' :: contactInfo}"></th:block>
-                        <h1 class="h2"
-                            th:text="#{confirm-blank-email.title}"></h1>
-                        <p th:text="#{confirm-blank-email.subtext}"></p>
-                    </div>
-                    <div class="form-card__footer">
-                        <a
-                                th:href="'/flow/pebt/contactInfo'"
-                                th:text="#{confirm-blank-email.add-email}"
-                                class="button button--primary"></a>
-                        <a
-                                th:href="'/flow/pebt/confirmBlankEmail/navigation'"
-                                th:text="#{confirm-blank-email.continue-without}"
-                                class="button button--other"
-                        ></a>
-                    </div>
-                </main>
-            </th:block>
-        </div>
-    </section>
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <th:block>
+        <main
+            id="content" role="main" class="form-card spacing-above-35">
+          <div class="form-card__content">
+            <th:block th:replace="~{'fragments/icons' :: contactInfo}"></th:block>
+            <h1 class="h2"
+                th:text="#{confirm-blank-email.title}"></h1>
+            <p th:text="#{confirm-blank-email.subtext}"></p>
+          </div>
+          <div class="form-card__footer">
+            <a
+                th:href="'/flow/pebt/contactInfo'"
+                th:text="#{confirm-blank-email.add-email}"
+                class="button button--primary"></a>
+            <a
+                th:href="'/flow/pebt/confirmBlankEmail/navigation'"
+                th:text="#{confirm-blank-email.continue-without}"
+                class="button button--other"
+            ></a>
+          </div>
+        </main>
+      </th:block>
+    </div>
+  </section>
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
