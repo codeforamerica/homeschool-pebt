@@ -21,7 +21,7 @@ public class Pebt extends FlowInputs {
   private String isApplyingForSelf;
   private String isEnrolledInVirtualSchool;
   private String hasUnenrolled;
-  @NotBlank
+  @NotBlank(message = "{pre-screen-unenrolled-school-name.please-enter-a-value}")
   private String unenrolledSchoolName;
 
   // Students subflow
