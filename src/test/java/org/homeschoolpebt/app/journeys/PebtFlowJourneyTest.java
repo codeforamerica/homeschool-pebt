@@ -148,7 +148,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
     // Income
     testPage.clickButton("Get started"); // Income signpost
-    assertThat(testPage.getTitle()).isEqualTo("Is anyone in the household making money from a job or self-employment?");
+    assertThat(testPage.getTitle()).isEqualTo("Does anyone in the household have a job?");
     testPage.clickButton(YES.getDisplayValue());
 
     assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
