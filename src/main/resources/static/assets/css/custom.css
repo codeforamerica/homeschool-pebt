@@ -552,3 +552,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 .accordion--is-closed .accordion__button::after {
   background-image: url("/webjars/form-flow/0.0.1/images/icon_accordion_open.svg");
 }
+
+.inline-button-icon {
+  padding-right: 10px;
+}

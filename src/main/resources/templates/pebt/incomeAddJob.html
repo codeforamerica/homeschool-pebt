@@ -1,0 +1,41 @@
+<th:block
+    th:with="messageVariant=${(inputData.hasHousehold == 'true') ? 'multiple' : 'individual'}">
+  <th:block th:with="title=${#messages.msg('income-add-job.title.' + messageVariant)}">
+    <!DOCTYPE html>
+    <html th:lang="${#locale.language}">
+    <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+    <body>
+    <div class="page-wrapper">
+      <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+      <section class="slab">
+        <div class="grid">
+          <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+          <main
+              id="content" role="main" class="form-card spacing-above-35">
+            <div class="form-card__content">
+              <th:block th:replace="~{'fragments/icons' :: cash}"></th:block>
+              <h1 class="h2"
+                  th:text="${title}"
+              ></h1>
+              <p th:text="#{income-add-job.subtext}"></p>
+            </div>
+            <div class="form-card__footer">
+              <a
+                  th:href="'/flow/pebt/incomeAddJob/navigation'"
+                  class="button button--primary"
+              >
+            <span class="inline-button-icon">
+              <th:block th:replace="~{'fragments/icons' :: smallPlus}"></th:block>
+            </span>
+                <th:block th:text="#{income-add-job.add-a-job}"></th:block>
+              </a>
+            </div>
+          </main>
+        </div>
+      </section>
+    </div>
+    <th:block th:replace="~{fragments/footer :: footer}"/>
+    </body>
+    </html>
+  </th:block>
+</th:block>
