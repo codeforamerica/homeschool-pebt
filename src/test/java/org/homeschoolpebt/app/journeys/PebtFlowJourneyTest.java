@@ -153,10 +153,11 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Great! Let's add all the jobs in the household.");
     testPage.clickButton("Add a job");
     assertThat(testPage.getTitle()).isEqualTo("Who do you want to add the job for?");
-    testPage.findElementById("incomeMember-applicant").click();
+    testPage.findElementByCssSelector("input[type=radio]").click(); // Click first radio button
     testPage.clickContinue();
-    testPage.enter("incomeJobsCount", "1"); // Number of jobs
-    testPage.clickButton("Submit");
+    assertThat(testPage.getTitle()).isEqualTo("Add a job for Testy McTesterson");
+    testPage.enter("incomeJobName", "Hobby Jobby"); // Name of job
+    testPage.clickButton("Continue");
     testPage.clickButton(YES.getDisplayValue()); // Was self-employed?
     testPage.enter("incomeGrossMonthlyIndividual", "100.0"); // How much did [x] make in [last month]?
     testPage.clickContinue();
@@ -164,7 +165,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Do you think applicant will make less this year?"); // TODO: This should be the applicant's name, not the word "applicant".
+    assertThat(testPage.getTitle()).isEqualTo("Do you think Testy McTesterson will make less this year?");
     testPage.goBack();
     testPage.goBack();
     testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?

@@ -1,4 +1,4 @@
-<th:block th:with="messageVariant=${inputData.hasHousehold == 'true' ? 'multiple' : 'individual'}">
+<th:block th:with="messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'individual' : 'multiple'}">
   <th:block
     th:replace="fragments/screens/screenWithYesAndNoButtons ::
     screenWithYesAndNoButtons(

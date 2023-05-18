@@ -142,10 +142,6 @@ flow:
   incomeJobName:
     subflow: income
     nextScreens:
-      - name: incomeIsJobHourly
-  incomeJobsCount:
-    subflow: income
-    nextScreens:
       - name: incomeWasSelfEmployed
   incomeWasSelfEmployed:
     subflow: income
