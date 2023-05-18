@@ -138,8 +138,8 @@ flow:
   incomeChooseHouseholdMember:
     subflow: income
     nextScreens:
-      - name: incomeJobsCount
-  incomeJobsCount:
+      - name: incomeJobName
+  incomeJobName:
     subflow: income
     nextScreens:
       - name: incomeWasSelfEmployed

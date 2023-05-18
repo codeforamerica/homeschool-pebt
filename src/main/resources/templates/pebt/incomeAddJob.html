@@ -1,5 +1,5 @@
 <th:block
-    th:with="messageVariant=${(inputData.hasHousehold == 'true') ? 'multiple' : 'individual'}">
+    th:with="messageVariant=${(inputData.getOrDefault('isApplyingForSelf', 'false') == 'true') ? 'individual' : 'multiple'}">
   <th:block th:with="title=${#messages.msg('income-add-job.title.' + messageVariant)}">
     <!DOCTYPE html>
     <html th:lang="${#locale.language}">
