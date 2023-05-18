@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{income-job-name.title(${submission.getSubflowEntryByUuid('income', param.uuid).get('incomeMember')})})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{income-job-name.title(${fieldData.get('incomeMember')})})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
