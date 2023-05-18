@@ -25,6 +25,7 @@ public class Pebt extends FlowInputs {
   private String unenrolledSchoolName;
 
   // Students subflow
+  @NotBlank
   private String studentFirstName;
   private String studentMiddleInitial;
   private String studentLastName;
