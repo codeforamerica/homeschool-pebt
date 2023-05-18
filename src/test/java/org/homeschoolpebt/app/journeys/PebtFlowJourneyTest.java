@@ -152,7 +152,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton(YES.getDisplayValue());
     assertThat(testPage.getTitle()).isEqualTo("Great! Let's add all the jobs in the household.");
     testPage.clickButton("Add a job");
-    assertThat(testPage.getTitle()).isEqualTo("Let's add everyone's pay");
+    assertThat(testPage.getTitle()).isEqualTo("Who do you want to add the job for?");
     testPage.findElementById("incomeMember-applicant").click();
     testPage.clickContinue();
     testPage.enter("incomeJobsCount", "1"); // Number of jobs
