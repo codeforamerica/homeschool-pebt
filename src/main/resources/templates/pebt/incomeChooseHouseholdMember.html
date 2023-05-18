@@ -20,8 +20,10 @@
                     ariaLabel='header',
                     content=~{::householdMembers})}">
                   <th:block th:ref="householdMembers">
-                    <th:block
-                        th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value='applicant', label=${inputData.get('firstName') + ' ' + inputData.get('lastName') + ' (' + #messages.msg('household-list.thats-you') + ')'})}"/>
+                    <th:block th:with="fullName=${inputData.get('firstName') + ' ' + inputData.get('lastName')}">
+                      <th:block
+                          th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName + ' (' + #messages.msg('household-list.thats-you') + ')'})}"/>
+                    </th:block>
                     <th:block th:if="${inputData.containsKey('students')}">
                       <th:block th:each="student, iter: ${inputData.students}">
                         <th:block th:with="fullName=${student.studentFirstName + ' ' + student.studentMiddleInitial + ' ' + student.studentLastName}">
