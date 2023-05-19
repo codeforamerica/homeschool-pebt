@@ -16,7 +16,6 @@
             <th:block
                 th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
               <th:block th:ref="formContent">
-                <!-- TODO: Single applicant case -->
                 <div class="form-card__content">
                   <th:block th:replace="~{'fragments/inputs/text' ::
                   text(
