@@ -556,3 +556,13 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 .inline-button-icon {
   padding-right: 10px;
 }
+
+.income-flow-job-name {
+  padding-bottom: 7px;
+  border-bottom: 2px solid #CFC5BF; /* grey */
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 25px;
+  font-variant: all-small-caps;
+  color: #5F5854; /* grey-dark */
+}
