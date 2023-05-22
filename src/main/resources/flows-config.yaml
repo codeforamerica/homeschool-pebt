@@ -41,9 +41,14 @@ flow:
       - name: studentsAdd
   studentsAdd:
     subflow: students
+    onPostAction: UpdateStudentBirthday
     nextScreens:
       - name: studentsDesignations
   studentsDesignations:
+    subflow: students
+    nextScreens:
+      - name: studentsSchoolYear
+  studentsSchoolYear:
     subflow: students
     nextScreens:
       - name: studentsWouldAttendSchoolName
