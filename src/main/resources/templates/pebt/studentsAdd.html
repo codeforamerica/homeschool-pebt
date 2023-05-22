@@ -27,17 +27,11 @@
                   text(inputName='studentLastName',
                   label=#{students-add.last-name},
                   helpText=#{students-add.legally})}"/>
-              <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
-                            radioFieldset(inputName='studentSchoolType',
-                            label=#{students-add.school-type},
-                            content=~{::radioOptions})}">
-                <th:block th:ref="radioOptions">
-                  <th:block
-                      th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual})}"/>
-                  <th:block
-                      th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool})}"/>
-                </th:block>
-              </th:block>
+              <th:block th:replace="~{fragments/inputs/date ::
+                  date(inputName='studentBirthday',
+                  label=#{students-add.birthday},
+                  helpText=#{students-add.birthday-help},
+                  groupName='studentBirthday')}"/>
               <div class="form-card__footer">
                 <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{students-add.add-student})}"/>

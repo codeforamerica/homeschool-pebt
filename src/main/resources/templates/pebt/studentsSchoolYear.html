@@ -1,0 +1,77 @@
+<th:block th:with="name=${currentSubflowItem.studentFirstName}">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}">
+  <head th:replace="~{fragments/head :: head(title=#{students-school-year.title(${name})})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <th:block th:replace="~{'fragments/icons' :: face}"/>
+          <th:block
+              th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{students-school-year.title(${name})})}"/>
+          <th:block
+              th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block
+                  th:replace="'fragments/inputs/select' :: select(label=#{students-school-year.grade}, inputName='studentGrade', content=~{::studentGradeContent})">
+                  <th:block th:ref="studentGradeContent">
+                    <th:block th:replace="'fragments/inputs/selectOptionPlaceholder' :: selectOptionPlaceholder(optionText='Select One')"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='TK', optionText=#{students-school-year.grade-tk})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='K', optionText=#{students-school-year.grade-k})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='1st', optionText=#{students-school-year.grade-1})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='2nd', optionText=#{students-school-year.grade-2})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='3rd', optionText=#{students-school-year.grade-3})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='4th', optionText=#{students-school-year.grade-4})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='5th', optionText=#{students-school-year.grade-5})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='6th', optionText=#{students-school-year.grade-6})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='7th', optionText=#{students-school-year.grade-7})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='8th', optionText=#{students-school-year.grade-8})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='9th', optionText=#{students-school-year.grade-9})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='10th', optionText=#{students-school-year.grade-10})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='11th', optionText=#{students-school-year.grade-11})"/>
+                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='12th', optionText=#{students-school-year.grade-12})"/>
+                  </th:block>
+                </th:block>
+
+                <div class="question-with-follow-up">
+                  <div class="question-with-follow-up__question">
+                    <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
+                                  radioFieldset(inputName='studentSchoolType',
+                                  label=#{students-add.school-type},
+                                  content=~{::radioOptions})}">
+                      <th:block th:ref="radioOptions">
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual})}"/>
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool}, followUpId='#follow-up-affidavit-number')}"/>
+                      </th:block>
+                    </th:block>
+
+                    <div class="question-with-follow-up__follow-up" id="follow-up-affidavit-number">
+                      <th:block th:replace="~{'fragments/inputs/text' :: text(
+                        inputName='studentHomeschoolAffidavitNumber',
+                        label=#{students-school-year.homeschool-affidavit-label},
+                        helpText=#{students-school-year.homeschool-affidavit-help-text})}
+                      "/>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="form-card__footer">
+                  <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+                </div>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>
