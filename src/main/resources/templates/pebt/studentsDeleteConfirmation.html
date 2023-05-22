@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{students-delete-confirmation.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <th:block th:if="${noEntryToDelete != null}">
+        <main role="main" class="form-card spacing-above-35">
+          <th:block
+              th:replace="~{fragments/cardHeader :: cardHeader(header=#{students-delete-confirmation.title})}"/>
+          <div class="form-card__footer" th:with="subflowIsEmpty=${subflowIsEmpty != null}">
+            <a class="button button--primary"
+               th:href="${subflowIsEmpty ? entryScreen : reviewScreen}"
+               th:text="#{students-delete-confirmation.button}"></a>
+          </div>
+        </main>
+      </th:block>
+      <th:block th:if="${noEntryToDelete == null}">
+        <main
+          id="content" role="main" class="form-card spacing-above-35" th:with="
+            entryToDelete=${submission.getSubflowEntryByUuid('students', param.uuid)},
+            name=${entryToDelete.studentFirstName + ' ' + entryToDelete.studentLastName}
+        ">
+          <div class="form-card__content">
+            <th:block th:replace="~{fragments/icons :: 'deleteDocument'}"></th:block>
+            <h1 class="h2" th:text="#{students-delete-confirmation.confirm(${name})}"></h1>
+          </div>
+          <div class="form-card__footer">
+            <a class="button button--primary" th:href="'/flow/' + ${flow} + '/studentsSummary'"
+               th:text="#{students-delete-confirmation.no-take-me-back}"></a>
+            <form method="post" th:action="'/flow/' + ${flow} + '/' + ${subflow} + '/' + ${param.uuid} + '/delete'">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{students-delete-confirmation.yes}, classes='button button--danger')}"/>
+            </form>
+          </div>
+        </main>
+      </th:block>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
