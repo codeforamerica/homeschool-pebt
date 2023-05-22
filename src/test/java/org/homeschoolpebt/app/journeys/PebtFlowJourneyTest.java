@@ -55,6 +55,10 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
     testPage.clickContinue(); // Which school did <name> unenroll from?
     testPage.clickContinue(); // Which school would <name> attend?
+    assertThat(testPage.getTitle()).contains("Are these all the students");
+    testPage.findElementsByClass("subflow-list__action-delete").get(0).click();
+    assertThat(testPage.getTitle()).contains("Delete student");
+    testPage.clickLink("No, keep them on the application");
     testPage.clickButton("Yes, this is everyone");
     assertThat(testPage.getTitle()).contains("Are you in the same household as these students?");
     testPage.clickButton("Yes"); // Are you in the same household as the students?
