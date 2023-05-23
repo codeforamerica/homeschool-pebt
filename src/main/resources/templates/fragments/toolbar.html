@@ -15,7 +15,10 @@
           </a>
         </div>
         <div class="toolbar__right">
-          <!--<select th:replace="~{fragments/localeSelect :: localeSelect}"></select>-->
+          <!--/* TODO(form-flow 0.0.4 may revise/improve localeSelect) */-->
+          <div class="language-select">
+            <select th:replace="~{fragments/localeSelect :: localeSelect}"></select>
+          </div>
         </div>
       </div>
     </header>

@@ -604,6 +604,16 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   background-image: url("/webjars/form-flow/0.0.1/images/icon_accordion_open.svg");
 }
 
+.language-select .select {
+  background: transparent;
+}
+
+.language-select select {
+  border: none;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
 .inline-button-icon {
   padding-right: 10px;
 }
