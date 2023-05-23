@@ -1,22 +1,61 @@
+<!--
+* [X] Inline the template into this page
+* [X] Put the job name in
+* [X] Make sure the icon is OK
+* [X] Fix the page title - "How much did this job pay in %{last_month} (before operating expenses and taxes?)"
+* [X] Fix the page subtext to have the two paragraphs
+* [ ] Add the expand/collapse "What if changes a lot"
+* [ ] Rename IncomeWasSelfEmployed to IncomeIsSelfEmployed
+-->
+
 <th:block th:with="
-  messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
-  firstName=${currentSubflowItem.incomeMember},
-  pageTitle=${messageVariant == 'self' ? #messages.msg('income-gross-monthly-individual.title.self', lastMonth) : #messages.msg('income-gross-monthly-individual.title.multiple', firstName, lastMonth)}
+  title=${#messages.msgWithParams('income-self-employed-gross-monthly.title', lastMonth)}
 ">
-  <th:block th:replace="~{'fragments/screens/screenWithOneInput' :: screenWithOneInput(
-    title=${pageTitle},
-    header=${pageTitle},
-    subtext=#{income-gross-monthly-individual.subtext},
-    iconName='documentsSearch',
-    formAction=${formAction},
-    inputContent=~{::inputContent},
-    buttonLabel=#{general.inputs.continue}
-  )}">
-    <th:block th:ref="inputContent">
-      <!-- TODO: Add "Calculating Gross monthly income" reveal -->
-      <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeGrossMonthlyIndividual', ariaLabel='header', placeholder='$0.00')}"/>
-      <!-- TODO: Add "What if their pay changes a lot each month" reveal -->
-    </th:block>
-  </th:block>
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <div class="spacing-below-15">
+            <th:block th:replace="~{'fragments/icons' :: moneyTips}"/>
+          </div>
+          <th:block
+              th:replace="~{fragments/cardHeader :: cardHeader(header=${title}, subtext=#{income-self-employed-gross-monthly.subtext})}"/>
+
+          <th:block
+              th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeGrossMonthlyIndividual', ariaLabel='header', placeholder='$0.00')}"/>
+                <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{household-receives-benefits.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:utext="#{household-receives-benefits.reveal-contents}"></p>
+                  </th:block>
+                </th:block>
+              </div>
+              <div class="form-card__footer">
+                <th:block
+                    th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
 </th:block>
