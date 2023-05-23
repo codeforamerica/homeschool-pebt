@@ -41,9 +41,14 @@ flow:
       - name: studentsAdd
   studentsAdd:
     subflow: students
+    onPostAction: UpdateStudentBirthday
     nextScreens:
       - name: studentsDesignations
   studentsDesignations:
+    subflow: students
+    nextScreens:
+      - name: studentsSchoolYear
+  studentsSchoolYear:
     subflow: students
     nextScreens:
       - name: studentsWouldAttendSchoolName
@@ -62,6 +67,8 @@ flow:
       - name: applicantIsInHousehold
         condition: PreScreenNotApplyingForSelf
       - name: gettingToKnowYou
+  studentsDeleteConfirmation:
+    nextScreens: null
   applicantIsInHousehold:
     nextScreens:
       - name: gettingToKnowYou
@@ -234,7 +241,7 @@ subflows:
     entryScreen: studentsSignpost
     iterationStartScreen: studentsAdd
     reviewScreen: studentsSummary
-    deleteConfirmationScreen: someOtherPage # TODO: bulid this page
+    deleteConfirmationScreen: studentsDeleteConfirmation
   household:
     entryScreen: housemates
     iterationStartScreen: housemateInfo

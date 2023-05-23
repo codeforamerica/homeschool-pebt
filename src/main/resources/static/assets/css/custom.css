@@ -51,6 +51,41 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   text-align: left;
 }
 
+.subflow-list__item {
+  position: relative;
+  margin-bottom: 1.5em;
+}
+
+.subflow-list__icon {
+  position: absolute;
+  line-height: 2.5rem;
+}
+
+.subflow-list__item-title {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-left: 3rem;
+}
+
+.subflow-list__item-actions {
+  margin-left: 3rem;
+  font-size: 16px;
+}
+
+.subflow-list__item-actions a:not(:last-child) {
+  border-right: 1px solid #CFC5BF;
+  padding-right: 2rem;
+  margin-right: 2rem;
+}
+
+.subflow-list__action-delete,
+.subflow-list__action-delete:focus,
+.subflow-list__action-delete:hover,
+.subflow-list__action-delete:visited,
+.subflow-list__action-delete:active {
+  color: #D13F00;
+}
+
 /* This file is provided for addition of custom CSS styles */
 
 .reveal a {
@@ -171,6 +206,22 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 
 .help--header-spacing {
   margin-top: -35px;
+}
+
+/* Form styles: */
+.text-input--inline {
+  display: inline-block;
+}
+
+.form-width--day,
+.form-width--month {
+  max-width: calc(4.4rem + 2ch);
+  padding: 0 1.5rem;
+}
+
+.form-width--year {
+  max-width: calc(4.4rem + 4ch);
+  padding: 0 2rem;
 }
 
 .form-group hr {

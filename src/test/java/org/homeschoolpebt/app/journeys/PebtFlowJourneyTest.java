@@ -49,12 +49,24 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).contains("Add a student");
     testPage.enter("studentFirstName", "Stud");
     testPage.enter("studentLastName", "McStudenty");
+    testPage.enter("studentBirthdayDay", "1");
+    testPage.enter("studentBirthdayMonth", "2");
+    testPage.enter("studentBirthdayYear", "1991");
     testPage.clickButton("Add student");
     assertThat(testPage.getTitle()).contains("Do any of the following apply to Stud?");
     testPage.findElementById("none__checkbox").click();
     testPage.clickContinue();
+    assertThat(testPage.getTitle()).contains("Tell us about");
+    testPage.findElementById("studentGrade").sendKeys("4th Grade");
+    testPage.findElementById("studentSchoolType-homeschool").click();
+    testPage.findElementById("studentHomeschoolAffidavitNumber").sendKeys("abc1234");
+    testPage.clickContinue();
     testPage.clickContinue(); // Which school did <name> unenroll from?
     testPage.clickContinue(); // Which school would <name> attend?
+    assertThat(testPage.getTitle()).contains("Are these all the students");
+    testPage.findElementsByClass("subflow-list__action-delete").get(0).click();
+    assertThat(testPage.getTitle()).contains("Delete student");
+    testPage.clickLink("No, keep them on the application");
     testPage.clickButton("Yes, this is everyone");
     assertThat(testPage.getTitle()).contains("Are you in the same household as these students?");
     testPage.clickButton("Yes"); // Are you in the same household as the students?

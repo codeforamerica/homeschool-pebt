@@ -22,7 +22,8 @@ form-flow:
       auth-token: ${SMARTY_AUTH_TOKEN}
       license: us-core-cloud
   pdf:
-    path: to_be_determined.pdf
+    path: 'src/main/resources/pdfs/'
+    map-file: pdf-map.yaml
 mail-gun:
   sender-email: hello@${MAILGUN_DOMAIN}
   api-key: ${MAILGUN_API_KEY}

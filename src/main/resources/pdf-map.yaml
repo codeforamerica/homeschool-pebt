@@ -1,0 +1,8 @@
+flow: pebt
+pdf: /pdfs/test.pdf
+inputFields:
+  # submission field name --> PDF field name
+  firstName: firstName
+  lastName: lastName
+  totalIncome: incomeTotal
+dbFields: {}
