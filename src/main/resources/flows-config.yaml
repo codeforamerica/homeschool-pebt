@@ -146,8 +146,10 @@ flow:
   incomeWasSelfEmployed:
     subflow: income
     nextScreens:
-      - name: incomeGrossMonthlyIndividual
-      # TODO: Implement the self-employment flow and use a condition to go there
+      - name: incomeSelfEmployedGrossMonthly
+        condition: IsJobSelfEmployed
+      - name: incomeIsJobHourly
+  # is below orphaned?
   incomeGrossMonthlyIndividual:
     subflow: income
     nextScreens:
@@ -167,6 +169,10 @@ flow:
     nextScreens:
       - name: incomeWillBeLess
   incomeWillBeLess:
+    subflow: income
+    nextScreens:
+      - name: incomeReview
+  incomeSelfEmployedGrossMonthly:
     subflow: income
     nextScreens:
       - name: incomeReview
