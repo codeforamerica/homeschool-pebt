@@ -9,10 +9,10 @@
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="text--centered">
-          <th:block th:replace="~{'fragments/icons' :: onePerson}"></th:block>
+          <th:block th:replace="~{'fragments/icons' :: householdYellow}"></th:block>
           <p class="text--grey-dark" th:text="#{signpost-income.step}"></p>
           <th:block
-              th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{signpost-income.title})}"/>
+              th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{signpost-income.title}, subtext=#{signpost-income.subtext})}"/>
         </div>
         <div class="form-card__content">
           <div class="boxed-content">

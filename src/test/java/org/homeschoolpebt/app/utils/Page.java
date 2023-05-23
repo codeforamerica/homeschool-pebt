@@ -267,6 +267,10 @@ public class Page {
     return driver.findElement(By.id(id));
   }
 
+  public WebElement findElementByCssSelector(String cssSelector) {
+    return driver.findElement(By.cssSelector(cssSelector));
+  }
+
   public List<WebElement> findElementsByClass(String className) {
     return driver.findElements(By.className(className));
   }

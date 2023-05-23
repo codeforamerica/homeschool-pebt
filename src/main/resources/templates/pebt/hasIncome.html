@@ -1,10 +1,10 @@
-<th:block th:with="messageVariant=${inputData.hasHousehold == 'true' ? 'multiple' : 'individual'}">
+<th:block th:with="messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'individual' : 'multiple'}">
   <th:block
     th:replace="fragments/screens/screenWithYesAndNoButtons ::
     screenWithYesAndNoButtons(
       title=${#messages.msg('has-income.title.' + messageVariant)},
       header=${#messages.msg('has-income.title.' + messageVariant)},
-      subtext=#{has-income.subtext},
+      subtext=${#messages.msg('has-income.subtext.' + messageVariant)},
       iconName='documentsSearch',
       formAction=${formAction},
       inputName='hasIncome',

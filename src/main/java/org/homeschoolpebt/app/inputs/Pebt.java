@@ -5,6 +5,8 @@ import formflow.library.data.validators.Money;
 import formflow.library.data.validators.Phone;
 import formflow.library.utils.RegexUtils;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
@@ -25,11 +27,28 @@ public class Pebt extends FlowInputs {
   private String unenrolledSchoolName;
 
   // Students subflow
+  @NotBlank
   private String studentFirstName;
   private String studentMiddleInitial;
   private String studentLastName;
   private String studentSchoolType; // TODO: Make this an enum.
+  @NotBlank(message = "{date-error.day-presence}")
+  @Min(value = 1, message = "{date-error.day-range}")
+  @Max(value = 31, message = "{date-error.day-range}")
+  private String studentBirthdayDay;
+  @NotBlank(message = "{date-error.month-presence}")
+  @Min(value = 1, message = "{date-error.month-range}")
+  @Max(value = 12, message = "{date-error.month-range}")
+  private String studentBirthdayMonth;
+  @NotBlank(message = "{date-error.year-presence}")
+  @Min(value = 1850, message = "{date-error.year-range}")
+  @Max(value = 2100, message = "{date-error.year-range}")
+  private String studentBirthdayYear;
+  private String studentBirthdayDate;
   private ArrayList<String> studentDesignations; // TODO: Add validation in case the Javascript fails?
+  @NotBlank
+  private String studentGrade;
+  private String studentHomeschoolAffidavitNumber; // TODO: Validate this is present if studentSchoolType = homeschool
   @NotBlank
   private String studentUnenrolledSchoolName;
   @NotBlank
@@ -72,6 +91,10 @@ public class Pebt extends FlowInputs {
   // Household Member Income Screen
   @NotBlank(message = "{household-member-income.failed-to-make-selection}")
   private String incomeMember;
+
+  // Job name screen
+  @NotBlank
+  private String incomeJobName;
 
   // Income Types Screen
   private String hasIncome;
