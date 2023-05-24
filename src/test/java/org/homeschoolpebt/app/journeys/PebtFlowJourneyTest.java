@@ -170,9 +170,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Add a job for Testy McTesterson");
     testPage.enter("incomeJobName", "Hobby Jobby"); // Name of job
     testPage.clickButton("Continue");
-    testPage.clickButton(YES.getDisplayValue()); // Was self-employed?
-    testPage.enter("incomeGrossMonthlyIndividual", "100.0"); // How much did [x] make in [last month]?
-    testPage.clickContinue();
+    // TODO: Add a case for self-employed income as well.
+    testPage.clickButton(NO.getDisplayValue()); // Was self-employed?
+    // TODO: Where did incomeGrossMonthlyIndividual screen go? Will it be restored, or should we delete it?
     testPage.clickButton(YES.getDisplayValue()); // Is this job paid by the hour?
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
