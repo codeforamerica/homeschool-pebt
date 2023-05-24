@@ -149,8 +149,8 @@ flow:
   incomeJobName:
     subflow: income
     nextScreens:
-      - name: incomeWasSelfEmployed
-  incomeWasSelfEmployed:
+      - name: incomeSelfEmployed
+  incomeSelfEmployed:
     subflow: income
     nextScreens:
       - name: incomeSelfEmployedGrossMonthly

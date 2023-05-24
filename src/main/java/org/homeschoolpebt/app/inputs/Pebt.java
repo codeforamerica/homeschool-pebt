@@ -99,7 +99,7 @@ public class Pebt extends FlowInputs {
   // Income Types Screen
   private String hasIncome;
   private String incomeJobsCount;
-  private String incomeWasSelfEmployed;
+  private String IncomeSelfEmployed;
   private String incomeGrossMonthlyIndividual;
   private String incomeIsJobHourly;
   // TODO: Validate this is a number

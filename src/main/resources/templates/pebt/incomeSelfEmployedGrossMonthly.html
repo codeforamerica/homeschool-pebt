@@ -1,13 +1,3 @@
-<!--
-* [X] Inline the template into this page
-* [X] Put the job name in
-* [X] Make sure the icon is OK
-* [X] Fix the page title - "How much did this job pay in %{last_month} (before operating expenses and taxes?)"
-* [X] Fix the page subtext to have the two paragraphs
-* [ ] Add the expand/collapse "What if changes a lot"
-* [ ] Rename IncomeWasSelfEmployed to IncomeIsSelfEmployed
--->
-
 <th:block th:with="
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   title=${#messages.msgWithParams('income-self-employed-gross-monthly.title', lastMonth)}
@@ -38,10 +28,11 @@
                 linkLabel=~{::revealLabel},
                 content=~{::revealContent})}">
                   <th:block th:ref="revealLabel">
-                    <th:block th:text="#{household-receives-benefits.reveal-label}"></th:block>
+                    <th:block th:text="#{income-self-employed-gross-monthly.reveal-label}"></th:block>
                   </th:block>
                   <th:block th:ref="revealContent">
-                    <p th:utext="#{household-receives-benefits.reveal-contents}"></p>
+                    <p th:text="#{income-self-employed-gross-monthly.reveal-contents.1}"></p>
+                    <p th:text="#{income-self-employed-gross-monthly.reveal-contents.2}"></p>
                   </th:block>
                 </th:block>
               </div>

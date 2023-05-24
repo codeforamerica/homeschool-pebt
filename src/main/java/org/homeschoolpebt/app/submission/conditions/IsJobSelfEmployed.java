@@ -8,6 +8,6 @@ public class IsJobSelfEmployed extends AbstractPebtCondition {
   public Boolean run(Submission submission, String uuid) {
     var item = currentSubflowItem(submission, uuid);
 
-    return item != null && item.getOrDefault("incomeWasSelfEmployed", "false").equals("true");
+    return item != null && item.getOrDefault("incomeSelfEmployed", "false").equals("true");
   }
 }
