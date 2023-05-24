@@ -37,7 +37,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Test with Gradle
-        run: ./gradlew clean test --stacktrace --info
+        run: ./gradlew --no-watch-fs clean test --stacktrace --info
       - name: Announce failures on Slack
         if: ${{ failure() && github.ref == 'main' }}
         uses: ravsamhq/notify-slack-action@v2
