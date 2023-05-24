@@ -6,9 +6,48 @@ body {
   background-color: #EBFFFA;
 }
 
-.slab--hero {
+.slab--green {
   background-color: #EBFFFA;
 }
+
+.slab--hero {
+  background-color: #EBFFFA;
+  background-image: url('/assets/images/homepage-illustration.svg');
+  background-repeat: no-repeat;
+  background-position: right -2em bottom 0;
+  background-size: 350px;
+}
+@media screen and (min-width: 601px) {
+  .slab--hero {
+    background-position: right 2em bottom 12em;
+    background-size: 400px;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .slab--hero {
+    background-position: right 2em bottom 7em;
+    background-size: 550px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .slab--hero {
+    background-position: right 9em bottom 7em;
+    background-size: 550px;
+  }
+}
+
+.index__gov-logos:first-child {
+  margin-bottom: 6rem;
+}
+@media screen and (min-width: 601px) {
+  .index__gov-logos:first-child {
+    margin-bottom: 0;
+  }
+}
+.index__gov-logos img {
+  margin-bottom: 2.5rem;
+}
+
 
 /* Flow styles (mostyl from libraryStyles.css) */
 @font-face {
@@ -312,6 +351,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 
 .button--other {
   margin-left: 0;
+}
+.button--full-width {
+  width: 100%;
+  text-align: center;
 }
 
 /* Address Verification Screen */
