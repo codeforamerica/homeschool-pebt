@@ -1,0 +1,79 @@
+<th:block th:with="
+  standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  html_title=#{'income-self-employed-operating-expenses.html_title'(${standardOperatingExpensesAmount})},
+  title=#{'income-self-employed-operating-expenses.title'(${standardOperatingExpensesAmount})}
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${html_title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <div class="spacing-below-15">
+            <th:block th:replace="~{'fragments/icons' :: cash}"/>
+          </div>
+          <h1 id="header" class="h2" th:utext="${title}"></h1>
+          <p th:text="#{income-self-employed-operating-expenses.subtext.1}"></p>
+          <p th:utext="${#messages.msgWithParams('income-self-employed-operating-expenses.subtext.2', lastMonth)}"></p>
+          <th:block
+              th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{income-self-employed-operating-expenses.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.1}"></p>
+                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.2}"></p>
+                    <p th:text="#{income-self-employed-operating-expenses.reveal-contents.3}"></p>
+                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.4}"></p>
+                  </th:block>
+                </th:block>
+                <div class="question-with-follow-up">
+                  <div class="question-with-follow-up__question">
+                    <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
+                                  radioFieldset(inputName='studentSchoolType',
+                                  ariaLabel='header',
+                                  content=~{::radioOptions})}">
+                      <th:block th:ref="radioOptions">
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes})}"/>
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended}, followUpId='#follow-up-no')}"/>
+                      </th:block>
+                    </th:block>
+                  </div>
+
+                  <div class="question-with-follow-up__follow-up" id="follow-up-no">
+                    <th:block th:replace="~{'fragments/inputs/text' :: text(
+                        inputName='incomeSelfEmployedOperatingExpenses',
+                        label=#{income-self-employed-operating-expenses.no.label},
+                        placeholder='$0.00',
+                        helpText=#{income-self-employed-operating-expenses.no.help-text})}
+                      "/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-card__footer">
+                <th:block
+                    th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>

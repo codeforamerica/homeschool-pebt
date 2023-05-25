@@ -100,6 +100,11 @@ public class Pebt extends FlowInputs {
   private String hasIncome;
   private String incomeJobsCount;
   private String incomeSelfEmployed;
+  private String incomeSelfEmployedStandardOperatingExpenses;
+
+  // TODO: Validate this is > 40% of incomeGrossMonthlyIndividual
+  @Money(message = "{income-amounts.must-be-dollars-cents}")
+  private String incomeSelfEmployedOperatingExpenses;
   private String incomeGrossMonthlyIndividual;
   private String incomeIsJobHourly;
   // TODO: Validate this is a number
