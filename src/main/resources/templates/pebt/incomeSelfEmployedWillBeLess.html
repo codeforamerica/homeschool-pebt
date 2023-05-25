@@ -46,19 +46,19 @@
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes}, followUpId='#follow-up-yes')}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes})}"/>
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended})}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended}, followUpId='#follow-up-no')}"/>
                       </th:block>
                     </th:block>
                   </div>
 
-                  <div class="question-with-follow-up__follow-up" id="follow-up-yes">
+                  <div class="question-with-follow-up__follow-up" id="follow-up-no">
                     <th:block th:replace="~{'fragments/inputs/text' :: text(
                         inputName='incomeSelfEmployedOperatingExpenses',
-                        label=#{income-self-employed-operating-expenses.yes.label},
+                        label=#{income-self-employed-operating-expenses.no.label},
                         placeholder='$0.00',
-                        helpText=#{income-self-employed-operating-expenses.yes.help-text})}
+                        helpText=#{income-self-employed-operating-expenses.no.help-text})}
                       "/>
                   </div>
                 </div>
