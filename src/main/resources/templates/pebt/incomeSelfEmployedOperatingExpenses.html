@@ -7,6 +7,8 @@
 - [ ] Add follow-up question to no
 -->
 <th:block th:with="
+  title='lol title',
+  ignored='3'
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
@@ -20,7 +22,7 @@
         <main id="content" role="main" class="form-card spacing-above-35">
           <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
           <div class="spacing-below-15">
-            <th:block th:replace="~{'fragments/icons' :: moneyTips}"/>
+            <th:block th:replace="~{'fragments/icons' :: cash}"/>
           </div>
           <th:block
               th:replace="~{fragments/cardHeader :: cardHeader(header=${title}, subtext=#{income-self-employed-operating-expenses.subtext})}"/>
