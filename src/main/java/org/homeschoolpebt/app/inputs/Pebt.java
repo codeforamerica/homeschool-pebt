@@ -100,6 +100,7 @@ public class Pebt extends FlowInputs {
   private String hasIncome;
   private String incomeJobsCount;
   private String incomeSelfEmployed;
+  private String incomeSelfEmployedOperatingExpenses;
   private String incomeGrossMonthlyIndividual;
   private String incomeIsJobHourly;
   // TODO: Validate this is a number
