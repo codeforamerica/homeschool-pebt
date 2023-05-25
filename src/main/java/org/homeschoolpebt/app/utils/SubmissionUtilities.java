@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -168,7 +170,7 @@ public class SubmissionUtilities {
    */
   public static String getFormattedSubmittedAtDate(Submission submission) {
     String pattern = "MMMM d, yyyy";
-    SimpleDateFormat formatDate= new SimpleDateFormat(pattern);
+    SimpleDateFormat formatDate = new SimpleDateFormat(pattern);
     return formatDate.format(submission.getSubmittedAt());
   }
 
@@ -177,4 +179,15 @@ public class SubmissionUtilities {
     DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM, yyyy");
     return day.toString(formatter);
   }
+
+  public static String getStandardOperatingExpensesAmount(Map<String, Object> fieldData) {
+    Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
+    if (rawGrossAmount == null) {
+      // TODO: Null handling? Redirect?
+      return "";
+    }
+    Float grossAmount = Float.parseFloat(rawGrossAmount.toString());
+    return decimalFormat.format(grossAmount * 0.4);
+  }
 }
+

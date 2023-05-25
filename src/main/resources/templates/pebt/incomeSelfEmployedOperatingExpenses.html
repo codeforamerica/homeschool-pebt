@@ -1,13 +1,15 @@
 <!--
-- [ ] Use piggy bank icon, getting it if needed
+- [X] Use piggy bank icon, getting it if needed
 - [ ] Add title, with anti-pronoun hack
+- [ ] Add bullets title with anti-pronoun hack
 - [ ] Add subtext copy, with anti-pronoun hack
 - [ ] Add reveal
 - [ ] Add yes/no
 - [ ] Add follow-up question to no
 -->
 <th:block th:with="
-  title='lol title',
+  standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
+  title=#{'income-self-employed-operating-expenses.html_title'(${standardOperatingExpensesAmount})},
   ignored='3'
 ">
   <!DOCTYPE html>
