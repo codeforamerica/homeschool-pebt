@@ -2,13 +2,14 @@
 - [X] Use piggy bank icon, getting it if needed
 - [X] Add title, with anti-pronoun hack
 - [X] Add bullets title with anti-pronoun hack
-- [ ] Add subtext copy, with anti-pronoun hack
+- [X] Add subtext copy, with anti-pronoun hack
 - [ ] Add reveal
 - [ ] Add yes/no
 - [ ] Add follow-up question to no
 -->
 <th:block th:with="
   standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   html_title=#{'income-self-employed-operating-expenses.html_title'(${standardOperatingExpensesAmount})},
   title=#{'income-self-employed-operating-expenses.title'(${standardOperatingExpensesAmount})},
   ignored='3'
@@ -28,8 +29,8 @@
             <th:block th:replace="~{'fragments/icons' :: cash}"/>
           </div>
           <h1 id="header" class="h2" th:utext="${title}"></h1>
-          <p id="header-help-message"
-             th:utext="#{income-self-employed-operating-expenses.subtext}"></p>
+          <p th:text="#{income-self-employed-operating-expenses.subtext.1}"></p>
+          <p th:utext="${#messages.msgWithParams('income-self-employed-operating-expenses.subtext.2', lastMonth)}"></p>
           <th:block
               th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
             <th:block th:ref="formContent">
