@@ -182,6 +182,10 @@ flow:
   incomeSelfEmployedGrossMonthly:
     subflow: income
     nextScreens:
+      - name: incomeSelfEmployedOperatingExpenses
+  incomeSelfEmployedOperatingExpenses:
+    subflow: income
+    nextScreens:
       - name: incomeReview
   incomeReview:
     nextScreens:

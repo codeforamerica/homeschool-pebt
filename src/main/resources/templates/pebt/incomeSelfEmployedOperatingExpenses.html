@@ -1,0 +1,58 @@
+<!--
+- [ ] Use piggy bank icon, getting it if needed
+- [ ] Add title, with anti-pronoun hack
+- [ ] Add subtext copy, with anti-pronoun hack
+- [ ] Add reveal
+- [ ] Add yes/no
+- [ ] Add follow-up question to no
+-->
+<th:block th:with="
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <div class="spacing-below-15">
+            <th:block th:replace="~{'fragments/icons' :: moneyTips}"/>
+          </div>
+          <th:block
+              th:replace="~{fragments/cardHeader :: cardHeader(header=${title}, subtext=#{income-self-employed-operating-expenses.subtext})}"/>
+
+          <th:block
+              th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeGrossMonthlyIndividual', ariaLabel='header', placeholder='$0.00')}"/>
+                <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{income-self-employed-operating-expenses.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:text="#{income-self-employed-operating-expenses.reveal-contents.1}"></p>
+                    <p th:text="#{income-self-employed-operating-expenses.reveal-contents.2}"></p>
+                  </th:block>
+                </th:block>
+              </div>
+              <div class="form-card__footer">
+                <th:block
+                    th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>
