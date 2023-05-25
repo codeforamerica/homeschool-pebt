@@ -1,12 +1,13 @@
 <th:block th:with="
+  netIncome='wowzayikesnetincome',
   standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
-  html_title=#{'income-self-employed-operating-expenses.html_title'(${standardOperatingExpensesAmount})},
-  title=#{'income-self-employed-operating-expenses.title'(${standardOperatingExpensesAmount})}
+  isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
+  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)}
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="~{fragments/head :: head(title=${html_title})}"></head>
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
   <body>
   <div class="page-wrapper">
     <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -16,7 +17,7 @@
         <main id="content" role="main" class="form-card spacing-above-35">
           <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
           <div class="spacing-below-15">
-            <th:block th:replace="~{'fragments/icons' :: cash}"/>
+            <th:block th:replace="~{'fragments/icons' :: assetsInvestments}"/>
           </div>
           <h1 id="header" class="h2" th:utext="${title}"></h1>
           <p th:text="#{income-self-employed-operating-expenses.subtext.1}"></p>
