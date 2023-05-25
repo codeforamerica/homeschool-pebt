@@ -253,5 +253,45 @@ public class SubmissionUtilities {
     String formattedValue = "$" + decimalFormat.format(numericVal);
     return formattedValue;
   }
+
+  /**
+   * Return the combined mailing address.
+   *
+   * @param submission submssion contains the submittedAt instance variable that holds the
+   *                   date the application was submitted.
+   * @return a string containing the address.
+   */
+  public static String combinedAddress(Submission submission) {
+    String street1;
+    String street2;
+    String city;
+    String state;
+
+    if (submission.getInputData().get("useValidatedResidentialAddress") == "true") {
+      street1 = (String) submission.getInputData().get("residentialAddressStreetAddress1_validated");
+      street2 = (String) submission.getInputData().getOrDefault("residentialAddressStreetAddress2_validated", "");
+      city = (String) submission.getInputData().get("residentialAddressCity_validated");
+      state = (String) submission.getInputData().get("residentialAddressState_validated");
+    } else {
+      street1 = (String) submission.getInputData().get("residentialAddressStreetAddress1");
+      street2 = (String) submission.getInputData().getOrDefault("residentialAddressStreetAddress2", "");
+      city = (String) submission.getInputData().get("residentialAddressCity");
+      state = (String) submission.getInputData().get("residentialAddressState");
+    }
+
+    if (!street2.isBlank()) {
+      return street1 + ", " + street2 + ", " + city + ", " + state;
+    } else {
+      return street1 + ", " + city + ", " + state;
+    }
+  }
+
+  public static String zipCode(Submission submission) {
+    if (submission.getInputData().get("useValidatedResidentialAddress") == "true") {
+      return (String) submission.getInputData().get("residentialAddressZipCode_validated");
+    } else {
+      return (String) submission.getInputData().get("residentialAddressZipCode");
+    }
+  }
 }
 

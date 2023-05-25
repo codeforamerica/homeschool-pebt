@@ -2,7 +2,8 @@ flow: pebt
 pdf: /pdfs/applicant_summary.pdf
 inputFields:
   # submission field name --> PDF field name
-  # TODO: address
+  address: address
+  zip-code: zip-code
   # TODO: applicant-first-name
   # TODO: applicant-last-name
   # TODO: applicant-middle-initial
@@ -16,10 +17,9 @@ inputFields:
   # TODO: phone-number
   # TODO: program-case-number
   # TODO: student
-  # TODO: zip-code
 
   income-hh-unearned: income-hh-unearned
-  income-unemployment: income-unemployment
+  income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
   income-workers-comp: income-workers-comp
   income-spousal-support: income-spousal-support
   income-child-support: income-child-support
