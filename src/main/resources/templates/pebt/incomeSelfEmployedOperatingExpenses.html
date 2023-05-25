@@ -1,18 +1,8 @@
-<!--
-- [X] Use piggy bank icon, getting it if needed
-- [X] Add title, with anti-pronoun hack
-- [X] Add bullets title with anti-pronoun hack
-- [X] Add subtext copy, with anti-pronoun hack
-- [X] Add reveal
-- [ ] Add yes/no
-- [ ] Add follow-up question to no
--->
 <th:block th:with="
   standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   html_title=#{'income-self-employed-operating-expenses.html_title'(${standardOperatingExpensesAmount})},
-  title=#{'income-self-employed-operating-expenses.title'(${standardOperatingExpensesAmount})},
-  ignored='3'
+  title=#{'income-self-employed-operating-expenses.title'(${standardOperatingExpensesAmount})}
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
