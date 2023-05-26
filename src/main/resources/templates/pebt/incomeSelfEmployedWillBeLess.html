@@ -1,9 +1,10 @@
 <th:block th:with="
-  netIncome='wowzayikesnetincome',
+  netIncome=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedNetIncomeAmount(fieldData)},
   standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
-  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)}
+  xtitle=${netIncome},
+  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', '1,200.00') : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, '1,200.0')}
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
@@ -47,9 +48,9 @@
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes})}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='true', label=#{general.inputs.yes})}"/>
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended}, followUpId='#follow-up-no')}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended}, followUpId='#follow-up-no')}"/>
                       </th:block>
                     </th:block>
                   </div>

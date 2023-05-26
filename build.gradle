@@ -38,8 +38,6 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core'
 
-    implementation 'com.mailgun:mailgun-java:1.0.7'
-
     implementation 'io.sentry:sentry-spring-boot-starter:6.17.0'
 
     implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'

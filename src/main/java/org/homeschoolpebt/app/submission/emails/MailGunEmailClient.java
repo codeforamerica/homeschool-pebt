@@ -25,8 +25,8 @@ public class MailGunEmailClient {
     this.senderEmail = senderEmail;
     this.mailGunDomain = mailGunDomain;
     this.activeProfile = activeProfile;
-    this.mailgunMessagesApi = null; /* TODO: Restore Mailgun configuration once form-flow MailgunClient.config(mailGunApiKey)
-        .createApi(MailgunMessagesApi.class); */
+    this.mailgunMessagesApi = MailgunClient.config(mailGunApiKey)
+        .createApi(MailgunMessagesApi.class);
   }
 
   public void sendConfirmationEmail(
