@@ -4,7 +4,7 @@
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
   xtitle=${netIncome},
-  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', '1,200.00') : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, '1,200.0')}
+  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)}
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">

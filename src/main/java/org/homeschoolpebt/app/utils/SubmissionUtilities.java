@@ -18,6 +18,7 @@ import org.joda.time.format.DateTimeFormatter;
 public class SubmissionUtilities {
 
   public static DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+  public static DecimalFormat decimalFormatWithoutComma = new DecimalFormat("#.00");
   public static final String APPLICANT = "applicant";
   public static final String REPORTED_TOTAL_ANNUAL_HOUSEHOLD_INCOME = "reportedTotalAnnualHouseholdIncome";
   public static final String HOUSEHOLD_MEMBER = "householdMember";
@@ -183,7 +184,7 @@ public class SubmissionUtilities {
       return "";
     }
     Float grossAmount = Float.parseFloat(rawGrossAmount.toString());
-    return decimalFormat.format(grossAmount * 0.4);
+    return decimalFormatWithoutComma.format(grossAmount * 0.4);
   }
 
   public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData) {
@@ -202,18 +203,10 @@ public class SubmissionUtilities {
 
     if (useCustomOperatingExpenses) {
       netMonthly = grossMonthly - Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
-      System.out.println("deduction is belo");
-      System.out.println(Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString()));
-      System.out.println("gorss monthly is below");
-      System.out.println(grossMonthly);
-      System.out.println("computed subtractin is below");
-      System.out.println(netMonthly);
     } else {
       netMonthly = 0.6 * grossMonthly;
     }
-    System.out.println("wanna return");
-    System.out.println(decimalFormat.format(netMonthly * 12));
-    return decimalFormat.format(netMonthly * 12);
+    return decimalFormatWithoutComma.format(netMonthly * 12);
   }
 }
 
