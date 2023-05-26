@@ -1,6 +1,6 @@
 <th:block th:with="
   netIncome=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedNetIncomeAmount(fieldData)},
-  standardOperatingExpensesAmount=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getStandardOperatingExpensesAmount(fieldData)},
+  operatingExpenses=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
   xtitle=${netIncome},
@@ -21,8 +21,8 @@
             <th:block th:replace="~{'fragments/icons' :: assetsInvestments}"/>
           </div>
           <h1 id="header" class="h2" th:utext="${title}"></h1>
-          <p th:text="#{income-self-employed-operating-expenses.subtext.1}"></p>
-          <p th:utext="${#messages.msgWithParams('income-self-employed-operating-expenses.subtext.2', lastMonth)}"></p>
+          <p th:text="#{income-self-employed-will-be-less.subtext.1}"></p>
+          <p th:text="#{income-self-employed-will-be-less.subtext.2}"></p>
           <th:block
               th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
             <th:block th:ref="formContent">
@@ -31,13 +31,13 @@
                 linkLabel=~{::revealLabel},
                 content=~{::revealContent})}">
                   <th:block th:ref="revealLabel">
-                    <th:block th:text="#{income-self-employed-operating-expenses.reveal-label}"></th:block>
+                    <th:block th:text="#{income-self-employed-will-be-less.reveal-label}"></th:block>
                   </th:block>
                   <th:block th:ref="revealContent">
-                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.1}"></p>
-                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.2}"></p>
-                    <p th:text="#{income-self-employed-operating-expenses.reveal-contents.3}"></p>
-                    <p th:utext="#{income-self-employed-operating-expenses.reveal-contents.4}"></p>
+                    <p th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.1', fieldData.incomeMember)}"></p>
+                    <p th:utext="${#messages.msgWithParams('income-self-employed-operating-expenses.reveal-contents.2', fieldData.incomeGrossMonthlyIndividual)}"></p>
+                    <p th:text="${#messages.msgWithParams('income-self-employed-operating-expenses.reveal-contents.3', operatingExpenses)}"></p>
+                    <p th:utext="${#messages.msg('income-self-employed-operating-expenses.reveal-contents.4')}"></p>
                   </th:block>
                 </th:block>
                 <div class="question-with-follow-up">
