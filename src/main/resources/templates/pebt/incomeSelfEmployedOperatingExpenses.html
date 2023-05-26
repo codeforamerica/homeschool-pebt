@@ -41,14 +41,14 @@
                 <div class="question-with-follow-up">
                   <div class="question-with-follow-up__question">
                     <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
-                                  radioFieldset(inputName='studentSchoolType',
+                                  radioFieldset(inputName='incomeSelfEmployedCustomOperatingExpenses',
                                   ariaLabel='header',
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes}, followUpId='#follow-up-yes')}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='true', label=#{general.inputs.yes}, followUpId='#follow-up-yes')}"/>
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended})}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended})}"/>
                       </th:block>
                     </th:block>
                   </div>

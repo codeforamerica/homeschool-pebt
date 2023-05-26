@@ -70,9 +70,8 @@ public class SubmissionUtilities {
   }
 
   /**
-   * Returns the value of income for the whole family as a Double value. If the user has set the
-   * {@link SubmissionUtilities#REPORTED_TOTAL_ANNUAL_HOUSEHOLD_INCOME} value that will be returned to the user instead of the
-   * total of the individual income entries.
+   * Returns the value of income for the whole family as a Double value. If the user has set the {@link SubmissionUtilities#REPORTED_TOTAL_ANNUAL_HOUSEHOLD_INCOME} value that will
+   * be returned to the user instead of the total of the individual income entries.
    *
    * @param submission submission containing input data to use
    * @return total income amount as a Double
@@ -101,9 +100,8 @@ public class SubmissionUtilities {
   }
 
   /**
-   * Returns the value of income for the whole family as a String value. If the user has set the
-   * {@link SubmissionUtilities#REPORTED_TOTAL_ANNUAL_HOUSEHOLD_INCOME} value that will be returned to the user instead of the
-   * total of the individual income entries. The number 12000 will be returned formatted like so: 12,000.00
+   * Returns the value of income for the whole family as a String value. If the user has set the {@link SubmissionUtilities#REPORTED_TOTAL_ANNUAL_HOUSEHOLD_INCOME} value that will
+   * be returned to the user instead of the total of the individual income entries. The number 12000 will be returned formatted like so: 12,000.00
    *
    * @param submission submission containing input data to use
    * @return total income amount as a formatted numerical value
@@ -150,8 +148,8 @@ public class SubmissionUtilities {
   }
 
   /**
-   * Returns the max income threshold for a family of a certain size as a String value The string will be formatted for USD dollar
-   * amounts, meaning that the Integer value 33975 will be returned as "33,975"
+   * Returns the max income threshold for a family of a certain size as a String value The string will be formatted for USD dollar amounts, meaning that the Integer value 33975
+   * will be returned as "33,975"
    *
    * @param submission submission containing input data to use
    * @return a String containing the value
@@ -161,11 +159,9 @@ public class SubmissionUtilities {
   }
 
   /**
-   * This function returns a String of the formatted submitted_at date.   The
-   * method returns a date that looks like this: "February 7, 2023".
+   * This function returns a String of the formatted submitted_at date.   The method returns a date that looks like this: "February 7, 2023".
    *
-   * @param submission submssion contains the submittedAt instance variable that holds the
-   *                   date the application was submitted.
+   * @param submission submssion contains the submittedAt instance variable that holds the date the application was submitted.
    * @return a string containing the formatted date.
    */
   public static String getFormattedSubmittedAtDate(Submission submission) {
@@ -188,6 +184,36 @@ public class SubmissionUtilities {
     }
     Float grossAmount = Float.parseFloat(rawGrossAmount.toString());
     return decimalFormat.format(grossAmount * 0.4);
+  }
+
+  public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData) {
+    Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
+    if (rawGrossAmount == null) {
+      // TODO: Null handling? Redirect?
+      return "";
+    }
+    double grossMonthly = Double.parseDouble(rawGrossAmount.toString());
+    double netMonthly = 0d;
+    boolean useCustomOperatingExpenses = (
+        fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
+            fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
+            fieldData.get("incomeSelfEmployedOperatingExpenses") != null
+        );
+
+    if (useCustomOperatingExpenses) {
+      netMonthly = grossMonthly - Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
+      System.out.println("deduction is belo");
+      System.out.println(Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString()));
+      System.out.println("gorss monthly is below");
+      System.out.println(grossMonthly);
+      System.out.println("computed subtractin is below");
+      System.out.println(netMonthly);
+    } else {
+      netMonthly = 0.6 * grossMonthly;
+    }
+    System.out.println("wanna return");
+    System.out.println(decimalFormat.format(netMonthly * 12));
+    return decimalFormat.format(netMonthly * 12);
   }
 }
 
