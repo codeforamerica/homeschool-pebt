@@ -35,9 +35,11 @@
                   </th:block>
                   <th:block th:ref="revealContent">
                     <p th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.1', fieldData.incomeMember)}"></p>
-                    <p th:utext="${#messages.msgWithParams('income-self-employed-operating-expenses.reveal-contents.2', fieldData.incomeGrossMonthlyIndividual)}"></p>
-                    <p th:text="${#messages.msgWithParams('income-self-employed-operating-expenses.reveal-contents.3', operatingExpenses)}"></p>
-                    <p th:utext="${#messages.msg('income-self-employed-operating-expenses.reveal-contents.4')}"></p>
+                    <ul class="list--bulleted">
+                      <li th:utext="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.2', fieldData.incomeGrossMonthlyIndividual)}"></li>
+                      <li th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.3', operatingExpenses)}"></li>
+                    </ul>
+                    <p th:utext="${#messages.msg('income-self-employed-will-be-less.reveal-contents.4')}"></p>
                   </th:block>
                 </th:block>
                 <div class="question-with-follow-up">
