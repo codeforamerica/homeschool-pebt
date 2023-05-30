@@ -177,6 +177,11 @@ public class SubmissionUtilities {
     return day.toString(formatter);
   }
 
+  // "householdList" -> "household-list"
+  public static String transifexKeyPrefix(String requestUri) {
+    return requestUri.replaceAll("([A-Z])", "-$1").toLowerCase();
+  }
+
   public static String getStandardOperatingExpensesAmount(Map<String, Object> fieldData) {
     Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
     if (rawGrossAmount == null) {
