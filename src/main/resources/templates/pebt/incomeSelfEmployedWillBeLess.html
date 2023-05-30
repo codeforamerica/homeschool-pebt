@@ -3,8 +3,8 @@
   operatingExpenses=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
-  xtitle=${netIncome},
-  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)}
+  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)},
+  incomeGrossMonthlyIndividual=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).formatMoney(fieldData.incomeGrossMonthlyIndividual)},
 ">
   <!DOCTYPE html>
   <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
@@ -36,7 +36,7 @@
                   <th:block th:ref="revealContent">
                     <p th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.1', fieldData.incomeMember)}"></p>
                     <ul class="list--bulleted">
-                      <li th:utext="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.2', fieldData.incomeGrossMonthlyIndividual)}"></li>
+                      <li th:utext="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.2', incomeGrossMonthlyIndividual)}"></li>
                       <li th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.3', operatingExpenses)}"></li>
                     </ul>
                     <p th:utext="${#messages.msg('income-self-employed-will-be-less.reveal-contents.4')}"></p>
@@ -50,12 +50,9 @@
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='true', label=#{general.inputs.yes}, followUpId='#follow-up')}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inqputName='incomeWillBeLess', value='true', label=#{general.inputs.yes}, followUpId='#follow-up')}"/>
                         <th:block
                             th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='false', label=#{general.inputs.no})}"/>
-                        <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='unsure', label=#{general.inputs.unsure})}"/>
-                      </th:block>
                     </th:block>
                   </div>
 

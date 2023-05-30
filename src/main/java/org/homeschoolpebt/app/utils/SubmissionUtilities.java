@@ -206,7 +206,7 @@ public class SubmissionUtilities {
         expenses = 0.4 * grossMonthly;
       }
     }
-    return decimalFormatWithoutComma.format(expenses);
+    return formatMoney(String.valueOf(expenses));
   }
 
   public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData) {
@@ -228,7 +228,25 @@ public class SubmissionUtilities {
     } else {
       netMonthly = 0.6 * grossMonthly;
     }
-    return decimalFormatWithoutComma.format(netMonthly * 12);
+    return formatMoney(String.valueOf(netMonthly * 12));
+  }
+
+  public static String formatMoney(String value) {
+    if (value == null) {
+      return "";
+    }
+
+    double numericVal;
+    try {
+      numericVal = Double.parseDouble(value);
+    } catch (NumberFormatException _e) {
+      return value;
+    }
+
+
+    DecimalFormat decimalFormat = new DecimalFormat("###.##");
+    String formattedValue = "$" + decimalFormat.format(numericVal);
+    return formattedValue;
   }
 }
 
