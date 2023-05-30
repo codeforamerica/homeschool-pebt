@@ -41,24 +41,24 @@
                 <div class="question-with-follow-up">
                   <div class="question-with-follow-up__question">
                     <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
-                                  radioFieldset(inputName='studentSchoolType',
+                                  radioFieldset(inputName='incomeSelfEmployedCustomOperatingExpenses',
                                   ariaLabel='header',
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='true', label=#{general.inputs.yes})}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='true', label=#{general.inputs.yes}, followUpId='#follow-up-yes')}"/>
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedStandardOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended}, followUpId='#follow-up-no')}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeSelfEmployedCustomOperatingExpenses', value='false', label=#{income-self-employed-operating-expenses.no-recommended})}"/>
                       </th:block>
                     </th:block>
                   </div>
 
-                  <div class="question-with-follow-up__follow-up" id="follow-up-no">
+                  <div class="question-with-follow-up__follow-up" id="follow-up-yes">
                     <th:block th:replace="~{'fragments/inputs/text' :: text(
                         inputName='incomeSelfEmployedOperatingExpenses',
-                        label=#{income-self-employed-operating-expenses.no.label},
+                        label=#{income-self-employed-operating-expenses.yes.label},
                         placeholder='$0.00',
-                        helpText=#{income-self-employed-operating-expenses.no.help-text})}
+                        helpText=#{income-self-employed-operating-expenses.yes.help-text})}
                       "/>
                   </div>
                 </div>

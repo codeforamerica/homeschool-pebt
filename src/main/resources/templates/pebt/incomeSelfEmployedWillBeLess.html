@@ -1,0 +1,87 @@
+<th:block th:with="
+  netIncome=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedNetIncomeAmount(fieldData)},
+  operatingExpenses=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedOperatingExpensesAmount(fieldData)},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
+  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)},
+  incomeGrossMonthlyIndividual=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).formatMoney(fieldData.incomeGrossMonthlyIndividual)},
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <div class="spacing-below-15">
+            <th:block th:replace="~{'fragments/icons' :: assetsInvestments}"/>
+          </div>
+          <h1 id="header" class="h2" th:utext="${title}"></h1>
+          <p th:text="#{income-self-employed-will-be-less.subtext.1}"></p>
+          <p th:text="#{income-self-employed-will-be-less.subtext.2}"></p>
+          <th:block
+              th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{income-self-employed-will-be-less.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.1', fieldData.incomeMember)}"></p>
+                    <ul class="list--bulleted">
+                      <li th:utext="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.2', incomeGrossMonthlyIndividual)}"></li>
+                      <li th:text="${#messages.msgWithParams('income-self-employed-will-be-less.reveal-contents.3', operatingExpenses)}"></li>
+                    </ul>
+                    <p th:utext="${#messages.msg('income-self-employed-will-be-less.reveal-contents.4')}"></p>
+                  </th:block>
+                </th:block>
+                <div class="question-with-follow-up">
+                  <div class="question-with-follow-up__question">
+                    <th:block th:replace="~{'fragments/inputs/radioFieldset' ::
+                                  radioFieldset(inputName='incomeWillBeLess',
+                                  ariaLabel='header',
+                                  content=~{::radioOptions})}">
+                      <th:block th:ref="radioOptions">
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inqputName='incomeWillBeLess', value='true', label=#{general.inputs.yes}, followUpId='#follow-up')}"/>
+                        <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='false', label=#{general.inputs.no})}"/>
+                    </th:block>
+                  </div>
+
+                  <div class="question-with-follow-up__follow-up" id="follow-up">
+                    <th:block th:replace="~{'fragments/inputs/text' :: text(
+                        inputName='incomeCustomAnnualIncome',
+                        label=#{income-self-employed-will-be-less.follow-up.label},
+                        placeholder='$0.00',
+                        helpText=#{income-self-employed-will-be-less.follow-up.help-text})}
+                      "/>
+                  </div>
+                </div>
+                <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
+                  inputName='incomeWillBeLessDescription',
+                  label=#{income-will-be-less.description-label},
+                  helpText=#{income-will-be-less.description-help-text}
+                )}"/>
+              </div>
+              <div class="form-card__footer">
+                <th:block
+                    th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>
