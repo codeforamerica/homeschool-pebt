@@ -4,19 +4,20 @@ inputFields:
   # submission field name --> PDF field name
   address: address
   zip-code: zip-code
-  # TODO: applicant-first-name
-  # TODO: applicant-last-name
+  firstName: applicant-first-name
+  lastName: applicant-last-name
   # TODO: applicant-middle-initial
-  # TODO: assister
-  # TODO: case-number
-  # TODO: email
-  # TODO: fdpir
-  # TODO: household-count
+  phoneNumber: phone-number
   # TODO: household-member
-  # TODO: interview-pref
-  # TODO: phone-number
-  # TODO: program-case-number
   # TODO: student
+  # TODO: assister
+  calworks: calworks
+  calfresh: calfresh
+  fdpir: fdpir
+  program-case-number: program-case-number
+  email: email
+  # TODO: household-count
+  # TODO: interview-pref
 
   income-hh-unearned: income-hh-unearned
   income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
@@ -377,8 +378,5 @@ inputFields:
   # TODO: file20-size
   # TODO: file20-submission-date
   # TODO: file20-type
-
-  # TODO: calworks
-  # TODO: calfresh
 dbFields: {}
   # TODO: submission-timestamp
