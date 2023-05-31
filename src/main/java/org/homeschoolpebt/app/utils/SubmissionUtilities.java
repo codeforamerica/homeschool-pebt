@@ -1,12 +1,13 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 public class SubmissionUtilities {
 
@@ -139,7 +140,7 @@ public class SubmissionUtilities {
       state = (String) submission.getInputData().get("residentialAddressState");
     }
 
-    if (street1.isBlank()) {
+    if (street1 == null || street1.isBlank()) {
       return "";
     } else if (!street2.isBlank()) {
       return street1 + ", " + street2 + ", " + city + ", " + state;

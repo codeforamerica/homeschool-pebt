@@ -1,17 +1,18 @@
 package org.homeschoolpebt.app.journeys;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
-import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
-
-import java.time.Duration;
-import java.util.Optional;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
+import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
 
 public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
@@ -145,7 +146,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("householdMemberLastName", "Doe");
     testPage.clickContinue();
     // Edit a person
+    assertThat(testPage.getTitle()).contains("Is this everyone in the student's household?");
     testPage.findElementsByClass("subflow-edit").get(0).click();
+    assertThat(testPage.getTitle()).isEqualTo("Housemate Info");
     testPage.enter("householdMemberFirstName", "Anthony");
     testPage.enter("householdMemberLastName", "Dee");
     testPage.clickContinue();
