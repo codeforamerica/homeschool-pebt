@@ -1,13 +1,14 @@
 package org.homeschoolpebt.app.preparers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class StudentsPreparerTest {
   @Test
@@ -27,7 +28,7 @@ class StudentsPreparerTest {
     )).build();
 
     StudentsPreparer preparer = new StudentsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).isEqualTo(Map.ofEntries(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.ofEntries(
       Map.entry("student1-first-name", new SingleField("student1-first-name", "firsty", null)),
       Map.entry("student1-middle-initial", new SingleField("student1-middle-initial", "i", null)),
       Map.entry("student1-last-name", new SingleField("student1-last-name", "lastnameson", null)),

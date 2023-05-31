@@ -1,18 +1,21 @@
 package org.homeschoolpebt.app.preparers;
 
 import formflow.library.data.Submission;
+import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.homeschoolpebt.app.utils.IncomeCalculator;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.stereotype.Component;
 
 @Component
 public class IncomePreparer implements SubmissionFieldPreparer {
 
   @Override
-  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission) {
+  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, Map<String, Object> data, PdfMap pdfMap) {
     var fields = new HashMap<String, SubmissionField>();
 
     // unearned
@@ -24,6 +27,7 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     fields.put("income-retirement", new SingleField("income-retirement", (String) submission.getInputData().get("incomeRetirementAmount"), null));
     fields.put("income-ssi", new SingleField("income-ssi", (String) submission.getInputData().get("incomeSSIAmount"), null));
     fields.put("income-other", new SingleField("income-other", (String) submission.getInputData().get("incomeOtherAmount"), null));
+    fields.put("income-hh-unearned", new SingleField("income-hh-unearned", new IncomeCalculator(submission).totalUnearnedIncome().toString(), null));
 
     // TODO: earned
 
