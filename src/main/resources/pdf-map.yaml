@@ -19,7 +19,7 @@ inputFields:
   # TODO: household-count
   # TODO: interview-pref
 
-  income-hh-unearned: income-hh-unearned
+  # TODO: income-hh-unearned
   income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
   income-workers-comp: income-workers-comp
   income-spousal-support: income-spousal-support
@@ -35,158 +35,159 @@ inputFields:
   # TODO: income-hh-past-earned
   # TODO: income-hh-past-total
 
-  # TODO: student1-anticipated-school
-  # TODO: student1-anticipated-school-code
-  # TODO: student1-anticipated-school-district
-  # TODO: student1-first-name
-  # TODO: student1-foster
-  # TODO: student1-homeschool
-  # TODO: student1-last-name
-  # TODO: student1-middle-initial
-  # TODO: student1-migrant
-  # TODO: student1-runaway
-  # TODO: student1-unhoused
-  # TODO: student1-virtual-school
-  # TODO: student1-virtual-school-code
-  # TODO: student1-virtual-school-district
-  # TODO: student1-withdrawn-school
-  # TODO: student1-withdrawn-school-code
-  # TODO: student1-withdrawn-school-district
-  # TODO: student2-anticipated-school
-  # TODO: student2-anticipated-school-code
-  # TODO: student2-anticipated-school-district
-  # TODO: student2-first-name
-  # TODO: student2-foster
-  # TODO: student2-homeschool
-  # TODO: student2-last-name
-  # TODO: student2-middle-initial
-  # TODO: student2-migrant
-  # TODO: student2-runaway
-  # TODO: student2-unhoused
-  # TODO: student2-virtual-school
-  # TODO: student2-virtual-school-code
-  # TODO: student2-virtual-school-district
-  # TODO: student2-withdrawn-school
-  # TODO: student2-withdrawn-school-code
-  # TODO: student2-withdrawn-school-district
-  # TODO: student3-anticipated-school
-  # TODO: student3-anticipated-school-code
-  # TODO: student3-anticipated-school-district
-  # TODO: student3-first-name
-  # TODO: student3-foster
-  # TODO: student3-homeschool
-  # TODO: student3-last-name
-  # TODO: student3-middle-initial
-  # TODO: student3-migrant
-  # TODO: student3-runaway
-  # TODO: student3-unhoused
-  # TODO: student3-virtual-school
-  # TODO: student3-virtual-school-code
-  # TODO: student3-virtual-school-district
-  # TODO: student3-withdrawn-school
-  # TODO: student3-withdrawn-school-code
-  # TODO: student3-withdrawn-school-district
-  # TODO: student4-anticipated-school
-  # TODO: student4-anticipated-school-code
-  # TODO: student4-anticipated-school-district
-  # TODO: student4-first-name
-  # TODO: student4-foster
-  # TODO: student4-homeschool
-  # TODO: student4-last-name
-  # TODO: student4-middle-initial
-  # TODO: student4-migrant
-  # TODO: student4-runaway
-  # TODO: student4-unhoused
-  # TODO: student4-virtual-school
-  # TODO: student4-virtual-school-code
-  # TODO: student4-virtual-school-district
-  # TODO: student4-withdrawn-school
-  # TODO: student4-withdrawn-school-code
-  # TODO: student4-withdrawn-school-district
-  # TODO: student5-anticipated-school
-  # TODO: student5-anticipated-school-code
-  # TODO: student5-anticipated-school-district
-  # TODO: student5-first-name
-  # TODO: student5-foster
-  # TODO: student5-homeschool
-  # TODO: student5-last-name
-  # TODO: student5-middle-initial
-  # TODO: student5-migrant
-  # TODO: student5-runaway
-  # TODO: student5-unhoused
-  # TODO: student5-virtual-school
-  # TODO: student5-virtual-school-code
-  # TODO: student5-virtual-school-district
-  # TODO: student5-withdrawn-school
-  # TODO: student5-withdrawn-school-code
-  # TODO: student5-withdrawn-school-district
-  # TODO: student6-anticipated-school
-  # TODO: student6-anticipated-school-code
-  # TODO: student6-anticipated-school-district
-  # TODO: student6-first-name
-  # TODO: student6-foster
-  # TODO: student6-homeschool
-  # TODO: student6-last-name
-  # TODO: student6-middle-initial
-  # TODO: student6-migrant
-  # TODO: student6-runaway
-  # TODO: student6-unhoused
-  # TODO: student6-virtual-school
-  # TODO: student6-virtual-school-code
-  # TODO: student6-virtual-school-district
-  # TODO: student6-withdrawn-school
-  # TODO: student6-withdrawn-school-code
-  # TODO: student6-withdrawn-school-district
-  # TODO: student7-anticipated-school-code
-  # TODO: student7-anticipated-school-district
-  # TODO: student7-first-name
-  # TODO: student7-foster
-  # TODO: student7-homeschool
-  # TODO: student7-last-name
-  # TODO: student7-middle-initial
-  # TODO: student7-migrant
-  # TODO: student7-runaway
-  # TODO: student7-unhoused
-  # TODO: student7-virtual-school
-  # TODO: student7-virtual-school-code
-  # TODO: student7-virtual-school-district
-  # TODO: student7-withdrawn-school
-  # TODO: student7-withdrawn-school-code
-  # TODO: student7-withdrawn-school-district
-  # TODO: student8-anticipated-school
-  # TODO: student8-anticipated-school-code
-  # TODO: student8-anticipated-school-district
-  # TODO: student8-first-name
-  # TODO: student8-foster
-  # TODO: student8-homeschool
-  # TODO: student8-last-name
-  # TODO: student8-middle-initial
-  # TODO: student8-migrant
-  # TODO: student8-runaway
-  # TODO: student8-unhoused
-  # TODO: student8-virtual-school
-  # TODO: student8-virtual-school-code
-  # TODO: student8-virtual-school-district
-  # TODO: student8-withdrawn-school
-  # TODO: student8-withdrawn-school-code
-  # TODO: student8-withdrawn-school-district
-  # TODO: student9-anticipated-school
-  # TODO: student9-anticipated-school-code
-  # TODO: student9-anticipated-school-district
-  # TODO: student9-first-name
-  # TODO: student9-foster
-  # TODO: student9-homeschool
-  # TODO: student9-last-name
-  # TODO: student9-middle-initial
-  # TODO: student9-migrant
-  # TODO: student9-runaway
-  # TODO: student9-unhoused
-  # TODO: student9-virtual-school
-  # TODO: student9-virtual-school-code
-  # TODO: student9-virtual-school-district
-  # TODO: student9-withdrawn-school
-  # TODO: student9-withdrawn-school-code
-  # TODO: student9-withdrawn-school-district
+  student1-anticipated-school: student1-anticipated-school
+  student1-anticipated-school-code: student1-anticipated-school-code
+  student1-anticipated-school-district: student1-anticipated-school-district
+  student1-first-name: student1-first-name
+  student1-foster: student1-foster
+  student1-homeschool: student1-homeschool
+  student1-last-name: student1-last-name
+  student1-middle-initial: student1-middle-initial
+  student1-migrant: student1-migrant
+  student1-runaway: student1-runaway
+  student1-unhoused: student1-unhoused
+  student1-virtual-school: student1-virtual-school
+  student1-virtual-school-code: student1-virtual-school-code
+  student1-virtual-school-district: student1-virtual-school-district
+  student1-withdrawn-school: student1-withdrawn-school
+  student1-withdrawn-school-code: student1-withdrawn-school-code
+  student1-withdrawn-school-district: student1-withdrawn-school-district
+
+  student2-anticipated-school: student2-anticipated-school
+  student2-anticipated-school-code: student2-anticipated-school-code
+  student2-anticipated-school-district: student2-anticipated-school-district
+  student2-first-name: student2-first-name
+  student2-foster: student2-foster
+  student2-homeschool: student2-homeschool
+  student2-last-name: student2-last-name
+  student2-middle-initial: student2-middle-initial
+  student2-migrant: student2-migrant
+  student2-runaway: student2-runaway
+  student2-unhoused: student2-unhoused
+  student2-virtual-school: student2-virtual-school
+  student2-virtual-school-code: student2-virtual-school-code
+  student2-virtual-school-district: student2-virtual-school-district
+  student2-withdrawn-school: student2-withdrawn-school
+  student2-withdrawn-school-code: student2-withdrawn-school-code
+  student2-withdrawn-school-district: student2-withdrawn-school-district
+  student3-anticipated-school: student3-anticipated-school
+  student3-anticipated-school-code: student3-anticipated-school-code
+  student3-anticipated-school-district: student3-anticipated-school-district
+  student3-first-name: student3-first-name
+  student3-foster: student3-foster
+  student3-homeschool: student3-homeschool
+  student3-last-name: student3-last-name
+  student3-middle-initial: student3-middle-initial
+  student3-migrant: student3-migrant
+  student3-runaway: student3-runaway
+  student3-unhoused: student3-unhoused
+  student3-virtual-school: student3-virtual-school
+  student3-virtual-school-code: student3-virtual-school-code
+  student3-virtual-school-district: student3-virtual-school-district
+  student3-withdrawn-school: student3-withdrawn-school
+  student3-withdrawn-school-code: student3-withdrawn-school-code
+  student3-withdrawn-school-district: student3-withdrawn-school-district
+  student4-anticipated-school: student4-anticipated-school
+  student4-anticipated-school-code: student4-anticipated-school-code
+  student4-anticipated-school-district: student4-anticipated-school-district
+  student4-first-name: student4-first-name
+  student4-foster: student4-foster
+  student4-homeschool: student4-homeschool
+  student4-last-name: student4-last-name
+  student4-middle-initial: student4-middle-initial
+  student4-migrant: student4-migrant
+  student4-runaway: student4-runaway
+  student4-unhoused: student4-unhoused
+  student4-virtual-school: student4-virtual-school
+  student4-virtual-school-code: student4-virtual-school-code
+  student4-virtual-school-district: student4-virtual-school-district
+  student4-withdrawn-school: student4-withdrawn-school
+  student4-withdrawn-school-code: student4-withdrawn-school-code
+  student4-withdrawn-school-district: student4-withdrawn-school-district
+  student5-anticipated-school: student5-anticipated-school
+  student5-anticipated-school-code: student5-anticipated-school-code
+  student5-anticipated-school-district: student5-anticipated-school-district
+  student5-first-name: student5-first-name
+  student5-foster: student5-foster
+  student5-homeschool: student5-homeschool
+  student5-last-name: student5-last-name
+  student5-middle-initial: student5-middle-initial
+  student5-migrant: student5-migrant
+  student5-runaway: student5-runaway
+  student5-unhoused: student5-unhoused
+  student5-virtual-school: student5-virtual-school
+  student5-virtual-school-code: student5-virtual-school-code
+  student5-virtual-school-district: student5-virtual-school-district
+  student5-withdrawn-school: student5-withdrawn-school
+  student5-withdrawn-school-code: student5-withdrawn-school-code
+  student5-withdrawn-school-district: student5-withdrawn-school-district
+  student6-anticipated-school: student6-anticipated-school
+  student6-anticipated-school-code: student6-anticipated-school-code
+  student6-anticipated-school-district: student6-anticipated-school-district
+  student6-first-name: student6-first-name
+  student6-foster: student6-foster
+  student6-homeschool: student6-homeschool
+  student6-last-name: student6-last-name
+  student6-middle-initial: student6-middle-initial
+  student6-migrant: student6-migrant
+  student6-runaway: student6-runaway
+  student6-unhoused: student6-unhoused
+  student6-virtual-school: student6-virtual-school
+  student6-virtual-school-code: student6-virtual-school-code
+  student6-virtual-school-district: student6-virtual-school-district
+  student6-withdrawn-school: student6-withdrawn-school
+  student6-withdrawn-school-code: student6-withdrawn-school-code
+  student6-withdrawn-school-district: student6-withdrawn-school-district
+  student7-anticipated-school-code: student7-anticipated-school-code
+  student7-anticipated-school-district: student7-anticipated-school-district
+  student7-first-name: student7-first-name
+  student7-foster: student7-foster
+  student7-homeschool: student7-homeschool
+  student7-last-name: student7-last-name
+  student7-middle-initial: student7-middle-initial
+  student7-migrant: student7-migrant
+  student7-runaway: student7-runaway
+  student7-unhoused: student7-unhoused
+  student7-virtual-school: student7-virtual-school
+  student7-virtual-school-code: student7-virtual-school-code
+  student7-virtual-school-district: student7-virtual-school-district
+  student7-withdrawn-school: student7-withdrawn-school
+  student7-withdrawn-school-code: student7-withdrawn-school-code
+  student7-withdrawn-school-district: student7-withdrawn-school-district
+  student8-anticipated-school: student8-anticipated-school
+  student8-anticipated-school-code: student8-anticipated-school-code
+  student8-anticipated-school-district: student8-anticipated-school-district
+  student8-first-name: student8-first-name
+  student8-foster: student8-foster
+  student8-homeschool: student8-homeschool
+  student8-last-name: student8-last-name
+  student8-middle-initial: student8-middle-initial
+  student8-migrant: student8-migrant
+  student8-runaway: student8-runaway
+  student8-unhoused: student8-unhoused
+  student8-virtual-school: student8-virtual-school
+  student8-virtual-school-code: student8-virtual-school-code
+  student8-virtual-school-district: student8-virtual-school-district
+  student8-withdrawn-school: student8-withdrawn-school
+  student8-withdrawn-school-code: student8-withdrawn-school-code
+  student8-withdrawn-school-district: student8-withdrawn-school-district
+  student9-anticipated-school: student9-anticipated-school
+  student9-anticipated-school-code: student9-anticipated-school-code
+  student9-anticipated-school-district: student9-anticipated-school-district
+  student9-first-name: student9-first-name
+  student9-foster: student9-foster
+  student9-homeschool: student9-homeschool
+  student9-last-name: student9-last-name
+  student9-middle-initial: student9-middle-initial
+  student9-migrant: student9-migrant
+  student9-runaway: student9-runaway
+  student9-unhoused: student9-unhoused
+  student9-virtual-school: student9-virtual-school
+  student9-virtual-school-code: student9-virtual-school-code
+  student9-virtual-school-district: student9-virtual-school-district
+  student9-withdrawn-school: student9-withdrawn-school
+  student9-withdrawn-school-code: student9-withdrawn-school-code
+  student9-withdrawn-school-district: student9-withdrawn-school-district
 
   # TODO: job1-employee-name
   # TODO: job1-future-monthly-pay

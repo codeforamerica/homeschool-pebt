@@ -26,8 +26,8 @@ public class AssistanceProgramsPreparerTest {
   @Test
   void includesCalWorks() {
     Submission submission = Submission.builder().inputData(Map.of(
-        "householdMemberReceivesBenefits", "CalWORKs",
-        "householdMemberBenefitsCaseNumber", "ABC1234"
+      "householdMemberReceivesBenefits", "CalWORKs",
+      "householdMemberBenefitsCaseNumber", "ABC1234"
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();
