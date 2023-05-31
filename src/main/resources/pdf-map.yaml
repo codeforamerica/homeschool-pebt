@@ -8,9 +8,9 @@ inputFields:
   lastName: applicant-last-name
   # TODO: applicant-middle-initial
   phoneNumber: phone-number
-  # TODO: household-member
-  # TODO: student
-  # TODO: assister
+  household-member: household-member
+  student: student
+  assister: assister
   calworks: calworks
   calfresh: calfresh
   fdpir: fdpir
