@@ -1,18 +1,20 @@
 package org.homeschoolpebt.app.preparers;
 
 import formflow.library.data.Submission;
+import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
-import java.util.HashMap;
-import java.util.Map;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class ContactInfoPreparer implements SubmissionFieldPreparer {
   @Override
-  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission) {
+  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, Map<String, Object> data, PdfMap pdfMap) {
     SingleField applicantTypeCheckbox;
 
     if (submission.getInputData().getOrDefault("isApplyingForSelf", "").equals("true")) {

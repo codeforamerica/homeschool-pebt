@@ -19,7 +19,7 @@ inputFields:
   # TODO: household-count
   # TODO: interview-pref
 
-  # TODO: income-hh-unearned
+  income-hh-unearned: income-hh-unearned
   income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
   income-workers-comp: income-workers-comp
   income-spousal-support: income-spousal-support

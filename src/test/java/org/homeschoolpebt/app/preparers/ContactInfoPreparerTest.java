@@ -20,7 +20,7 @@ public class ContactInfoPreparerTest {
     )).build();
 
     ContactInfoPreparer preparer = new ContactInfoPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
       "address", new SingleField("address", "999 South St, Los Agreles, CA", null),
       "zip-code", new SingleField("zip-code", "90210", null)
     ));
@@ -38,7 +38,7 @@ public class ContactInfoPreparerTest {
     )).build();
 
     ContactInfoPreparer preparer = new ContactInfoPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
       "address", new SingleField("address", "123 Main St, Apt B, San Fransokyo, CA", null),
       "zip-code", new SingleField("zip-code", "90210", null)
     ));
@@ -51,7 +51,7 @@ public class ContactInfoPreparerTest {
     )).build();
 
     ContactInfoPreparer preparer = new ContactInfoPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).contains(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).contains(
       Map.entry("student", new SingleField("student", "Yes", null))
     );
   }
@@ -63,7 +63,7 @@ public class ContactInfoPreparerTest {
     )).build();
 
     ContactInfoPreparer preparer = new ContactInfoPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).contains(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).contains(
       Map.entry("household-member", new SingleField("household-member", "Yes", null))
     );
   }
@@ -75,7 +75,7 @@ public class ContactInfoPreparerTest {
     )).build();
 
     ContactInfoPreparer preparer = new ContactInfoPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission)).contains(
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).contains(
       Map.entry("assister", new SingleField("assister", "Yes", null))
     );
   }
