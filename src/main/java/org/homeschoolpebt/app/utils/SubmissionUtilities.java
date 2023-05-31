@@ -139,7 +139,9 @@ public class SubmissionUtilities {
       state = (String) submission.getInputData().get("residentialAddressState");
     }
 
-    if (!street2.isBlank()) {
+    if (street1.isBlank()) {
+      return "";
+    } else if (!street2.isBlank()) {
       return street1 + ", " + street2 + ", " + city + ", " + state;
     } else {
       return street1 + ", " + city + ", " + state;
