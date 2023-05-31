@@ -2,18 +2,20 @@
 to do
 - [X] Inline the template
 - [X] Change the icon
-- [ ] Add job name to top of page
-- [ ] Ensure the title is right
+- [X] Add job name to top of page
+- [X] Ensure the title is right
 - [ ] Ensure the title help text is right
 - [ ] Ensure the 2nd question title is right
 - [ ] Ensure the 2nd question help text is right
 - [ ] Add reveal
 - [ ] Decide where "They get paid in a different way" will go in this PR
 - [ ] Add "They get paid in a different way" link going there
+- [ ] Check spacing styling
 -->
 <th:block
     th:with="
-      messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
+      isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
+      messageVariant=${isApplicant ? 'you' : 'person-name'},
       lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
       firstName=${currentSubflowItem.incomeMember},
       hasIconName=${!#strings.isEmpty(iconName)},
