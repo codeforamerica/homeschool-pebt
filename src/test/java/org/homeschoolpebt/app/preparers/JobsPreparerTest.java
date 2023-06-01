@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JobsPreparerTest {
   @Test
-void selfEmploymentStandardDeduction() {
+  void selfEmploymentStandardDeduction() {
     HashMap<String, Object> job = new HashMap<>() {{
       put("incomeMember", "Johnny Potato");
       put("incomeJobName", "Tuber");
@@ -39,4 +39,31 @@ void selfEmploymentStandardDeduction() {
     ));
   }
 
+  @Test
+  void hourlyJob() {
+    HashMap<String, Object> job = new HashMap<>() {{
+      put("incomeMember", "Johnny Potato");
+      put("incomeJobName", "Tuber");
+      put("incomeSelfEmployed", "false");
+      put("incomeIsJobHourly", "true");
+      put("incomeHoursPerWeek", "10");
+      put("incomeHourlyWage", "18"); // Monthly income: $180 (10 * $18)
+      put("incomeWillBeLess", "false");
+      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("income", List.of(job))
+    )).build();
+
+    JobsPreparer preparer = new JobsPreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+      "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
+      "job1-name", new SingleField("job1-name", "Tuber", null),
+      "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$180", null),
+      "job1-past-monthly-pay-calculation", new SingleField("job1-past-monthly-pay-calculation", "10.0 hours * $18 per hour", null),
+      "job1-pay-type", new SingleField("job1-pay-type", "Gross Income", null),
+      "job1-future-pay-comments", new SingleField("job1-future-pay-comments", "I won't be working as many hours next month.", null)
+    ));
+  }
 }

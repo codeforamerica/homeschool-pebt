@@ -102,6 +102,20 @@ public class SubmissionUtilities {
     }
   }
 
+  public static String getHourlyGrossIncomeAmount(Map<String, Object> fieldData) {
+    var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
+    var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
+
+    return formatMoney(hours * wage);
+  }
+
+  public static String getHourlyGrossIncomeExplanation(Map<String, Object> fieldData) {
+    var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
+    var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
+
+    return "%s hours * %s per hour".formatted(hours, formatMoney(wage));
+  }
+
   public static String formatMoney(String value) {
     if (value == null) {
       return "";
