@@ -53,7 +53,7 @@ public class SubmissionUtilities {
     return decimalFormatWithoutComma.format(grossAmount * 0.4);
   }
 
-  public static Boolean selfEmploymentCustomExpenses(Map<String, Object> fieldData) {
+  public static Boolean useSelfEmploymentCustomExpenses(Map<String, Object> fieldData) {
     return fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
       fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
       fieldData.get("incomeSelfEmployedOperatingExpenses") != null;
@@ -61,7 +61,7 @@ public class SubmissionUtilities {
 
   public static String getSelfEmployedOperatingExpensesAmount(Map<String, Object> fieldData) {
     double expenses;
-    if (selfEmploymentCustomExpenses(fieldData)) {
+    if (useSelfEmploymentCustomExpenses(fieldData)) {
       expenses = Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
     } else {
       Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
@@ -90,7 +90,7 @@ public class SubmissionUtilities {
     }
     double grossMonthly = Double.parseDouble(rawGrossAmount.toString());
     double netMonthly;
-    if (selfEmploymentCustomExpenses(fieldData)) {
+    if (useSelfEmploymentCustomExpenses(fieldData)) {
       netMonthly = grossMonthly - Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
     } else {
       netMonthly = 0.6 * grossMonthly;
