@@ -1,10 +1,9 @@
 package org.homeschoolpebt.app.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import formflow.library.data.Submission;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubmissionUtilitiesTest {
 
@@ -31,7 +30,7 @@ class SubmissionUtilitiesTest {
 
   @Test
   void formatMoneyReturnsEmptyStringWhenGivenNull() {
-    assertEquals("", SubmissionUtilities.formatMoney(null));
+    assertEquals("", SubmissionUtilities.formatMoney((String) null));
   }
 
   @Test
