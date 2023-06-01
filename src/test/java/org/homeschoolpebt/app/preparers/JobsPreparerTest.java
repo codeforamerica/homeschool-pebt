@@ -66,4 +66,32 @@ class JobsPreparerTest {
       "job1-future-pay-comments", new SingleField("job1-future-pay-comments", "I won't be working as many hours next month.", null)
     ));
   }
+
+  @Test
+  void regularPayJob() {
+    HashMap<String, Object> job = new HashMap<>() {{
+      put("incomeMember", "Johnny Potato");
+      put("incomeJobName", "Tuber");
+      put("incomeSelfEmployed", "false");
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
+      put("incomeWillBeLess", "false");
+      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("income", List.of(job))
+    )).build();
+
+    JobsPreparer preparer = new JobsPreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+      "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
+      "job1-name", new SingleField("job1-name", "Tuber", null),
+      "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$866.67", null),
+      "job1-past-monthly-pay-calculation", new SingleField("job1-past-monthly-pay-calculation", "$400 every 2 weeks", null),
+      "job1-pay-type", new SingleField("job1-pay-type", "Gross Income", null),
+      "job1-future-pay-comments", new SingleField("job1-future-pay-comments", "I won't be working as many hours next month.", null)
+    ));
+  }
 }

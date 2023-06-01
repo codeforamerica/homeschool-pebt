@@ -67,6 +67,13 @@ public class JobsPreparer implements SubmissionFieldPreparer {
       fields.put("past-monthly-pay", pastPay);
       fields.put("past-monthly-pay-calculation", pastPayCalculation);
       fields.put("pay-type", "Gross Income");
+    } else {
+      var pastPay = SubmissionUtilities.getRegularPayAmount(job);
+      var pastPayCalculation = SubmissionUtilities.getRegularPayExplanation(job);
+
+      fields.put("past-monthly-pay", pastPay);
+      fields.put("past-monthly-pay-calculation", pastPayCalculation);
+      fields.put("pay-type", "Gross Income");
     }
 
     if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {

@@ -116,6 +116,58 @@ public class SubmissionUtilities {
     return "%s hours * %s per hour".formatted(hours, formatMoney(wage));
   }
 
+  public static String getRegularPayAmount(Map<String, Object> fieldData) {
+    var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
+    switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
+      case "weekly" -> {
+        // These multipliers are copied from the USDA Prototype Application form.
+        return formatMoney(amount * 52 / 12);
+      }
+      case "biweekly" -> {
+        return formatMoney(amount * 26 / 12);
+      }
+      case "semimonthly" -> {
+        return formatMoney(amount * 24 / 12);
+      }
+      case "monthly" -> {
+        return formatMoney(amount);
+      }
+      case "seasonally", "yearly" -> {
+        return formatMoney(amount / 12);
+      }
+      default -> {
+        return null;
+      }
+    }
+  }
+
+  public static String getRegularPayExplanation(Map<String, Object> fieldData) {
+    var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
+    switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
+      case "weekly" -> {
+        return "%s every week".formatted(formatMoney(amount));
+      }
+      case "biweekly" -> {
+        return "%s every 2 weeks".formatted(formatMoney(amount));
+      }
+      case "semimonthly" -> {
+        return "%s twice a month".formatted(formatMoney(amount));
+      }
+      case "monthly" -> {
+        return "%s monthly".formatted(formatMoney(amount));
+      }
+      case "seasonally" -> {
+        return "%s seasonally".formatted(formatMoney(amount));
+      }
+      case "yearly" -> {
+        return "%s yearly".formatted(formatMoney(amount));
+      }
+      default -> {
+        return null;
+      }
+    }
+  }
+
   public static String formatMoney(String value) {
     if (value == null) {
       return "";
