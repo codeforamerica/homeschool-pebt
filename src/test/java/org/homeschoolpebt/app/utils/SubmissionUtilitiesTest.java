@@ -63,4 +63,61 @@ class SubmissionUtilitiesTest {
 
     assertEquals(SubmissionUtilities.getHourlyGrossIncomeExplanation(job), "10.0 hours * $18 per hour");
   }
+
+  @Test
+  void regularPayAmountIsCorrect() {
+    // $400 * weekly = $400 * 52 / 12 = $1733.33 monthly
+    Map<String, Object> jobWeekly = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "weekly");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobWeekly), "$1733.33");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobWeekly), "$400 every week");
+
+    // $400 * every 2 weeks = $400 * 26 / 12 = $866.67 monthly
+    Map<String, Object> jobBiweekly = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "biweekly");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobBiweekly), "$866.67");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobBiweekly), "$400 every 2 weeks");
+
+    // $400 * twice a month = $400 * 24 / 12 = $800
+    Map<String, Object> jobSemimonthly = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "semimonthly");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSemimonthly), "$800");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSemimonthly), "$400 twice a month");
+
+    // $400 * monthly = $400
+    Map<String, Object> jobMonthly = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "monthly");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobMonthly), "$400");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobMonthly), "$400 monthly");
+
+    // $400 * seasonally = $400 / 12 = $33.33
+    Map<String, Object> jobSeasonally = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "seasonally");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSeasonally), "$33.33");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSeasonally), "$400 seasonally");
+
+    // $400 * yearly = $400 / 12 = $33.33
+    Map<String, Object> jobYearly = new HashMap<>() {{
+      put("incomeIsJobHourly", "false");
+      put("incomeRegularPayAmount", "400");
+      put("incomeRegularPayInterval", "yearly");
+    }};
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobYearly), "$33.33");
+    assertEquals(SubmissionUtilities.getRegularPayExplanation(jobYearly), "$400 yearly");
+  }
 }
