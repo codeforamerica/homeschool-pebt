@@ -50,7 +50,7 @@ class SubmissionUtilitiesTest {
       put("incomeHourlyWage", "18");
     }};
 
-    assertEquals(SubmissionUtilities.getHourlyGrossIncomeAmount(job), "$180");
+    assertEquals(SubmissionUtilities.getHourlyGrossIncomeAmount(job), 180.0);
   }
 
   @Test
@@ -72,7 +72,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "weekly");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobWeekly), "$1733.33");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobWeekly), 1733.3333333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobWeekly), "$400 every week");
 
     // $400 * every 2 weeks = $400 * 26 / 12 = $866.67 monthly
@@ -81,7 +81,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "biweekly");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobBiweekly), "$866.67");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobBiweekly), 866.6666666666666666);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobBiweekly), "$400 every 2 weeks");
 
     // $400 * twice a month = $400 * 24 / 12 = $800
@@ -90,7 +90,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "semimonthly");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSemimonthly), "$800");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSemimonthly), 800.0);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSemimonthly), "$400 twice a month");
 
     // $400 * monthly = $400
@@ -99,7 +99,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "monthly");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobMonthly), "$400");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobMonthly), 400.0);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobMonthly), "$400 monthly");
 
     // $400 * seasonally = $400 / 12 = $33.33
@@ -108,7 +108,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "seasonally");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSeasonally), "$33.33");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobSeasonally), 33.333333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSeasonally), "$400 seasonally");
 
     // $400 * yearly = $400 / 12 = $33.33
@@ -117,7 +117,7 @@ class SubmissionUtilitiesTest {
       put("incomeRegularPayAmount", "400");
       put("incomeRegularPayInterval", "yearly");
     }};
-    assertEquals(SubmissionUtilities.getRegularPayAmount(jobYearly), "$33.33");
+    assertEquals(SubmissionUtilities.getRegularPayAmount(jobYearly), 33.3333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobYearly), "$400 yearly");
   }
 }

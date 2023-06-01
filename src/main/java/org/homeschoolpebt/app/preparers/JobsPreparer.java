@@ -52,7 +52,7 @@ public class JobsPreparer implements SubmissionFieldPreparer {
     // TODO: Move this into IncomeCalculator
     if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
       var lastMonthNetPay = SubmissionUtilities.getSelfEmployedNetIncomeAmount(job, SubmissionUtilities.TimePeriod.MONTHLY);
-      fields.put("past-monthly-pay", lastMonthNetPay);
+      fields.put("past-monthly-pay", SubmissionUtilities.formatMoney(lastMonthNetPay));
 
       if (SubmissionUtilities.useSelfEmploymentCustomExpenses(job)) {
         fields.put("pay-type", "Net Income (After Expenses)");
@@ -68,14 +68,14 @@ public class JobsPreparer implements SubmissionFieldPreparer {
       var pastPay = SubmissionUtilities.getHourlyGrossIncomeAmount(job);
       var pastPayCalculation = SubmissionUtilities.getHourlyGrossIncomeExplanation(job);
 
-      fields.put("past-monthly-pay", pastPay);
+      fields.put("past-monthly-pay", SubmissionUtilities.formatMoney(pastPay));
       fields.put("past-monthly-pay-calculation", pastPayCalculation);
       fields.put("pay-type", "Gross Income");
     } else {
       var pastPay = SubmissionUtilities.getRegularPayAmount(job);
       var pastPayCalculation = SubmissionUtilities.getRegularPayExplanation(job);
 
-      fields.put("past-monthly-pay", pastPay);
+      fields.put("past-monthly-pay", SubmissionUtilities.formatMoney(pastPay));
       fields.put("past-monthly-pay-calculation", pastPayCalculation);
       fields.put("pay-type", "Gross Income");
     }
