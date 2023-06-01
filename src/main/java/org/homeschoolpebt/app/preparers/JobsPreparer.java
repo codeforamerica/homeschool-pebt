@@ -46,6 +46,8 @@ public class JobsPreparer implements SubmissionFieldPreparer {
   private HashMap<String, String> jobFields(Map<String, Object> job) {
     var fields = new HashMap<String, String>();
     fields.put("employee-name", job.getOrDefault("incomeMember", "").toString());
+    fields.put("name", job.getOrDefault("incomeJobName", "").toString());
+    fields.put("future-pay-comments", job.getOrDefault("incomeWillBeLessDescription", "").toString());
 
     // TODO: Move this into IncomeCalculator
     if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
@@ -58,16 +60,19 @@ public class JobsPreparer implements SubmissionFieldPreparer {
       } else {
         fields.put("pay-type", "Net Income (40% Deduction)");
       }
+    } else if (job.getOrDefault("incomeIsJobHourly", "").toString().equals("true")) {
+      var pastPay = SubmissionUtilities.getHourlyGrossIncomeAmount(job);
+      var pastPayCalculation = SubmissionUtilities.getHourlyGrossIncomeExplanation(job);
 
-      if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
-        var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
-        fields.put("future-monthly-pay", SubmissionUtilities.formatMoney(annual / 12));
-        fields.put("future-pay-comments", job.getOrDefault("incomeWillBeLessDescription", "").toString());
-      }
-    } else {
+      fields.put("past-monthly-pay", pastPay);
+      fields.put("past-monthly-pay-calculation", pastPayCalculation);
+      fields.put("pay-type", "Gross Income");
     }
 
-    fields.put("name", job.getOrDefault("incomeJobName", "").toString());
+    if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
+      var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
+      fields.put("future-monthly-pay", SubmissionUtilities.formatMoney(annual / 12));
+    }
 
     return fields;
   }
