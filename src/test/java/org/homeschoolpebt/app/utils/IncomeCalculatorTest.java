@@ -1,12 +1,12 @@
 package org.homeschoolpebt.app.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import formflow.library.data.Submission;
-import java.math.BigDecimal;
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class IncomeCalculatorTest {
   @Test
@@ -19,6 +19,6 @@ class IncomeCalculatorTest {
     )).build();
 
     IncomeCalculator calc = new IncomeCalculator(submission);
-    assertThat(calc.totalUnearnedIncome()).isEqualTo(new BigDecimal(333));
+    assertThat(calc.totalUnearnedIncome()).isEqualTo(333.0);
   }
 }

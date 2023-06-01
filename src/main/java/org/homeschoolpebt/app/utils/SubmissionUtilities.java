@@ -79,14 +79,14 @@ public class SubmissionUtilities {
   public enum TimePeriod { MONTHLY, YEARLY };
 
   public static String getSelfEmployedNetIncomeAmountYearly(Map<String, Object> fieldData) {
-    return getSelfEmployedNetIncomeAmount(fieldData, TimePeriod.YEARLY);
+    return formatMoney(getSelfEmployedNetIncomeAmount(fieldData, TimePeriod.YEARLY));
   }
 
-  public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData, TimePeriod period) {
+  public static Double getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData, TimePeriod period) {
     Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
     if (rawGrossAmount == null) {
       // TODO: Null handling? Redirect?
-      return "";
+      return null;
     }
     double grossMonthly = Double.parseDouble(rawGrossAmount.toString());
     double netMonthly;
@@ -96,17 +96,17 @@ public class SubmissionUtilities {
       netMonthly = 0.6 * grossMonthly;
     }
     if (period == TimePeriod.MONTHLY) {
-      return formatMoney(String.valueOf(netMonthly));
+      return netMonthly;
     } else {
-      return formatMoney(String.valueOf(netMonthly * 12));
+      return netMonthly * 12;
     }
   }
 
-  public static String getHourlyGrossIncomeAmount(Map<String, Object> fieldData) {
+  public static Double getHourlyGrossIncomeAmount(Map<String, Object> fieldData) {
     var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
     var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
 
-    return formatMoney(hours * wage);
+    return hours * wage;
   }
 
   public static String getHourlyGrossIncomeExplanation(Map<String, Object> fieldData) {
@@ -116,24 +116,24 @@ public class SubmissionUtilities {
     return "%s hours * %s per hour".formatted(hours, formatMoney(wage));
   }
 
-  public static String getRegularPayAmount(Map<String, Object> fieldData) {
+  public static Double getRegularPayAmount(Map<String, Object> fieldData) {
     var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
     switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
       case "weekly" -> {
         // These multipliers are copied from the USDA Prototype Application form.
-        return formatMoney(amount * 52 / 12);
+        return amount * 52 / 12;
       }
       case "biweekly" -> {
-        return formatMoney(amount * 26 / 12);
+        return amount * 26 / 12;
       }
       case "semimonthly" -> {
-        return formatMoney(amount * 24 / 12);
+        return amount * 24 / 12;
       }
       case "monthly" -> {
-        return formatMoney(amount);
+        return amount;
       }
       case "seasonally", "yearly" -> {
-        return formatMoney(amount / 12);
+        return amount / 12;
       }
       default -> {
         return null;
