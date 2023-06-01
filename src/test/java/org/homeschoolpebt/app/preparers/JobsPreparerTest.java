@@ -32,10 +32,40 @@ class JobsPreparerTest {
       "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
       "job1-name", new SingleField("job1-name", "Tuber", null),
       "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$120", null),
-      "job1-past-monthly-pay-calculation", new SingleField("job1-past-monthly-pay-calculation", "$200 Gross Monthly Income", null),
+      "job1-past-monthly-pay-calculation", new SingleField("job1-past-monthly-pay-calculation", "$200 Gross Income", null),
       "job1-pay-type", new SingleField("job1-pay-type", "Net Income (40% Deduction)", null),
       "job1-future-monthly-pay", new SingleField("job1-future-monthly-pay", "$100", null),
       "job1-future-pay-comments", new SingleField("job1-future-pay-comments", "I will be planting fewer potatoes.", null)
+    ));
+  }
+
+  @Test
+  void selfEmploymentUseCustomExpenses() {
+    HashMap<String, Object> job = new HashMap<>() {{
+      put("incomeMember", "Johnny Potato");
+      put("incomeJobName", "Tuber");
+      put("incomeWillBeLess", "true");
+      put("incomeSelfEmployed", "true");
+      put("incomeSelfEmployedCustomOperatingExpenses", "true");
+      put("incomeSelfEmployedOperatingExpenses", "100");
+      put("incomeCustomAnnualIncome", "600");
+      put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
+      put("incomeWillBeLessDescription", "My operating expenses are very high.");
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("income", List.of(job))
+    )).build();
+
+    JobsPreparer preparer = new JobsPreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+      "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
+      "job1-name", new SingleField("job1-name", "Tuber", null),
+      "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$100", null),
+      "job1-past-monthly-pay-calculation", new SingleField("job1-past-monthly-pay-calculation", "$200 Gross Income - $100 Expenses", null),
+      "job1-pay-type", new SingleField("job1-pay-type", "Net Income (After Expenses)", null),
+      "job1-future-monthly-pay", new SingleField("job1-future-monthly-pay", "$50", null),
+      "job1-future-pay-comments", new SingleField("job1-future-pay-comments", "My operating expenses are very high.", null)
     ));
   }
 

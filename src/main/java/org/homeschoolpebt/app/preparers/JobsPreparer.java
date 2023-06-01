@@ -53,12 +53,16 @@ public class JobsPreparer implements SubmissionFieldPreparer {
     if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
       var lastMonthNetPay = SubmissionUtilities.getSelfEmployedNetIncomeAmount(job, SubmissionUtilities.TimePeriod.MONTHLY);
       fields.put("past-monthly-pay", lastMonthNetPay);
-      fields.put("past-monthly-pay-calculation", SubmissionUtilities.formatMoney((String) job.get("incomeGrossMonthlyIndividual")) + " Gross Monthly Income");
 
-      if (SubmissionUtilities.selfEmploymentCustomExpenses(job)) {
-        fields.put("pay-type", "Net Income (Custom Deductions)");
+      if (SubmissionUtilities.useSelfEmploymentCustomExpenses(job)) {
+        fields.put("pay-type", "Net Income (After Expenses)");
+        fields.put("past-monthly-pay-calculation", "%s Gross Income - %s Expenses".formatted(
+          SubmissionUtilities.formatMoney((String) job.get("incomeGrossMonthlyIndividual")),
+          SubmissionUtilities.formatMoney((String) job.get("incomeSelfEmployedOperatingExpenses"))
+        ));
       } else {
         fields.put("pay-type", "Net Income (40% Deduction)");
+        fields.put("past-monthly-pay-calculation", "%s Gross Income".formatted(SubmissionUtilities.formatMoney((String) job.get("incomeGrossMonthlyIndividual"))));
       }
     } else if (job.getOrDefault("incomeIsJobHourly", "").toString().equals("true")) {
       var pastPay = SubmissionUtilities.getHourlyGrossIncomeAmount(job);
