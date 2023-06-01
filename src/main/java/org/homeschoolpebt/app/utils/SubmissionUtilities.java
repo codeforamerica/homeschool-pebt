@@ -53,14 +53,15 @@ public class SubmissionUtilities {
     return decimalFormatWithoutComma.format(grossAmount * 0.4);
   }
 
+  public static Boolean selfEmploymentCustomExpenses(Map<String, Object> fieldData) {
+    return fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
+      fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
+      fieldData.get("incomeSelfEmployedOperatingExpenses") != null;
+  }
+
   public static String getSelfEmployedOperatingExpensesAmount(Map<String, Object> fieldData) {
-    boolean useCustomOperatingExpenses = (
-        fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
-            fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
-            fieldData.get("incomeSelfEmployedOperatingExpenses") != null
-    );
     double expenses;
-    if (useCustomOperatingExpenses) {
+    if (selfEmploymentCustomExpenses(fieldData)) {
       expenses = Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
     } else {
       Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
@@ -75,26 +76,30 @@ public class SubmissionUtilities {
     return formatMoney(String.valueOf(expenses));
   }
 
-  public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData) {
+  public enum TimePeriod { MONTHLY, YEARLY };
+
+  public static String getSelfEmployedNetIncomeAmountYearly(Map<String, Object> fieldData) {
+    return getSelfEmployedNetIncomeAmount(fieldData, TimePeriod.YEARLY);
+  }
+
+  public static String getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData, TimePeriod period) {
     Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
     if (rawGrossAmount == null) {
       // TODO: Null handling? Redirect?
       return "";
     }
     double grossMonthly = Double.parseDouble(rawGrossAmount.toString());
-    boolean useCustomOperatingExpenses = (
-        fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
-            fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
-            fieldData.get("incomeSelfEmployedOperatingExpenses") != null
-    );
-
     double netMonthly;
-    if (useCustomOperatingExpenses) {
+    if (selfEmploymentCustomExpenses(fieldData)) {
       netMonthly = grossMonthly - Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
     } else {
       netMonthly = 0.6 * grossMonthly;
     }
-    return formatMoney(String.valueOf(netMonthly * 12));
+    if (period == TimePeriod.MONTHLY) {
+      return formatMoney(String.valueOf(netMonthly));
+    } else {
+      return formatMoney(String.valueOf(netMonthly * 12));
+    }
   }
 
   public static String formatMoney(String value) {
@@ -109,10 +114,12 @@ public class SubmissionUtilities {
       return value;
     }
 
+    return formatMoney(numericVal);
+  }
 
+  public static String formatMoney(Double value) {
     DecimalFormat decimalFormat = new DecimalFormat("###.##");
-    String formattedValue = "$" + decimalFormat.format(numericVal);
-    return formattedValue;
+    return "$" + decimalFormat.format(value);
   }
 
   /**
