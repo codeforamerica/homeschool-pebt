@@ -1,17 +1,20 @@
 package org.homeschoolpebt.app.inputs;
 
 import formflow.library.data.FlowInputs;
+import formflow.library.data.Submission;
 import formflow.library.data.validators.Money;
 import formflow.library.data.validators.Phone;
 import formflow.library.utils.RegexUtils;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import java.util.ArrayList;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
 
 @Data
 public class Pebt extends FlowInputs {
@@ -45,7 +48,7 @@ public class Pebt extends FlowInputs {
   @Max(value = 2100, message = "{date-error.year-range}")
   private String studentBirthdayYear;
   private String studentBirthdayDate;
-  private ArrayList<String> studentDesignations; // TODO: Add validation in case the Javascript fails?
+  private List<String> studentDesignations; // TODO: Add validation in case the Javascript fails?
   @NotBlank
   private String studentGrade;
   private String studentHomeschoolAffidavitNumber; // TODO: Validate this is present if studentSchoolType = homeschool
@@ -120,8 +123,10 @@ public class Pebt extends FlowInputs {
   private String incomeWillBeLessDescription;
   private String incomeCalculationMethod;
 
+  public enum INCOME_TYPES { incomeUnemployment, incomeWorkersCompensation, incomeSpousalSupport, incomeChildSupport, incomePension, incomeRetirement, incomeSSI, incomeOther };
   @NotEmpty(message = "{income-unearned-types.error}")
-  private ArrayList<String> incomeTypes;
+  @Enumerated(EnumType.STRING)
+  private List<INCOME_TYPES> incomeTypes;
 
   // Income Amounts Screen
   @NotBlank(message = "{income-amounts.must-select-one}")
@@ -155,10 +160,10 @@ public class Pebt extends FlowInputs {
   private String reportedTotalAnnualHouseholdIncome;
 
   //Economic Hardship Screen
-  private ArrayList<String> economicHardshipTypes;
+  private List<String> economicHardshipTypes;
 
   @NotEmpty(message = "{legal-stuff.make-sure-you-answer-this-question}")
-  private ArrayList<String> agreesToLegalTerms;
+  private List<String> agreesToLegalTerms;
   @NotBlank
   private String signature;
   @Phone(message = "{contact-info.invalid-phone-number}")
@@ -166,5 +171,58 @@ public class Pebt extends FlowInputs {
   @Email(message = "{contact-info.invalid-email}", regexp = RegexUtils.EMAIL_REGEX)
   private String email;
   @NotEmpty
-  private ArrayList<String> howToContactYou;
+  private List<String> howToContactYou;
+
+  public static Pebt fromSubmission(Submission submission) {
+    Pebt newInstance = new Pebt();
+
+    var inputData = new HashMap<>(submission.getInputData());
+    // Replace "anyField[]" keys with "anyField"
+    inputData.keySet().stream().filter(key -> key.endsWith("[]")).toList().forEach(key -> {
+      var value = inputData.remove(key);
+      inputData.put(key.substring(0, key.length() - 2), value);
+    });
+
+    try {
+      BeanUtils.populate(newInstance, inputData);
+    } catch (IllegalAccessException | InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+
+    return newInstance;
+  }
+
+  // NOTE: We would have to keep these fields in sync with the top-level object.
+  public List<Student> students;
+  @Data
+  public class Student {
+    @NotBlank
+    private String studentFirstName;
+    private String studentMiddleInitial;
+    private String studentLastName;
+    private String studentSchoolType; // TODO: Make this an enum.
+    @NotBlank(message = "{date-error.day-presence}")
+    @Min(value = 1, message = "{date-error.day-range}")
+    @Max(value = 31, message = "{date-error.day-range}")
+    private String studentBirthdayDay;
+    @NotBlank(message = "{date-error.month-presence}")
+    @Min(value = 1, message = "{date-error.month-range}")
+    @Max(value = 12, message = "{date-error.month-range}")
+    private String studentBirthdayMonth;
+    @NotBlank(message = "{date-error.year-presence}")
+    @Min(value = 1850, message = "{date-error.year-range}")
+    @Max(value = 2100, message = "{date-error.year-range}")
+    private String studentBirthdayYear;
+    private String studentBirthdayDate;
+    private List<String> studentDesignations; // TODO: Add validation in case the Javascript fails?
+    @NotBlank
+    private String studentGrade;
+    private String studentHomeschoolAffidavitNumber; // TODO: Validate this is present if studentSchoolType = homeschool
+    private String studentVirtualSchoolName; // TODO: Validate this is present if studentSchoolType = virtual
+    @NotBlank
+    private String studentUnenrolledSchoolName;
+    @NotBlank
+    private String studentWouldAttendSchoolName;
+    private String applicantIsInHousehold;
+  }
 }

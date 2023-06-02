@@ -1,14 +1,52 @@
 package org.homeschoolpebt.app.utils;
 
+import formflow.library.data.Submission;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubmissionUtilitiesTest {
+  @Test
+  void testFromSubmission() {
+    HashMap<String, Object> job1 = new HashMap<>() {{
+      put("incomeMember", "Johnny Potato");
+      put("incomeJobName", "Tuber");
+      put("incomeWillBeLess", "true");
+      put("incomeSelfEmployed", "true");
+      put("incomeCustomAnnualIncome", "1200"); // Future: $100/mo.
+      put("incomeGrossMonthlyIndividual", "200"); // Past: $200 monthly gross - 40% standard = $120 net
+      put("incomeWillBeLessDescription", "I will be planting fewer potatoes.");
+    }};
+
+    HashMap<String, Object> student1 = new HashMap<>() {{
+      put("studentFirstName", "Tater");
+      put("studentLastName", "Masher");
+      put("studentDesignations[]", List.of("foster", "runaway"));
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Spud"),
+      Map.entry("lastName", "Tuberville"),
+      Map.entry("income", List.of(job1)),
+      Map.entry("students", List.of(student1)),
+      Map.entry("incomeTypes[]", List.of(Pebt.INCOME_TYPES.incomeUnemployment)),
+      Map.entry("incomeUnemploymentAmount", "111")
+    )).build();
+
+    var pebt = Pebt.fromSubmission(submission);
+    assertEquals(pebt.getFirstName(), "Spud");
+    assertEquals(pebt.getLastName(), "Tuberville");
+    assertThat(pebt.getIncomeTypes()).contains(Pebt.INCOME_TYPES.incomeUnemployment);
+    assertThat(pebt.getStudents().get(0).getStudentFirstName()).isEqualTo("Tater");
+    assertThat(pebt.getStudents().get(0).getStudentLastName()).isEqualTo("Masher");
+  }
 
   @Test
   void formatMoneyAddsDollarSign() {
