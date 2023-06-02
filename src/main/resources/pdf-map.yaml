@@ -30,10 +30,10 @@ inputFields:
   income-other: income-other
   # TODO: income-unearned-comments
 
-  # TODO: income-hh-future-earned
-  # TODO: income-hh-future-total
-  # TODO: income-hh-past-earned
-  # TODO: income-hh-past-total
+  income-hh-future-earned: income-hh-future-earned
+  income-hh-future-total: income-hh-future-total
+  income-hh-past-earned: income-hh-past-earned
+  income-hh-past-total: income-hh-past-total
 
   student1-anticipated-school: student1-anticipated-school
   student1-anticipated-school-code: student1-anticipated-school-code

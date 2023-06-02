@@ -5,6 +5,7 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.homeschoolpebt.app.utils.IncomeCalculator;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -81,8 +82,8 @@ public class JobsPreparer implements SubmissionFieldPreparer {
     }
 
     if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
-      var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
-      fields.put("future-monthly-pay", SubmissionUtilities.formatMoney(annual / 12));
+      var futureIncome = IncomeCalculator.futureIncomeForJob(job);
+      fields.put("future-monthly-pay", SubmissionUtilities.formatMoney(futureIncome));
     }
 
     return fields;
