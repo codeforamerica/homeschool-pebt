@@ -17,6 +17,7 @@ class StudentsPreparerTest {
       put("studentFirstName", "firsty");
       put("studentMiddleInitial", "i");
       put("studentLastName", "lastnameson");
+      put("studentVirtualSchoolName", "Some Virtual Academy");
       put("studentUnenrolledSchoolName", "37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)");
       put("studentWouldAttendSchoolName", "38684786040935 - Thomas Edison Charter Academy (San Francisco Unified)");
       put("studentDesignations[]", List.of("foster", "unhoused", "migrant", "runaway"));
@@ -38,6 +39,7 @@ class StudentsPreparerTest {
       Map.entry("student1-anticipated-school-code", new SingleField("student1-anticipated-school-code", "38684786040935", null)),
       Map.entry("student1-anticipated-school-district", new SingleField("student1-anticipated-school-district", "San Francisco Unified", null)),
       Map.entry("student1-anticipated-school", new SingleField("student1-anticipated-school", "Thomas Edison Charter Academy", null)),
+      Map.entry("student1-virtual-school", new SingleField("student1-virtual-school", "Some Virtual Academy", null)),
       Map.entry("student1-migrant", new SingleField("student1-migrant", "Yes", null)),
       Map.entry("student1-unhoused", new SingleField("student1-unhoused", "Yes", null)),
       Map.entry("student1-foster", new SingleField("student1-foster", "Yes", null)),

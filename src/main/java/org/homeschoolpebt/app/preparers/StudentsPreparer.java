@@ -57,7 +57,7 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     fields.put("withdrawn-school-district", withdrawn.get(1));
     fields.put("withdrawn-school", withdrawn.get(2));
 
-    // TODO: student1-virtual-school
+    fields.put("virtual-school", student.getOrDefault("studentVirtualSchoolName", "").toString());
     // TODO: student1-virtual-school-code
     // TODO: student1-virtual-school-district
     // TODO: Needs field for grade level
