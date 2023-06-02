@@ -16,7 +16,7 @@ inputFields:
   fdpir: fdpir
   program-case-number: program-case-number
   email: email
-  # TODO: household-count
+  household-count: household-count
   # TODO: interview-pref
 
   income-hh-unearned: income-hh-unearned

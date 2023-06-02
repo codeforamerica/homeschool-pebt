@@ -120,4 +120,26 @@ public class IncomePreparerTest {
       Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$5262.67", null))
     ));
   }
+
+  @Test
+  void includesHouseholdCount() {
+    HashMap<String, Object> householdMember = new HashMap<>() {{
+      put("householdMemberFirstName", "Bob");
+      put("householdMemberLastName", "Barker");
+    }};
+    HashMap<String, Object> student = new HashMap<>() {{
+      put("studentFirstName", "Drew");
+      put("studentLastName", "Carey");
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("household", List.of(householdMember)),
+      Map.entry("students", List.of(student))
+    )).build();
+
+    IncomePreparer preparer = new IncomePreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null, null)).containsAllEntriesOf(Map.of(
+      "household-count", new SingleField("household-count", "3", null)
+    ));
+  }
 }
