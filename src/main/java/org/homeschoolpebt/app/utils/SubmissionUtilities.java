@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -62,18 +63,21 @@ public class SubmissionUtilities {
     return decimalFormatWithoutComma.format(grossAmount * 0.4);
   }
 
-  public static Boolean useSelfEmploymentCustomExpenses(Map<String, Object> fieldData) {
-    return fieldData.get("incomeSelfEmployedCustomOperatingExpenses") != null &&
-      fieldData.get("incomeSelfEmployedCustomOperatingExpenses").equals("true") &&
-      fieldData.get("incomeSelfEmployedOperatingExpenses") != null;
+  public static Boolean useSelfEmploymentCustomExpenses(Pebt.Income job) {
+    return job.getIncomeSelfEmployedCustomOperatingExpenses() != null &&
+      job.getIncomeSelfEmployedCustomOperatingExpenses().equals("true") &&
+      job.getIncomeSelfEmployedOperatingExpenses() != null;
   }
 
   public static String getSelfEmployedOperatingExpensesAmount(Map<String, Object> fieldData) {
+    var job = new Pebt.Income();
+    job.populate(fieldData);
+
     double expenses;
-    if (useSelfEmploymentCustomExpenses(fieldData)) {
-      expenses = Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
+    if (useSelfEmploymentCustomExpenses(job)) {
+      expenses = Double.parseDouble(job.getIncomeSelfEmployedOperatingExpenses());
     } else {
-      Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
+      Object rawGrossAmount = job.getIncomeGrossMonthlyIndividual();
       if (rawGrossAmount == null) {
         // TODO: Null handling? Redirect?
         expenses = 0;
@@ -88,19 +92,21 @@ public class SubmissionUtilities {
   public enum TimePeriod { MONTHLY, YEARLY };
 
   public static String getSelfEmployedNetIncomeAmountYearly(Map<String, Object> fieldData) {
-    return formatMoney(getSelfEmployedNetIncomeAmount(fieldData, TimePeriod.YEARLY));
+    var job = new Pebt.Income();
+    job.populate(fieldData);
+    return formatMoney(getSelfEmployedNetIncomeAmount(job, TimePeriod.YEARLY));
   }
 
-  public static Double getSelfEmployedNetIncomeAmount(Map<String, Object> fieldData, TimePeriod period) {
-    Object rawGrossAmount = fieldData.get("incomeGrossMonthlyIndividual");
+  public static Double getSelfEmployedNetIncomeAmount(Pebt.Income job, TimePeriod period) {
+    Object rawGrossAmount = job.getIncomeGrossMonthlyIndividual();
     if (rawGrossAmount == null) {
       // TODO: Null handling? Redirect?
       return null;
     }
     double grossMonthly = Double.parseDouble(rawGrossAmount.toString());
     double netMonthly;
-    if (useSelfEmploymentCustomExpenses(fieldData)) {
-      netMonthly = grossMonthly - Double.parseDouble(fieldData.get("incomeSelfEmployedOperatingExpenses").toString());
+    if (useSelfEmploymentCustomExpenses(job)) {
+      netMonthly = grossMonthly - Double.parseDouble(job.getIncomeSelfEmployedOperatingExpenses());
     } else {
       netMonthly = 0.6 * grossMonthly;
     }
@@ -111,23 +117,23 @@ public class SubmissionUtilities {
     }
   }
 
-  public static Double getHourlyGrossIncomeAmount(Map<String, Object> fieldData) {
-    var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
-    var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
+  public static Double getHourlyGrossIncomeAmount(Pebt.Income job) {
+    var hours = Double.parseDouble(job.getIncomeHoursPerWeek());
+    var wage = Double.parseDouble(job.getIncomeHourlyWage());
 
     return hours * wage;
   }
 
-  public static String getHourlyGrossIncomeExplanation(Map<String, Object> fieldData) {
-    var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
-    var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
+  public static String getHourlyGrossIncomeExplanation(Pebt.Income job) {
+    var hours = Double.parseDouble(job.getIncomeHoursPerWeek());
+    var wage = Double.parseDouble(job.getIncomeHourlyWage());
 
     return "%s hours * %s per hour".formatted(hours, formatMoney(wage));
   }
 
-  public static Double getRegularPayAmount(Map<String, Object> fieldData) {
-    var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
-    switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
+  public static Double getRegularPayAmount(Pebt.Income job) {
+    var amount = Double.parseDouble(job.getIncomeRegularPayAmount());
+    switch (job.getIncomeRegularPayInterval()) {
       case "weekly" -> {
         // These multipliers are copied from the USDA Prototype Application form.
         return amount * 52 / 12;
@@ -150,9 +156,9 @@ public class SubmissionUtilities {
     }
   }
 
-  public static String getRegularPayExplanation(Map<String, Object> fieldData) {
-    var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
-    switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
+  public static String getRegularPayExplanation(Pebt.Income job) {
+    var amount = Double.parseDouble(job.getIncomeRegularPayAmount());
+    switch (job.getIncomeRegularPayInterval()) {
       case "weekly" -> {
         return "%s every week".formatted(formatMoney(amount));
       }

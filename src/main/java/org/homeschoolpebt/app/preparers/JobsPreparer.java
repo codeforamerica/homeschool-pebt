@@ -5,12 +5,12 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.homeschoolpebt.app.utils.IncomeCalculator;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -20,13 +20,14 @@ public class JobsPreparer implements SubmissionFieldPreparer {
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, Map<String, Object> data, PdfMap pdfMap) {
     var fields = new HashMap<String, SubmissionField>();
 
-    var jobs = submission.getInputData().get("income");
+    var pebt = Pebt.fromSubmission(submission);
+    var jobs = pebt.getIncome();
     if (jobs == null) {
       return Map.of();
     }
 
     var jobIndex = 1;
-    for (var job : (List<Map<String, Object>>) jobs) {
+    for (var job : jobs) {
       var jobFields = jobFields(job);
       for (var entry : jobFields.entrySet()) {
         // e.g. job1-name
@@ -44,28 +45,28 @@ public class JobsPreparer implements SubmissionFieldPreparer {
     return fields;
   }
 
-  private HashMap<String, String> jobFields(Map<String, Object> job) {
+  private HashMap<String, String> jobFields(Pebt.Income job) {
     var fields = new HashMap<String, String>();
-    fields.put("employee-name", job.getOrDefault("incomeMember", "").toString());
-    fields.put("name", job.getOrDefault("incomeJobName", "").toString());
-    fields.put("future-pay-comments", job.getOrDefault("incomeWillBeLessDescription", "").toString());
+    fields.put("employee-name", job.getIncomeMember());
+    fields.put("name", job.getIncomeJobName());
+    fields.put("future-pay-comments", job.getIncomeWillBeLessDescription());
 
     // TODO: Move this into IncomeCalculator
-    if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
+    if (job.getIncomeSelfEmployed().equals("true")) {
       var lastMonthNetPay = SubmissionUtilities.getSelfEmployedNetIncomeAmount(job, SubmissionUtilities.TimePeriod.MONTHLY);
       fields.put("past-monthly-pay", SubmissionUtilities.formatMoney(lastMonthNetPay));
 
       if (SubmissionUtilities.useSelfEmploymentCustomExpenses(job)) {
         fields.put("pay-type", "Net Income (After Expenses)");
         fields.put("past-monthly-pay-calculation", "%s Gross Income - %s Expenses".formatted(
-          SubmissionUtilities.formatMoney((String) job.get("incomeGrossMonthlyIndividual")),
-          SubmissionUtilities.formatMoney((String) job.get("incomeSelfEmployedOperatingExpenses"))
+          SubmissionUtilities.formatMoney(job.getIncomeGrossMonthlyIndividual()),
+          SubmissionUtilities.formatMoney(job.getIncomeSelfEmployedOperatingExpenses())
         ));
       } else {
         fields.put("pay-type", "Net Income (40% Deduction)");
-        fields.put("past-monthly-pay-calculation", "%s Gross Income".formatted(SubmissionUtilities.formatMoney((String) job.get("incomeGrossMonthlyIndividual"))));
+        fields.put("past-monthly-pay-calculation", "%s Gross Income".formatted(SubmissionUtilities.formatMoney(job.getIncomeGrossMonthlyIndividual())));
       }
-    } else if (job.getOrDefault("incomeIsJobHourly", "").toString().equals("true")) {
+    } else if (job.getIncomeIsJobHourly().equals("true")) {
       var pastPay = SubmissionUtilities.getHourlyGrossIncomeAmount(job);
       var pastPayCalculation = SubmissionUtilities.getHourlyGrossIncomeExplanation(job);
 
@@ -81,7 +82,7 @@ public class JobsPreparer implements SubmissionFieldPreparer {
       fields.put("pay-type", "Gross Income");
     }
 
-    if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
+    if (job.getIncomeWillBeLess().equals("true")) {
       var futureIncome = IncomeCalculator.futureIncomeForJob(job);
       fields.put("future-monthly-pay", SubmissionUtilities.formatMoney(futureIncome));
     }

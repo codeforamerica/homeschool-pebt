@@ -82,10 +82,10 @@ class SubmissionUtilitiesTest {
 
   @Test
   void hourlyGrossIncomeAmountIsCorrect() {
-    Map<String, Object> job = new HashMap<>() {{
-      put("incomeIsJobHourly", "true");
-      put("incomeHoursPerWeek", "10");
-      put("incomeHourlyWage", "18");
+    var job = new Pebt.Income() {{
+      setIncomeIsJobHourly("true");
+      setIncomeHoursPerWeek("10");
+      setIncomeHourlyWage("18");
     }};
 
     assertEquals(SubmissionUtilities.getHourlyGrossIncomeAmount(job), 180.0);
@@ -93,10 +93,10 @@ class SubmissionUtilitiesTest {
 
   @Test
   void hourlyGrossIncomeDescriptionIsCorrect() {
-    Map<String, Object> job = new HashMap<>() {{
-      put("incomeIsJobHourly", "true");
-      put("incomeHoursPerWeek", "10");
-      put("incomeHourlyWage", "18");
+    var job = new Pebt.Income() {{
+      setIncomeIsJobHourly("true");
+      setIncomeHoursPerWeek("10");
+      setIncomeHourlyWage("18");
     }};
 
     assertEquals(SubmissionUtilities.getHourlyGrossIncomeExplanation(job), "10.0 hours * $18 per hour");
@@ -105,55 +105,55 @@ class SubmissionUtilitiesTest {
   @Test
   void regularPayAmountIsCorrect() {
     // $400 * weekly = $400 * 52 / 12 = $1733.33 monthly
-    Map<String, Object> jobWeekly = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "weekly");
+    var jobWeekly = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("weekly");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobWeekly), 1733.3333333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobWeekly), "$400 every week");
 
     // $400 * every 2 weeks = $400 * 26 / 12 = $866.67 monthly
-    Map<String, Object> jobBiweekly = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "biweekly");
+    var jobBiweekly = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("biweekly");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobBiweekly), 866.6666666666666666);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobBiweekly), "$400 every 2 weeks");
 
     // $400 * twice a month = $400 * 24 / 12 = $800
-    Map<String, Object> jobSemimonthly = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "semimonthly");
+    var jobSemimonthly = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("semimonthly");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobSemimonthly), 800.0);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSemimonthly), "$400 twice a month");
 
     // $400 * monthly = $400
-    Map<String, Object> jobMonthly = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "monthly");
+    var jobMonthly = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("monthly");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobMonthly), 400.0);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobMonthly), "$400 monthly");
 
     // $400 * seasonally = $400 / 12 = $33.33
-    Map<String, Object> jobSeasonally = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "seasonally");
+    var jobSeasonally = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("seasonally");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobSeasonally), 33.333333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobSeasonally), "$400 seasonally");
 
     // $400 * yearly = $400 / 12 = $33.33
-    Map<String, Object> jobYearly = new HashMap<>() {{
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "yearly");
+    var jobYearly = new Pebt.Income() {{
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("yearly");
     }};
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobYearly), 33.3333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobYearly), "$400 yearly");

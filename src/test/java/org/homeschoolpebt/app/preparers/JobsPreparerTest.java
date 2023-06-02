@@ -2,9 +2,9 @@ package org.homeschoolpebt.app.preparers;
 
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +13,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JobsPreparerTest {
   @Test
   void selfEmploymentStandardDeduction() {
-    HashMap<String, Object> job = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeWillBeLess", "true");
-      put("incomeSelfEmployed", "true");
-      put("incomeCustomAnnualIncome", "1200");
-      put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - 40% standard = $120 net
-      put("incomeWillBeLessDescription", "I will be planting fewer potatoes.");
+    var job = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeWillBeLess("true");
+      setIncomeSelfEmployed("true");
+      setIncomeCustomAnnualIncome("1200");
+      setIncomeGrossMonthlyIndividual("200"); // $200 monthly gross - 40% standard = $120 net
+      setIncomeWillBeLessDescription("I will be planting fewer potatoes.");
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -41,16 +41,16 @@ class JobsPreparerTest {
 
   @Test
   void selfEmploymentUseCustomExpenses() {
-    HashMap<String, Object> job = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeWillBeLess", "true");
-      put("incomeSelfEmployed", "true");
-      put("incomeSelfEmployedCustomOperatingExpenses", "true");
-      put("incomeSelfEmployedOperatingExpenses", "100");
-      put("incomeCustomAnnualIncome", "600");
-      put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
-      put("incomeWillBeLessDescription", "My operating expenses are very high.");
+    var job = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeWillBeLess("true");
+      setIncomeSelfEmployed("true");
+      setIncomeSelfEmployedCustomOperatingExpenses("true");
+      setIncomeSelfEmployedOperatingExpenses("100");
+      setIncomeCustomAnnualIncome("600");
+      setIncomeGrossMonthlyIndividual("200"); // $200 monthly gross - $100 custom operating expenses = $100 net
+      setIncomeWillBeLessDescription("My operating expenses are very high.");
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -71,15 +71,15 @@ class JobsPreparerTest {
 
   @Test
   void hourlyJob() {
-    HashMap<String, Object> job = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeSelfEmployed", "false");
-      put("incomeIsJobHourly", "true");
-      put("incomeHoursPerWeek", "10");
-      put("incomeHourlyWage", "18"); // Monthly income: $180 (10 * $18)
-      put("incomeWillBeLess", "false");
-      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    var job = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeSelfEmployed("false");
+      setIncomeIsJobHourly("true");
+      setIncomeHoursPerWeek("10");
+      setIncomeHourlyWage("18"); // Monthly income: $180 (10 * $18)
+      setIncomeWillBeLess("false");
+      setIncomeWillBeLessDescription("I won't be working as many hours next month.");
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -99,15 +99,15 @@ class JobsPreparerTest {
 
   @Test
   void regularPayJob() {
-    HashMap<String, Object> job = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeSelfEmployed", "false");
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
-      put("incomeWillBeLess", "false");
-      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    var job = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeSelfEmployed("false");
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
+      setIncomeWillBeLess("false");
+      setIncomeWillBeLessDescription("I won't be working as many hours next month.");
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(

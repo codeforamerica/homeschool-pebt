@@ -1,40 +1,56 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.homeschoolpebt.app.inputs.Pebt;
 
 public class IncomeCalculator {
-  Submission submission;
+  Pebt pebt;
   public IncomeCalculator(Submission submission) {
-    this.submission = submission;
+    this.pebt = Pebt.fromSubmission(submission);
   }
 
   public Double totalUnearnedIncome() {
-    var incomeTypes = (List<String>) submission.getInputData().getOrDefault("incomeTypes[]", new ArrayList<String>());
-    var total = incomeTypes.stream()
-      .map(type -> Double.parseDouble(submission.getInputData().get(type + "Amount").toString()))
+    var incomeTypes = pebt.getIncomeTypes();
+    if (incomeTypes == null) {
+      return 0.0;
+    }
+
+    var total = incomeTypes.stream().map(type -> switch (type) {
+        case incomeUnemployment -> pebt.getIncomeUnemploymentAmount();
+        case incomeWorkersCompensation -> pebt.getIncomeWorkersCompensationAmount();
+        case incomeSpousalSupport -> pebt.getIncomeSpousalSupportAmount();
+        case incomeChildSupport -> pebt.getIncomeChildSupportAmount();
+        case incomePension -> pebt.getIncomePensionAmount();
+        case incomeRetirement -> pebt.getIncomeRetirementAmount();
+        case incomeSSI -> pebt.getIncomeSSIAmount();
+        case incomeOther -> pebt.getIncomeOtherAmount();
+      })
+      .map(Double::parseDouble)
       .reduce(0.0d, Double::sum);
 
     return total;
   }
 
   public Double totalPastEarnedIncome() {
-    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
-    var total = jobs.stream()
-      .map(job -> pastIncomeForJob(job))
+    if (pebt.getIncome() == null) {
+      return 0.0;
+    }
+
+    var total = pebt.getIncome().stream()
+      .map(IncomeCalculator::pastIncomeForJob)
       .reduce(0.0d, Double::sum);
 
     return total;
   }
 
   public Double totalFutureEarnedIncome() {
-    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
-    var total = jobs.stream()
+    if (pebt.getIncome() == null) {
+      return 0.0;
+    }
+
+    var total = pebt.getIncome().stream()
       .map(job -> {
-        if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
+        if (job.getIncomeWillBeLess().equals("true")) {
           return futureIncomeForJob(job);
         } else {
           return pastIncomeForJob(job);
@@ -45,18 +61,18 @@ public class IncomeCalculator {
     return total;
   }
 
-  public static Double pastIncomeForJob(Map<String, Object> job) {
-    if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
+  public static Double pastIncomeForJob(Pebt.Income job) {
+    if (job.getIncomeSelfEmployed().equals("true")) {
       return SubmissionUtilities.getSelfEmployedNetIncomeAmount(job, SubmissionUtilities.TimePeriod.MONTHLY);
-    } else if (job.getOrDefault("incomeIsJobHourly", "").toString().equals("true")) {
+    } else if (job.getIncomeIsJobHourly().equals("true")) {
       return SubmissionUtilities.getHourlyGrossIncomeAmount(job);
     } else {
       return SubmissionUtilities.getRegularPayAmount(job);
     }
   }
 
-  public static Double futureIncomeForJob(Map<String, Object> job) {
-    var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
+  public static Double futureIncomeForJob(Pebt.Income job) {
+    var annual = Double.parseDouble(job.getIncomeCustomAnnualIncome());
     return annual / 12;
   }
 }

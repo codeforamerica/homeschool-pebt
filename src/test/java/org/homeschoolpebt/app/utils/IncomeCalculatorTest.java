@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,7 +13,7 @@ class IncomeCalculatorTest {
   @Test
   void unearnedIncome() {
     Submission submission = Submission.builder().inputData(Map.of(
-      "incomeTypes[]", List.of("incomeUnemployment", "incomeSSI"),
+      "incomeTypes[]", List.of(Pebt.INCOME_TYPES.incomeUnemployment, Pebt.INCOME_TYPES.incomeSSI),
       "incomeUnemploymentAmount", "111",
       "incomeSSIAmount", "222",
       "incomeChildSupportAmount", "123" // <- should be ignored since child support isn't in incomeTypes

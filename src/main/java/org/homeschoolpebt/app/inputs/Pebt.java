@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Pebt extends FlowInputs {
@@ -175,8 +176,8 @@ public class Pebt extends FlowInputs {
 
   public static Pebt fromSubmission(Submission submission) {
     Pebt newInstance = new Pebt();
-
     var inputData = new HashMap<>(submission.getInputData());
+
     // Replace "anyField[]" keys with "anyField"
     inputData.keySet().stream().filter(key -> key.endsWith("[]")).toList().forEach(key -> {
       var value = inputData.remove(key);
@@ -195,7 +196,7 @@ public class Pebt extends FlowInputs {
   // NOTE: We would have to keep these fields in sync with the top-level object.
   public List<Student> students;
   @Data
-  public class Student {
+  public static class Student {
     @NotBlank
     private String studentFirstName;
     private String studentMiddleInitial;
@@ -224,5 +225,56 @@ public class Pebt extends FlowInputs {
     @NotBlank
     private String studentWouldAttendSchoolName;
     private String applicantIsInHousehold;
+  }
+
+  // NOTE: We would have to keep these fields in sync with the top-level object.
+  public List<Income> income;
+  @Data
+  public static class Income {
+    @NotBlank(message = "{household-member-income.failed-to-make-selection}")
+    private String incomeMember;
+
+    // Job name screen
+    @NotBlank
+    private String incomeJobName;
+
+    // Income Types Screen
+    private String hasIncome;
+    private String incomeJobsCount;
+    private String incomeSelfEmployed;
+    private String incomeSelfEmployedCustomOperatingExpenses;
+
+    // TODO: Validate this is > 40% of incomeGrossMonthlyIndividual
+    @Money(message = "{income-amounts.must-be-dollars-cents}")
+    private String incomeSelfEmployedOperatingExpenses;
+    private String incomeGrossMonthlyIndividual;
+    private String incomeIsJobHourly;
+    // TODO: Validate this is a number
+    private String incomeHourlyWage;
+    // TODO: Validate this is a number
+    private String incomeHoursPerWeek;
+    // TODO: Validate this is a number
+    private String incomeRegularPayInterval;
+    // TODO: Validate this is a number
+    private String incomeRegularPayAmount;
+    private String incomeWillBeLess;
+    private String incomeCustomAnnualIncome;
+    private String incomeWillBeLessDescription;
+    private String incomeCalculationMethod;
+
+    public void populate(Map<String, Object> fieldData) {
+      var inputData = new HashMap<>(fieldData);
+      // Replace "anyField[]" keys with "anyField"
+      inputData.keySet().stream().filter(key -> key.endsWith("[]")).toList().forEach(key -> {
+        var value = inputData.remove(key);
+        inputData.put(key.substring(0, key.length() - 2), value);
+      });
+
+      try {
+        BeanUtils.populate(this, inputData);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 }

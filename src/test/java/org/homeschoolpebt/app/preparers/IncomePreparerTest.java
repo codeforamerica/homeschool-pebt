@@ -2,6 +2,7 @@ package org.homeschoolpebt.app.preparers;
 
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
+import org.homeschoolpebt.app.inputs.Pebt;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class IncomePreparerTest {
   @Test
   void includesUnearnedIncome() {
     Submission submission = Submission.builder().inputData(Map.ofEntries(
-      Map.entry("incomeTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomePension", "incomeRetirement", "incomeSSI", "incomeOther")),
+      Map.entry("incomeTypes[]", List.of(Pebt.INCOME_TYPES.incomeUnemployment, Pebt.INCOME_TYPES.incomeWorkersCompensation, Pebt.INCOME_TYPES.incomeSpousalSupport, Pebt.INCOME_TYPES.incomeChildSupport, Pebt.INCOME_TYPES.incomePension, Pebt.INCOME_TYPES.incomeRetirement, Pebt.INCOME_TYPES.incomeSSI, Pebt.INCOME_TYPES.incomeOther)),
       Map.entry("incomeUnemploymentAmount", "111"),
       Map.entry("incomeWorkersCompensationAmount", "222"),
       Map.entry("incomeSpousalSupportAmount", "333"),
@@ -42,56 +43,56 @@ public class IncomePreparerTest {
   @Test
   void testThatTheBigImportantCalculationsAreCorrect() {
     // Self Employment w/Standard Deduction
-    HashMap<String, Object> job1 = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeWillBeLess", "true");
-      put("incomeSelfEmployed", "true");
-      put("incomeCustomAnnualIncome", "1200"); // Future: $100/mo.
-      put("incomeGrossMonthlyIndividual", "200"); // Past: $200 monthly gross - 40% standard = $120 net
-      put("incomeWillBeLessDescription", "I will be planting fewer potatoes.");
+    var job1 = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeWillBeLess("true");
+      setIncomeSelfEmployed("true");
+      setIncomeCustomAnnualIncome("1200"); // Future: $100/mo.
+      setIncomeGrossMonthlyIndividual("200"); // Past: $200 monthly gross - 40% standard = $120 net
+      setIncomeWillBeLessDescription("I will be planting fewer potatoes.");
     }};
 
     // Self Emploympent w/Custom Deductions
-    HashMap<String, Object> job2 = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeWillBeLess", "true");
-      put("incomeSelfEmployed", "true");
-      put("incomeSelfEmployedCustomOperatingExpenses", "true");
-      put("incomeSelfEmployedOperatingExpenses", "100");
-      put("incomeCustomAnnualIncome", "600"); // Future: $50/mo.
-      put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
-      put("incomeWillBeLessDescription", "My operating expenses are very high.");
+    var job2 = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeWillBeLess("true");
+      setIncomeSelfEmployed("true");
+      setIncomeSelfEmployedCustomOperatingExpenses("true");
+      setIncomeSelfEmployedOperatingExpenses("100");
+      setIncomeCustomAnnualIncome("600"); // Future: $50/mo.
+      setIncomeGrossMonthlyIndividual("200"); // $200 monthly gross - $100 custom operating expenses = $100 net
+      setIncomeWillBeLessDescription("My operating expenses are very high.");
     }};
 
     // Hourly
-    HashMap<String, Object> job3 = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeSelfEmployed", "false");
-      put("incomeIsJobHourly", "true");
-      put("incomeHoursPerWeek", "10");
-      put("incomeHourlyWage", "18"); // Monthly income: $180 (10 * $18)
-      put("incomeWillBeLess", "false");
-      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    var job3 = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeSelfEmployed("false");
+      setIncomeIsJobHourly("true");
+      setIncomeHoursPerWeek("10");
+      setIncomeHourlyWage("18"); // Monthly income: $180 (10 * $18)
+      setIncomeWillBeLess("false");
+      setIncomeWillBeLessDescription("I won't be working as many hours next month.");
     }};
 
     // Regular Pay (weekly)
-    HashMap<String, Object> job4 = new HashMap<>() {{
-      put("incomeMember", "Johnny Potato");
-      put("incomeJobName", "Tuber");
-      put("incomeSelfEmployed", "false");
-      put("incomeIsJobHourly", "false");
-      put("incomeRegularPayAmount", "400");
-      put("incomeRegularPayInterval", "biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
-      put("incomeWillBeLess", "false");
-      put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+    var job4 = new Pebt.Income() {{
+      setIncomeMember("Johnny Potato");
+      setIncomeJobName("Tuber");
+      setIncomeSelfEmployed("false");
+      setIncomeIsJobHourly("false");
+      setIncomeRegularPayAmount("400");
+      setIncomeRegularPayInterval("biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
+      setIncomeWillBeLess("false");
+      setIncomeWillBeLessDescription("I won't be working as many hours next month.");
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
       Map.entry("income", List.of(job1, job2, job3, job4)),
-      Map.entry("incomeTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomePension", "incomeRetirement", "incomeSSI", "incomeOther")),
+      Map.entry("incomeTypes[]", List.of(Pebt.INCOME_TYPES.incomeUnemployment, Pebt.INCOME_TYPES.incomeWorkersCompensation, Pebt.INCOME_TYPES.incomeSpousalSupport, Pebt.INCOME_TYPES.incomeChildSupport, Pebt.INCOME_TYPES.incomePension, Pebt.INCOME_TYPES.incomeRetirement, Pebt.INCOME_TYPES.incomeSSI, Pebt.INCOME_TYPES.incomeOther)),
       Map.entry("incomeUnemploymentAmount", "111"),
       Map.entry("incomeWorkersCompensationAmount", "222"),
       Map.entry("incomeSpousalSupportAmount", "333"),
