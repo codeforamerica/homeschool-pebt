@@ -72,7 +72,7 @@ public class IncomePreparerTest {
       put("incomeSelfEmployed", "false");
       put("incomeIsJobHourly", "true");
       put("incomeHoursPerWeek", "10");
-      put("incomeHourlyWage", "18"); // Monthly income: $180 (10 * $18)
+      put("incomeHourlyWage", "18"); // Monthly income: $720 (10 * $18 * 4)
       put("incomeWillBeLess", "false");
       put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
     }};
@@ -107,17 +107,17 @@ public class IncomePreparerTest {
       // $3996 = $111 + $222 + ... + $888
       Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$3996", null)),
 
-      // $1196.67 = $100 (job1) + $50 (job2) + $180 (job3) + $866.67 (job4)
-      Map.entry("income-hh-future-earned", new SingleField("income-hh-future-earned", "$1196.67", null)),
+      // $1736.67 = $100 (job1) + $50 (job2) + $720 (job3) + $866.67 (job4)
+      Map.entry("income-hh-future-earned", new SingleField("income-hh-future-earned", "$1736.67", null)),
 
-      // $1266.67 = $120 (job1) + $100 (job2) + $180 (job3) + $866.67 (job4)
-      Map.entry("income-hh-past-earned", new SingleField("income-hh-past-earned", "$1266.67", null)),
+      // $1806.67 = $120 (job1) + $100 (job2) + $720 (job3) + $866.67 (job4)
+      Map.entry("income-hh-past-earned", new SingleField("income-hh-past-earned", "$1806.67", null)),
 
-      // $5192.67 = $3996 (unearned) + $1196.67 (income-hh-future-earned)
-      Map.entry("income-hh-future-total", new SingleField("income-hh-future-total", "$5192.67", null)),
+      // $5732.67 = $3996 (unearned) + $1736.67 (income-hh-future-earned)
+      Map.entry("income-hh-future-total", new SingleField("income-hh-future-total", "$5732.67", null)),
 
-      // $5262.67 = $3996 (unearned) + $1266.67 (income-hh-past-earned)
-      Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$5262.67", null))
+      // $5802.67 = $3996 (unearned) + $1806.67 (income-hh-past-earned)
+      Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$5802.67", null))
     ));
   }
 
