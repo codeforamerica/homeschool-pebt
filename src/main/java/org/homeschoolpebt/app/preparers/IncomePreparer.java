@@ -20,6 +20,9 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     var fields = new HashMap<String, SubmissionField>();
     var calc = new IncomeCalculator(submission);
 
+    // household count
+    fields.put("household-count", new SingleField("household-count", SubmissionUtilities.getHouseholdMemberCount(submission).toString(), null));
+
     // unearned
     fields.put("income-unemployment", new SingleField("income-unemployment", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeUnemploymentAmount")), null));
     fields.put("income-workers-comp", new SingleField("income-workers-comp", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeWorkersCompensationAmount")), null));

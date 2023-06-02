@@ -7,6 +7,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SubmissionUtilities {
@@ -41,6 +43,13 @@ public class SubmissionUtilities {
   // "householdList" -> "household-list"
   public static String transifexKeyPrefix(String requestUri) {
     return requestUri.replaceAll("([A-Z])", "-$1").toLowerCase();
+  }
+
+  public static Integer getHouseholdMemberCount(Submission submission) {
+    var students = (List<Object>) submission.getInputData().getOrDefault("students", new ArrayList<Object>());
+    var householdMembers = (List<Object>) submission.getInputData().getOrDefault("household", new ArrayList<Object>());
+
+    return 1 + students.size() + householdMembers.size();
   }
 
   public static String getStandardOperatingExpensesAmount(Map<String, Object> fieldData) {
