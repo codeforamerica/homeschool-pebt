@@ -4,14 +4,11 @@ import formflow.library.data.FlowInputs;
 import formflow.library.data.validators.Money;
 import formflow.library.data.validators.Phone;
 import formflow.library.utils.RegexUtils;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import java.util.ArrayList;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 
 @Data
 public class Pebt extends FlowInputs {
@@ -49,6 +46,7 @@ public class Pebt extends FlowInputs {
   @NotBlank
   private String studentGrade;
   private String studentHomeschoolAffidavitNumber; // TODO: Validate this is present if studentSchoolType = homeschool
+  private String studentVirtualSchoolName; // TODO: Validate this is present if studentSchoolType = virtual
   @NotBlank
   private String studentUnenrolledSchoolName;
   @NotBlank

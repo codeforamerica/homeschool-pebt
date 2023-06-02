@@ -45,7 +45,7 @@
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual})}"/>
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual}, followUpId='#follow-up-virtual-school-name')}"/>
                         <th:block
                             th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool}, followUpId='#follow-up-affidavit-number')}"/>
                       </th:block>
@@ -56,6 +56,13 @@
                         inputName='studentHomeschoolAffidavitNumber',
                         label=#{students-school-year.homeschool-affidavit-label},
                         helpText=#{students-school-year.homeschool-affidavit-help-text})}
+                      "/>
+                    </div>
+
+                    <div class="question-with-follow-up__follow-up" id="follow-up-virtual-school-name">
+                      <th:block th:replace="~{'fragments/inputs/text' :: text(
+                        inputName='studentVirtualSchoolName',
+                        label=#{students-school-year.virtual-school-label})}
                       "/>
                     </div>
 
