@@ -50,7 +50,7 @@ class SubmissionUtilitiesTest {
       put("incomeHourlyWage", "18");
     }};
 
-    assertEquals(SubmissionUtilities.getHourlyGrossIncomeAmount(job), 180.0);
+    assertEquals(SubmissionUtilities.getHourlyGrossIncomeAmount(job), 720.0);
   }
 
   @Test
@@ -61,7 +61,7 @@ class SubmissionUtilitiesTest {
       put("incomeHourlyWage", "18");
     }};
 
-    assertEquals(SubmissionUtilities.getHourlyGrossIncomeExplanation(job), "10.0 hours * $18 per hour");
+    assertEquals(SubmissionUtilities.getHourlyGrossIncomeExplanation(job), "10.0 hrs/wk * $18/hr * 4 weeks");
   }
 
   @Test

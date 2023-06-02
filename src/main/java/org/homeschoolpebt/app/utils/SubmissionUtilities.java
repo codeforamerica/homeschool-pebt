@@ -115,14 +115,14 @@ public class SubmissionUtilities {
     var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
     var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
 
-    return hours * wage;
+    return hours * wage * 4;
   }
 
   public static String getHourlyGrossIncomeExplanation(Map<String, Object> fieldData) {
     var hours = Double.parseDouble(fieldData.get("incomeHoursPerWeek").toString());
     var wage = Double.parseDouble(fieldData.get("incomeHourlyWage").toString());
 
-    return "%s hours * %s per hour".formatted(hours, formatMoney(wage));
+    return "%s hrs/wk * %s/hr * 4 weeks".formatted(hours, formatMoney(wage));
   }
 
   public static Double getRegularPayAmount(Map<String, Object> fieldData) {
