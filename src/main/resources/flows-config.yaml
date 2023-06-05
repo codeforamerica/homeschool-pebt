@@ -257,7 +257,7 @@ subflows:
   income:
     entryScreen: hasIncome
     iterationStartScreen: incomeChooseHouseholdMember
-    reviewScreen: annualHouseholdIncome
+    reviewScreen: incomeReview
     deleteConfirmationScreen: incomeDeleteConfirmation
 ---
 name: docUpload

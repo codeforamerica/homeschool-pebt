@@ -282,21 +282,97 @@ class SubmissionUtilitiesTest {
 
       var firstJobItem = items.get(1);
       assertThat(firstJobItem).containsAllEntriesOf(Map.ofEntries(
-        Map.entry("name", "Ursula Unicorn"),
-        Map.entry("isApplicant", false),
-        Map.entry("itemType", "job")
+        Map.entry("name", "Sally A Starfish"),
+        Map.entry("itemType", "no-jobs-added")
       ));
 
       var nonJobFirstItem = items.get(2);
       assertThat(nonJobFirstItem).containsAllEntriesOf(Map.ofEntries(
-        Map.entry("name", "Sally A Starfish"),
+        Map.entry("name", "Teddy Trout"),
         Map.entry("itemType", "no-jobs-added")
       ));
 
       var nonJobSecondItem = items.get(3);
       assertThat(nonJobSecondItem).containsAllEntriesOf(Map.ofEntries(
-        Map.entry("name", "Teddy Trout"),
-        Map.entry("itemType", "no-jobs-added")
+        Map.entry("name", "Ursula Unicorn"),
+        Map.entry("isApplicant", false),
+        Map.entry("itemType", "job")
+      ));
+    }
+
+    @Test
+    void combinesSequentialItems() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+      }};
+
+      Map<String, Object> job1 = new HashMap<>() {{
+        put("uuid", "111-111-111");
+        put("incomeMember", "Sally A Starfish");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      Map<String, Object> job2 = new HashMap<>() {{
+        put("uuid", "222-222-222");
+        put("incomeMember", "Johnny Appleseed");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      Map<String, Object> job3 = new HashMap<>() {{
+        put("uuid", "333-333-333");
+        put("incomeMember", "Sally A Starfish");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      Map<String, Object> job4 = new HashMap<>() {{
+        put("uuid", "444-444-444");
+        put("incomeMember", "Johnny Appleseed");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1)),
+        Map.entry("income", List.of(job1, job2, job3, job4))
+      )).build();
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var applicantItem1 = items.get(0);
+      assertThat(applicantItem1).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Johnny Appleseed"),
+        Map.entry("isApplicant", true),
+        Map.entry("combineWithPrevious", false),
+        Map.entry("itemType", "job")
+      ));
+
+      var applicantItem2 = items.get(1);
+      assertThat(applicantItem2).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Johnny Appleseed"),
+        Map.entry("isApplicant", true),
+        Map.entry("combineWithPrevious", true),
+        Map.entry("itemType", "job")
+      ));
+
+      var nonApplicantItem1 = items.get(2);
+      assertThat(nonApplicantItem1).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Sally A Starfish"),
+        Map.entry("isApplicant", false),
+        Map.entry("combineWithPrevious", false),
+        Map.entry("itemType", "job")
+      ));
+
+      var nonApplicantItem2 = items.get(3);
+      assertThat(nonApplicantItem2).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Sally A Starfish"),
+        Map.entry("isApplicant", false),
+        Map.entry("combineWithPrevious", true),
+        Map.entry("itemType", "job")
       ));
     }
   }
