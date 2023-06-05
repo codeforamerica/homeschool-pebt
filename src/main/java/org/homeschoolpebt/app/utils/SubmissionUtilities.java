@@ -45,11 +45,34 @@ public class SubmissionUtilities {
     return requestUri.replaceAll("([A-Z])", "-$1").toLowerCase();
   }
 
-  public static Integer getHouseholdMemberCount(Submission submission) {
-    var students = (List<Object>) submission.getInputData().getOrDefault("students", new ArrayList<Object>());
-    var householdMembers = (List<Object>) submission.getInputData().getOrDefault("household", new ArrayList<Object>());
+  public static String householdMemberFullName(Map<String, String> householdMember) {
+    return householdMember.get("householdMemberFirstName") + " " + householdMember.get("householdMemberLastName");
+  }
 
-    return 1 + students.size() + householdMembers.size();
+  public static String studentFullName(Map<String, String> student) {
+    if (((String)student.getOrDefault("studentMiddleInitial", "")).isBlank()) {
+      return student.get("studentFirstName") + " " + student.get("studentLastName");
+    } else {
+      return student.get("studentFirstName") + " " + student.get("studentMiddleInitial") + " " + student.get("studentLastName");
+    }
+  }
+
+  public static List<String> getHouseholdMemberNames(Submission submission) {
+    ArrayList<String> names = new ArrayList<>();
+
+    var applicantName = submission.getInputData().get("firstName") + " " + submission.getInputData().get("lastName");
+    var students = (List<Map<String, String>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
+    var householdMembers = (List<Map<String, String>>) submission.getInputData().getOrDefault("household", new ArrayList<HashMap<String, Object>>());
+
+    names.add(applicantName);
+    students.forEach(s -> names.add(studentFullName(s)));
+    householdMembers.forEach(hh -> names.add(householdMemberFullName(hh)));
+
+    return names;
+  }
+
+  public static Integer getHouseholdMemberCount(Submission submission) {
+    return getHouseholdMemberNames(submission).size();
   }
 
   public static String getStandardOperatingExpensesAmount(Map<String, Object> fieldData) {
