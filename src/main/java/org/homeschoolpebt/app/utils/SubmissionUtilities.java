@@ -7,9 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SubmissionUtilities {
 
@@ -260,6 +258,58 @@ public class SubmissionUtilities {
     } else {
       return (String) submission.getInputData().get("residentialAddressZipCode");
     }
+  }
+
+
+  public static ArrayList<HashMap<String, Object>> getHouseholdIncomeReviewItems(Submission submission) {
+    var applicantFullName = submission.getInputData().getOrDefault("firstName", "") + " " + submission.getInputData().getOrDefault("lastName", "");
+    var notYetShownNames = getHouseholdMemberNames(submission);
+    ArrayList<HashMap<String, Object>> items = new ArrayList<>();
+
+    for (var job : (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
+      var item = new HashMap<String, Object>();
+      item.put("name", job.get("incomeMember"));
+      item.put("itemType", "job");
+      item.put("jobName", job.get("incomeJobName"));
+      item.put("isApplicant", job.get("incomeMember").equals(applicantFullName));
+      item.put("income", formatMoney(IncomeCalculator.futureIncomeForJob(job)));
+      item.put("uuid", job.get("uuid"));
+
+      if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
+        if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
+          item.put("incomeType", "net-pay-estimate");
+        } else {
+          item.put("incomeType", "gross-pay-estimate");
+        }
+      } else {
+        if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
+          item.put("incomeType", "net-pay");
+        } else {
+          item.put("incomeType", "gross-pay");
+        }
+      }
+
+      notYetShownNames.remove(job.get("incomeMember"));
+      items.add(item);
+    }
+
+    // Add any household members that didn't have income entries
+    notYetShownNames.forEach(name -> {
+      var item = new HashMap<String, Object>();
+      item.put("name", name);
+      item.put("itemType", "no-jobs-added");
+      item.put("isApplicant", name.equals(applicantFullName));
+
+      items.add(item);
+    });
+
+    // Sort the list so the applicant shows up first
+    items.sort(Comparator.comparing(
+      job -> (Boolean)job.get("isApplicant"),
+      (a, b) -> a ? (b ? 0 : -1) : (b ? 1 : 0)
+    ));
+
+    return items;
   }
 }
 

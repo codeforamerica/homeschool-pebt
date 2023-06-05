@@ -10,7 +10,36 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{income-review.title}, subtext=#{income-review.subtext})}"/>
         <div class="form-card__content">
-          TODO: Put the box of household members here
+          <div class="boxed-content text--centered">
+            <strong th:text="#{income-review.box-title}"></strong>
+            <ul class="subflow-list">
+              <li th:each="incomeItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}" class="subflow-list__item">
+                <i class="subflow-list__icon icon-person"></i>
+                <div class="subflow-list__item-title">
+                  <span th:text="${incomeItem.name}"></span>
+                  <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
+                </div>
+
+                <th:block th:if="${!incomeItem.getOrDefault('jobName', '').isBlank()}">
+                  <div class="subflow-list__item-body">
+                    <div class="subflow-list__item-body__subtitle" th:text="${incomeItem.jobName}"></div>
+                    <div><strong th:text="${incomeItem.income}"></strong></div>
+                    <span th:text="${#messages.msg('income-review.income-types.' + incomeItem.incomeType)}"></span>
+                  </div>
+
+                  <div class="subflow-list__item-actions">
+                    <a th:href="'/flow/pebT/' + ${iterationStartScreen} + '/' + ${incomeItem.uuid} + '/edit'"
+                       th:text="#{general.edit}"
+                       th:id="'edit-iteration-' + ${incomeItem.uuid}">
+                    </a><a th:href="'/flow/pebt/income/' + ${incomeItem.uuid} + '/deleteConfirmation'"
+                           th:text="#{general.delete}"
+                           class="subflow-list__action-delete"
+                           th:id="'delete-iteration-' + ${incomeItem.uuid}"></a>
+                  </div>
+                </th:block>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="form-card__footer">
           <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-review.continue-button})}"/>
