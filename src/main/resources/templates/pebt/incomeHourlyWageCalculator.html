@@ -5,8 +5,8 @@ to do
 - [X] Add job name to top of page
 - [X] Ensure the title is right
 - [X] Ensure the title help text is right
-- [ ] Ensure the 2nd question title is right
-- [ ] Ensure the 2nd question help text is right
+- [X] Ensure the 2nd question title is right
+- [X] Ensure the 2nd question help text is right
 - [ ] Add reveal
 - [ ] Decide where "They get paid in a different way" will go in this PR
 - [ ] Add "They get paid in a different way" link going there
@@ -16,6 +16,7 @@ to do
     th:with="
       isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
       messageVariant=${isApplicant ? 'you' : 'person-name'},
+      messageVariantYouThey=${isApplicant ? 'you' : 'they'},
       lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
       firstName=${currentSubflowItem.incomeMember},
       hasIconName=${!#strings.isEmpty(iconName)},
@@ -46,7 +47,11 @@ to do
               <div class="form-card__content">
                 <th:block th:ref="inputContent">
                   <th:block th:replace="~{'fragments/inputs/money' :: money(inputName='incomeHourlyWage', ariaLabel='header', placeholder='0.00 / hour')}"/>
-                  <th:block th:replace="~{'fragments/inputs/number' :: number(inputName='incomeHoursPerWeek', label=#{income-hourly-wage-calculator.hours-per-week-title}, helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})}, placeholder='10 hours per week')}"/>
+                  <th:block th:replace="~{'fragments/inputs/number' :: number(
+                      inputName='incomeHoursPerWeek',
+                      label=${#messages.msg('income-hourly-wage-calculator.hours-per-week-title.' + messageVariantYouThey)},
+                      helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})},
+                      placeholder='10 hours per week')}"/>
                   <!-- TODO: Add "What if their pay changes often?" reveal -->
                   <input type="hidden" name="incomeCalculationMethod" value="hourlyWage" />
                   <!-- TODO: Add "I get paid in a different way" button -->
