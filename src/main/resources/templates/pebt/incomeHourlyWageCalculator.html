@@ -71,6 +71,10 @@ to do
                 <th:block
                   th:replace="~{fragments/inputs/submitButton :: submitButton(text=${buttonLabel != null ? buttonLabel : 'Submit'})}"/>
               </div>
+              <p class="spacing-above-35" th:with="link=${'/flow/' + flow + '/incomeGrossMonthlyIndividual/' + fieldData.uuid}">
+                <a th:text="#{income-hourly-wage-calculator.pays-differently}"
+                   th:href="${link}"></a>
+              </p>
             </th:block>
           </th:block>
         </main>
