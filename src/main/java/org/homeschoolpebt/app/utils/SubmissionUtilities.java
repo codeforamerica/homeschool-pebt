@@ -323,6 +323,12 @@ public class SubmissionUtilities {
       items.get(i).put("combineWithPrevious", combineWithPrevious);
     }
 
+    items.add(new HashMap<String, Object>() {{
+      put("name", null);
+      put("itemType", "household-total");
+      put("income", formatMoney(new IncomeCalculator(submission).totalFutureEarnedIncome()));
+    }});
+
     return items;
   }
 }

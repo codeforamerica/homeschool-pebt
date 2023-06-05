@@ -659,6 +659,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   background-image: url("/webjars/form-flow/0.0.1/images/icon_accordion_open.svg");
 }
 
+.icon-home::before {
+  content: '\e88a';
+}
+
 .language-select .select {
   background: transparent;
 }

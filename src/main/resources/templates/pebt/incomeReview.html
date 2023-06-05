@@ -14,13 +14,13 @@
             <strong th:text="#{income-review.box-title}"></strong>
             <ul class="subflow-list">
               <li th:each="incomeItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}" class="subflow-list__item">
-                <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
-                <div th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__item-title">
-                  <span th:text="${incomeItem.name}"></span>
-                  <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
-                </div>
-
                 <th:block th:if="${incomeItem.get('itemType').equals('job')}">
+                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
+                  <div th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__item-title">
+                    <span th:text="${incomeItem.name}"></span>
+                    <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
+                  </div>
+
                   <div class="subflow-list__item-body">
                     <div class="subflow-list__item-body__subtitle" th:text="${incomeItem.jobName}"></div>
                     <div><strong th:text="${incomeItem.income}"></strong></div>
@@ -39,8 +39,27 @@
                 </th:block>
 
                 <th:block th:if="${incomeItem.get('itemType').equals('no-jobs-added')}">
+                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
+                  <div class="subflow-list__item-title">
+                    <span th:text="${incomeItem.name}"></span>
+                    <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
+                  </div>
+
                   <div class="subflow-list__item-body">
                     <span th:text="#{income-review.no-jobs-added}"></span>
+                  </div>
+                </th:block>
+
+                <th:block th:if="${incomeItem.get('itemType').equals('household-total')}">
+                  <hr>
+
+                  <i class="subflow-list__icon icon-home"></i>
+                  <div class="subflow-list__item-title">
+                    <span th:text="#{income-review.total-monthly-pay}"></span>
+                  </div>
+
+                  <div class="subflow-list__item-body">
+                    <div><strong th:text="${incomeItem.income}"></strong></div>
                   </div>
                 </th:block>
               </li>

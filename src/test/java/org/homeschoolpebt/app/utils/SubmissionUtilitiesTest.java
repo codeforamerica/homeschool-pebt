@@ -375,6 +375,70 @@ class SubmissionUtilitiesTest {
         Map.entry("itemType", "job")
       ));
     }
+
+    @Test
+    void addsTotalFutureHouseholdTotal() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+      }};
+
+      var student2 = new HashMap<String, Object>() {{
+        put("studentFirstName", "George");
+        put("studentLastName", "Washington Carver");
+      }};
+
+      Map<String, Object> job1 = new HashMap<>() {{
+        put("uuid", "111");
+        put("incomeMember", "George Washington Carver");
+        put("incomeJobName", "Apple");
+        put("incomeSelfEmployed", "true");
+        put("incomeSelfEmployedCustomOperatingExpenses", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $500 (= $1000 monthly - $500 expenses)
+        put("incomeSelfEmployedOperatingExpenses", "500");
+      }};
+
+      Map<String, Object> job2 = new HashMap<>() {{
+        put("uuid", "222");
+        put("incomeMember", "Sally A Starfish");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 standard deduction)
+      }};
+
+      Map<String, Object> job3 = new HashMap<>() {{
+        put("uuid", "333");
+        put("incomeMember", "Johnny Appleseed");
+        put("incomeIsJobHourly", "true");
+        put("incomeHourlyWage", "10");
+        put("incomeHoursPerWeek", "18"); // Gross Income: $720 (= 10 hr/wk * $18 / hr * 4 wk/mo)
+      }};
+
+      Map<String, Object> job4 = new HashMap<>() {{
+        put("uuid", "444");
+        put("incomeMember", "Johnny Appleseed");
+        put("incomeIsJobHourly", "false");
+        put("incomeRegularPayInterval", "weekly");
+        put("incomeRegularPayAmount", "100"); // Gross Income: $433.33 (= $100 * 4.33333 weeks/mo)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1, student2)),
+        Map.entry("income", List.of(job1, job2, job3, job4))
+      )).build();
+
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var totalItem = items.get(items.size() - 1);
+      assertThat(totalItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("itemType", "household-total"),
+        // $2253.33 = $500 (job1) + $600 (job2) + $720 (job3) + $433.33 (job4)
+        Map.entry("income", "$2253.33")
+      ));
+
+      // TODO: Add a test case for future pay for weekly/regular pay jobs
+    }
   }
 
 }
