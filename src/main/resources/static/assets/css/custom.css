@@ -106,6 +106,18 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   margin-left: 3rem;
 }
 
+.subflow-list__item-body {
+  margin-left: 3rem;
+  font-size: 16px;
+}
+
+.subflow-list__item-body__subtitle {
+  font-variant: all-small-caps;
+  font-size: 14px;
+  font-weight: bold;
+  color: #5F5854;
+}
+
 .subflow-list__item-actions {
   margin-left: 3rem;
   font-size: 16px;

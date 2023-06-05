@@ -1,11 +1,15 @@
 package org.homeschoolpebt.app.utils;
 
+import formflow.library.data.Submission;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubmissionUtilitiesTest {
@@ -120,4 +124,181 @@ class SubmissionUtilitiesTest {
     assertEquals(SubmissionUtilities.getRegularPayAmount(jobYearly), 33.3333333333333333);
     assertEquals(SubmissionUtilities.getRegularPayExplanation(jobYearly), "$400 yearly");
   }
+
+  @Nested
+  class HouseholdReviewTests {
+    @Test
+    void selfEmployedPastCustomExpenses() {
+      Map<String, Object> job = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "George Washington Carver");
+        put("incomeJobName", "Apple");
+        put("incomeSelfEmployed", "true");
+        put("incomeSelfEmployedCustomOperatingExpenses", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $500 (= $1000 monthly - $500 expenses)
+        put("incomeSelfEmployedOperatingExpenses", "500");
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("income", List.of(job))
+      )).build();
+
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var householdReviewItem = items.get(0);
+      assertThat(householdReviewItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "George Washington Carver"),
+        Map.entry("income", "$500"),
+        Map.entry("jobName", "Apple"),
+        Map.entry("incomeType", "net-pay"),
+        Map.entry("uuid", "123-456-789")
+      ));
+    }
+
+    @Test
+    void selfEmployedPastStandardDeduction() {
+      Map<String, Object> job = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "George Washington Carver");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("income", List.of(job))
+      )).build();
+
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var householdReviewItem = items.get(0);
+      assertThat(householdReviewItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "George Washington Carver"),
+        Map.entry("income", "$600"),
+        Map.entry("incomeType", "net-pay"),
+        Map.entry("uuid", "123-456-789")
+      ));
+    }
+
+    // TODO: Also write a test for different future income for hourly/regularly
+    @Test
+    void withDifferentFutureIncome() {
+      Map<String, Object> job = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "George Washington Carver");
+        put("incomeSelfEmployed", "true");
+        put("incomeWillBeLess", "true");
+        put("incomeCustomAnnualIncome", "1200"); // Gross income: $100 (= $1200 / 12)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("income", List.of(job))
+      )).build();
+
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var householdReviewItem = items.get(0);
+      assertThat(householdReviewItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "George Washington Carver"),
+        Map.entry("income", "$100"),
+        Map.entry("incomeType", "net-pay-estimate"),
+        Map.entry("uuid", "123-456-789")
+      ));
+    }
+
+    @Test
+    void sortsApplicantFirst() {
+      Map<String, Object> job1 = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "George Washington Carver");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      Map<String, Object> job2 = new HashMap<>() {{
+        put("uuid", "abc-def-ghi");
+        put("incomeMember", "Johnny Appleseed");
+        put("incomeIsJobHourly", "true");
+        put("incomeHourlyWage", "10");
+        put("incomeHoursPerWeek", "18");
+        put("incomeWillBeLess", "true");
+        put("incomeCustomAnnualIncome", "1200"); // Gross income: $100 (= $1200 / 12)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("income", List.of(job1, job2)),
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed")
+      )).build();
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+
+      var firstItem = items.get(0);
+      assertThat(firstItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Johnny Appleseed"),
+        Map.entry("isApplicant", true)
+      ));
+      var secondItem = items.get(1);
+      assertThat(secondItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "George Washington Carver"),
+        Map.entry("isApplicant", false)
+      ));
+    }
+
+    @Test
+    void includesMembersWithoutJobs() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+      }};
+
+      var householdMember1 = new HashMap<String, Object>() {{
+        put("householdMemberFirstName", "Teddy");
+        put("householdMemberLastName", "Trout");
+      }};
+
+      var householdMember2 = new HashMap<String, Object>() {{
+        put("householdMemberFirstName", "Ursula");
+        put("householdMemberLastName", "Unicorn");
+      }};
+
+      Map<String, Object> job1 = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "Ursula Unicorn");
+        put("incomeSelfEmployed", "true");
+        put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 expenses)
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("household", List.of(householdMember1, householdMember2)),
+        Map.entry("students", List.of(student1)),
+        Map.entry("income", List.of(job1))
+      )).build();
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var applicantItem = items.get(0);
+      assertThat(applicantItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Johnny Appleseed"),
+        Map.entry("isApplicant", true),
+        Map.entry("itemType", "no-jobs-added")
+      ));
+
+      var firstJobItem = items.get(1);
+      assertThat(firstJobItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Ursula Unicorn"),
+        Map.entry("isApplicant", false),
+        Map.entry("itemType", "job")
+      ));
+
+      var nonJobFirstItem = items.get(2);
+      assertThat(nonJobFirstItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Sally A Starfish"),
+        Map.entry("itemType", "no-jobs-added")
+      ));
+
+      var nonJobSecondItem = items.get(3);
+      assertThat(nonJobSecondItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "Teddy Trout"),
+        Map.entry("itemType", "no-jobs-added")
+      ));
+    }
+  }
+
 }
