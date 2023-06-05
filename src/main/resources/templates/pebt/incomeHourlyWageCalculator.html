@@ -56,6 +56,16 @@ to do
                   <input type="hidden" name="incomeCalculationMethod" value="hourlyWage"/>
                   <!-- TODO: Add "I get paid in a different way" button -->
                 </th:block>
+                <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{income-hourly-wage-calculator.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:utext="#{income-hourly-wage-calculator.reveal-contents}"></p>
+                  </th:block>
+                </th:block>
               </div>
               <div class="form-card__footer">
                 <th:block
