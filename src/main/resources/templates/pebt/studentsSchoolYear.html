@@ -11,9 +11,9 @@
         <main id="content" role="main" class="form-card spacing-above-35">
           <th:block th:replace="~{'fragments/icons' :: face}"/>
           <th:block
-              th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{students-school-year.title(${name})})}"/>
+            th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{students-school-year.title(${name})})}"/>
           <th:block
-              th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
+            th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
             <th:block th:ref="formContent">
               <div class="form-card__content">
                 <th:block
@@ -45,9 +45,9 @@
                                   content=~{::radioOptions})}">
                       <th:block th:ref="radioOptions">
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual}, followUpId='#follow-up-virtual-school-name')}"/>
+                          th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='virtual', label=#{students-add.virtual}, followUpId='#follow-up-virtual-school-name')}"/>
                         <th:block
-                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool}, followUpId='#follow-up-affidavit-number')}"/>
+                          th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool}, followUpId='#follow-up-affidavit-number')}"/>
                       </th:block>
                     </th:block>
 
@@ -58,14 +58,13 @@
                         helpText=#{students-school-year.homeschool-affidavit-help-text})}
                       "/>
                     </div>
+                  </div>
 
-                    <div class="question-with-follow-up__follow-up" id="follow-up-virtual-school-name">
-                      <th:block th:replace="~{'fragments/inputs/text' :: text(
+                  <div class="question-with-follow-up__follow-up" id="follow-up-virtual-school-name">
+                    <th:block th:replace="~{'fragments/inputs/text' :: text(
                         inputName='studentVirtualSchoolName',
                         label=#{students-school-year.virtual-school-label})}
                       "/>
-                    </div>
-
                   </div>
                 </div>
                 <div class="form-card__footer">
