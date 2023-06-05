@@ -26,14 +26,14 @@
                     </th:block>
                     <th:block th:if="${inputData.containsKey('students')}">
                       <th:block th:each="student, iter: ${inputData.students}">
-                        <th:block th:with="fullName=${student.studentFirstName + ' ' + student.studentMiddleInitial + ' ' + student.studentLastName}">
+                        <th:block th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).studentFullName(student)}">
                           <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
                         </th:block>
                       </th:block>
                     </th:block>
                     <th:block th:if="${inputData.containsKey('household')}">
                       <th:block th:each="hm, iter: ${inputData.household}"
-                                th:with="fullName=${hm.householdMemberFirstName + ' ' + hm.householdMemberLastName}">
+                                th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).householdMemberFullName(hm)}">
                         <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
                       </th:block>
                     </th:block>
