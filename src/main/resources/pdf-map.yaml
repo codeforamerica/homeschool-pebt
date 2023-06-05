@@ -1,8 +1,383 @@
 flow: pebt
-pdf: /pdfs/test.pdf
+pdf: /pdfs/applicant_summary.pdf
 inputFields:
   # submission field name --> PDF field name
-  firstName: firstName
-  lastName: lastName
-  totalIncome: incomeTotal
+  address: address
+  zip-code: zip-code
+  firstName: applicant-first-name
+  lastName: applicant-last-name
+  # TODO: applicant-middle-initial
+  phoneNumber: phone-number
+  household-member: household-member
+  student: student
+  assister: assister
+  calworks: calworks
+  calfresh: calfresh
+  fdpir: fdpir
+  program-case-number: program-case-number
+  email: email
+  household-count: household-count
+  # TODO: interview-pref
+
+  income-hh-unearned: income-hh-unearned
+  income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
+  income-workers-comp: income-workers-comp
+  income-spousal-support: income-spousal-support
+  income-child-support: income-child-support
+  income-pension: income-pension
+  income-retirement: income-retirement
+  income-ssi: income-ssi
+  income-other: income-other
+  # TODO: income-unearned-comments
+
+  income-hh-future-earned: income-hh-future-earned
+  income-hh-future-total: income-hh-future-total
+  income-hh-past-earned: income-hh-past-earned
+  income-hh-past-total: income-hh-past-total
+
+  student1-anticipated-school: student1-anticipated-school
+  student1-anticipated-school-code: student1-anticipated-school-code
+  student1-anticipated-school-district: student1-anticipated-school-district
+  student1-first-name: student1-first-name
+  student1-foster: student1-foster
+  student1-homeschool: student1-homeschool
+  student1-last-name: student1-last-name
+  student1-middle-initial: student1-middle-initial
+  student1-migrant: student1-migrant
+  student1-runaway: student1-runaway
+  student1-unhoused: student1-unhoused
+  student1-virtual-school: student1-virtual-school
+  student1-virtual-school-code: student1-virtual-school-code
+  student1-virtual-school-district: student1-virtual-school-district
+  student1-withdrawn-school: student1-withdrawn-school
+  student1-withdrawn-school-code: student1-withdrawn-school-code
+  student1-withdrawn-school-district: student1-withdrawn-school-district
+
+  student2-anticipated-school: student2-anticipated-school
+  student2-anticipated-school-code: student2-anticipated-school-code
+  student2-anticipated-school-district: student2-anticipated-school-district
+  student2-first-name: student2-first-name
+  student2-foster: student2-foster
+  student2-homeschool: student2-homeschool
+  student2-last-name: student2-last-name
+  student2-middle-initial: student2-middle-initial
+  student2-migrant: student2-migrant
+  student2-runaway: student2-runaway
+  student2-unhoused: student2-unhoused
+  student2-virtual-school: student2-virtual-school
+  student2-virtual-school-code: student2-virtual-school-code
+  student2-virtual-school-district: student2-virtual-school-district
+  student2-withdrawn-school: student2-withdrawn-school
+  student2-withdrawn-school-code: student2-withdrawn-school-code
+  student2-withdrawn-school-district: student2-withdrawn-school-district
+  student3-anticipated-school: student3-anticipated-school
+  student3-anticipated-school-code: student3-anticipated-school-code
+  student3-anticipated-school-district: student3-anticipated-school-district
+  student3-first-name: student3-first-name
+  student3-foster: student3-foster
+  student3-homeschool: student3-homeschool
+  student3-last-name: student3-last-name
+  student3-middle-initial: student3-middle-initial
+  student3-migrant: student3-migrant
+  student3-runaway: student3-runaway
+  student3-unhoused: student3-unhoused
+  student3-virtual-school: student3-virtual-school
+  student3-virtual-school-code: student3-virtual-school-code
+  student3-virtual-school-district: student3-virtual-school-district
+  student3-withdrawn-school: student3-withdrawn-school
+  student3-withdrawn-school-code: student3-withdrawn-school-code
+  student3-withdrawn-school-district: student3-withdrawn-school-district
+  student4-anticipated-school: student4-anticipated-school
+  student4-anticipated-school-code: student4-anticipated-school-code
+  student4-anticipated-school-district: student4-anticipated-school-district
+  student4-first-name: student4-first-name
+  student4-foster: student4-foster
+  student4-homeschool: student4-homeschool
+  student4-last-name: student4-last-name
+  student4-middle-initial: student4-middle-initial
+  student4-migrant: student4-migrant
+  student4-runaway: student4-runaway
+  student4-unhoused: student4-unhoused
+  student4-virtual-school: student4-virtual-school
+  student4-virtual-school-code: student4-virtual-school-code
+  student4-virtual-school-district: student4-virtual-school-district
+  student4-withdrawn-school: student4-withdrawn-school
+  student4-withdrawn-school-code: student4-withdrawn-school-code
+  student4-withdrawn-school-district: student4-withdrawn-school-district
+  student5-anticipated-school: student5-anticipated-school
+  student5-anticipated-school-code: student5-anticipated-school-code
+  student5-anticipated-school-district: student5-anticipated-school-district
+  student5-first-name: student5-first-name
+  student5-foster: student5-foster
+  student5-homeschool: student5-homeschool
+  student5-last-name: student5-last-name
+  student5-middle-initial: student5-middle-initial
+  student5-migrant: student5-migrant
+  student5-runaway: student5-runaway
+  student5-unhoused: student5-unhoused
+  student5-virtual-school: student5-virtual-school
+  student5-virtual-school-code: student5-virtual-school-code
+  student5-virtual-school-district: student5-virtual-school-district
+  student5-withdrawn-school: student5-withdrawn-school
+  student5-withdrawn-school-code: student5-withdrawn-school-code
+  student5-withdrawn-school-district: student5-withdrawn-school-district
+  student6-anticipated-school: student6-anticipated-school
+  student6-anticipated-school-code: student6-anticipated-school-code
+  student6-anticipated-school-district: student6-anticipated-school-district
+  student6-first-name: student6-first-name
+  student6-foster: student6-foster
+  student6-homeschool: student6-homeschool
+  student6-last-name: student6-last-name
+  student6-middle-initial: student6-middle-initial
+  student6-migrant: student6-migrant
+  student6-runaway: student6-runaway
+  student6-unhoused: student6-unhoused
+  student6-virtual-school: student6-virtual-school
+  student6-virtual-school-code: student6-virtual-school-code
+  student6-virtual-school-district: student6-virtual-school-district
+  student6-withdrawn-school: student6-withdrawn-school
+  student6-withdrawn-school-code: student6-withdrawn-school-code
+  student6-withdrawn-school-district: student6-withdrawn-school-district
+  student7-anticipated-school-code: student7-anticipated-school-code
+  student7-anticipated-school-district: student7-anticipated-school-district
+  student7-first-name: student7-first-name
+  student7-foster: student7-foster
+  student7-homeschool: student7-homeschool
+  student7-last-name: student7-last-name
+  student7-middle-initial: student7-middle-initial
+  student7-migrant: student7-migrant
+  student7-runaway: student7-runaway
+  student7-unhoused: student7-unhoused
+  student7-virtual-school: student7-virtual-school
+  student7-virtual-school-code: student7-virtual-school-code
+  student7-virtual-school-district: student7-virtual-school-district
+  student7-withdrawn-school: student7-withdrawn-school
+  student7-withdrawn-school-code: student7-withdrawn-school-code
+  student7-withdrawn-school-district: student7-withdrawn-school-district
+  student8-anticipated-school: student8-anticipated-school
+  student8-anticipated-school-code: student8-anticipated-school-code
+  student8-anticipated-school-district: student8-anticipated-school-district
+  student8-first-name: student8-first-name
+  student8-foster: student8-foster
+  student8-homeschool: student8-homeschool
+  student8-last-name: student8-last-name
+  student8-middle-initial: student8-middle-initial
+  student8-migrant: student8-migrant
+  student8-runaway: student8-runaway
+  student8-unhoused: student8-unhoused
+  student8-virtual-school: student8-virtual-school
+  student8-virtual-school-code: student8-virtual-school-code
+  student8-virtual-school-district: student8-virtual-school-district
+  student8-withdrawn-school: student8-withdrawn-school
+  student8-withdrawn-school-code: student8-withdrawn-school-code
+  student8-withdrawn-school-district: student8-withdrawn-school-district
+  student9-anticipated-school: student9-anticipated-school
+  student9-anticipated-school-code: student9-anticipated-school-code
+  student9-anticipated-school-district: student9-anticipated-school-district
+  student9-first-name: student9-first-name
+  student9-foster: student9-foster
+  student9-homeschool: student9-homeschool
+  student9-last-name: student9-last-name
+  student9-middle-initial: student9-middle-initial
+  student9-migrant: student9-migrant
+  student9-runaway: student9-runaway
+  student9-unhoused: student9-unhoused
+  student9-virtual-school: student9-virtual-school
+  student9-virtual-school-code: student9-virtual-school-code
+  student9-virtual-school-district: student9-virtual-school-district
+  student9-withdrawn-school: student9-withdrawn-school
+  student9-withdrawn-school-code: student9-withdrawn-school-code
+  student9-withdrawn-school-district: student9-withdrawn-school-district
+
+  job1-employee-name: job1-employee-name
+  job1-future-monthly-pay: job1-future-monthly-pay
+  job1-future-pay-comments: job1-future-pay-comments
+  job1-name: job1-name
+  job1-past-monthly-pay: job1-past-monthly-pay
+  job1-past-monthly-pay-calculation: job1-past-monthly-pay-calculation
+  job1-pay-type: job1-pay-type
+  job2-employee-name: job2-employee-name
+  job2-future-monthly-pay: job2-future-monthly-pay
+  job2-future-pay-comments: job2-future-pay-comments
+  job2-name: job2-name
+  job2-past-monthly-pay: job2-past-monthly-pay
+  job2-past-monthly-pay-calculation: job2-past-monthly-pay-calculation
+  job2-pay-type: job2-pay-type
+  job3-employee-name: job3-employee-name
+  job3-future-monthly-pay: job3-future-monthly-pay
+  job3-future-pay-comments: job3-future-pay-comments
+  job3-name: job3-name
+  job3-past-monthly-pay: job3-past-monthly-pay
+  job3-past-monthly-pay-calculation: job3-past-monthly-pay-calculation
+  job3-pay-type: job3-pay-type
+  job4-employee-name: job4-employee-name
+  job4-future-monthly-pay: job4-future-monthly-pay
+  job4-future-pay-comments: job4-future-pay-comments
+  job4-name: job4-name
+  job4-past-monthly-pay: job4-past-monthly-pay
+  job4-past-monthly-pay-calculation: job4-past-monthly-pay-calculation
+  job4-pay-type: job4-pay-type
+  job5-employee-name: job5-employee-name
+  job5-future-monthly-pay: job5-future-monthly-pay
+  job5-future-pay-comments: job5-future-pay-comments
+  job5-name: job5-name
+  job5-past-monthly-pay: job5-past-monthly-pay
+  job5-past-monthly-pay-calculation: job5-past-monthly-pay-calculation
+  job5-pay-type: job5-pay-type
+  job6-future-monthly-pay: job6-future-monthly-pay
+  job6-future-pay-comments: job6-future-pay-comments
+  job6-name: job6-name
+  job6-past-monthly-pay: job6-past-monthly-pay
+  job6-past-monthly-pay-calculation: job6-past-monthly-pay-calculation
+  job6-pay-type: job6-pay-type
+  job7-employee-name: job7-employee-name
+  job7-future-monthly-pay: job7-future-monthly-pay
+  job7-future-pay-comments: job7-future-pay-comments
+  job7-name: job7-name
+  job7-past-monthly-pay: job7-past-monthly-pay
+  job7-past-monthly-pay-calculation: job7-past-monthly-pay-calculation
+  job7-pay-type: job7-pay-type
+  job8-employee-name: job8-employee-name
+  job8-future-monthly-pay: job8-future-monthly-pay
+  job8-future-pay-comments: job8-future-pay-comments
+  job8-name: job8-name
+  job8-past-monthly-pay: job8-past-monthly-pay
+  job8-past-monthly-pay-calculation: job8-past-monthly-pay-calculation
+  job8-pay-type: job8-pay-type
+  job9-employee-name: job9-employee-name
+  job9-future-monthly-pay: job9-future-monthly-pay
+  job9-future-pay-comments: job9-future-pay-comments
+  job9-name: job9-name
+  job9-past-monthly-pay-calculation: job9-past-monthly-pay-calculation
+  job9-pay-type: job9-pay-type
+  job10-employee-name: job10-employee-name
+  job10-future-monthly-pay: job10-future-monthly-pay
+  job10-future-pay-comments: job10-future-pay-comments
+  job10-name: job10-name
+  job10-past-monthly-pay: job10-past-monthly-pay
+  job10-past-monthly-pay-calculation: job10-past-monthly-pay-calculation
+  job10-pay-type: job10-pay-type
+  job11-employee-name: job11-employee-name
+  job11-future-monthly-pay: job11-future-monthly-pay
+  job11-future-pay-comments: job11-future-pay-comments
+  job11-name: job11-name
+  job11-past-monthly-pay: job11-past-monthly-pay
+  job11-past-monthly-pay-calculation: job11-past-monthly-pay-calculation
+  job11-pay-type: job11-pay-type
+  job12-employee-name: job12-employee-name
+  job12-future-monthly-pay: job12-future-monthly-pay
+  job12-future-pay-comments: job12-future-pay-comments
+  job12-name: job12-name
+  job12-past-monthly-pay: job12-past-monthly-pay
+  job12-past-monthly-pay-calculation: job12-past-monthly-pay-calculation
+  job12-pay-type: job12-pay-type
+  job13-employee-name: job13-employee-name
+  job13-future-monthly-pay: job13-future-monthly-pay
+  job13-future-pay-comments: job13-future-pay-comments
+  job13-name: job13-name
+  job13-past-monthly-pay: job13-past-monthly-pay
+  job13-past-monthly-pay-calculation: job13-past-monthly-pay-calculation
+  job13-pay-type: job13-pay-type
+  job14-employee-name: job14-employee-name
+  job14-future-monthly-pay: job14-future-monthly-pay
+  job14-future-pay-comments: job14-future-pay-comments
+  job14-name: job14-name
+  job14-past-monthly-pay: job14-past-monthly-pay
+  job14-past-monthly-pay-calculation: job14-past-monthly-pay-calculation
+  job14-pay-type: job14-pay-type
+  job15-employee-name: job15-employee-name
+  job15-future-monthly-pay: job15-future-monthly-pay
+  job15-future-pay-comments: job15-future-pay-comments
+  job15-name: job15-name
+  job15-past-monthly-pay: job15-past-monthly-pay
+  job15-past-monthly-pay-calculation: job15-past-monthly-pay-calculation
+  job15-pay-type: job15-pay-type
+  job16-employee-name: job16-employee-name
+  job16-future-monthly-pay: job16-future-monthly-pay
+  job16-future-pay-comments: job16-future-pay-comments
+  job16-name: job16-name
+  job16-past-monthly-pay: job16-past-monthly-pay
+  job16-past-monthly-pay-calculation: job16-past-monthly-pay-calculation
+  job16-pay-type: job16-pay-type
+
+  # TODO: file1-name
+  # TODO: file1-size
+  # TODO: file1-submission-date
+  # TODO: file1-type
+  # TODO: file2-name
+  # TODO: file2-size
+  # TODO: file2-submission-date
+  # TODO: file2-type
+  # TODO: file3-name
+  # TODO: file3-size
+  # TODO: file3-submission-date
+  # TODO: file3-type
+  # TODO: file4-name
+  # TODO: file4-size
+  # TODO: file4-submission-date
+  # TODO: file4-type
+  # TODO: file5-name
+  # TODO: file5-size
+  # TODO: file5-submission-date
+  # TODO: file5-type
+  # TODO: file6-name
+  # TODO: file6-size
+  # TODO: file6-submission-date
+  # TODO: file6-type
+  # TODO: file7-name
+  # TODO: file7-size
+  # TODO: file7-submission-date
+  # TODO: file7-type
+  # TODO: file8-name
+  # TODO: file8-submission-date
+  # TODO: file8-type
+  # TODO: file9-name
+  # TODO: file9-size
+  # TODO: file9-submission-date
+  # TODO: file9-type
+  # TODO: file10-name
+  # TODO: file10-size
+  # TODO: file10-submission-date
+  # TODO: file10-type
+  # TODO: file11-name
+  # TODO: file11-size
+  # TODO: file11-submission-date
+  # TODO: file11-type
+  # TODO: file12-name
+  # TODO: file12-size
+  # TODO: file12-submission-date
+  # TODO: file12-type
+  # TODO: file13-name
+  # TODO: file13-size
+  # TODO: file13-submission-date
+  # TODO: file13-type
+  # TODO: file14-name
+  # TODO: file14-size
+  # TODO: file14-submission-date
+  # TODO: file14-type
+  # TODO: file15-name
+  # TODO: file15-size
+  # TODO: file15-submission-date
+  # TODO: file15-type
+  # TODO: file16-name
+  # TODO: file16-size
+  # TODO: file16-submission-date
+  # TODO: file16-type
+  # TODO: file17-name
+  # TODO: file17-size
+  # TODO: file17-submission-date
+  # TODO: file17-type
+  # TODO: file18-name
+  # TODO: file18-size
+  # TODO: file18-submission-date
+  # TODO: file18-type
+  # TODO: file19-name
+  # TODO: file19-size
+  # TODO: file19-submission-date
+  # TODO: file19-type
+  # TODO: file20-name
+  # TODO: file20-size
+  # TODO: file20-submission-date
+  # TODO: file20-type
 dbFields: {}
+  # TODO: submission-timestamp

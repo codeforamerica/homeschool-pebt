@@ -15,16 +15,16 @@
       content=~{::checkboxContent})}">
         <th:block th:ref="checkboxContent">
           <th:block
-              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value=#{students-designations.foster-care}, label=#{students-designations.foster-care})}"/>
+              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value='foster', label=#{students-designations.foster-care})}"/>
           <th:block
-              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value=#{students-designations.unhoused}, label=#{students-designations.unhoused})}"/>
+              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value='unhoused', label=#{students-designations.unhoused})}"/>
           <th:block
-              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value=#{students-designations.child-of-migrant-worker}, label=#{students-designations.child-of-migrant-worker})}"/>
+              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value='migrant', label=#{students-designations.child-of-migrant-worker})}"/>
           <th:block
-              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value=#{students-designations.runaway}, label=#{students-designations.runaway})}"/>
+              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value='runaway', label=#{students-designations.runaway})}"/>
           <hr>
           <th:block
-              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value=#{students-designations.none}, label=#{students-designations.none}, noneOfTheAbove=true)}"/>
+              th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='studentDesignations', value='none', label=#{students-designations.none}, noneOfTheAbove=true)}"/>
         </th:block>
       </th:block>
     </th:block>

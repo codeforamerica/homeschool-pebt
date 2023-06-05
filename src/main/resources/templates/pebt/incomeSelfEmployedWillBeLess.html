@@ -1,5 +1,5 @@
 <th:block th:with="
-  netIncome=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedNetIncomeAmount(fieldData)},
+  netIncome=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedNetIncomeAmountYearly(fieldData)},
   operatingExpenses=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
