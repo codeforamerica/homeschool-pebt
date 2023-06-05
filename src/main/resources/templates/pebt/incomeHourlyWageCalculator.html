@@ -1,17 +1,3 @@
-<!--
-to do
-- [X] Inline the template
-- [X] Change the icon
-- [X] Add job name to top of page
-- [X] Ensure the title is right
-- [X] Ensure the title help text is right
-- [X] Ensure the 2nd question title is right
-- [X] Ensure the 2nd question help text is right
-- [ ] Add reveal
-- [ ] Decide where "They get paid in a different way" will go in this PR
-- [ ] Add "They get paid in a different way" link going there
-- [ ] Check spacing styling
--->
 <th:block
   th:with="
       isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
@@ -52,9 +38,7 @@ to do
                       label=${#messages.msg('income-hourly-wage-calculator.hours-per-week-title.' + messageVariantYouThey)},
                       helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})},
                       placeholder='10 hours per week')}"/>
-                  <!-- TODO: Add "What if their pay changes often?" reveal -->
                   <input type="hidden" name="incomeCalculationMethod" value="hourlyWage"/>
-                  <!-- TODO: Add "I get paid in a different way" button -->
                 </th:block>
                 <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
                 linkLabel=~{::revealLabel},
