@@ -33,13 +33,7 @@ public class IncomeCalculator {
   public Double totalFutureEarnedIncome() {
     var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
     var total = jobs.stream()
-      .map(job -> {
-        if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
-          return futureIncomeForJob(job);
-        } else {
-          return pastIncomeForJob(job);
-        }
-      })
+      .map(IncomeCalculator::futureIncomeForJob)
       .reduce(0.0d, Double::sum);
 
     return total;
@@ -56,7 +50,16 @@ public class IncomeCalculator {
   }
 
   public static Double futureIncomeForJob(Map<String, Object> job) {
-    var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
-    return annual / 12;
+    if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
+      if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
+        var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
+        return annual / 12;
+      } else {
+        // TODO: Implement this once we build pages for this in hourly/regularly
+        return pastIncomeForJob(job);
+      }
+    } else {
+      return pastIncomeForJob(job);
+    }
   }
 }
