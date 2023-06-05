@@ -303,11 +303,25 @@ public class SubmissionUtilities {
       items.add(item);
     });
 
-    // Sort the list so the applicant shows up first
+    // Sort the list so the applicant shows up first and the rest of the names are alphabetical
     items.sort(Comparator.comparing(
-      job -> (Boolean)job.get("isApplicant"),
-      (a, b) -> a ? (b ? 0 : -1) : (b ? 1 : 0)
-    ));
+      job -> (String)job.get("name"),
+      (a, b) -> {
+        if (a.equals(applicantFullName) && !b.equals(applicantFullName)) {
+          return -1;
+        } else if (b.equals(applicantFullName) && !a.equals(applicantFullName)) {
+          return 1;
+        } else {
+          return a.compareTo(b);
+        }
+      }));
+
+    // Set combineWithPrevious on items after the first one for the same person
+    for (var i = 0; i < items.size(); i++) {
+      var item = items.get(i);
+      var combineWithPrevious = (i > 0) && items.get(i - 1).get("name").equals(items.get(i).get("name"));
+      items.get(i).put("combineWithPrevious", combineWithPrevious);
+    }
 
     return items;
   }
