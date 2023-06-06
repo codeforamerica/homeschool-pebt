@@ -2,9 +2,11 @@ package org.homeschoolpebt.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication(scanBasePackages = {"org.homeschoolpebt.app", "formflow.library"})
+@EntityScan(basePackages = {"org.homeschoolpebt.app", "formflow.library"})
 @EnableConfigurationProperties
 public class StarterApplication {
 

@@ -1,16 +1,22 @@
 package org.homeschoolpebt.app.cli;
 
+import org.homeschoolpebt.app.data.TransmissionRepositoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 
 @ShellComponent
 public class TransmitterCommands {
 
-  @ShellMethod(key = "hello")
-  public String helloWorld(
-    @ShellOption(defaultValue = "world") String name
-  ) {
-    return "hello " + name;
+  @Autowired
+  TransmissionRepositoryService transmissionRepositoryService;
+
+  @ShellMethod(key = "transmit")
+  public void transmit() {
+    System.out.println("Submissions to transmit....");
+
+    this.transmissionRepositoryService.submissionsToTransmit().forEach(i -> {
+      System.out.println(i.toString());
+    });
   }
 }
