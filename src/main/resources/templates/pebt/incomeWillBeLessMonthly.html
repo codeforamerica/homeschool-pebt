@@ -30,15 +30,17 @@
           <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
             <th:block th:ref="formContent">
               <div class="form-card__content">
-                <th:block th:if="${!payInterval.equals('monthly')}" th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                  linkLabel=~{::revealLabel},
-                  content=~{::revealContent}
-                )}">
-                  <th:block th:ref="revealLabel">
-                    <th:block th:text="#{income-will-be-less-monthly.reveal-label}"></th:block>
-                  </th:block>
-                  <th:block th:ref="revealContent">
-                    <p th:utext="${#messages.msg('income-will-be-less-monthly.reveal-contents.' + payInterval, firstName, payPerInterval, hoursPerMonth)}"></p>
+                <th:block th:if="${!payInterval.equals('monthly')}">
+                  <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                    linkLabel=~{::revealLabel},
+                    content=~{::revealContent}
+                  )}">
+                    <th:block th:ref="revealLabel">
+                      <th:block th:text="#{income-will-be-less-monthly.reveal-label}"></th:block>
+                    </th:block>
+                    <th:block th:ref="revealContent">
+                      <p th:utext="${#messages.msg('income-will-be-less-monthly.reveal-contents.' + payInterval, firstName, payPerInterval, hoursPerMonth)}"></p>
+                    </th:block>
                   </th:block>
                 </th:block>
 
