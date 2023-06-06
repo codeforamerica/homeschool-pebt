@@ -13,7 +13,13 @@
           <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{income-complete.header}, subtext=#{income-complete.subtext})}"/>
         </div>
         <div class="form-card__footer text--centered spacing-above-95">
-          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-complete.button})}"/>
+          <a
+            th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
+            class="button button--primary"
+            id="continue-link">
+            <span class="padding-right-10" th:text="#{income-complete.button}"></span>
+            <i class="icon-arrow_forward"></i>
+          </a>
         </div>
       </main>
     </div>
