@@ -165,16 +165,26 @@ flow:
   incomeHourlyWageCalculator:
     subflow: income
     nextScreens:
-      - name: incomeWillBeLess
+      - name: incomeWillBeLessYearly
+        condition: IsJobPaidYearly
+      - name: incomeWillBeLessMonthly
   incomeGrossMonthlyIndividual:
     subflow: income
     nextScreens:
-      - name: incomeWillBeLess
+      - name: incomeWillBeLessYearly
+        condition: IsJobPaidYearly
+      - name: incomeWillBeLessMonthly
   incomeRegularPayCalculator:
     subflow: income
     nextScreens:
-      - name: incomeWillBeLess
-  incomeWillBeLess:
+      - name: incomeWillBeLessYearly
+        condition: IsJobPaidYearly
+      - name: incomeWillBeLessMonthly
+  incomeWillBeLessYearly:
+    subflow: income
+    nextScreens:
+      - name: incomeReview
+  incomeWillBeLessMonthly:
     subflow: income
     nextScreens:
       - name: incomeReview

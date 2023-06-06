@@ -180,7 +180,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Do you think Testy McTesterson will make less this year?");
+    assertThat(testPage.getTitle()).isEqualTo("Do you think Testy McTesterson will make less from this job in future months?");
     testPage.goBack();
     testPage.goBack();
     testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?
@@ -188,6 +188,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeRegularPayAmount", "1000");
     testPage.clickContinue();
     testPage.findElementById("incomeWillBeLess-true-label").click(); // Will income be less?
+    testPage.enter("incomeCustomMonthlyIncome", "500");
     testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
     testPage.clickContinue();
     assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");

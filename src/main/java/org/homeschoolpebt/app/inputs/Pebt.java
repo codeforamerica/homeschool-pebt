@@ -114,7 +114,12 @@ public class Pebt extends FlowInputs {
   // TODO: Validate this is a number
   private String incomeRegularPayAmount;
   private String incomeWillBeLess;
+  @NotBlank
+  @Money
   private String incomeCustomAnnualIncome;
+  @NotBlank
+  @Money
+  private String incomeCustomMonthlyIncome;
   private String incomeWillBeLessDescription;
   private String incomeCalculationMethod;
 

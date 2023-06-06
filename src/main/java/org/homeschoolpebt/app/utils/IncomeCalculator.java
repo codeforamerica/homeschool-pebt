@@ -55,8 +55,13 @@ public class IncomeCalculator {
         var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
         return annual / 12;
       } else {
-        // TODO: Implement this once we build pages for this in hourly/regularly
-        return pastIncomeForJob(job);
+        var payInterval = job.getOrDefault("incomeRegularPayInterval", "");
+        if (payInterval.equals("yearly") || payInterval.equals("seasonally")) {
+          var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());
+          return annual / 12;
+        } else {
+          return Double.parseDouble(job.get("incomeCustomMonthlyIncome").toString());
+        }
       }
     } else {
       return pastIncomeForJob(job);

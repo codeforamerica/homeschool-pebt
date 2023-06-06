@@ -1,0 +1,86 @@
+<th:block th:with="
+  messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
+  lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
+  monthlyIncome=${T(org.homeschoolpebt.app.utils.IncomeCalculator).pastIncomeForJob(fieldData)},
+  monthlyIncomeFormatted=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).formatMoney(monthlyIncome)},
+  firstName=${currentSubflowItem.incomeMember},
+  title=${#messages.msg('income-will-be-less-monthly.title.' + messageVariant, firstName)},
+  header=${#messages.msg('income-will-be-less-monthly.title.' + messageVariant, firstName)},
+  subtext=#{income-will-be-less-monthly.subtext(${monthlyIncomeFormatted})},
+  iconName='documentsSearch',
+  formAction=${formAction},
+  buttonLabel=#{general.inputs.continue},
+  payInterval=${fieldData.get('incomeIsJobHourly').equals('true') ? 'hourly' : fieldData.get('incomeRegularPayInterval')},
+  payPerInterval=${fieldData.get('incomeIsJobHourly').equals('true') ? fieldData.get('incomeHourlyWage') : fieldData.get('incomeRegularPayAmount')},
+  hoursPerMonth=${fieldData.get('incomeIsJobHourly').equals('true') ? fieldData.get('incomeHoursPerWeek') : null}
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <th:block th:replace="~{'fragments/icons' :: ${iconName}}" />
+          <th:block th:replace="~{fragments/cardHeader :: cardHeader(header=${header}, subtext=${subtext})}"/>
+          <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:if="${!payInterval.equals('monthly')}" th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                  linkLabel=~{::revealLabel},
+                  content=~{::revealContent}
+                )}">
+                  <th:block th:ref="revealLabel">
+                    <th:block th:text="#{income-will-be-less-monthly.reveal-label}"></th:block>
+                  </th:block>
+                  <th:block th:ref="revealContent">
+                    <p th:utext="${#messages.msg('income-will-be-less-monthly.reveal-contents.' + payInterval, firstName, payPerInterval, hoursPerMonth)}"></p>
+                  </th:block>
+                </th:block>
+
+                <div class="question-with-follow-up">
+                  <div class="question-with-follow-up__question">
+                    <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
+                      inputName='incomeWillBeLess',
+                      ariaLabel='header',
+                      content=~{::radioContent}
+                    )}">
+                      <th:block th:ref="radioContent">
+                        <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='true', label=#{general.inputs.yes}, followUpId='#followup-what-will-they-make')}"/>
+                        <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeWillBeLess', value='false', label=#{general.inputs.no})}"/>
+                      </th:block>
+                    </th:block>
+                  </div>
+
+                  <div class="question-with-follow-up__follow-up" id="followup-what-will-they-make">
+                    <th:block th:replace="~{'fragments/inputs/money' :: money(
+                      inputName='incomeCustomMonthlyIncome',
+                      label=#{income-will-be-less-monthly.what-do-you-think-theyll-make},
+                      helpText=#{income-will-be-less-monthly.this-can-be-hard}
+                    )}"></th:block>
+                  </div>
+                </div>
+
+                <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
+                  inputName='incomeWillBeLessDescription',
+                  label=#{income-will-be-less-yearly.description-label},
+                  helpText=#{income-will-be-less-yearly.description-help-text}
+                )}"/>
+              </div>
+              <div class="form-card__footer">
+                <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=${buttonLabel != null ? buttonLabel : 'Submit'})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>
