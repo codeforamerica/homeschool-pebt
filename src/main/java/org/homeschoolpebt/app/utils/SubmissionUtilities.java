@@ -146,6 +146,10 @@ public class SubmissionUtilities {
     return "%s hrs/wk * %s/hr * 4 weeks".formatted(hours, formatMoney(wage));
   }
 
+  public static String getRegularPayAmountFormatted(Map<String, Object> fieldData) {
+    return formatMoney(getRegularPayAmount(fieldData));
+  }
+
   public static Double getRegularPayAmount(Map<String, Object> fieldData) {
     var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
     switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {

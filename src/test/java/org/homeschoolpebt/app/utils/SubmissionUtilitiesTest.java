@@ -177,7 +177,6 @@ class SubmissionUtilitiesTest {
       ));
     }
 
-    // TODO: Also write a test for different future income for hourly/regularly
     @Test
     void withDifferentFutureIncome() {
       Map<String, Object> job = new HashMap<>() {{
@@ -203,6 +202,33 @@ class SubmissionUtilitiesTest {
     }
 
     @Test
+    void withDifferentFutureIncomeRegularIntervtal() {
+      Map<String, Object> job = new HashMap<>() {{
+        put("uuid", "123-456-789");
+        put("incomeMember", "George Washington Carver");
+        put("incomeSelfEmployed", "false");
+        put("incomeIsJobHourly", "false");
+        put("incomeRegularPayInterval", "semimonthly");
+        put("incomeRegularPayAmount", "200");
+        put("incomeWillBeLess", "true");
+        put("incomeCustomMonthlyIncome", "150");
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("income", List.of(job))
+      )).build();
+
+      var items = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
+      var householdReviewItem = items.get(0);
+      assertThat(householdReviewItem).containsAllEntriesOf(Map.ofEntries(
+        Map.entry("name", "George Washington Carver"),
+        Map.entry("income", "$150"),
+        Map.entry("incomeType", "gross-pay-estimate"),
+        Map.entry("uuid", "123-456-789")
+      ));
+    }
+
+    @Test
     void sortsApplicantFirst() {
       Map<String, Object> job1 = new HashMap<>() {{
         put("uuid", "123-456-789");
@@ -218,7 +244,7 @@ class SubmissionUtilitiesTest {
         put("incomeHourlyWage", "10");
         put("incomeHoursPerWeek", "18");
         put("incomeWillBeLess", "true");
-        put("incomeCustomAnnualIncome", "1200"); // Gross income: $100 (= $1200 / 12)
+        put("incomeCustomMonthlyIncome", "100"); // Est. Gross income: $100
       }};
 
       var submission = Submission.builder().inputData(Map.ofEntries(
@@ -436,8 +462,6 @@ class SubmissionUtilitiesTest {
         // $2253.33 = $500 (job1) + $600 (job2) + $720 (job3) + $433.33 (job4)
         Map.entry("income", "$2253.33")
       ));
-
-      // TODO: Add a test case for future pay for weekly/regular pay jobs
     }
   }
 
