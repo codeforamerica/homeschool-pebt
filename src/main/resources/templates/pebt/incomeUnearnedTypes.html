@@ -21,7 +21,7 @@
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeVeterans', label=#{income-shared.incomeVeterans})}"/>
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeOther', label=#{income-shared.incomeOther})}"/>
         <hr>
-        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{students-designations.none}, noneOfTheAbove=true)}"/> <!-- TODO: Extract "None of the above" into a shared string -->
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{general.inputs.none-of-the-above}, noneOfTheAbove=true)}"/>
       </th:block>
     </th:block>
   </th:block>
