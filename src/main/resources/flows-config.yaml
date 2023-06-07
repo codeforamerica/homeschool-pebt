@@ -205,11 +205,14 @@ flow:
       - name: incomeEarnedIncomeComplete
   incomeEarnedIncomeComplete:
     nextScreens:
+      - name: incomeRetirementTypes
+  incomeRetirementTypes:
+    nextScreens:
       - name: incomeUnearnedTypes
   incomeUnearnedTypes:
     nextScreens:
       - name: incomeUnearnedAmounts
-  incomeUnearnedAmounts:
+  incomeUnearnedAndRetirementAmounts:
     nextScreens:
       - name: incomeComplete
   incomeComplete:
