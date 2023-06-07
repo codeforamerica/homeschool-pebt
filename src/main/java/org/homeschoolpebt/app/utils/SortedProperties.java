@@ -33,6 +33,7 @@ public class SortedProperties extends Properties {
       String next = scanner.nextLine();
       outfile.write(next.getBytes());
       outfile.write("\n".getBytes());
+      System.out.println("outputted line " + next);
     }
     outfile.close();
   }
