@@ -23,13 +23,14 @@ public class SortedProperties extends Properties {
     SortedProperties sp = new SortedProperties();
     sp.load(new java.io.FileInputStream(infilename));
     sp.store(tempbuf, null);
-    Scanner fileScanner = new Scanner(new ByteArrayInputStream(tempbuf.toByteArray()));
-    fileScanner.nextLine(); // Remove first line since Java adds timestamp
+    Scanner scanner = new Scanner(new ByteArrayInputStream(tempbuf.toByteArray()));
+    scanner.nextLine(); // Remove first line since Java adds timestamp
     var outfile = new FileOutputStream(outfilename);
-    while(fileScanner.hasNextLine()) {
-      String next = fileScanner.nextLine();
+    while(scanner.hasNextLine()) {
+      String next = scanner.nextLine();
       outfile.write(next.getBytes());
       outfile.write("\n".getBytes());
+      System.out.println("outputted line " + next);
     }
     outfile.close();
   }
