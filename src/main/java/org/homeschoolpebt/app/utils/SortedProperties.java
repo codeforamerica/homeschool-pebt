@@ -29,6 +29,7 @@ public class SortedProperties extends Properties {
     while(fileScanner.hasNextLine()) {
       String next = fileScanner.nextLine();
       outfile.write(next.getBytes());
+      outfile.write("\n".getBytes());
     }
     outfile.close();
   }
