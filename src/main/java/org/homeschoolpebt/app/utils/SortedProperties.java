@@ -9,18 +9,11 @@ import java.util.*;
 
 public class SortedProperties extends Properties {
   public synchronized Set<Map.Entry<Object, Object>> entrySet() {
-    var sorted = new TreeMap<Object, Object>();
+    var sorted = new TreeMap<>();
     for (Map.Entry<Object, Object> entry : super.entrySet()) {
       sorted.put(entry.getKey(), entry.getValue());
     }
-    System.out.println("ok sorted");
     return sorted.entrySet();
-  }
-  public synchronized Set<Object> keySet() {
-    var sorted = new TreeSet<Object>();
-    sorted.addAll(super.keySet());
-    System.out.println("should be sortin");
-    return sorted;
   }
 
   public static void main(String[] args) throws Exception {
