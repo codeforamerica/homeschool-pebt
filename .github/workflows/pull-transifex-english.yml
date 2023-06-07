@@ -27,6 +27,13 @@ jobs:
         with:
           token: ${{ secrets.GH_PUSH_TOKEN }} # for cfa-pebt-deploy user
 
+      - name: Set up JDK
+        uses: actions/setup-java@v3.5.0
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Pull source file using transifex client
         uses: transifex/cli-action@v2
         with:
@@ -50,6 +57,8 @@ jobs:
             git config --global user.name "$GIT_AUTHOR_NAME"
             git add --all
             git commit -m "Update English translations from Transifex"
+            ./gradlew i18nNormalize
+            git commit -m "Normalize"
             git push origin update-english-from-transifex --force
             gh pr create -B main --fill --label transifex-auto || true
           fi
