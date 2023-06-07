@@ -1,12 +1,21 @@
 package org.homeschoolpebt.app.utils;
 
-import java.io.BufferedWriter;
+import org.apache.commons.collections4.MapUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.*;
 
 public class SortedProperties extends Properties {
+  public synchronized Set<Map.Entry<Object, Object>> entrySet() {
+    var sorted = new TreeMap<Object, Object>();
+    for (Map.Entry<Object, Object> entry : super.entrySet()) {
+      sorted.put(entry.getKey(), entry.getValue());
+    }
+    System.out.println("ok sorted");
+    return sorted.entrySet();
+  }
   public synchronized Set<Object> keySet() {
     var sorted = new TreeSet<Object>();
     sorted.addAll(super.keySet());
