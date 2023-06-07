@@ -212,7 +212,7 @@ flow:
   incomeUnearnedTypes:
     nextScreens:
       - name: incomeUnearnedAmounts
-  incomeUnearnedAndRetirementAmounts:
+  incomeUnearnedAmounts:
     nextScreens:
       - name: incomeComplete
   incomeComplete:
