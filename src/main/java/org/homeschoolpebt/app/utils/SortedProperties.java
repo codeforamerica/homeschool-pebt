@@ -10,6 +10,7 @@ public class SortedProperties extends Properties {
   public synchronized Set<Object> keySet() {
     var sorted = new TreeSet<Object>();
     sorted.addAll(super.keySet());
+    System.out.println("should be sortin");
     return sorted;
   }
 
