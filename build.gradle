@@ -74,3 +74,9 @@ springBoot {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task i18nNormalize(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'org.homeschoolpebt.app.utils.SortedProperties'
+  args 'src/main/resources/messages.properties', 'src/main/resources/messages.properties'
+}
