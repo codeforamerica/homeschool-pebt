@@ -17,12 +17,11 @@
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeWorkersCompensation', label=#{income-shared.incomeWorkersCompensation})}"/>
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSpousalSupport', label=#{income-shared.incomeSpousalSupport})}"/>
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeChildSupport', label=#{income-shared.incomeChildSupport})}"/>
-        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomePension', label=#{income-shared.incomePension})}"/>
-        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeRetirement', label=#{income-shared.incomeRetirement})}"/>
-        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSSI', label=#{income-shared.incomeSSI})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeDisability', label=#{income-shared.incomeDisability})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeVeterans', label=#{income-shared.incomeVeterans})}"/>
         <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeOther', label=#{income-shared.incomeOther})}"/>
         <hr>
-        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{students-designations.none}, noneOfTheAbove=true)}"/> <!-- TODO: Extract "None of the above" into a shared string -->
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{general.inputs.none-of-the-above}, noneOfTheAbove=true)}"/>
       </th:block>
     </th:block>
   </th:block>

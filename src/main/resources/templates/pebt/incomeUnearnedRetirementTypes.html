@@ -1,0 +1,25 @@
+<th:block th:replace="~{fragments/screens/screenWithOneInput :: screenWithOneInput(
+  title=#{income-unearned-types-retirement.title},
+  header=#{income-unearned-types-retirement.title},
+  subtext=#{income-unearned-types.sub-header},
+  formAction=${formAction},
+  iconName='savingsInvestment',
+  inputContent=~{::inputContent})
+}">
+  <th:block th:ref="inputContent">
+    <th:block th:replace="~{'fragments/inputs/checkboxFieldset' ::
+      checkboxFieldset(inputName='incomeTypes',
+      ariaLabel='header',
+      content=~{::checkboxContent})
+    }">
+      <th:block th:ref="checkboxContent">
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSocialSecurity', label=#{income-shared.incomeSocialSecurity})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomeSSI', label=#{income-shared.incomeSSI})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='income401k403b', label=#{income-shared.401k403b})}"/>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='incomePension', label=#{income-shared.incomePension})}"/>
+        <hr>
+        <th:block th:replace="~{'fragments/inputs/checkboxInSet' :: checkboxInSet(inputName='incomeTypes', value='none', label=#{general.inputs.none-of-the-above}, noneOfTheAbove=true)}"/>
+      </th:block>
+    </th:block>
+  </th:block>
+</th:block>

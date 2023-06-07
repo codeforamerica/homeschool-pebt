@@ -205,6 +205,9 @@ flow:
       - name: incomeEarnedIncomeComplete
   incomeEarnedIncomeComplete:
     nextScreens:
+      - name: incomeUnearnedRetirementTypes
+  incomeUnearnedRetirementTypes:
+    nextScreens:
       - name: incomeUnearnedTypes
   incomeUnearnedTypes:
     nextScreens:

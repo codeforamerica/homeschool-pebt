@@ -175,7 +175,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Continue");
     // TODO: Add a case for self-employed income as well.
     testPage.clickButton(NO.getDisplayValue()); // Was self-employed?
-    // TODO: Where did incomeGrossMonthlyIndividual screen go? Will it be restored, or should we delete it?
     testPage.clickButton(YES.getDisplayValue()); // Is this job paid by the hour?
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
@@ -194,11 +193,13 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
     testPage.clickButton("Yes, that's all the income");
     testPage.clickLink("Keep going"); // Almost done with income!
-    testPage.findElementById("incomeTypes-incomeWorkersCompensation").click(); // Does anyone get unearned income?
-    testPage.findElementById("incomeTypes-incomeSSI").click();
+    testPage.findElementById("incomeTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
     testPage.clickButton("Submit");
-    testPage.enter("incomeWorkersCompensationAmount", "123"); // Tell us how much you made from unearned sources?
-    testPage.enter("incomeSSIAmount", "456");
+    testPage.findElementById("incomeTypes-incomeChildSupport").click(); // Does anyone get unearned income i.e. benefits income?
+    testPage.clickButton("Submit");
+    // TODO: Restore next line when revising the unearned income amounts page
+    // testPage.enter("incomeSocialSecurityAmount", "123"); // Tell us how much you made from unearned sources?
+    testPage.enter("incomeChildSupportAmount", "456");
     testPage.clickContinue();
 
 
