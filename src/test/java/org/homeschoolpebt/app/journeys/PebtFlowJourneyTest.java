@@ -197,7 +197,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Submit");
     testPage.findElementById("incomeUnearnedTypes-incomeChildSupport").click(); // Does anyone get unearned income i.e. benefits income?
     testPage.clickButton("Submit");
-    // TODO: Restore next line when revising the unearned income amounts page
     testPage.enter("incomeSocialSecurityAmount", "123"); // Tell us how much you made from unearned sources?
     testPage.enter("incomeChildSupportAmount", "456");
     testPage.clickContinue();
