@@ -13,9 +13,15 @@
         <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::incomeAmounts})}">
           <div th:ref="incomeAmounts">
             <div class="form-card__content">
-              <th:block th:each="incomeType: ${inputData.get('incomeTypes[]')}">
+              <th:block th:each="incomeType: ${inputData.get('incomeUnearnedRetirementTypes[]')}">
                 <th:block
-                    th:replace="~{'fragments/inputs/money' :: money(inputName=${incomeType + 'Amount'},
+                  th:replace="~{'fragments/inputs/money' :: money(inputName=${incomeType + 'Amount'},
+                    label=#{'income-shared.' + ${incomeType}},
+                    helpText=#{income-amounts.monthly})}"/>
+              </th:block>
+              <th:block th:each="incomeType: ${inputData.get('incomeUnearnedTypes[]')}">
+                <th:block
+                  th:replace="~{'fragments/inputs/money' :: money(inputName=${incomeType + 'Amount'},
                     label=#{'income-shared.' + ${incomeType}},
                     helpText=#{income-amounts.monthly})}"/>
               </th:block>
