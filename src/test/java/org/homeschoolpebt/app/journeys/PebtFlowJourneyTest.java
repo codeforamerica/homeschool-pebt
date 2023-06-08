@@ -193,12 +193,11 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
     testPage.clickButton("Yes, that's all the income");
     testPage.clickLink("Keep going"); // Almost done with income!
-    testPage.findElementById("incomeTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
+    testPage.findElementById("incomeUnearnedRetirementTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
     testPage.clickButton("Submit");
-    testPage.findElementById("incomeTypes-incomeChildSupport").click(); // Does anyone get unearned income i.e. benefits income?
+    testPage.findElementById("incomeUnearnedTypes-incomeChildSupport").click(); // Does anyone get unearned income i.e. benefits income?
     testPage.clickButton("Submit");
-    // TODO: Restore next line when revising the unearned income amounts page
-    // testPage.enter("incomeSocialSecurityAmount", "123"); // Tell us how much you made from unearned sources?
+    testPage.enter("incomeSocialSecurityAmount", "123"); // Tell us how much you made from unearned sources?
     testPage.enter("incomeChildSupportAmount", "456");
     testPage.clickContinue();
 

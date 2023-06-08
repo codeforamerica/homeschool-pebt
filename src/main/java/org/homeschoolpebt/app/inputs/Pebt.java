@@ -124,9 +124,26 @@ public class Pebt extends FlowInputs {
   private String incomeCalculationMethod;
 
   @NotEmpty(message = "{income-unearned-types.error}")
-  private ArrayList<String> incomeTypes;
+  private ArrayList<String> incomeUnearnedRetirementTypes;
 
-  // Income Amounts Screen
+  @NotEmpty(message = "{income-unearned-types.error}")
+  private ArrayList<String> incomeUnearnedTypes;
+
+  // Unearned income amounts screen - retirement section
+  @NotBlank(message = "{income-amounts.must-select-one}")
+  @Money(message = "{income-amounts.must-be-dollars-cents}")
+  private String incomeSocialSecurityAmount;
+  @NotBlank(message = "{income-amounts.must-select-one}")
+  @Money(message = "{income-amounts.must-be-dollars-cents}")
+  private String incomeSSIAmount;
+  @NotBlank(message = "{income-amounts.must-select-one}")
+  @Money(message = "{income-amounts.must-be-dollars-cents}")
+  private String income401k403bAmount;
+  @NotBlank(message = "{income-amounts.must-select-one}")
+  @Money(message = "{income-amounts.must-be-dollars-cents}")
+  private String incomePensionAmount;
+
+  // Unearned income amounts screen - general section
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeUnemploymentAmount;
@@ -141,13 +158,10 @@ public class Pebt extends FlowInputs {
   private String incomeChildSupportAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomePensionAmount;
+  private String incomeDisabilityAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeRetirementAmount;
-  @NotBlank(message = "{income-amounts.must-select-one}")
-  @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeSSIAmount;
+  private String incomeVeteransAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeOtherAmount;
