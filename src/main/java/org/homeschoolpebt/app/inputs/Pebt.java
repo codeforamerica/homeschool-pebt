@@ -129,7 +129,7 @@ public class Pebt extends FlowInputs {
   @NotEmpty(message = "{income-unearned-types.error}")
   private ArrayList<String> incomeUnearnedTypes;
 
-  // Unearned income amounts Screen - retirement section
+  // Unearned income amounts screen - retirement section
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeSocialSecurityAmount;
@@ -143,7 +143,7 @@ public class Pebt extends FlowInputs {
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomePensionAmount;
 
-  // Unearned income amounts Screen - general section
+  // Unearned income amounts screen - general section
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeUnemploymentAmount;
@@ -158,7 +158,7 @@ public class Pebt extends FlowInputs {
   private String incomeChildSupportAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
-  private String incomeDisabillityAmount;
+  private String incomeDisabilityAmount;
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeVeteransAmount;

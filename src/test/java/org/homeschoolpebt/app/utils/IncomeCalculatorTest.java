@@ -12,9 +12,11 @@ class IncomeCalculatorTest {
   @Test
   void unearnedIncome() {
     Submission submission = Submission.builder().inputData(Map.of(
-      "incomeTypes[]", List.of("incomeUnemployment", "incomeSSI"),
+      "incomeUnearnedRetirementTypes[]", List.of("incomeSocialSecurity", "incomeSSI"),
+      "incomeUnearnedTypes[]", List.of("incomeUnemployment"),
       "incomeUnemploymentAmount", "111",
-      "incomeSSIAmount", "222",
+      "incomeSocialSecurityAmount", "22",
+      "incomeSSIAmount", "200",
       "incomeChildSupportAmount", "123" // <- should be ignored since child support isn't in incomeTypes
     )).build();
 
