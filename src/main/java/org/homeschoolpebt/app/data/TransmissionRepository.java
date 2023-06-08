@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface TransmissionRepository extends JpaRepository<Transmission, UUID> {
   @Query(value = "SELECT s FROM Submission s WHERE s.submittedAt IS NOT NULL")
   List<Submission> submissionsToTransmit(Sort sort);
+
+
 }
