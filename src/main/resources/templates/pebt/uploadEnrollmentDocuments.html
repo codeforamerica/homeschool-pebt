@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{upload-identity-documents.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{upload-enrollment-documents.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,14 +8,14 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{'fragments/icons' :: matchInfo}"></th:block>
-        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{upload-identity-documents.title})}"/>
+        <th:block th:replace="~{'fragments/icons' :: school}"></th:block>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{upload-enrollment-documents.title})}"/>
 
         <div class="boxed-content text--centered">
           <strong th:text="#{upload-identity-documents.box-title}"></strong>
 
           <ul class="subflow-list">
-            <li th:each="docItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getDocUploadIdentityStudentsList(submission)}" class="subflow-list__item spacing-below-0">
+            <li th:each="docItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getDocUploadEnrollmentStudentsList(submission)}" class="subflow-list__item spacing-below-0">
               <i class="subflow-list__icon icon-person"></i>
               <div class="subflow-list__item-title" style="font-weight: normal;">
                 <th:block th:text="${docItem.get('name')}"></th:block>
@@ -24,22 +24,22 @@
             </li>
           </ul>
         </div>
-        
-        <th:block th:utext="#{upload-identity-documents.identity-subtext}"></th:block>
 
         <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(linkLabel=~{::revealLabel}, content=~{::revealContent})}">
           <th:block th:ref="revealLabel">
-            <th:block th:text="#{upload-identity-documents.undocumented-reveal-title}"></th:block>
+            <th:block th:text="#{upload-enrollment-documents.reveal-title}"></th:block>
           </th:block>
           <th:block th:ref="revealContent">
-            <th:block th:utext="#{upload-identity-documents.undocumented-reveal-body}"></th:block>
+            <th:block th:utext="#{upload-enrollment-documents.reveal-body}"></th:block>
           </th:block>
         </th:block>
+
+        <th:block th:utext="#{upload-enrollment-documents.enrollment-subtext}"></th:block>
 
         <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, enctype='multipart/form-data', content=~{::contentRef})}">
           <th:block th:ref="contentRef">
             <div class="form-card__content">
-              <th:block th:replace="~{fragments/fileUploader :: fileUploader(inputName='identityFiles')}"></th:block>
+              <th:block th:replace="~{fragments/fileUploader :: fileUploader(inputName='enrollmentFiles')}"></th:block>
             </div>
             <div class="form-card__footer" id="submit">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>

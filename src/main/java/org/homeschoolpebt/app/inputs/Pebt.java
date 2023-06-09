@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Pebt extends FlowInputs {
 
   private MultipartFile identityFiles;
+  private MultipartFile enrollmentFiles;
 
   // Pre-screen
   private String hasMoreThanOneStudent;

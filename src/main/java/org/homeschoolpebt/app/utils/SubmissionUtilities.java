@@ -365,5 +365,30 @@ public class SubmissionUtilities {
 
     return items;
   }
+
+  public static ArrayList<HashMap<String, String>> getDocUploadEnrollmentStudentsList(Submission submission) {
+    var items = new ArrayList<HashMap<String, String>>();
+    if (submission.getInputData().getOrDefault("isApplyingForSelf", "false").equals("true")) {
+      var item = new HashMap<String, String>();
+      item.put("name", applicantFullName(submission));
+      item.put("isApplicant", "true");
+      items.add(item);
+    }
+
+    var students = (List<Map<String, String>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
+    for (var student : students) {
+      if (!student.getOrDefault("studentHomeschoolAffidavitNumber", "").isBlank()) {
+        // we don't need documentation from students who have a homeschool affidavit number
+        continue;
+      }
+
+      var item = new HashMap<String, String>();
+      item.put("name", studentFullName(student));
+      item.put("isApplicant", "false");
+      items.add(item);
+    }
+
+    return items;
+  }
 }
 
