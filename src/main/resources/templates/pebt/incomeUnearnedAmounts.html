@@ -36,6 +36,11 @@
                   />
                 </th:block>
               </th:block>
+              <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
+                  inputName='incomeUnearnedDescription',
+                  label=#{income-unearned-amounts.description-label},
+                  helpText=#{income-unearned-amounts.description-help-text}
+                )}"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
