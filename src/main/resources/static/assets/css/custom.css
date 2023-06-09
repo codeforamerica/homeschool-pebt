@@ -264,6 +264,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   display: none;
 }
 
+.display-flex {
+  display: flex;
+}
+
 /* Form styles: */
 .text-input--inline {
   display: inline-block;
