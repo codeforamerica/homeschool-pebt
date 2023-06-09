@@ -137,8 +137,9 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   color: #D13F00;
 }
 
-/* This file is provided for addition of custom CSS styles */
-
+/* **************************************************************************
+ * FORM FLOW LIBRARY STYLES
+ * ************************************************************************** */
 .reveal a {
   display: flex;
 }
@@ -257,6 +258,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 
 .help--header-spacing {
   margin-top: -35px;
+}
+
+.display-none {
+  display: none;
 }
 
 /* Form styles: */

@@ -230,11 +230,11 @@ flow:
       - name: documentRecommendations
   documentRecommendations:
     nextScreens:
-      - name: uploadUBIFlowDocuments
+      - name: uploadIdentityDocuments
   documentOffboarding:
     nextScreens:
       - name: submitting
-  uploadUBIFlowDocuments:
+  uploadIdentityDocuments:
     nextScreens:
       - name: docSubmitConfirmation
   docSubmitConfirmation:

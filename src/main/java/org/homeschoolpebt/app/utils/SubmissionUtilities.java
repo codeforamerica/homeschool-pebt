@@ -52,6 +52,11 @@ public class SubmissionUtilities {
     return householdMember.get("householdMemberFirstName") + " " + householdMember.get("householdMemberLastName");
   }
 
+  public static String applicantFullName(Submission submission) {
+    var inputData = submission.getInputData();
+    return (String)inputData.getOrDefault("firstName", "") + ' ' + (String)inputData.getOrDefault("lastName", "");
+  }
+
   public static String studentFullName(Map<String, String> student) {
     if (((String)student.getOrDefault("studentMiddleInitial", "")).isBlank()) {
       return student.get("studentFirstName") + " " + student.get("studentLastName");
@@ -337,6 +342,26 @@ public class SubmissionUtilities {
       put("itemType", "household-total");
       put("income", formatMoney(new IncomeCalculator(submission).totalFutureEarnedIncome()));
     }});
+
+    return items;
+  }
+
+  public static ArrayList<HashMap<String, String>> getDocUploadIdentityStudentsList(Submission submission) {
+    var items = new ArrayList<HashMap<String, String>>();
+    if (submission.getInputData().getOrDefault("isApplyingForSelf", "false").equals("true")) {
+      var item = new HashMap<String, String>();
+      item.put("name", applicantFullName(submission));
+      item.put("isApplicant", "true");
+      items.add(item);
+    }
+
+    var students = (List<Map<String, String>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
+    for (var student : students) {
+      var item = new HashMap<String, String>();
+      item.put("name", studentFullName(student));
+      item.put("isApplicant", "false");
+      items.add(item);
+    }
 
     return items;
   }
