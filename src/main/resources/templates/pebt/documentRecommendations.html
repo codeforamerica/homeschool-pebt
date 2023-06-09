@@ -42,8 +42,7 @@
         </div>
         <div class="form-card__footer">
           <!-- upload documents -->
-          <a class="button button--primary" th:href="'/flow/' + ${flow} + '/uploadUBIFlowDocuments'"
-             th:text="#{document-recommendations.upload-documents-now}"></a>
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{document-recommendations.upload-documents-now})}" />
           <!-- don't upload docs now, do it later -->
           <a class="button button--other"  th:href="'/flow/' + ${flow} + '/documentOffboarding'"
                th:text="#{document-recommendations.ill-do-this-later}"></a>

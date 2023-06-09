@@ -236,6 +236,9 @@ flow:
       - name: submitting
   uploadIdentityDocuments:
     nextScreens:
+      - name: uploadEnrollmentDocuments
+  uploadEnrollmentDocuments:
+    nextScreens:
       - name: docSubmitConfirmation
   docSubmitConfirmation:
     nextScreens:

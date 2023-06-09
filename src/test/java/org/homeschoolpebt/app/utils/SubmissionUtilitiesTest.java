@@ -515,4 +515,34 @@ class SubmissionUtilitiesTest {
       Map.entry("isApplicant", "true")
     ));
   }
+
+  @Test
+  void docUploadEnrollmentStudentsListContainsStudents() {
+    var student1 = new HashMap<String, Object>() {{
+      put("studentFirstName", "Sally");
+      put("studentMiddleInitial", "A");
+      put("studentLastName", "Starfish");
+      put("studentSchoolType", "virtual");
+    }};
+
+    var student2 = new HashMap<String, Object>() {{
+      put("studentFirstName", "George");
+      put("studentLastName", "Washington Carver");
+      put("studentSchoolType", "homeschool");
+      put("studentHomeschoolAffidavitNumber", "ABC1234");
+    }};
+
+    var submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Johnny"),
+      Map.entry("lastName", "Appleseed"),
+      Map.entry("students", List.of(student1, student2))
+    )).build();
+
+    var items = SubmissionUtilities.getDocUploadEnrollmentStudentsList(submission);
+    assertThat(items.size()).isEqualTo(1);
+    assertThat(items.get(0)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("name", "Sally A Starfish"),
+      Map.entry("isApplicant", "false")
+    ));
+  }
 }
