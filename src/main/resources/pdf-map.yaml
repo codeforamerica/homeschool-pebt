@@ -28,7 +28,7 @@ inputFields:
   income-retirement: income-retirement
   income-ssi: income-ssi
   income-other: income-other
-  # TODO: income-unearned-comments
+  income-unearned-comments: income-unearned-comments
 
   income-hh-future-earned: income-hh-future-earned
   income-hh-future-total: income-hh-future-total

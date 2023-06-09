@@ -165,6 +165,7 @@ public class Pebt extends FlowInputs {
   @NotBlank(message = "{income-amounts.must-select-one}")
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String incomeOtherAmount;
+  private String incomeUnearnedDescription;
 
   // Reported Household Annual Income Screen
   @NotBlank(message = "{household-reported-annual-pre-tax-income.please-enter-a-value}")
