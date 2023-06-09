@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @Data
 public class Pebt extends FlowInputs {
 
-  private MultipartFile ubiFiles;
+  private MultipartFile identityFiles;
 
   // Pre-screen
   private String hasMoreThanOneStudent;

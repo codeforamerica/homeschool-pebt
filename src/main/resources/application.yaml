@@ -51,6 +51,9 @@ spring:
       static-locations: file:src/main/resources/static/
       cache:
         period: 0
+  shell:
+    history:
+      enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/starter-app
     username: starter-app
