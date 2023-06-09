@@ -96,7 +96,6 @@ flow:
     nextScreens:
       - name: contactInfo
   contactInfo:
-    beforeSaveAction: SendConfirmationEmail
     nextScreens:
       - name: confirmBlankEmail
         condition: HasBlankEmail
@@ -241,6 +240,8 @@ flow:
   docSubmitConfirmation:
     nextScreens:
       - name: submitting
+
+  # Step 7: Sign + Submit!
   submitting:
     nextScreens:
       - name: legalStuff
@@ -248,6 +249,7 @@ flow:
     nextScreens:
       - name: signName
   signName:
+    afterSaveAction: HandleApplicationSigned
     nextScreens:
       - name: nextSteps
   nextSteps:

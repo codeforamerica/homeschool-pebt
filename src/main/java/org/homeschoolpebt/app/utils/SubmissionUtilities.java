@@ -32,6 +32,11 @@ public class SubmissionUtilities {
     return formatDate.format(submission.getSubmittedAt());
   }
 
+  // Removes leading zeroes, i.e. "001012344" -> "1012344"
+  public static String getFormattedApplicationNumber(String applicationNumber) {
+    return applicationNumber.replaceFirst("^0*", "");
+  }
+
   public static String getLastMonth(Submission submission) {
     var day = new DateTime().minusMonths(1).withDayOfMonth(1);
     DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM, yyyy");
