@@ -24,10 +24,11 @@ form-flow:
   pdf:
     path: 'src/main/resources/pdfs/'
     map-file: pdf-map.yaml
-mail-gun:
-  sender-email: hello@${MAILGUN_DOMAIN}
-  api-key: ${MAILGUN_API_KEY}
-  domain: ${MAILGUN_DOMAIN}
+  email-client:
+    mailgun:
+      sender-email: hello@${MAILGUN_DOMAIN}
+      key: ${MAILGUN_API_KEY}
+      domain: ${MAILGUN_DOMAIN}
 spring:
   profiles:
     group:
@@ -66,6 +67,8 @@ management:
       exposure:
         include: '*'
 logging:
+  pattern:
+    console:
   level:
     root: INFO
     org.springframework.web: ERROR

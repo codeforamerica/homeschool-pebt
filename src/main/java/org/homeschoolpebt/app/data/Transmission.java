@@ -39,7 +39,7 @@ public class Transmission {
   @Column(name = "submitted_to_state_filename")
   private String submittedToStateFilename;
 
-  static Transmission fromSubmission(Submission submission) {
+  public static Transmission fromSubmission(Submission submission) {
     var transmission = new Transmission();
     transmission.setSubmission(submission);
     return transmission;
