@@ -545,4 +545,40 @@ class SubmissionUtilitiesTest {
       Map.entry("isApplicant", "false")
     ));
   }
+
+  @Test
+  void docUploadUnearnedIncludesIncomeTypes() {
+    var submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Johnny"),
+      Map.entry("lastName", "Appleseed"),
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSocialSecurity", "incomeSSI", "income401k403b", "incomePension")),
+      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeDisability", "incomeVeterans", "incomeOther")),
+      Map.entry("incomeSSIAmount", "123"),
+      Map.entry("incomeWorkersCompensationAmount", "456")
+    )).build();
+
+    var items = SubmissionUtilities.getDocUploadUnearnedIncomeList(submission);
+    assertThat(items.size()).isEqualTo(11);
+    assertThat(items.get(1)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("type", "incomeSSI"),
+      Map.entry("amount", "$123")
+    ));
+    assertThat(items.get(5)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("type", "incomeWorkersCompensation"),
+      Map.entry("amount", "$456")
+    ));
+  }
+
+  @Test
+  void docUploadUnearnedSkipsNone() {
+    var submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Johnny"),
+      Map.entry("lastName", "Appleseed"),
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("none")),
+      Map.entry("incomeUnearnedTypes[]", List.of("none"))
+    )).build();
+
+    var items = SubmissionUtilities.getDocUploadUnearnedIncomeList(submission);
+    assertThat(items.size()).isEqualTo(0);
+  }
 }
