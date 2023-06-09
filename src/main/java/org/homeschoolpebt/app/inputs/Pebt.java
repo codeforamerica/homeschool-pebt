@@ -16,6 +16,7 @@ public class Pebt extends FlowInputs {
   private MultipartFile identityFiles;
   private MultipartFile enrollmentFiles;
   private MultipartFile incomeFiles;
+  private MultipartFile unearnedIncomeFiles;
 
   // Pre-screen
   private String hasMoreThanOneStudent;

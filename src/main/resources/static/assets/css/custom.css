@@ -90,9 +90,20 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   text-align: left;
 }
 
+.subflow-list--bulleted {
+  text-align: left;
+  padding-left: 3rem;
+  list-style: disc;
+}
+
 .subflow-list__item {
   position: relative;
   margin-bottom: 1.5em;
+}
+
+.subflow-list__subitem {
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .subflow-list__icon {

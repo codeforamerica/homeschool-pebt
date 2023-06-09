@@ -390,5 +390,26 @@ public class SubmissionUtilities {
 
     return items;
   }
+
+  public static ArrayList<HashMap<String, String>> getDocUploadUnearnedIncomeList(Submission submission) {
+    var incomeTypes = new ArrayList<String>();
+    incomeTypes.addAll((List<String>) submission.getInputData().getOrDefault("incomeUnearnedRetirementTypes[]", new ArrayList<String>()));
+    incomeTypes.addAll((List<String>) submission.getInputData().getOrDefault("incomeUnearnedTypes[]", new ArrayList<String>()));
+    var items = new ArrayList<HashMap<String, String>>();
+
+    for (var incomeType : incomeTypes) {
+      if (incomeType.equals("none")) {
+        continue;
+      }
+
+      var item = new HashMap<String, String>();
+      var amount = Double.parseDouble((String)submission.getInputData().getOrDefault(incomeType + "Amount", "0"));
+      item.put("type", incomeType);
+      item.put("amount", formatMoney(amount));
+      items.add(item);
+    }
+
+    return items;
+  }
 }
 

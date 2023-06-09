@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{upload-unearned-income-documents.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{'fragments/icons' :: cash}"></th:block>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{upload-unearned-income-documents.title})}"/>
+
+        <div class="boxed-content text--centered">
+          <strong th:text="#{upload-unearned-income-documents.box-title}"></strong>
+
+          <ul class="subflow-list--bulleted">
+            <li th:each="incomeItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getDocUploadUnearnedIncomeList(submission)}" class="subflow-list__item">
+              <th:block th:text="${#messages.msg('income-shared.' + incomeItem.get('type'))}"></th:block><br>
+              <span th:text="${incomeItem.get('amount')}" class="subflow-list__subitem"></span>
+            </li>
+          </ul>
+        </div>
+
+        <th:block th:utext="#{upload-unearned-income-documents.subtext}"></th:block>
+
+        <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, enctype='multipart/form-data', content=~{::contentRef})}">
+          <th:block th:ref="contentRef">
+            <div class="form-card__content">
+              <th:block th:replace="~{fragments/fileUploader :: fileUploader(inputName='unearnedIncomeFiles')}"></th:block>
+            </div>
+            <div class="form-card__footer" id="submit">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
