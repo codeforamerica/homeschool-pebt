@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{index.title})}"></head>
+<body class="template--static-page">
+<div class="page-wrapper">
+  <th:block th:replace="~{fragments/toolbar :: toolbar(headerClasses='main-header--hero')}"/>
+  <main id="content" role="main" class="spacing-below-0">
+    <section class="slab slab--hero">
+      <div class="grid">
+        <div class="width-one-half">
+          <h1 class="spacing-below-35 spacing-above-5" th:text="#{index.title}"></h1>
+          <h2 class="h3 spacing-below-30" th:text="#{index.apply-for-benefits-in-10}"></h2>
+          <div class="notice notice--warning">
+            <strong th:text="#{index-applications-disabled.applications-launch}"></strong>
+            <br>
+            <span th:text="#{index-applications-disabled.check-back-later}"></span>
+          </div>
+          <p class="text--help spacing-below-95" th:text="#{index.official-partner}"></p>
+        </div>
+      </div>
+    </section>
+    <section class="slab slab--white">
+      <div class="grid">
+        <div class="width-one-half index__gov-logos">
+          <img src="/assets/images/pebt.svg">
+          <p th:text="#{index.what-is-pebt}"></p>
+        </div>
+        <div class="width-five-twelfths shift-one-twelfth index__gov-logos">
+          <img src="/assets/images/cde-logo.png" style="height: 87px;">
+          <img src="/assets/images/cdss-logo.png">
+          <p th:utext="#{index.we-are-official-we-swear}"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab slab--off-white">
+      <div class="grid text--centered spacing-below-35">
+        <div class="width-one-whole">
+          <th:block th:replace="~{'fragments/icons' :: documentsSent}"></th:block>
+          <h2 th:text="#{index.how-it-works}"></h2>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="width-one-half shift-one-fourth">
+          <h3 th:text="#{index.apply}"></h3>
+          <p th:utext="#{index.apply-description}"></p>
+          <h3 th:text="#{index.get-money}"></h3>
+          <p th:text="#{index.get-money-description}"></p>
+          <h3 th:text="#{index.buy-groceries}"></h3>
+          <p th:utext="#{index.buy-groceries-description}"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab slab--white">
+      <div class="grid">
+        <div class="width-one-half shift-one-fourth text--centered">
+          <th:block th:replace="~{fragments/icons :: documentsSearch}"/>
+          <h2 th:text="#{index.documents-students-need}"></h2>
+          </div>
+
+        <div class="width-one-half shift-one-fourth">
+          <p th:text="#{index.send-these-docs}"></p>
+          <p th:utext="#{index.undocumented}"></p>
+
+          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
+            buttonLabel=#{index.proof-of-identity},
+            content=~{::proofIdentityAccordion})}">
+            <th:block th:ref="proofIdentityAccordion">
+              <p th:utext="#{index.proof-of-identity-content}"></p>
+            </th:block>
+          </th:block>
+
+          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
+            buttonLabel=#{index.virtual-school-documents},
+            content=~{::virtualSchoolAccordion})}">
+            <th:block th:ref="virtualSchoolAccordion">
+              <p th:utext="#{index.virtual-school-documents-content}"></p>
+            </th:block>
+          </th:block>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

@@ -1,12 +1,14 @@
 package org.homeschoolpebt.app;
 
-import java.util.HashMap;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
 
 /**
  * A controller to render static pages that are not in any flow.
@@ -24,7 +26,7 @@ public class StaticPageController {
    * @return the static page template
    */
   @GetMapping("/")
-  ModelAndView getIndex(HttpSession httpSession) {
+  ModelAndView getIndex(HttpSession httpSession, @Value("${form-flow.applications-disabled}") String applicationsDisabled) {
     // For dev, reset session if you visit home
     httpSession.invalidate();
 
@@ -32,6 +34,7 @@ public class StaticPageController {
     HashMap<String, Object> model = new HashMap<>();
     model.put("codeCommitHashShort", gitProperties.getShortCommitId());
     model.put("codeCommitDateTime", gitProperties.getCommitTime());
+    model.put("applicationsDisabled", applicationsDisabled.equals("true"));
 
     return new ModelAndView("index", model);
   }
