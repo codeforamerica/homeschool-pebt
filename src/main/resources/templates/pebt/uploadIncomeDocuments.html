@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{upload-income-documents.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{'fragments/icons' :: briefcaseGreen}"></th:block>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{upload-income-documents.title})}"/>
+
+        <div class="boxed-content text--centered">
+          <strong th:text="#{upload-income-documents.box-title}"></strong>
+
+          <ul class="subflow-list">
+            <li th:each="incomeItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}" class="subflow-list__item">
+              <th:block th:if="${incomeItem.get('itemType').equals('job')}">
+                <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
+                <div th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__item-title">
+                  <span th:text="${incomeItem.name}"></span>
+                  <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
+                </div>
+
+                <div class="subflow-list__item-body">
+                  <div class="subflow-list__item-body__subtitle" th:text="${incomeItem.jobName}"></div>
+                  <div><strong th:text="${incomeItem.income}"></strong></div>
+                  <span th:text="${#messages.msg('income-review.income-types.' + incomeItem.incomeType)}"></span>
+                </div>
+              </th:block>
+            </li>
+          </ul>
+        </div>
+        
+        <th:block th:utext="#{upload-income-documents.income-subtext}"></th:block>
+
+        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(linkLabel=~{::revealLabel}, content=~{::revealContent})}">
+          <th:block th:ref="revealLabel">
+            <th:block th:text="#{upload-income-documents.self-certification-reveal-title}"></th:block>
+          </th:block>
+          <th:block th:ref="revealContent">
+            <th:block th:utext="#{upload-income-documents.self-certification-reveal-body}"></th:block>
+          </th:block>
+        </th:block>
+
+        <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, enctype='multipart/form-data', content=~{::contentRef})}">
+          <th:block th:ref="contentRef">
+            <div class="form-card__content">
+              <th:block th:replace="~{fragments/fileUploader :: fileUploader(inputName='incomeFiles')}"></th:block>
+            </div>
+            <div class="form-card__footer" id="submit">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

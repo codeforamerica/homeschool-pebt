@@ -239,6 +239,9 @@ flow:
       - name: uploadEnrollmentDocuments
   uploadEnrollmentDocuments:
     nextScreens:
+      - name: uploadIncomeDocuments
+  uploadIncomeDocuments:
+    nextScreens:
       - name: docSubmitConfirmation
   docSubmitConfirmation:
     nextScreens:
