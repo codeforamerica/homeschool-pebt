@@ -34,6 +34,7 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     fields.put("income-other", new SingleField("income-other", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeOtherAmount")), null));
     var totalUnearnedIncome = calc.totalUnearnedIncome();
     fields.put("income-hh-unearned", new SingleField("income-hh-unearned", SubmissionUtilities.formatMoney(totalUnearnedIncome), null));
+    fields.put("income-unearned-comments", new SingleField("income-unearned-comments", submission.getInputData().get("incomeUnearnedDescription").toString(), null));
 
     // earned
     var futureEarned = calc.totalFutureEarnedIncome();
