@@ -14,33 +14,37 @@
           <div th:ref="incomeAmounts">
             <div class="form-card__content">
               <th:block th:each="incomeType: ${inputData.get('incomeUnearnedRetirementTypes[]')}">
-                <th:block th:with="customHelpText=${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}">
-                  <th:block th:text="${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}"></th:block>
-                  <th:block
-                    th:replace="~{'fragments/inputs/money' :: money(
+                <th:block th:if="${incomeType != 'none'}">
+                  <th:block th:with="customHelpText=${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}">
+                    <th:block th:text="${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}"></th:block>
+                    <th:block
+                      th:replace="~{'fragments/inputs/money' :: money(
                       inputName=${incomeType + 'Amount'},
                       label=#{'income-shared.' + ${incomeType}},
                       helpText=${customHelpText == null ? #messages.msg('income-amounts.monthly') : customHelpText})}"
-                    placeholder="$0.00"
-                  />
+                      placeholder="$0.00"
+                    />
+                  </th:block>
                 </th:block>
               </th:block>
               <th:block th:each="incomeType: ${inputData.get('incomeUnearnedTypes[]')}">
-                <th:block th:with="customHelpText=${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}">
-                  <th:block
-                    th:replace="~{'fragments/inputs/money' :: money(
+                <th:block th:if="${incomeType != 'none'}">
+                  <th:block th:with="customHelpText=${#messages.msgOrNull('income-unearned-amounts.help-text.' + incomeType)}">
+                    <th:block
+                      th:replace="~{'fragments/inputs/money' :: money(
                       inputName=${incomeType + 'Amount'},
                       label=#{'income-shared.' + ${incomeType}},
                       helpText=${customHelpText == null ? #messages.msg('income-amounts.monthly') : customHelpText})}"
-                    placeholder="$0.00"
-                  />
+                      placeholder="$0.00"
+                    />
+                  </th:block>
                 </th:block>
-              </th:block>
-              <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
+                <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
                   inputName='incomeUnearnedDescription',
                   label=#{income-unearned-amounts.description-label},
                   helpText=#{income-unearned-amounts.description-help-text}
                 )}"/>
+              </th:block>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
