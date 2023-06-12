@@ -12,6 +12,11 @@ form-flow:
       auth-token: 'test-token'
   pdf:
     path: to_be_determined.pdf
+  email-client:
+    mailgun:
+      sender-email: hello@test.com
+      key: 1234
+      domain: test.com
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/starter-app-test
@@ -32,7 +37,3 @@ spring:
       ddl-auto: create-drop
   main:
     allow-circular-references: true
-mail-gun:
-  sender-email: hello@test.com
-  api-key: 1234
-  domain: test.com
