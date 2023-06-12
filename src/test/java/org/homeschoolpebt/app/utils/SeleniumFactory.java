@@ -1,12 +1,13 @@
 package org.homeschoolpebt.app.utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import java.nio.file.Path;
-import java.util.HashMap;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.FactoryBean;
+
+import java.nio.file.Path;
+import java.util.HashMap;
 
 public class SeleniumFactory implements FactoryBean<RemoteWebDriver> {
 
@@ -38,7 +39,7 @@ public class SeleniumFactory implements FactoryBean<RemoteWebDriver> {
     HashMap<String, Object> chromePrefs = new HashMap<>();
     chromePrefs.put("download.default_directory", tempdir.toString());
     options.setExperimentalOption("prefs", chromePrefs);
-    options.addArguments("--window-size=1280,1600");
+    options.addArguments("--window-size=1280,2000");
     options.addArguments("--headless=new");
     options.addArguments("--remote-allow-origins=*");
     driver = new ChromeDriver(options);
