@@ -28,7 +28,7 @@ class JobsPreparerTest {
     )).build();
 
     JobsPreparer preparer = new JobsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
       "job1-name", new SingleField("job1-name", "Tuber", null),
       "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$120", null),
@@ -58,7 +58,7 @@ class JobsPreparerTest {
     )).build();
 
     JobsPreparer preparer = new JobsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
       "job1-name", new SingleField("job1-name", "Tuber", null),
       "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$100", null),
@@ -87,7 +87,7 @@ class JobsPreparerTest {
     )).build();
 
     JobsPreparer preparer = new JobsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
       "job1-name", new SingleField("job1-name", "Tuber", null),
       "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$720", null),
@@ -115,7 +115,7 @@ class JobsPreparerTest {
     )).build();
 
     JobsPreparer preparer = new JobsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "job1-employee-name", new SingleField("job1-employee-name", "Johnny Potato", null),
       "job1-name", new SingleField("job1-name", "Tuber", null),
       "job1-past-monthly-pay", new SingleField("job1-past-monthly-pay", "$866.67", null),

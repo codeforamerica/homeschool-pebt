@@ -18,7 +18,7 @@ public class AssistanceProgramsPreparerTest {
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "calfresh", new SingleField("calfresh", "Yes", null),
       "program-case-number", new SingleField("program-case-number", "ABC1234", null)
     ));
@@ -32,7 +32,7 @@ public class AssistanceProgramsPreparerTest {
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
         "calworks", new SingleField("calworks", "Yes", null),
         "program-case-number", new SingleField("program-case-number", "ABC1234", null)
     ));
@@ -46,7 +46,7 @@ public class AssistanceProgramsPreparerTest {
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).isEqualTo(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
         "fdpir", new SingleField("fdpir", "Yes", null),
         "program-case-number", new SingleField("program-case-number", "ABC1234", null)
     ));
