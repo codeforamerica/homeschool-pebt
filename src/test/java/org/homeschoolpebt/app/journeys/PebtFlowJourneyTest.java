@@ -201,8 +201,26 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeChildSupportAmount", "456");
     testPage.clickContinue();
 
-
     testPage.clickLink("Next step"); // Done (with income)! Let's get your application submitted.
-    // TODO: test more income cases and the rest of the flow
+    testPage.clickButton("Submit"); // Has anybody in your household experienced economic hardship as a result of the COVID-19 pandemic?
+
+    // Document Uploader
+    assertThat(testPage.getTitle()).isEqualTo("Adding Documents");
+    testPage.clickButton("Get started");
+    assertThat(testPage.getTitle()).isEqualTo("Add proof of identity");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Stud McStudenty");
+    uploadJpgFile("identityFiles");
+    testPage.clickContinue();
+    // Skip 'Add proof of virtual school enrollment' (since an affidavit number was provided before)
+    assertThat(testPage.getTitle()).contains("Add proof of income from the last 30 days");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson (that's you!)");
+    uploadJpgFile("incomeFiles");
+    testPage.clickContinue();
+    assertThat(testPage.getTitle()).contains("Add proof for other income sources");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Social Security");
+    uploadJpgFile("unearnedIncomeFiles");
+    testPage.clickContinue();
+    assertThat(testPage.getTitle()).contains("Doc submit confirmation");
+    testPage.clickButton("Yes, submit and finish");
   }
 }
