@@ -211,6 +211,8 @@ flow:
   incomeUnearnedTypes:
     nextScreens:
       - name: incomeUnearnedAmounts
+        condition: HasUnearnedIncome
+      - name: incomeComplete
   incomeUnearnedAmounts:
     nextScreens:
       - name: incomeComplete
