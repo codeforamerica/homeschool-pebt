@@ -1,25 +1,29 @@
 package org.homeschoolpebt.app.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.Duration;
+import java.util.regex.Pattern;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import({WebDriverConfiguration.class})
@@ -65,12 +69,18 @@ public abstract class AbstractBasePageTest {
   }
 
   protected void uploadFile(String filepath, String dzName) {
-    testPage.clickElementById("drag-and-drop-box-" + dzName); // is this needed?
-    WebElement upload = driver.findElement(By.className("dz-hidden-input"));
+    var hiddenInputSelector = By.className("dz-hidden-input");
+    new WebDriverWait(driver, Duration.ofSeconds(1)).until(
+      ExpectedConditions.presenceOfElementLocated(hiddenInputSelector)
+    );
+    WebElement upload = driver.findElement(hiddenInputSelector);
+
     upload.sendKeys(TestUtils.getAbsoluteFilepathString(filepath));
-    await().until(
-        () -> !driver.findElements(By.className("file-details")).get(0).getAttribute("innerHTML")
-            .isBlank());
+
+    var fileDetailsSelector = By.className("file-details");
+    new WebDriverWait(driver, Duration.ofSeconds(1)).until(
+      ExpectedConditions.textMatches(fileDetailsSelector, Pattern.compile("delete"))
+    );
   }
 
   protected void uploadJpgFile(String dzName) {

@@ -29,6 +29,8 @@ form-flow:
       sender-email: noreply@${MAILGUN_DOMAIN}
       key: ${MAILGUN_API_KEY}
       domain: ${MAILGUN_DOMAIN}
+  # This key is for testing only, as it is committed to the repo for testing!
+  encryption-key: '{"primaryKeyId":2135185311,"key":[{"keyData":{"typeUrl":"type.googleapis.com/google.crypto.tink.AesGcmKey","value":"GiCRKaXiJ/zlDHAZfRQf1rCIbIY4fFmLqLWYIPLNXpOx4A==","keyMaterialType":"SYMMETRIC"},"status":"ENABLED","keyId":2135185311,"outputPrefixType":"TINK"}]}"'
 spring:
   profiles:
     group:
