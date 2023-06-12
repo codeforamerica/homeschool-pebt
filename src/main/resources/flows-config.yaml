@@ -234,6 +234,8 @@ flow:
   uploadIncomeDocuments:
     nextScreens:
       - name: uploadUnearnedIncomeDocuments
+        condition: NeedsUnearnedIncomeDocs
+      - name: docSubmitConfirmation
   uploadUnearnedIncomeDocuments:
     nextScreens:
       - name: docSubmitConfirmation
