@@ -26,7 +26,7 @@ form-flow:
     map-file: pdf-map.yaml
   email-client:
     mailgun:
-      sender-email: hello@${MAILGUN_DOMAIN}
+      sender-email: noreply@${MAILGUN_DOMAIN}
       key: ${MAILGUN_API_KEY}
       domain: ${MAILGUN_DOMAIN}
 spring:
