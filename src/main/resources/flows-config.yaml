@@ -228,6 +228,8 @@ flow:
   uploadIdentityDocuments:
     nextScreens:
       - name: uploadEnrollmentDocuments
+        condition: NeedsEnrollmentDocs
+      - name: uploadIncomeDocuments
   uploadEnrollmentDocuments:
     nextScreens:
       - name: uploadIncomeDocuments
