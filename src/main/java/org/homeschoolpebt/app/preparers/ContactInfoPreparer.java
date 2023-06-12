@@ -14,7 +14,7 @@ import java.util.Map;
 @Component
 public class ContactInfoPreparer implements SubmissionFieldPreparer {
   @Override
-  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, Map<String, Object> data, PdfMap pdfMap) {
+  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
     SingleField applicantTypeCheckbox;
 
     if (submission.getInputData().getOrDefault("isApplyingForSelf", "").equals("true")) {

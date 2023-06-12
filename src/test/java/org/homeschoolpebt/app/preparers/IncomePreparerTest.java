@@ -28,7 +28,7 @@ public class IncomePreparerTest {
     )).build();
 
     IncomePreparer preparer = new IncomePreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).containsAllEntriesOf(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.of(
       "income-unemployment", new SingleField("income-unemployment", "$101", null),
       "income-workers-comp", new SingleField("income-workers-comp", "$102", null),
       "income-spousal-support", new SingleField("income-spousal-support", "$103", null),
@@ -106,7 +106,7 @@ public class IncomePreparerTest {
     )).build();
 
     IncomePreparer preparer = new IncomePreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).containsAllEntriesOf(Map.ofEntries(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
       // 518 = sum([1, 2, 101, 102, 103, 104, 105])
       Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$518", null)),
 
@@ -141,7 +141,7 @@ public class IncomePreparerTest {
     )).build();
 
     IncomePreparer preparer = new IncomePreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null, null)).containsAllEntriesOf(Map.of(
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.of(
       "household-count", new SingleField("household-count", "3", null)
     ));
   }

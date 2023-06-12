@@ -16,7 +16,7 @@ import java.util.Map;
 public class StudentsPreparer implements SubmissionFieldPreparer {
 
   @Override
-  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, Map<String, Object> data, PdfMap pdfMap) {
+  public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
     var fields = new HashMap<String, SubmissionField>();
 
     var students = submission.getInputData().get("students");
