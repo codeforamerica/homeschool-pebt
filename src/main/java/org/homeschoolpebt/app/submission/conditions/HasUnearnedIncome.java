@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 public class HasUnearnedIncome extends AbstractPebtCondition {
-  public Boolean run(Submission submission, String uuid) {
+  public Boolean run(Submission submission) {
     if (submission == null) {
       return false;
     }
@@ -17,7 +17,7 @@ public class HasUnearnedIncome extends AbstractPebtCondition {
       return false;
     }
 
-    return hasContents(inputData.get("incomeUnearnedTypes")) || hasContents(inputData.get("incomeUnearnedRetirementTypes"));
+    return hasContents(inputData.get("incomeUnearnedTypes[]")) || hasContents(inputData.get("incomeUnearnedRetirementTypes[]"));
 
   }
 
@@ -31,9 +31,13 @@ public class HasUnearnedIncome extends AbstractPebtCondition {
     }
 
     var l = (List) o;
-    if (l.size() == 0 || l.get(0) == null || l.get(0).equals("none")) {
+    if (l.size() == 0 || (l.size() == 1 && (l.get(0) == null || l.get(0).equals("none")))) {
+      System.out.println(o);
+      System.out.println("is false");
       return false;
     } else {
+      System.out.println(o);
+      System.out.println("is true");
       return true;
     }
   }

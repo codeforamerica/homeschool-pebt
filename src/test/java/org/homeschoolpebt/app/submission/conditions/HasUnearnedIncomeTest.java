@@ -14,27 +14,27 @@ class HasUnearnedIncomeTest {
   void testReturnsFalseWhenUnearnedIncomeTypesAreNull() {
     var submission = Submission.builder().inputData(Map.ofEntries()).build();
     var subject = new HasUnearnedIncome();
-    assertThat(subject.run(submission, null)).isEqualTo(false);
+    assertThat(subject.run(submission)).isEqualTo(false);
   }
 
   @Test
   void testReturnsFalseWhenUnearnedIncomeTypesAreEmptyArrays() {
-    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes", List.of()), Map.entry("incomeUnearnedRetirementTypes", List.of()))).build();
+    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes[]", List.of()), Map.entry("incomeUnearnedRetirementTypes[]", List.of()))).build();
     var subject = new HasUnearnedIncome();
-    assertThat(subject.run(submission, null)).isEqualTo(false);
+    assertThat(subject.run(submission)).isEqualTo(false);
   }
 
   @Test
   void testReturnsFalseWhenArraysContainStringNone() {
-    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes", List.of("none")), Map.entry("incomeUnearnedRetirementTypes", List.of("none")))).build();
+    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes[]", List.of("none")), Map.entry("incomeUnearnedRetirementTypes[]", List.of("none")))).build();
     var subject = new HasUnearnedIncome();
-    assertThat(subject.run(submission, null)).isEqualTo(false);
+    assertThat(subject.run(submission)).isEqualTo(false);
   }
 
   @Test
   void testReturnsTrueWhenArraysContainOtherStrings() {
-    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes", List.of("none")), Map.entry("incomeUnearnedRetirementTypes", List.of("income401k403b")))).build();
+    var submission = Submission.builder().inputData(Map.ofEntries(Map.entry("incomeUnearnedTypes[]", List.of("none")), Map.entry("incomeUnearnedRetirementTypes[]", List.of("income401k403b")))).build();
     var subject = new HasUnearnedIncome();
-    assertThat(subject.run(submission, null)).isEqualTo(true);
+    assertThat(subject.run(submission)).isEqualTo(true);
   }
 }
