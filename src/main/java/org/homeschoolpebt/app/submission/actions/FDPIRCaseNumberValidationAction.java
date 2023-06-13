@@ -2,17 +2,14 @@ package org.homeschoolpebt.app.submission.actions;
 
 import formflow.library.config.submission.Action;
 import formflow.library.data.FormSubmission;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -28,7 +25,6 @@ public class FDPIRCaseNumberValidationAction implements Action {
     Map<String, Object> inputData = formSubmission.getFormData();
     String caseNumberType = (String) inputData.get("householdMemberReceivesBenefits");
 
-
     if (caseNumberType == null || !caseNumberType.equalsIgnoreCase("FDPIR")) {
       return errorMessages;
     }
@@ -38,16 +34,5 @@ public class FDPIRCaseNumberValidationAction implements Action {
     }
 
     return errorMessages;
-  }
-
-  private boolean isDateValid(String date) {
-    try {
-      DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
-
-      dtf.parseDateTime(date);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
   }
 }
