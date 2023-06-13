@@ -14,7 +14,7 @@ public class AssistanceProgramsPreparerTest {
   void includesCalFresh() {
     Submission submission = Submission.builder().inputData(Map.of(
       "householdMemberReceivesBenefits", "CalFresh",
-      "householdMemberBenefitsCaseNumber", "ABC1234"
+      "householdMemberBenefitsCaseNumberCalfresh", "ABC1234"
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();
@@ -28,7 +28,7 @@ public class AssistanceProgramsPreparerTest {
   void includesCalWorks() {
     Submission submission = Submission.builder().inputData(Map.of(
       "householdMemberReceivesBenefits", "CalWORKs",
-      "householdMemberBenefitsCaseNumber", "ABC1234"
+      "householdMemberBenefitsCaseNumberCalworks", "ABC1234"
     )).build();
 
     AssistanceProgramsPreparer preparer = new AssistanceProgramsPreparer();

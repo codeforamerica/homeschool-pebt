@@ -126,6 +126,8 @@ flow:
   householdReceivesBenefits:
     nextScreens:
       - name: signpostIncome
+    onPostAction: ClearOtherCaseNumberFields
+    crossFieldValidationAction: FDPIRCaseNumberValidationAction
   householdDeleteConfirmation:
     nextScreens: null
 

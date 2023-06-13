@@ -158,7 +158,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Anyone receive benefits?
     assertThat(testPage.getTitle()).isEqualTo("Does anyone in the student's household receive one of these benefits?");
     testPage.findElementById("householdMemberReceivesBenefits-CalFresh").click();
-    testPage.enter("householdMemberBenefitsCaseNumber", "ABC1234");
+    testPage.enter("householdMemberBenefitsCaseNumberCalfresh", "ABC1234");
     testPage.clickContinue();
 
     // Income
