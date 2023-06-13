@@ -190,8 +190,8 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeCustomMonthlyIncome", "500");
     testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Is this everyone's monthly pay?");
-    testPage.clickButton("Yes, that's all the income");
+    assertThat(testPage.getTitle()).isEqualTo("Great! Any other jobs in the household to add?");
+    testPage.clickButton("I'm done adding jobs");
     testPage.clickLink("Keep going"); // Almost done with income!
     testPage.findElementById("incomeUnearnedRetirementTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
     testPage.clickButton("Submit");
