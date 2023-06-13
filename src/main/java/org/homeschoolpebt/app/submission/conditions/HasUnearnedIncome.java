@@ -18,7 +18,6 @@ public class HasUnearnedIncome extends AbstractPebtCondition {
     }
 
     return hasContents(inputData.get("incomeUnearnedTypes[]")) || hasContents(inputData.get("incomeUnearnedRetirementTypes[]"));
-
   }
 
   private boolean hasContents(Object o) {
@@ -32,12 +31,8 @@ public class HasUnearnedIncome extends AbstractPebtCondition {
 
     var l = (List) o;
     if (l.size() == 0 || (l.size() == 1 && (l.get(0) == null || l.get(0).equals("none")))) {
-      System.out.println(o);
-      System.out.println("is false");
       return false;
     } else {
-      System.out.println(o);
-      System.out.println("is true");
       return true;
     }
   }
