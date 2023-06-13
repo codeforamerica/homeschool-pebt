@@ -12,7 +12,7 @@ form-flow:
     max-file-size: '20'
   aws:
     region: 'us-west-1'
-    s3_bucket_name: 'homeschool-pebt-production'
+    s3_bucket_name: ${AWS_BUCKET_NAME:-""}
     access_key: ${AWS_ACCESS_KEY}
     secret_key: ${AWS_SECRET_KEY}
   address-validation:
