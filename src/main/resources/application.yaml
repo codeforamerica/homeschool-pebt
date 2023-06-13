@@ -83,3 +83,5 @@ server:
   error:
     whitelabel:
       enabled: false
+sentry:
+  dsn: ${SENTRY_DSN:-""}
