@@ -5,6 +5,9 @@ import formflow.library.data.FormSubmission;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,7 +18,10 @@ import java.util.Map;
 @Component
 public class FDPIRCaseNumberValidationAction implements Action {
 
-  private final String INPUT_NAME = "householdMemberReceivesBenefitsFDPIR";
+  @Autowired
+  MessageSource source;
+
+  private final String INPUT_NAME = "householdMemberBenefitsCaseNumberFDPIR";
 
   public Map<String, List<String>> runValidation(FormSubmission formSubmission) {
     Map<String, List<String>> errorMessages = new HashMap<>();
@@ -28,7 +34,7 @@ public class FDPIRCaseNumberValidationAction implements Action {
     }
 
     if (inputData.get(INPUT_NAME) == null || inputData.get(INPUT_NAME).equals("")) {
-      errorMessages.put(INPUT_NAME, List.of("household-receives-benefits.fdpir-provide-a-casenumber"));
+      errorMessages.put(INPUT_NAME, List.of(source.getMessage("household-receives-benefits.fdpir-provide-a-casenumber", null, LocaleContextHolder.getLocale())));
     }
 
     return errorMessages;
