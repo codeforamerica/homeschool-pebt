@@ -2,6 +2,7 @@ package org.homeschoolpebt.app.submission.actions;
 
 import formflow.library.config.submission.Action;
 import formflow.library.data.FormSubmission;
+import formflow.library.data.Submission;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class UpdateStudentBirthday implements Action {
-  public void run(FormSubmission formSubmission, String uuid) {
+  public void run(FormSubmission formSubmission, Submission submission, String uuid) {
     List<String> datePrefixes = Arrays.asList("studentBirthday");
     datePrefixes.forEach(prefix -> {
       List<String> dateComponents = new ArrayList<>(3);
