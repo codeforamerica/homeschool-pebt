@@ -45,6 +45,8 @@ dependencies {
 
     implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
 
+    implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.6.2'
+
     if (profile == 'dev') {
         implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
         println "📚Using form flow library ${formFlowLibraryVersion}"

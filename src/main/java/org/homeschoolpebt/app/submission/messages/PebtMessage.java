@@ -6,6 +6,7 @@ import lombok.Setter;
 
 public interface PebtMessage {
   Email renderEmail();
+  Sms renderSms();
 
   @Getter
   @Setter
@@ -13,5 +14,12 @@ public interface PebtMessage {
   class Email {
     public String subject;
     public String bodyHtml;
+  }
+
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  class Sms {
+    public String body;
   }
 }
