@@ -55,6 +55,7 @@ spring:
       cache:
         period: 0
   shell:
+    interactive.enabled: false
     history:
       enabled: false
   datasource:
