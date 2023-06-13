@@ -47,4 +47,32 @@ class StudentsPreparerTest {
       Map.entry("student1-homeschool", new SingleField("student1-homeschool", "12345678901234", null))
     ));
   }
+
+  @Test
+  void handlesCustomSchoolEntries() {
+    HashMap<String, Object> studentFields = new HashMap<>() {{
+      put("studentFirstName", "firsty");
+      put("studentLastName", "lastnameson");
+      put("studentVirtualSchoolName", "Some Virtual Academy");
+      put("studentUnenrolledSchoolName", "Other In Person School");
+      put("studentWouldAttendSchoolName", "Yet another In Person School");
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.of(
+      "students", List.of(studentFields)
+    )).build();
+
+    StudentsPreparer preparer = new StudentsPreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("student1-first-name", new SingleField("student1-first-name", "firsty", null)),
+      Map.entry("student1-last-name", new SingleField("student1-last-name", "lastnameson", null)),
+      Map.entry("student1-withdrawn-school-code", new SingleField("student1-withdrawn-school-code", "", null)),
+      Map.entry("student1-withdrawn-school-district", new SingleField("student1-withdrawn-school-district", "", null)),
+      Map.entry("student1-withdrawn-school", new SingleField("student1-withdrawn-school", "Other In Person School", null)),
+      Map.entry("student1-anticipated-school-code", new SingleField("student1-anticipated-school-code", "", null)),
+      Map.entry("student1-anticipated-school-district", new SingleField("student1-anticipated-school-district", "", null)),
+      Map.entry("student1-anticipated-school", new SingleField("student1-anticipated-school", "Yet another In Person School", null)),
+      Map.entry("student1-virtual-school", new SingleField("student1-virtual-school", "Some Virtual Academy", null))
+    ));
+  }
 }

@@ -30,12 +30,16 @@ jQuery.fn.extend({
       },
       change: function (event, ui) {
         if ($input.val() !== lastSelectedValue) {
-          $valueField.val('');
+          if (typeof options.customOption === 'function') {
+            $valueField.val($input.val())
+          } else {
+            $valueField.val('');
+          }
         }
       },
       select: function (event, ui) {
         if (ui.item.value === 'custom') {
-          $valueField.val('');
+          $valueField.val($input.val());
         } else {
           $input.val(ui.item.displayName);
           $valueField.val(ui.item.value);
@@ -83,8 +87,13 @@ jQuery.fn.extend({
       const initialValue = $valueField.val();
       if (initialValue) {
         const initialItem = options.data.find(i => i.value === initialValue);
-        $input.val(initialItem.displayName);
-        $clearInput.toggle(true);
+        if (initialItem) {
+          $input.val(initialItem.displayName);
+          $clearInput.toggle(true);
+        } else if (typeof options.customOption === 'function') {
+          $input.val(initialValue);
+          $clearInput.toggle(true);
+        }
       } else {
         $clearInput.toggle(false);
       }
