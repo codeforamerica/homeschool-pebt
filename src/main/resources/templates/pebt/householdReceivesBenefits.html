@@ -27,9 +27,9 @@
                       content=~{::formContent})}">
           <th:block th:ref="formContent">
             <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalFresh', label=#{household-receives-benefits.calfresh}, followUpId='#calfresh-calworks-follow-up')}"/>
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalFresh', label=#{household-receives-benefits.calfresh}, followUpId='#calfresh-follow-up')}"/>
             <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalWORKs', label=#{household-receives-benefits.calworks}, followUpId='#calfresh-calworks-follow-up')}"/>
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='CalWORKs', label=#{household-receives-benefits.calworks}, followUpId='#calworks-follow-up')}"/>
             <th:block
                 th:replace="~{'fragments/inputs/radio' :: radio(inputName='householdMemberReceivesBenefits', value='FDPIR', label=#{household-receives-benefits.fdpir}, followUpId='#fdpir-follow-up')}"/>
             <hr>
@@ -39,10 +39,17 @@
         </th:block>
       </div>
 
-      <div class="question-with-follow-up__follow-up" id="calfresh-calworks-follow-up">
+      <div class="question-with-follow-up__follow-up" id="calfresh-follow-up">
         <th:block th:replace="~{'fragments/inputs/text' ::
-          text(inputName='householdMemberBenefitsCaseNumber',
-          label=#{household-receives-benefits.case-number-label},
+          text(inputName='householdMemberBenefitsCaseNumberCalfresh',
+          label=#{household-receives-benefits.calfresh-case-number-label},
+          helpText=#{household-receives-benefits.case-number-help-text})}" />
+      </div>
+
+      <div class="question-with-follow-up__follow-up" id="calworks-follow-up">
+        <th:block th:replace="~{'fragments/inputs/text' ::
+          text(inputName='householdMemberBenefitsCaseNumberCalworks',
+          label=#{household-receives-benefits.calworks-case-number-label},
           helpText=#{household-receives-benefits.case-number-help-text})}" />
       </div>
 

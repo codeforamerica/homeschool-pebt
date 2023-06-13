@@ -18,13 +18,13 @@ public class AssistanceProgramsPreparer implements SubmissionFieldPreparer {
     var fields = new HashMap<String, SubmissionField>();
 
     if (submission.getInputData().get("householdMemberReceivesBenefits").equals("CalFresh")) {
-      var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumber", "");
+      var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumberCalfresh", "");
       fields.put("calfresh", new SingleField("calfresh", "Yes", null));
       fields.put("program-case-number", new SingleField("program-case-number", caseNumber, null));
     }
 
     if (submission.getInputData().get("householdMemberReceivesBenefits").equals("CalWORKs")) {
-      var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumber", "");
+      var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumberCalworks", "");
       fields.put("calworks", new SingleField("calworks", "Yes", null));
       fields.put("program-case-number", new SingleField("program-case-number", caseNumber, null));
     }

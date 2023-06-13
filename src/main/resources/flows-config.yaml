@@ -126,6 +126,7 @@ flow:
   householdReceivesBenefits:
     nextScreens:
       - name: signpostIncome
+    onPostAction: ClearOtherCaseNumberFields
   householdDeleteConfirmation:
     nextScreens: null
 

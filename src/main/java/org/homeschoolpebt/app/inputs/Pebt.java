@@ -85,7 +85,11 @@ public class Pebt extends FlowInputs {
   @NotBlank
   private String householdMemberLastName;
   private String householdMemberReceivesBenefits;
-  private String householdMemberBenefitsCaseNumber;
+  @Size(min=1, max=15, message="{household-receives-benefits.calfresh-provide-1-15-digits}")
+  private String householdMemberBenefitsCaseNumberCalfresh;
+  @Size(min=1, max=15, message="{household-receives-benefits.calworks-provide-1-15-digits}")
+  private String householdMemberBenefitsCaseNumberCalworks;
+  @Size(min=1, max=15, message="{household-receives-benefits.fdpir-provide-1-15-digits}")
   private String householdMemberBenefitsCaseNumberFDPIR;
   private String householdAddressFile;  // file id
 
