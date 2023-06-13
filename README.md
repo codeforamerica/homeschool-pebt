@@ -182,11 +182,13 @@ jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 - Install PostgreSQL 14 via an [official download](https://www.postgresql.org/download/)
     - Or on macOS, through homebrew: `brew install postgresql@14`
 
-<!-- TODO: Is this the right way to create db/user? -->
-
-- Create the database using the command line:
-    - `$ createdb starter-app`
-    - `$ createuser -s starter-app`
+- Create two databases using the command line:
+    - Local instance:
+      - `$ createdb starter-app`
+      - `$ createuser -s starter-app`
+    - Tests:
+      - `$ createdb starter-app-test`
+      - `$ createuser -s starter-app-test`
 
 ### Setup Environment
 
