@@ -2,6 +2,7 @@
 body {
   margin-bottom: 0px;
 }
+
 .main-header--hero {
   background-color: #EBFFFA;
 }
@@ -17,18 +18,21 @@ body {
   background-position: right -2em bottom 0;
   background-size: 350px;
 }
+
 @media screen and (min-width: 601px) {
   .slab--hero {
     background-position: right 2em bottom 12em;
     background-size: 400px;
   }
 }
+
 @media screen and (min-width: 1000px) {
   .slab--hero {
     background-position: right 2em bottom 7em;
     background-size: 550px;
   }
 }
+
 @media screen and (min-width: 1200px) {
   .slab--hero {
     background-position: right 9em bottom 7em;
@@ -39,11 +43,13 @@ body {
 .index__gov-logos:first-child {
   margin-bottom: 6rem;
 }
+
 @media screen and (min-width: 601px) {
   .index__gov-logos:first-child {
     margin-bottom: 0;
   }
 }
+
 .index__gov-logos img {
   margin-bottom: 2.5rem;
 }
@@ -134,6 +140,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   font-size: 16px;
 }
 
+.icon-person-outline::before {
+  content: "\e7ff";
+}
+
 .subflow-list__item-actions a:not(:last-child) {
   border-right: 1px solid #CFC5BF;
   padding-right: 2rem;
@@ -167,6 +177,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   border-radius: 3px;
   max-width: 35rem;
 }
+
 .legal-stuff-header {
   padding: 2.5rem 0 -2.5rem 0;
   margin: auto;
@@ -180,6 +191,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   overflow-y: scroll;
   padding-right: calc(1.5rem + 12px);
 }
+
 .textarea-readonly::-webkit-scrollbar {
   -webkit-appearance: none;
 }
@@ -233,7 +245,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   text-align: center;
 }
 
-.vertical-steps:before{
+.vertical-steps:before {
   content: '';
   display: block;
   position: absolute;
@@ -260,9 +272,10 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   gap: 10px;
 }
 
-.zero-flex-shrink svg{
+.zero-flex-shrink svg {
   flex-shrink: 0;
 }
+
 .move-box-left {
   margin-left: -5px;
 }
@@ -314,12 +327,14 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   overflow-x: hidden;
   max-width: 90%;
 }
+
 .ui-menu .ui-menu-item-wrapper {
   padding: 1.5rem 2.5rem !important;
 }
 
 .ui-menu-item {
-  border: 1px solid #E6E6E6; !important;
+  border: 1px solid #E6E6E6;
+!important;
 }
 
 .ui-widget-content .ui-state-active {
@@ -327,23 +342,28 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   color: black !important;
   border: 1px solid #E6E6E6 !important;
 }
+
 /* IE 6 doesn't support max-height
  * we use height instead, but this forces the menu to always be this tall
  */
 * html .ui-autocomplete {
   height: 100px;
 }
-.clearable{
+
+.clearable {
   position: relative;
   display: inline-block;
-  width: 100% ;
+  width: 100%;
 }
-.clearable .text-input{
+
+.clearable .text-input {
   padding-right: 70px;
 }
-.clear-input{
+
+.clear-input {
   position: absolute;
-  right:0; top:0;
+  right: 0;
+  top: 0;
   padding: 2rem 2.5rem;
   font-style: normal;
   font-size: 1.2em;
@@ -351,7 +371,8 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   cursor: pointer;
   display: none;
 }
-.clearable input::-ms-clear {  /* Remove IE default X */
+
+.clearable input::-ms-clear { /* Remove IE default X */
   display: none;
 }
 
@@ -384,6 +405,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 .button--other {
   margin-left: 0;
 }
+
 .button--full-width {
   width: 100%;
   text-align: center;
@@ -422,6 +444,7 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 .address-validation .radio-button div {
   font-weight: normal;
 }
+
 /* Icons */
 .emoji--grinning-face {
   background-image: url('/webjars/form-flow/0.0.1/images/emojis/1f600.png');

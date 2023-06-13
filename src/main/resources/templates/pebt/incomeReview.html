@@ -16,7 +16,7 @@
             <ul class="subflow-list">
               <li th:each="incomeItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}" class="subflow-list__item">
                 <th:block th:if="${incomeItem.get('itemType').equals('job')}">
-                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
+                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person-outline"></i>
                   <div th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__item-title">
                     <span th:text="${incomeItem.name}"></span>
                     <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
@@ -30,17 +30,17 @@
 
                   <div class="subflow-list__item-actions">
                     <a th:href="'/flow/pebt/' + ${iterationStartScreen} + '/' + ${incomeItem.uuid} + '/edit'"
-                       th:text="#{general.edit}"
+                       th:text="#{income-review.edit-job}"
                        th:id="'edit-iteration-' + ${incomeItem.uuid}">
                     </a><a th:href="'/flow/pebt/income/' + ${incomeItem.uuid} + '/deleteConfirmation'"
-                           th:text="#{general.delete}"
+                           th:text="#{income-review.delete-job}"
                            class="subflow-list__action-delete"
                            th:id="'delete-iteration-' + ${incomeItem.uuid}"></a>
                   </div>
                 </th:block>
 
                 <th:block th:if="${incomeItem.get('itemType').equals('no-jobs-added')}">
-                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person"></i>
+                  <i th:if="${!incomeItem.combineWithPrevious}" class="subflow-list__icon icon-person-outline"></i>
                   <div class="subflow-list__item-title">
                     <span th:text="${incomeItem.name}"></span>
                     <span th:if="${incomeItem.isApplicant}" th:text="#{income-review.thats-you}"></span>
@@ -54,7 +54,9 @@
                 <th:block th:if="${incomeItem.get('itemType').equals('household-total')}">
                   <hr>
 
-                  <i class="subflow-list__icon icon-home"></i>
+                  <span class="subflow-list__icon">
+                    <th:block th:replace="~{'fragments/icons' :: iconHouseOutlineTiny}"/>
+                    </span>
                   <div class="subflow-list__item-title">
                     <span th:text="#{income-review.total-monthly-pay}"></span>
                   </div>
@@ -70,7 +72,13 @@
           </div>
         </div>
         <div class="form-card__footer">
-          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{income-review.continue-button})}"/>
+          <a
+            th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
+            class="button button--primary"
+            id="continue-link">
+            <i class="icon-check"></i>
+            <span class="padding-right-10" th:text="#{income-review.continue-button}"></span>
+          </a>
         </div>
       </main>
     </div>
