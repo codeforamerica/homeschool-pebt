@@ -18,7 +18,8 @@
                 <th:block th:replace="~{'fragments/inputs/combobox' :: combobox(
                     inputName='studentWouldAttendSchoolName',
                     label=#{pre-screen-unenrolled-school-name.school},
-                    initialValue=${hasStudentUnenrolledSchool ? currentSubflowItem.studentUnenrolledSchoolName : inputData.getOrDefault('unenrolledSchoolName', '')}
+                    defaultValue=${hasStudentUnenrolledSchool ? currentSubflowItem.studentUnenrolledSchoolName : inputData.getOrDefault('unenrolledSchoolName', '')},
+                    customOptionTemplate=#{students-would-attend-school-name.school-custom-option}
                   )}"/>
               </th:block>
             </div>

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class StudentsPreparer implements SubmissionFieldPreparer {
@@ -79,11 +81,13 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     // e.g.
     // 37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)
     // |-- cdsCode -|   |-- school ---------------|  |-- district --------|
-    var cdsCode = schoolName.substring(0, 14);
-    var district = schoolName.substring(schoolName.lastIndexOf("(") + 1, schoolName.length() - 1);
-    var school = schoolName.substring(17, schoolName.lastIndexOf("(") - 1);
-
-    return List.of(cdsCode, district, school);
+    var regex = Pattern.compile("\\A(?<cdsCode>\\d{14}) - (?<school>.*) \\((?<district>.*)\\)\\Z", Pattern.CASE_INSENSITIVE);
+    Matcher match = regex.matcher(schoolName);
+    if (match.matches()) {
+      return List.of(match.group("cdsCode"), match.group("district"), match.group("school"));
+    } else {
+      return List.of("", "", schoolName);
+    }
   }
 
   private boolean designationsIncludes(Map<String, Object> student, String target) {

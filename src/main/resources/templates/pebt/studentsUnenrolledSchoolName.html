@@ -17,7 +17,8 @@
               <th:block th:replace="~{'fragments/inputs/combobox' :: combobox(
                   inputName='studentUnenrolledSchoolName',
                   label=#{pre-screen-unenrolled-school-name.school},
-                  initialValue=${inputData.getOrDefault('unenrolledSchoolName', '')}
+                  defaultValue=${inputData.getOrDefault('unenrolledSchoolName', '')},
+                  customOptionTemplate=#{students-unenrolled-school-name.school-custom-option}
                 )}"/>
             </div>
             <div class="form-card__footer">

@@ -10,8 +10,9 @@
         (#arrays.length(errorMessages.get(inputName)) > 0) },
       hasAriaLabel=${!#strings.isEmpty(label)},
       hasHelpText=false,
-      allowCustomEntry=${!#strings.isEmpty(inputNameCustom)},
-      value=${(#strings.isEmpty(initialValue)) ? inputData.getOrDefault(inputName, '') : initialValue}"
+      hasCustomOptionTemplate=${!#strings.isEmpty(customOptionTemplate)},
+      defaultValue=${#strings.isEmpty(defaultValue) ? '' : defaultValue},
+      value=${fieldData.getOrDefault(inputName, defaultValue)}"
     th:assert="
       ${!#strings.isEmpty(inputName)},
       ${!#strings.isEmpty(label)}">
@@ -19,12 +20,16 @@
   <link rel="stylesheet" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css" />
   <script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
   <script src="/assets/js/combobox.js"></script>
-  <script>
+  <script th:inline="javascript">
     $(function() {
+      var inputName = [[${inputName}]];
+      var hasCustomOptionTemplate = [(${hasCustomOptionTemplate})];
+
       $("#combobox").combobox({
         data: window.schools,
         clearInput: '#clear-combobox',
-        valueField: '[name="[[${inputName}]]"]',
+        valueField: '[name="' + inputName + '"]',
+        customOption: hasCustomOptionTemplate ? function(value) { return `[(${customOptionTemplate})]`; } : null,
       });
     });
   </script>
