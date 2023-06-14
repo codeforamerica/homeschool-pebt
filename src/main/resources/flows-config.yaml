@@ -71,8 +71,12 @@ flow:
     nextScreens: null
   applicantIsInHousehold:
     nextScreens:
+      - name: eligibilityStudents
+        condition: PreScreenNotApplyingForSelf
       - name: gettingToKnowYou
-
+  eligibilityStudents:
+    nextScreens:
+      - name: gettingToKnowYou
 
   # Step 3 of 6: Basic Info ("Getting to know you")
   gettingToKnowYou:

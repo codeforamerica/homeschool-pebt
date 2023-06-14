@@ -581,4 +581,50 @@ class SubmissionUtilitiesTest {
     var items = SubmissionUtilities.getDocUploadUnearnedIncomeList(submission);
     assertThat(items.size()).isEqualTo(0);
   }
+
+  @Test
+  void studentsEligible() {
+    var student1 = new HashMap<String, Object>() {{
+      put("studentFirstName", "Sally");
+      put("studentMiddleInitial", "A");
+      put("studentLastName", "Starfish");
+      put("studentUnenrolledSchoolName", "37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)");
+    }};
+    var student2 = new HashMap<String, Object>() {{
+      put("studentFirstName", "Rodger");
+      put("studentLastName", "Rocklobster");
+      put("studentUnenrolledSchoolName", "58727366056790 - Yuba Gardens Intermediate (Marysville Joint Unified)");
+    }};
+
+    var submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Johnny"),
+      Map.entry("lastName", "Appleseed"),
+      Map.entry("students", List.of(student1, student2))
+    )).build();
+
+    assertThat(SubmissionUtilities.allStudentsEligible(submission)).isTrue();
+  }
+
+  @Test
+  void studentsEligibleWithOneCustom() {
+    var student1 = new HashMap<String, Object>() {{
+      put("studentFirstName", "Sally");
+      put("studentMiddleInitial", "A");
+      put("studentLastName", "Starfish");
+      put("studentUnenrolledSchoolName", "37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)");
+    }};
+    var student2 = new HashMap<String, Object>() {{
+      put("studentFirstName", "Rodger");
+      put("studentLastName", "Rocklobster");
+      put("studentUnenrolledSchoolName", "Custom School Name");
+    }};
+
+    var submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("firstName", "Johnny"),
+      Map.entry("lastName", "Appleseed"),
+      Map.entry("students", List.of(student1, student2))
+    )).build();
+
+    assertThat(SubmissionUtilities.allStudentsEligible(submission)).isFalse();
+  }
 }

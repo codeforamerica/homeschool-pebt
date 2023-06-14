@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Component
 public class StudentsPreparer implements SubmissionFieldPreparer {
+  public static final Pattern OFFICAL_SCHOOL_FORMAT = Pattern.compile("\\A(?<cdsCode>\\d{14}) - (?<school>.*) \\((?<district>.*)\\)\\Z", Pattern.CASE_INSENSITIVE);
 
   @Override
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
@@ -81,8 +82,7 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     // e.g.
     // 37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)
     // |-- cdsCode -|   |-- school ---------------|  |-- district --------|
-    var regex = Pattern.compile("\\A(?<cdsCode>\\d{14}) - (?<school>.*) \\((?<district>.*)\\)\\Z", Pattern.CASE_INSENSITIVE);
-    Matcher match = regex.matcher(schoolName);
+    Matcher match = OFFICAL_SCHOOL_FORMAT.matcher(schoolName);
     if (match.matches()) {
       return List.of(match.group("cdsCode"), match.group("district"), match.group("school"));
     } else {

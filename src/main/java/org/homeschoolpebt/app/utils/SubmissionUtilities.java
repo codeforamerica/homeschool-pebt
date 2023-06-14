@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+import org.homeschoolpebt.app.preparers.StudentsPreparer;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -410,6 +411,14 @@ public class SubmissionUtilities {
     }
 
     return items;
+  }
+
+  public static boolean allStudentsEligible(Submission submission) {
+    var students = (List<Map<String, String>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
+
+    return students.stream()
+      .map(student -> student.getOrDefault("studentUnenrolledSchoolName", ""))
+      .allMatch(schoolName -> StudentsPreparer.OFFICAL_SCHOOL_FORMAT.matcher(schoolName).matches());
   }
 }
 

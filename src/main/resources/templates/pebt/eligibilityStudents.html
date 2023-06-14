@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{eligibility-students.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="text--centered">
+          <th:block th:replace="~{'fragments/icons' :: success}"/>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{eligibility-students.header})}"/>
+        </div>
+        <th:block th:switch="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).allStudentsEligible(submission)}">
+          <p th:case="true" class="text--centered" th:text="#{eligibility-students.body-all-eligible}"></p>
+          <p th:case="false" class="text--centered" th:utext="#{eligibility-students.body-partially-eligible}"></p>
+        </th:block>
+        <div class="form-card__footer text--centered">
+          <th:block th:replace="~{'fragments/continueButton' :: continue}"/>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
