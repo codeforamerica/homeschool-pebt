@@ -10,6 +10,8 @@ import org.homeschoolpebt.app.submission.messages.TwilioSmsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Component
 public class HandleApplicationSigned implements Action {
@@ -24,11 +26,11 @@ public class HandleApplicationSigned implements Action {
     var transmission = transmissionRepositoryService.createTransmissionRecord(submission);
 
     var message = new ConfirmationMessage(submission, transmission);
-    String emailAddress = (String) submission.getInputData().get("email");
+    String emailAddress = (String) submission.getInputData().getOrDefault("email", "");
 
-    if (emailAddress != null && !emailAddress.isBlank()) {
+    if (!emailAddress.isBlank()) {
       var emailMessage = message.renderEmail();
-      log.info("Sending email ConfirmationMessage to " + emailAddress);
+      log.info("Sending email ConfirmationMessage for submission " + submission.getId());
       mailgunEmailClient.sendEmail(
         emailMessage.getSubject(),
         emailAddress,
@@ -38,10 +40,10 @@ public class HandleApplicationSigned implements Action {
       log.info("Not sending email ConfirmationMessage: no email address for submission " + submission.getId());
     }
 
-    String phoneNumber = (String) submission.getInputData().get("phoneNumber");
-    if (phoneNumber != null && !phoneNumber.isBlank()) {
+    String phoneNumber = (String) submission.getInputData().getOrDefault("phoneNumber", "");
+    if (!phoneNumber.isBlank()) {
       var smsMessage = message.renderSms();
-      log.info("Sending SMS ConfirmationMessage to " + phoneNumber);
+      log.info("Sending SMS ConfirmationMessage for submission " + submission.getId());
       twilioSmsClient.sendMessage(phoneNumber, smsMessage.getBody());
     } else {
       log.info("Not sending SMS ConfirmationMessage: no phone number for submission " + submission.getId());

@@ -95,6 +95,6 @@ server:
 sentry:
   dsn: ${SENTRY_DSN:-""}
 twilio:
-  account.sid: ${TWILIO_ACCOUNT_SID:TEMP}
-  auth.token: ${TWILIO_AUTH_TOKEN:TEMP}
-  messaging.service.sid: ${TWILIO_MESSAGING_SERVICE_SID:TEMP}
+  account.sid: ${TWILIO_ACCOUNT_SID:-""}
+  auth.token: ${TWILIO_AUTH_TOKEN:-""}
+  messaging.service.sid: ${TWILIO_MESSAGING_SERVICE_SID:-""}
