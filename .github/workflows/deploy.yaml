@@ -6,7 +6,15 @@ on:
     types: [completed]
     branches: [main]
   workflow_dispatch:
-    inputs: { }
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'demo'
+        type: choice
+        options:
+          - demo
+          - production
 
 env:
   USERNAME: ${{ secrets.GPR_USER }}
@@ -16,7 +24,7 @@ jobs:
   deploy:
     name: Deploy to Aptible
     runs-on: ubuntu-latest
-    environment: demo
+    environment: ${{ github.event.inputs.environment || 'demo' }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -48,6 +56,7 @@ jobs:
           'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' \
           'MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}' \
           'MAILGUN_DOMAIN=${{ vars.MAILGUN_DOMAIN }}' \
+          'DISABLE_APPLICATIONS=${{ vars.DISABLE_APPLICATIONS }}' \
           'SENTRY_DSN=${{ secrets.SENTRY_DSN }}'
       - name: Announce on Slack when deploy fails
         if: failure()
