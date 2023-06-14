@@ -70,6 +70,37 @@
 
             <a class="button button--other" href="/flow/pebt/incomeChooseHouseholdMember" th:text="#{income-review.add-income}"></a>
           </div>
+          <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+            <th:block th:ref="revealLabel">
+              <th:block th:text="#{income-review.reveal-label}"></th:block>
+            </th:block>
+            <th:block th:ref="revealContent">
+              <p>
+                <strong th:text="#{income-review.reveal-contents.section1.header}"></strong>
+              </p>
+              <p th:utext="#{income-review.reveal-contents.section1.p1}"></p>
+              <p th:text="#{income-review.reveal-contents.section1.p2}"></p>
+              <p>
+                <em th:text="#{income-review.reveal-contents.section1.p3}"></em>
+              </p>
+              <p>
+                <strong th:text="#{income-review.reveal-contents.section2.header}"></strong>
+              </p>
+              <p th:utext="#{income-review.reveal-contents.section2.p1}"></p>
+              <p th:text="#{income-review.reveal-contents.section2.p2}"></p>
+              <p>
+                <em th:text="#{income-review.reveal-contents.section2.p3}"></em>
+              </p>
+              <ul class="list--bulleted">
+                <li><em th:text="#{income-review.reveal-contents.section2.li1}"></em></li>
+                <li><em th:text="#{income-review.reveal-contents.section2.li2}"></em></li>
+                <li><em th:text="#{income-review.reveal-contents.section2.li3}"></em></li>
+                <li><em th:text="#{income-review.reveal-contents.section2.li4}"></em></li>
+              </ul>
+            </th:block>
+          </th:block>
         </div>
         <div class="form-card__footer">
           <a
