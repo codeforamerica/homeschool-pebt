@@ -40,7 +40,7 @@
           <th:block th:replace="~{'fragments/continueButton' :: continue}"/>
           <div class="email-confirmation-box zero-flex-shrink">
             <th:block th:replace="~{'fragments/icons' :: greenCheckmark}"></th:block>
-            <strong th:utext="#{next-steps.your-next-steps-have-been-emailed}"></strong>
+            <strong th:utext="#{next-steps.your-next-steps-have-been-emailed(${inputData.email})}"></strong>
           </div>
         </div>
       </main>
