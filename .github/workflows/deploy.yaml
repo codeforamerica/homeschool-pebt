@@ -22,7 +22,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy to Aptible
+    name: Deploy to Aptible - ${{ github.event.inputs.environment || 'demo' }}
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'demo' }}
     steps:

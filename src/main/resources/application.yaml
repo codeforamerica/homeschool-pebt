@@ -33,6 +33,9 @@ form-flow:
 spring:
   profiles:
     group:
+      production:
+        - production
+        - form-flow-library
       test:
         - test
         - form-flow-library
