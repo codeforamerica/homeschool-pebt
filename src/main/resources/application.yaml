@@ -42,6 +42,11 @@ spring:
       demo:
         - demo
         - form-flow-library
+  session:
+    store-type: jdbc
+    timeout: 72h
+    jdbc:
+      initialize-schema: always
   thymeleaf:
     cache: false
     template-resolver-order: 0
