@@ -71,6 +71,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes, this is everyone");
     assertThat(testPage.getTitle()).contains("Are you in the same household as these students?");
     testPage.clickButton("Yes"); // Are you in the same household as the students?
+    testPage.clickContinue(); // Got it! Students may be eligible.
 
     // Getting to know you
     testPage.clickContinue();
