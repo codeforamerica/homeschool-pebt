@@ -12,4 +12,4 @@ RUN set -a  && \
     
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=demo", "-jar", "/opt/form-flow-starter-app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/form-flow-starter-app/app.jar"]
