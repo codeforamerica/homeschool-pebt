@@ -44,6 +44,10 @@ jobs:
           wget --quiet -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
           sudo dpkg -i aptible-package
           aptible login --email=${{ secrets.APTIBLE_USERNAME }} --password=${{ secrets.APTIBLE_PASSWORD}}
+      - name: Prepare Slack message
+        id: slack-message
+        continue-on-error: true
+        run: |
           APTIBLE_OUTPUT_FORMAT=json aptible services --app homeschool-pebt-demo | \
             jq -r '.[0].app.last_deploy_operation.git_ref' > .last-deploy-sha
           echo "last_deploy_sha=$(cat .last-deploy-sha)" >> "$GITHUB_ENV"
@@ -51,7 +55,7 @@ jobs:
           cat <<EOF > .deploy-message
           :rocket: ${{ github.actor }} is deploying `$(git rev-parse --short ${GITHUB_SHA})` to ${{ github.event.inputs.environment || 'demo' }}
           ```
-          $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
+          testing 1 2 3
           ```
           View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
           EOF
@@ -60,6 +64,7 @@ jobs:
           echo "EOF" >> "$GITHUB_ENV"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
+        if: steps.slack-message.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           slack-message: ${{ vars.deploy_message }}
@@ -87,7 +92,7 @@ jobs:
           'SENTRY_DSN=${{ secrets.SENTRY_DSN }}'
       - name: Announce Deploy Success
         id: slack-success
-        if: success()
+        if: success() && steps.slack.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
@@ -98,7 +103,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       - name: Announce Deploy Failure
         id: slack-failure
-        if: failure()
+        if: failure() && steps.slack.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
