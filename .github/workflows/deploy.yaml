@@ -35,10 +35,22 @@ jobs:
         with:
           key: ${{ secrets.APTIBLE_SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.APTIBLE_KNOWN_HOSTS }}
-      - name: Push to Aptible remote branch
+      - name: Initialize Git
         run: |
           ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           git remote add aptible ${{ vars.APTIBLE_REMOTE_URL }}
+          git fetch aptible
+          echo "previous_deploy_sha=$(git rev-parse aptible/${{ vars.APTIBLE_REMOTE_BRANCH }})" >> "$GITHUB_ENV"
+      - name: Announce deploy starting to Slack
+        if: ${{ github.event.inputs.environment == 'production' }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          message_format: Deploying `${{ env.previous_deploy_sha }}`..`${{ github.sha }}` to production!
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Push to Aptible remote branch
+        run: |
           git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.APTIBLE_REMOTE_BRANCH }}
       - name: Set Aptible environment variables and deploy
         run: |
