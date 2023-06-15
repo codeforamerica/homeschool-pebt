@@ -37,7 +37,6 @@ jobs:
           known_hosts: ${{ secrets.APTIBLE_KNOWN_HOSTS }}
       - name: Initialize Git, Aptible, and Slack deploy message
         run: |
-          sudo apt-get install -y jq
           ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           git remote add aptible ${{ vars.APTIBLE_REMOTE_URL }}
           wget --quiet -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
@@ -59,7 +58,7 @@ jobs:
           View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
           EOF
           echo "deploy_message<<EOF" >> "$GITHUB_ENV"
-          cat .deploy-message | tee "$GITHUB_ENV"
+          cat .deploy-message | tee -a "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
