@@ -37,7 +37,6 @@ jobs:
           known_hosts: ${{ secrets.APTIBLE_KNOWN_HOSTS }}
       - name: Initialize Git, Aptible, and Slack deploy message
         run: |
-          set -x
           sudo apt-get install -y jq
           ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           git remote add aptible ${{ vars.APTIBLE_REMOTE_URL }}
@@ -53,15 +52,15 @@ jobs:
           echo "last_deploy_sha=$(cat .last-deploy-sha)" >> "$GITHUB_ENV"
           
           cat <<EOF > .deploy-message
-          :rocket: ${{ github.actor }} is deploying `$(git rev-parse --short ${GITHUB_SHA})` to ${{ github.event.inputs.environment || 'demo' }}
+          :rocket: ${{ github.actor }} is deploying \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
           ```
-          testing 1 2 3
+          $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           ```
           View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
           EOF
-          echo "deploy_message=<<EOF" >> "$GITHUB_ENV"
-          cat .deploy-message >> "$GITHUB_ENV"
-          echo "EOF" >> "$GITHUB_ENV"
+          echo "Deploy message:"
+          cat .deploy-message
+          echo "deploy_message=$(printf "%q" $(cat .deploy-message))" >> "$GITHUB_ENV"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
         if: steps.slack-message.outcome == 'success'
