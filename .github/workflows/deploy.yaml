@@ -53,21 +53,21 @@ jobs:
           
           cat <<EOF > .deploy-message
           :rocket: ${{ github.actor }} is deploying \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
-          ```
+          \`\`\`
           $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
-          ```
+          \`\`\`
           View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
           EOF
-          echo "Deploy message:"
-          cat .deploy-message
-          echo "deploy_message=$(printf "%q" $(cat .deploy-message))" >> "$GITHUB_ENV"
+          echo "deploy_message<<EOF" >> "$GITHUB_ENV"
+          cat .deploy-message | tee "$GITHUB_ENV"
+          echo "EOF" >> "$GITHUB_ENV"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
         if: steps.slack-message.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
-            {"text": ${{toJSON(env.deploy_message)}}, "attachments": [{ "text": ${{toJSON(env.deploy_message)}} }]}
+            {"text":"", "attachments": [{ "text": ${{toJSON(env.deploy_message)}} }]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -97,9 +97,7 @@ jobs:
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
           payload: |
-            {"text":${{ toJSON(env.deploy_message) }}, "attachments": [
-              {"text": ${{ toJSON(env.deploy_message) }}, "color": "#7CD197"}
-            ]}
+            {"text":"", "attachments": [{"text": ${{toJSON(env.deploy_message)}}, "color": "#7CD197"}]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -110,9 +108,7 @@ jobs:
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
           payload: |
-            {"text":${{ toJSON(env.deploy_message) }}, "attachments": [
-              {"text": ${{ toJSON(env.deploy_message) }}, "color": "#D64733"}
-            ]}
+            {"text":"", "attachments": [{"text": ${{toJSON(env.deploy_message)}}, "color": "#D64733"}]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
