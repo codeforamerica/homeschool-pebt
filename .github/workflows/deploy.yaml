@@ -49,14 +49,14 @@ jobs:
           echo "last_deploy_sha=$(cat .last-deploy-sha)" >> "$GITHUB_ENV"
           
           cat <<EOF > .deploy-message
-          :rocket: ${{ github.actor }} is deploying `$(git rev-parse --short ${{ vars.GITHUB_SHA }})` to ${{ github.event.inputs.environment || 'demo' }}
+          :rocket: ${{ github.actor }} is deploying `$(git rev-parse --short ${GITHUB_SHA})` to ${{ github.event.inputs.environment || 'demo' }}
           ```
-          $(GIT_PAGER= git log --no-decorate --oneline ${{ vars.last_deploy_sha }}..${{ vars.GITHUB_SHA }})
+          $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           ```
-          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/${{ vars.last_deploy_sha }}...${{ vars.GITHUB_SHA }}
+          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
           EOF
           echo "deploy_message=<<EOF" >> "$GITHUB_ENV"
-          echo "$(cat .deploy-message)" >> "$GITHUB_ENV"
+          cat .deploy-message >> "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
@@ -68,10 +68,10 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       - name: Push to Aptible remote branch
         run: |
-          git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${{ vars.GITHUB_SHA }}:${{ vars.APTIBLE_REMOTE_BRANCH }}
+          git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.APTIBLE_REMOTE_BRANCH }}
       - name: Set Aptible environment variables and deploy
         run: |
-          aptible deploy --app ${{ vars.APTIBLE_APP_NAME }} --git-commitish ${{ vars.GITHUB_SHA }} \
+          aptible deploy --app ${{ vars.APTIBLE_APP_NAME }} --git-commitish ${GITHUB_SHA} \
           'SPRING_PROFILES_ACTIVE=${{ vars.SPRING_PROFILES_ACTIVE}}' \
           'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' \
           'AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}' \
