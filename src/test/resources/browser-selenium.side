@@ -1560,7 +1560,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "student "
+      "value": "Avery "
     }, {
       "id": "2effc35f-4498-4aea-976f-ece9a8cf8ec7",
       "comment": "",
@@ -1588,7 +1588,7 @@
         ["xpath=//main[@id='content']/form/div/div[3]/input", "xpath:idRelative"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "student"
+      "value": "Apple"
     }, {
       "id": "73e5af1e-fbdb-41ce-874e-994db177fc9e",
       "comment": "",
@@ -1843,7 +1843,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "student"
+      "value": "Barry"
     }, {
       "id": "212cdee5-e687-4cac-9be1-67332b72935d",
       "comment": "",
@@ -1871,7 +1871,7 @@
         ["xpath=//main[@id='content']/form/div/div[3]/input", "xpath:idRelative"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "student"
+      "value": "Banana"
     }, {
       "id": "64c843df-b600-4302-886a-54f435a317db",
       "comment": "",
@@ -2159,7 +2159,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "applicant"
+      "value": "Testy"
     }, {
       "id": "debe4600-18a8-4180-a74f-50da780a5b80",
       "comment": "",
@@ -2173,7 +2173,7 @@
         ["xpath=//main[@id='content']/form/div/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "applicant"
+      "value": "TestApplicant"
     }, {
       "id": "b9aec6b3-d0f8-4abc-a8bd-3d40c0169dec",
       "comment": "",
@@ -2208,7 +2208,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "1080 dolores st"
+      "value": "1 Dr Carlton B Goodlett Pl"
     }, {
       "id": "8891beb4-3920-45b3-8a1c-3047784b7e9f",
       "comment": "",
@@ -2243,7 +2243,7 @@
         ["xpath=//main[@id='content']/form/div/div[5]/input", "xpath:idRelative"],
         ["xpath=//div[5]/input", "xpath:position"]
       ],
-      "value": "94110"
+      "value": "94102"
     }, {
       "id": "1e8c66ba-5e07-4adb-bbd0-d45e2042adcd",
       "comment": "",
@@ -2299,7 +2299,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "(330) 366-6372"
+      "value": "(510) 555-1234"
     }, {
       "id": "240bc9a8-0b81-479d-8a2d-8cdb78e7fbf6",
       "comment": "",
@@ -2313,7 +2313,7 @@
         ["xpath=//main[@id='content']/form/div/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "tdooner@codeforamerica.org"
+      "value": "test@example.com"
     }, {
       "id": "a9c68bac-f9c7-48e9-9f95-280bd8602587",
       "comment": "",
@@ -2400,7 +2400,7 @@
         ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
-      "value": "adult"
+      "value": "Sandy"
     }, {
       "id": "ee6d4766-dc47-4e88-8479-d9d9a1cf0bed",
       "comment": "",
@@ -2414,21 +2414,7 @@
         ["xpath=//main[@id='content']/form/div/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "adult"
-    }, {
-      "id": "3aaac638-0992-437f-aa46-f4223a4b49d1",
-      "comment": "",
-      "command": "type",
-      "target": "id=householdMemberFirstName",
-      "targets": [
-        ["id=householdMemberFirstName", "id"],
-        ["name=householdMemberFirstName", "name"],
-        ["css=#householdMemberFirstName", "css:finder"],
-        ["xpath=//input[@id='householdMemberFirstName']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
-        ["xpath=//div/input", "xpath:position"]
-      ],
-      "value": "adult a"
+      "value": "Seastar"
     }, {
       "id": "eb018a69-d6e7-4f10-886d-b14fdd76a801",
       "comment": "",
@@ -2476,7 +2462,7 @@
       "id": "75301e43-3271-4721-8389-ba42f6abd7ea",
       "comment": "",
       "command": "click",
-      "target": "id=householdMemberBenefitsCaseNumber",
+      "target": "id=householdMemberBenefitsCaseNumberCalfresh",
       "targets": [
         ["id=householdMemberBenefitsCaseNumber", "id"],
         ["name=householdMemberBenefitsCaseNumber", "name"],
@@ -2490,7 +2476,7 @@
       "id": "49181240-0336-415c-9f90-ec3e318855d5",
       "comment": "",
       "command": "type",
-      "target": "id=householdMemberBenefitsCaseNumber",
+      "target": "id=householdMemberBenefitsCaseNumberCalfresh",
       "targets": [],
       "value": "abc1234"
     }, {
@@ -2553,7 +2539,7 @@
       "id": "199f34d8-8d6d-49b8-924b-cf1642f5e410",
       "comment": "",
       "command": "click",
-      "target": "id=incomeMember-applicant applicant-label",
+      "target": "id=incomeMember-Testy TestApplicant-label",
       "targets": [
         ["id=incomeMember-applicant applicant-label", "id"],
         ["css=#incomeMember-applicant\\ applicant-label", "css:finder"],
@@ -2792,7 +2778,7 @@
         ["xpath=//main[@id='content']/form/div/div[3]/textarea", "xpath:idRelative"],
         ["xpath=//textarea", "xpath:position"]
       ],
-      "value": "I will be driving less uber."
+      "value": "I will be driving less."
     }, {
       "id": "7e227fe0-f8ca-4916-b913-283eb91f7271",
       "comment": "",
@@ -2837,7 +2823,7 @@
       "id": "fb60f6c4-458b-432d-b10e-2d7602a09f52",
       "comment": "",
       "command": "click",
-      "target": "id=incomeMember-student a student-label",
+      "target": "id=incomeMember-Avery a Apple-label",
       "targets": [
         ["id=incomeMember-student a student-label", "id"],
         ["css=#incomeMember-student\\ a\\ student-label", "css:finder"],
@@ -3082,7 +3068,7 @@
       "id": "eb3cd88d-c02c-40ec-808b-cb2ac17e50ac",
       "comment": "",
       "command": "click",
-      "target": "css=#incomeMember-student\\ b\\ student-label > span",
+      "target": "id=incomeMember-Barry b Banana-label",
       "targets": [
         ["css=#incomeMember-student\\ b\\ student-label > span", "css:finder"],
         ["xpath=//label[@id='incomeMember-student b student-label']/span", "xpath:idRelative"],
@@ -3264,20 +3250,6 @@
         ["xpath=//textarea", "xpath:position"]
       ],
       "value": ""
-    }, {
-      "id": "e64f1114-a076-4ef9-b23f-8b29cb41431b",
-      "comment": "",
-      "command": "type",
-      "target": "id=incomeWillBeLessDescription",
-      "targets": [
-        ["id=incomeWillBeLessDescription", "id"],
-        ["name=incomeWillBeLessDescription", "name"],
-        ["css=#incomeWillBeLessDescription", "css:finder"],
-        ["xpath=//textarea[@id='incomeWillBeLessDescription']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div/div[2]/textarea", "xpath:idRelative"],
-        ["xpath=//textarea", "xpath:position"]
-      ],
-      "value": "I will make exactly the same amount of money henceforth."
     }, {
       "id": "25c476b2-cf8d-4494-9c42-02e63cc746a7",
       "comment": "",
