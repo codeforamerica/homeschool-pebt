@@ -11,11 +11,14 @@ import java.util.UUID;
 @Service
 @Transactional
 public class TransmissionRepositoryService {
-  @Autowired
-  SubmissionRepository submissionRepository;
+  final SubmissionRepository submissionRepository;
 
-  @Autowired
-  TransmissionRepository transmissionRepository;
+  final TransmissionRepository transmissionRepository;
+
+  public TransmissionRepositoryService(SubmissionRepository submissionRepository, TransmissionRepository transmissionRepository) {
+    this.submissionRepository = submissionRepository;
+    this.transmissionRepository = transmissionRepository;
+  }
 
   public Transmission createTransmissionRecord(Submission submission) {
     if (!submission.getFlow().equals("pebt")) {

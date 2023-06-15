@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.data;
 
 import formflow.library.data.Submission;
+import formflow.library.data.UserFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface TransmissionRepository extends JpaRepository<Transmission, UUID> {
+
   @Query(value = "SELECT s FROM Submission s WHERE s.submittedAt IS NOT NULL")
   List<Submission> submissionsToTransmit(Sort sort);
 
@@ -19,4 +21,10 @@ public interface TransmissionRepository extends JpaRepository<Transmission, UUID
 
   @Query(value = "SELECT t FROM Transmission t WHERE t.flow = 'docUpload' ORDER BY t.confirmationNumber DESC LIMIT 1")
   Transmission latestLaterdocTransmission();
+
+  @Query(value = "SELECT t FROM Transmission t WHERE t.submission = :submission")
+  Transmission getTransmissionBySubmission(Submission submission);
+
+  @Query(value = "SELECT u FROM UserFile u WHERE u.submission_id = :submission")
+  List<UserFile> userFilesBySubmission(Submission submission);
 }
