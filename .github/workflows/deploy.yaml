@@ -66,7 +66,8 @@ jobs:
         if: steps.slack-message.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          slack-message: ${{ env.deploy_message }}
+          payload: |
+            {"text": ${{toJSON(env.deploy_message)}}, "attachments": [{ "text": ${{toJSON(env.deploy_message)}} }]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -96,7 +97,9 @@ jobs:
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
           payload: |
-            {"text":${{ toJSON(env.deploy_message) }}", "attachments": [{ "text": ${{ toJSON(env.deploy_message) }}, "color": "#7CD197"}
+            {"text":${{ toJSON(env.deploy_message) }}, "attachments": [
+              {"text": ${{ toJSON(env.deploy_message) }}, "color": "#7CD197"}
+            ]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -107,7 +110,9 @@ jobs:
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
           payload: |
-            {"text":${{ toJSON(env.deploy_message) }}", "attachments": [{ "text": ${{ toJSON(env.deploy_message) }}, "color": "#D64733"}
+            {"text":${{ toJSON(env.deploy_message) }}, "attachments": [
+              {"text": ${{ toJSON(env.deploy_message) }}, "color": "#D64733"}
+            ]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
