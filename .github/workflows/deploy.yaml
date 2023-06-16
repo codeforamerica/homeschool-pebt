@@ -51,11 +51,11 @@ jobs:
           echo "last_deploy_sha=$(git rev-parse --short $(cat .last-deploy-sha))" >> "$GITHUB_ENV"
           
           cat <<EOF > .deploy-message
-          :rocket: ${{ github.actor }} is deploying \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
+          :rocket: ${{ github.actor }} is <${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs/${GITHUB_JOB}|deploying> \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
           \`\`\`
           $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           \`\`\`
-          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(git rev-parse --short $(cat .last-deploy-sha))...$(git rev-parse --short ${GITHUB_SHA})
+          View diff on Github: https://github.com/${GITHUB_REPOSITORY}/compare/$(git rev-parse --short $(cat .last-deploy-sha))...$(git rev-parse --short ${GITHUB_SHA})
           EOF
           echo "deploy_message<<EOF" >> "$GITHUB_ENV"
           cat .deploy-message | tee -a "$GITHUB_ENV"
@@ -65,11 +65,11 @@ jobs:
         if: steps.slack-message.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
+          channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
           payload: |
             {"text":"", "attachments": [{ "text": ${{toJSON(env.deploy_message)}} }]}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Push to Aptible remote branch
         run: |
           git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.APTIBLE_REMOTE_BRANCH }}
@@ -96,19 +96,19 @@ jobs:
         uses: slackapi/slack-github-action@v1.24.0
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
+          channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
           payload: |
             {"text":"", "attachments": [{"text": ${{toJSON(env.deploy_message)}}, "color": "#7CD197"}]}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Announce Deploy Failure
         id: slack-failure
         if: failure() && steps.slack.outcome == 'success'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           update-ts: ${{ steps.slack.outputs.ts }}
+          channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
           payload: |
             {"text":"", "attachments": [{"text": ${{toJSON(env.deploy_message)}}, "color": "#D64733"}]}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
