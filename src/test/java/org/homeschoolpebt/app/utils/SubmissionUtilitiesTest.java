@@ -627,4 +627,106 @@ class SubmissionUtilitiesTest {
 
     assertThat(SubmissionUtilities.allStudentsEligible(submission)).isFalse();
   }
+
+  @Nested
+  class SkipIncomeTests {
+    @Test
+    void falseByDefault() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Custom School Name");
+      }};
+      var student2 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Rodger");
+        put("studentLastName", "Rocklobster");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "01100170124172 - Yu Ming Charter (Alameda County Office of Education)"); // not a CEP school
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("householdMemberReceivesBenefits", "None of the Above"),
+        Map.entry("students", List.of(student1, student2))
+      )).build();
+
+      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isFalse();
+    }
+
+    @Test
+    void trueWhenAllStudentsHaveDesignation() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentDesignations[]", List.of("foster"));
+      }};
+      var student2 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Rodger");
+        put("studentLastName", "Rocklobster");
+        put("studentDesignations[]", List.of("runaway"));
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1, student2))
+      )).build();
+
+      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+    }
+
+    @Test
+    void trueWhenAllStudentsWouldAttendCepSchool() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentWouldAttendSchoolName", "01100170123968 - Community School for Creative Education (Alameda County Office of Education)"); // CEP
+      }};
+      var student2 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Rodger");
+        put("studentLastName", "Rocklobster");
+        put("studentWouldAttendSchoolName", "01100170123968 - Community School for Creative Education (Alameda County Office of Education)"); // CEP
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1, student2))
+      )).build();
+
+      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+    }
+
+    @Test
+    void trueWhenHouseholdMemberReceivesCalfresh() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Custom School Name");
+      }};
+      var student2 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Rodger");
+        put("studentLastName", "Rocklobster");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Other custom school");
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("householdMemberReceivesBenefits", "CalFresh"),
+        Map.entry("householdMemberBenefitsCaseNumberCalFresh", "ABC1234"),
+        Map.entry("students", List.of(student1, student2))
+      )).build();
+
+      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+    }
+  }
 }

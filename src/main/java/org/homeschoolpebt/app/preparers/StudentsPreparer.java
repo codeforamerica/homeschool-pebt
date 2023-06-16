@@ -78,7 +78,8 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     return fields;
   }
 
-  private List<String> parseSchoolName(String schoolName) {
+  // TODO: Move this to some Utilities class and make it return a struct?
+  public static List<String> parseSchoolName(String schoolName) {
     // e.g.
     // 37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)
     // |-- cdsCode -|   |-- school ---------------|  |-- district --------|

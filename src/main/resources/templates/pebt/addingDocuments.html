@@ -19,8 +19,7 @@
           <ol class="list--numbered">
             <li th:text="#{adding-documents.students-identity}"></li>
             <li th:text="#{adding-documents.students-enrollment}"></li>
-            <li th:text="#{adding-documents.income-proof}"></li>
-
+            <li th:text="#{adding-documents.income-proof}" th:if="${!T(org.homeschoolpebt.app.utils.SubmissionUtilities).canSkipIncomeSections(submission)}"></li>
           </ol>
         </div>
         <div class="form-card__footer text--centered">
