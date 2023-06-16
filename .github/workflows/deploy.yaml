@@ -46,16 +46,16 @@ jobs:
         id: slack-message
         continue-on-error: true
         run: |
-          APTIBLE_OUTPUT_FORMAT=json aptible services --app homeschool-pebt-demo | \
+          APTIBLE_OUTPUT_FORMAT=json aptible services --app ${{ vars.APTIBLE_APP_NAME }} | \
             jq -r '.[0].app.last_deploy_operation.git_ref' > .last-deploy-sha
-          echo "last_deploy_sha=$(cat .last-deploy-sha)" >> "$GITHUB_ENV"
+          echo "last_deploy_sha=$(git rev-parse --short $(cat .last-deploy-sha))" >> "$GITHUB_ENV"
           
           cat <<EOF > .deploy-message
           :rocket: ${{ github.actor }} is deploying \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
           \`\`\`
           $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           \`\`\`
-          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...${GITHUB_SHA}
+          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...$(git rev-parse --short ${GITHUB_SHA})
           EOF
           echo "deploy_message<<EOF" >> "$GITHUB_ENV"
           cat .deploy-message | tee -a "$GITHUB_ENV"
