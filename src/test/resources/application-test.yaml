@@ -37,3 +37,7 @@ spring:
       ddl-auto: create-drop
   main:
     allow-circular-references: true
+logging:
+  level:
+    root: INFO
+    org.apache.commons.beanutils: INFO

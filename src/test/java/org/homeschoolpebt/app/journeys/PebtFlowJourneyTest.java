@@ -32,7 +32,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
     assertThat(testPage.getTitle()).isEqualTo("Which school did 1 or more of the students withdraw from after January 27, 2020?");
     WebElement comboboxMenu = testPage.findElementById("ui-id-1");
-    testPage.findElementById("combobox").sendKeys("San Franc");
+    testPage.findElementById("combobox").sendKeys("S.F. County Special"); // 38103896069561 - S.F. County Special Education (San Francisco County Office of Education)
     // wait for combobox to appear, then click the item for San Francisco Unified School District
     new WebDriverWait(driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(comboboxMenu));
     Optional<WebElement> comboboxItem = comboboxMenu
