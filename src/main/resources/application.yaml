@@ -85,6 +85,7 @@ logging:
   level:
     root: INFO
     org.springframework.web: ERROR
+    org.apache.commons.beanutils: INFO
 server:
   tomcat:
     max-http-form-post-size: ${form-flow.uploads.max-file-size}MB

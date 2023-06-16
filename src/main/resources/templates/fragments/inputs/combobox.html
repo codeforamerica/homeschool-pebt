@@ -21,6 +21,9 @@
   <script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
   <script src="/assets/js/combobox.js"></script>
   <script th:inline="javascript">
+    window.schools = [[${T(org.homeschoolpebt.app.utils.SchoolListUtilities).schoolsForCombobox()}]];
+  </script>
+  <script th:inline="javascript">
     $(function() {
       var inputName = [[${inputName}]];
       var hasCustomOptionTemplate = [(${hasCustomOptionTemplate})];

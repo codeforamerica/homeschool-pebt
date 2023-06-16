@@ -13,5 +13,6 @@ class SchoolListUtilitiesTest {
     assertThat(SchoolListUtilities.allCepSchools(new ArrayList(List.of("1612590135905")))).isTrue();
     assertThat(SchoolListUtilities.allCepSchools(new ArrayList(List.of("1612590135905", "01612590135905")))).isTrue();
     assertThat(SchoolListUtilities.allCepSchools(new ArrayList(List.of("1612590135905", "01612590135905", "1234")))).isFalse();
+    assertThat(SchoolListUtilities.allCepSchools(new ArrayList(List.of("1612590135905", "57727106071278")))).isTrue();
   }
 }
