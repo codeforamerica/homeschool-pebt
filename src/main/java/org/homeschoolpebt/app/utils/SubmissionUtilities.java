@@ -420,5 +420,37 @@ public class SubmissionUtilities {
       .map(student -> student.getOrDefault("studentUnenrolledSchoolName", ""))
       .allMatch(schoolName -> StudentsPreparer.OFFICAL_SCHOOL_FORMAT.matcher(schoolName).matches());
   }
+
+  public static boolean canSkipIncomeSections(Submission submission) {
+    var students = (List<Map<String, Object>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
+
+    // All students have designation (foster/runaway/etc.)?
+    var allStudentsHaveDesignation = students.stream().allMatch(student -> {
+      var designations = (List<String>) student.getOrDefault("studentDesignations[]", new ArrayList<String>());
+      return designations.size() >= 1 && !designations.get(0).equals("none");
+    });
+    if (allStudentsHaveDesignation) {
+      return true;
+    }
+
+    // All students would have attended a CEP school?
+    var wouldAttendCdsCodes = students.stream().map(student -> {
+      var wouldAttendSchoolName = (String) student.getOrDefault("studentWouldAttendSchoolName", "");
+      var parsed = StudentsPreparer.parseSchoolName(wouldAttendSchoolName);
+      return parsed.get(0);
+    }).toList();
+    var allStudentsWouldAttendCepSchool = SchoolListUtilities.allCepSchools((List<String>) wouldAttendCdsCodes);
+    if (allStudentsWouldAttendCepSchool) {
+      return true;
+    }
+
+    // Any household member receiving benefits?
+    var receivingBenefits = submission.getInputData().getOrDefault("householdMemberReceivesBenefits", "none");
+    if (!receivingBenefits.equals("None of the Above")) {
+      return true;
+    }
+
+    return false;
+  }
 }
 

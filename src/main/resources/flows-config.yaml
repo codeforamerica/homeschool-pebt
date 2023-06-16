@@ -116,6 +116,8 @@ flow:
     nextScreens:
       - name: signpostHouseholdDetails
         condition: HasHousehold
+      - name: addingDocuments
+        condition: SkipIncomeVerification
       - name: signpostIncome
   signpostHouseholdDetails:
     nextScreens:
@@ -129,6 +131,8 @@ flow:
       - name: householdReceivesBenefits
   householdReceivesBenefits:
     nextScreens:
+      - name: addingDocuments
+        condition: SkipIncomeVerification
       - name: signpostIncome
     onPostAction: ClearOtherCaseNumberFields
     crossFieldValidationAction: FDPIRCaseNumberValidationAction
@@ -240,6 +244,8 @@ flow:
       - name: uploadIncomeDocuments
   uploadEnrollmentDocuments:
     nextScreens:
+      - name: docSubmitConfirmation
+        condition: SkipIncomeVerification
       - name: uploadIncomeDocuments
   uploadIncomeDocuments:
     nextScreens:

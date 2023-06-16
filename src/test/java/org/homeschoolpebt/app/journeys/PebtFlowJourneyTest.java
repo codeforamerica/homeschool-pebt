@@ -157,9 +157,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getCssSelectorText(".form-card__content")).doesNotContain("John Doe");
     testPage.clickButton("Yes, this is everyone");
     // Anyone receive benefits?
+    // TODO: Add test where we select CalFresh to skip income verification
     assertThat(testPage.getTitle()).isEqualTo("Does anyone in the student's household receive one of these benefits?");
-    testPage.findElementById("householdMemberReceivesBenefits-CalFresh").click();
-    testPage.enter("householdMemberBenefitsCaseNumberCalfresh", "ABC1234");
+    testPage.findElementById("householdMemberReceivesBenefits-None of the Above").click();
     testPage.clickContinue();
 
     // Income
