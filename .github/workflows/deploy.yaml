@@ -55,7 +55,7 @@ jobs:
           \`\`\`
           $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           \`\`\`
-          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(cat .last-deploy-sha)...$(git rev-parse --short ${GITHUB_SHA})
+          View diff on Github: https://github.com/codeforamerica/homeschool-pebt/compare/$(git rev-parse --short $(cat .last-deploy-sha))...$(git rev-parse --short ${GITHUB_SHA})
           EOF
           echo "deploy_message<<EOF" >> "$GITHUB_ENV"
           cat .deploy-message | tee -a "$GITHUB_ENV"
