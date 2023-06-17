@@ -19,7 +19,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
   @Test
   void fullUbiFlow() {
     // Landing screen
-    assertThat(testPage.getTitle()).isEqualTo("Get food money for students.");
+    assertPageTitle("Get food money for students.");
     testPage.clickButton("Apply now");
     // How this works
     testPage.clickContinue();
@@ -30,7 +30,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes"); // Enrolled in virtual/home school?
     testPage.clickButton("Yes"); // Unenrolled during COVID?
 
-    assertThat(testPage.getTitle()).isEqualTo("Which school did 1 or more of the students withdraw from after January 27, 2020?");
+    assertPageTitle("Which school did 1 or more of the students withdraw from after January 27, 2020?");
     WebElement comboboxMenu = testPage.findElementById("ui-id-1");
     testPage.findElementById("combobox").sendKeys("S.F. County Special"); // 38103896069561 - S.F. County Special Education (San Francisco County Office of Education)
     // wait for combobox to appear, then click the item for San Francisco Unified School District
@@ -47,29 +47,29 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
     // Students subflow
     testPage.clickButton("Get started"); // "Student information" signpost
-    assertThat(testPage.getTitle()).contains("Add a student");
+    assertPageTitle("Add a student");
     testPage.enter("studentFirstName", "Stud");
     testPage.enter("studentLastName", "McStudenty");
     testPage.enter("studentBirthdayDay", "1");
     testPage.enter("studentBirthdayMonth", "2");
     testPage.enter("studentBirthdayYear", "1991");
     testPage.clickButton("Add student");
-    assertThat(testPage.getTitle()).contains("Do any of the following apply to Stud?");
+    assertPageTitle("Do any of the following apply to Stud?");
     testPage.findElementById("none__checkbox").click();
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).contains("Tell us about");
+    assertPageTitle("Tell us about");
     testPage.findElementById("studentGrade").sendKeys("4th Grade");
     testPage.findElementById("studentSchoolType-homeschool").click();
     testPage.findElementById("studentHomeschoolAffidavitNumber").sendKeys("abc1234");
     testPage.clickContinue();
     testPage.clickContinue(); // Which school did <name> unenroll from?
     testPage.clickContinue(); // Which school would <name> attend?
-    assertThat(testPage.getTitle()).contains("Are these all the students");
+    assertPageTitle("Are these all the students");
     testPage.findElementsByClass("subflow-list__action-delete").get(0).click();
-    assertThat(testPage.getTitle()).contains("Delete student");
+    assertPageTitle("Delete student");
     testPage.clickLink("No, keep them on the application");
     testPage.clickButton("Yes, this is everyone");
-    assertThat(testPage.getTitle()).contains("Are you in the same household as these students?");
+    assertPageTitle("Are you in the same household as these students?");
     testPage.clickButton("Yes"); // Are you in the same household as the students?
     testPage.clickContinue(); // Got it! Students may be eligible.
 
@@ -90,7 +90,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue(); // Address validation gets skipped in test
 
     // Contact Info
-    assertThat(testPage.getTitle()).isEqualTo("Contact Info");
+    assertPageTitle("Contact Info");
     testPage.enter("phoneNumber", "(312) 877-1021");
     testPage.enter("email", "foo@test.com");
     // Assert JavaScript is checking the phone and email checkboxes when values are entered
@@ -98,14 +98,14 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.findElementById("howToContactYou-email").isSelected()).isTrue();
     testPage.clickContinue();
     // Review personal info
-    assertThat(testPage.getTitle()).isEqualTo("Let's review your information");
+    assertPageTitle("Let's review your information");
     testPage.clickButton("Confirm");
     // TODO: Test of skipping the Household builder
     testPage.clickButton("Yes"); // Are there other people in the students' household?
     testPage.clickButton("Get started"); // Household details signpost
 
     // Housemate Info
-    assertThat(testPage.getTitle()).isEqualTo("Housemate Info");
+    assertPageTitle("Housemate Info");
     testPage.enter("householdMemberFirstName", "John");
     testPage.enter("householdMemberLastName", "Doe");
     testPage.clickContinue();
@@ -132,7 +132,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     // Delete final household member to go back to householdList
     testPage.findElementsByClass("subflow-delete").get(0).click();
     testPage.clickButton("Yes, remove them");
-    assertThat(testPage.getTitle()).isEqualTo("Are there other people in the students' household?");
+    assertPageTitle("Are there other people in the students' household?");
     // Add back household members
     testPage.enter("hasHousehold", YES.getDisplayValue());
     testPage.clickButton("Get started"); // Household details signpost
@@ -147,9 +147,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("householdMemberLastName", "Doe");
     testPage.clickContinue();
     // Edit a person
-    assertThat(testPage.getTitle()).contains("Is this everyone in the student's household?");
+    assertPageTitle("Is this everyone in the student's household?");
     testPage.findElementsByClass("subflow-edit").get(0).click();
-    assertThat(testPage.getTitle()).isEqualTo("Housemate Info");
+    assertPageTitle("Housemate Info");
     testPage.enter("householdMemberFirstName", "Anthony");
     testPage.enter("householdMemberLastName", "Dee");
     testPage.clickContinue();
@@ -158,20 +158,20 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes, this is everyone");
     // Anyone receive benefits?
     // TODO: Add test where we select CalFresh to skip income verification
-    assertThat(testPage.getTitle()).isEqualTo("Does anyone in the student's household receive one of these benefits?");
+    assertPageTitle("Does anyone in the student's household receive one of these benefits?");
     testPage.findElementById("householdMemberReceivesBenefits-None of the Above").click();
     testPage.clickContinue();
 
     // Income
     testPage.clickButton("Get started"); // Income signpost
-    assertThat(testPage.getTitle()).isEqualTo("Does anyone in the household have a job?");
+    assertPageTitle("Does anyone in the household have a job?");
     testPage.clickButton(YES.getDisplayValue());
-    assertThat(testPage.getTitle()).isEqualTo("Great! Let's add all the jobs in the household.");
+    assertPageTitle("Great! Let's add all the jobs in the household.");
     testPage.clickButton("Add a job");
-    assertThat(testPage.getTitle()).isEqualTo("Who do you want to add the job for?");
+    assertPageTitle("Who do you want to add the job for?");
     testPage.findElementByCssSelector("input[type=radio]").click(); // Click first radio button
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Add a job for Testy McTesterson");
+    assertPageTitle("Add a job for Testy McTesterson");
     testPage.enter("incomeJobName", "Hobby Jobby"); // Name of job
     testPage.clickButton("Continue");
     // TODO: Add a case for self-employed income as well.
@@ -180,7 +180,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
     testPage.enter("incomeHoursPerWeek", "40");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Do you think Testy McTesterson will make less from this job in future months?");
+    assertPageTitle("Do you think Testy McTesterson will make less from this job in future months?");
     testPage.goBack();
     testPage.goBack();
     testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?
@@ -191,7 +191,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("incomeCustomMonthlyIncome", "500");
     testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).isEqualTo("Great! Any other jobs in the household to add?");
+    assertPageTitle("Great! Any other jobs in the household to add?");
     testPage.clickButton("I'm done adding jobs");
     testPage.clickLink("Keep going"); // Almost done with income!
     testPage.findElementById("incomeUnearnedRetirementTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
@@ -207,22 +207,22 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Submit");
 
     // Document Uploader
-    assertThat(testPage.getTitle()).isEqualTo("Adding Documents");
+    assertPageTitle("Adding Documents");
     testPage.clickButton("Get started");
-    assertThat(testPage.getTitle()).isEqualTo("Add proof of identity");
+    assertPageTitle("Add proof of identity");
     assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Stud McStudenty");
     uploadJpgFile("identityFiles");
     testPage.clickContinue();
     // Skip 'Add proof of virtual school enrollment' (since an affidavit number was provided before)
-    assertThat(testPage.getTitle()).contains("Add proof of income from the last 30 days");
+    assertPageTitle("Add proof of income from the last 30 days");
     assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson (that's you!)");
     uploadJpgFile("incomeFiles");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).contains("Add proof for other income sources");
+    assertPageTitle("Add proof for other income sources");
     assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Social Security");
     uploadJpgFile("unearnedIncomeFiles");
     testPage.clickContinue();
-    assertThat(testPage.getTitle()).contains("Doc submit confirmation");
+    assertPageTitle("Doc submit confirmation");
     testPage.clickButton("Yes, submit and finish");
   }
 }

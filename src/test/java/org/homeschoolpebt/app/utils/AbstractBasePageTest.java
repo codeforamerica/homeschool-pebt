@@ -1,10 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -65,6 +62,15 @@ public abstract class AbstractBasePageTest {
       Files.copy(sourceFile, destinationFile, StandardCopyOption.REPLACE_EXISTING);
     } catch (IOException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  protected void assertPageTitle(String desiredTitle) {
+    try {
+      new WebDriverWait(driver, Duration.ofMillis(1000)).until(d -> d.getTitle().contains(desiredTitle));
+    } catch (TimeoutException e) {
+      takeSnapShot("test-failure.png");
+      throw e;
     }
   }
 
