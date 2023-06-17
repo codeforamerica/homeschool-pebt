@@ -24,7 +24,7 @@
     window.schools = [[${T(org.homeschoolpebt.app.utils.SchoolListUtilities).schoolsForCombobox()}]];
   </script>
   <script th:inline="javascript">
-    $(function() {
+    document.addEventListener("DOMContentLoaded", function() {
       var inputName = [[${inputName}]];
       var hasCustomOptionTemplate = [(${hasCustomOptionTemplate})];
 
