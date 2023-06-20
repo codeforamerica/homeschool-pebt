@@ -23,7 +23,11 @@ public class LaterDocsJourneyTest extends AbstractBasePageTest {
     // Upload docs screen
     assertPageTitle("Upload documents");
     uploadJpgFile("docUpload");
-    testPage.clickContinue();
+    testPage.clickButton("I'm finished uploading");
+
+    // Confirmation screen
+    assertPageTitle("Ready to submit your documents");
+    testPage.clickButton("Yes, submit and finish");
 
     // Success!
     assertPageTitle("Success");

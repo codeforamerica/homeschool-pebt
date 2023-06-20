@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{doc-upload-success.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div>
+          <th:block th:replace="~{'fragments/icons' :: documentsSuccess}"></th:block>
+        </div>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-success.title}, subtext=#{doc-upload-success.subtitle})}"/>
+        <div class="form-card__footer">
+          <a href="/" class="button button--other" th:utext="#{doc-upload-success.return-to-homepage}"></a>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

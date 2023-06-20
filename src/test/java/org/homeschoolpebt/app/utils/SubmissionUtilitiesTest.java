@@ -468,7 +468,7 @@ class SubmissionUtilitiesTest {
   @Test
   void formatApplicationNumber() {
     String test1 = "001000144";
-    assertThat(SubmissionUtilities.getFormattedApplicationNumber(test1)).isEqualTo("1000144");
+    assertThat(SubmissionUtilities.getFormattedConfirmationNumber(test1)).isEqualTo("1000144");
   }
 
   @Test

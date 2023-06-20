@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{doc-upload-confirm.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{'fragments/icons' :: documentsSuccess}"/>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-confirm.title})}"/>
+
+        <div class="form-card__footer">
+          <th:block th:replace="~{'fragments/form' :: form(action=('/flow/' + ${flow} + '/'+ ${screen} + '/submit' ), content=~{::confirmInputContent})}">
+            <th:block th:ref="confirmInputContent">
+              <th:block th:replace="~{'fragments/inputs/submitButton' :: submitButton(text=#{doc-submit-confirmation.yes-submit-and-finish})}" />
+              <br>
+              <a class="button button--other"  th:href="'/flow/' + ${flow} + '/uploadDocuments'" th:text="#{doc-submit-confirmation.no-add-more-documents}"></a>
+            </th:block>
+          </th:block>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

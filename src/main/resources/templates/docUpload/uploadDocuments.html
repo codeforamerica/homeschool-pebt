@@ -19,8 +19,7 @@
                   th:replace="~{fragments/fileUploader :: fileUploader(inputName=${dzFormName})}"></th:block>
             </div>
             <div id="submit" class="form-card__footer display-none">
-              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
-                text=#{general.inputs.continue})}"/>
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{upload-documents.im-finished-uploading})}"/>
             </div>
           </th:block>
         </th:block>
