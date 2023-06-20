@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{add-documents-signpost.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="text--centered" >
+          <th:block th:replace="~{'fragments/icons' :: documentAndEnvelope}"></th:block>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{add-documents-signpost.title})}"/>
+        </div>
+        <div class="boxed-content">
+          <p class="text--centered"><strong th:text="#{add-documents-signpost.youll-need}"></strong></p>
+          <ol class="list--numbered">
+            <li th:text="#{add-documents-signpost.your-application-number}"></li>
+            <li th:text="#{add-documents-signpost.copies-of-documents}"></li>
+          </ol>
+        </div>
+        <div class="form-card__footer text--centered">
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{adding-documents.button})}" />
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</body>
+</html>
+
