@@ -295,6 +295,9 @@ subflows:
 ---
 name: docUpload
 flow:
+  addDocumentsSignpost:
+    nextScreens:
+      - name: uploadDocuments
   uploadDocuments:
     nextScreens:
       - name: success

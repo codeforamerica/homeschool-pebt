@@ -30,7 +30,9 @@
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
 <script>
-  FormFlowDZ.hideContinueIfNoFiles('[[${dzFormName}]]', 'submit');
+  document.addEventListener("DOMContentLoaded", function() {
+    FormFlowDZ.hideContinueIfNoFiles('[[${dzFormName}]]', 'submit');
+  })
 </script>
 </body>
 </html>
