@@ -25,21 +25,50 @@
             <th:block th:ref="radioContent">
               <th:block
                 th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly}, followUpId='#follow-up-weekly')}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly})}"/>
+              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
               <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly})}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly})}"/>
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly}, followUpId='#follow-up-semimonthly')}"/>
+              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
               <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally})}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly})}"/>
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally}, followUpId='#follow-up-yearly')}"/>
+              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
             </th:block>
           </th:block>
         </div>
+
         <div class="question-with-follow-up__follow-up" id="follow-up-weekly">
           <th:block th:replace="'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.weekly},
           helpText=#{income-regular-pay-calculator.amount-help-text.weekly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-biweekly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.biweekly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.biweekly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-semimonthly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.semimonthly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.semimonthly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-monthly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.monthly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.monthly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-yearly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.yearly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.yearly}
         )"/>
         </div>
       </div>
