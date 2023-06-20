@@ -51,7 +51,7 @@ jobs:
           echo "last_deploy_sha=$(git rev-parse --short $(cat .last-deploy-sha))" >> "$GITHUB_ENV"
           
           cat <<EOF > .deploy-message
-          :rocket: ${{ github.actor }} is <${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs/${GITHUB_JOB}|deploying> \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
+          :rocket: ${{ github.actor }} <${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|is deploying> \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
           \`\`\`
           $(GIT_PAGER= git log --no-decorate --oneline $(cat .last-deploy-sha)..${GITHUB_SHA})
           \`\`\`
@@ -89,7 +89,8 @@ jobs:
           'MAILGUN_DOMAIN=${{ vars.MAILGUN_DOMAIN }}' \
           'DISABLE_APPLICATIONS=${{ vars.DISABLE_APPLICATIONS }}' \
           'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
-          'FORCE_SSL=${{ vars.FORCE_SSL }}'
+          'FORCE_SSL=${{ vars.FORCE_SSL }}' \
+          'RELEASE_HEALTHCHECK_TIMEOUT=${{ vars.RELEASE_HEALTHCHECK_TIMEOUT }}'
       - name: Announce Deploy Success
         id: slack-success
         if: success() && steps.slack.outcome == 'success'
