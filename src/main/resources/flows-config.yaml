@@ -303,6 +303,10 @@ flow:
       - name: uploadDocuments
   uploadDocuments:
     nextScreens:
-      - name: success
-  success:
+      - name: docUploadConfirm
+  docUploadConfirm:
+    nextScreens:
+      - name: docUploadSuccess
+    afterSaveAction: HandleLaterdocSubmitted
+  docUploadSuccess:
     nextScreens: null

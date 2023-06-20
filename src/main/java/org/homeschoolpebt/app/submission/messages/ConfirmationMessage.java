@@ -22,7 +22,7 @@ public class ConfirmationMessage implements PebtMessage {
 
   @Override
   public Email renderEmail() {
-    var applicationNumber = SubmissionUtilities.getFormattedApplicationNumber(transmission.getApplicationNumber());
+    var applicationNumber = SubmissionUtilities.getFormattedConfirmationNumber(transmission.getConfirmationNumber());
     String subject = "Test confirmation email";
 
     String emailBody = "<html><body><p>Your confirmation number is: <br>%s</p></body></html>".formatted(

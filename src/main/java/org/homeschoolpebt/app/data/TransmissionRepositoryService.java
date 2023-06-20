@@ -18,12 +18,31 @@ public class TransmissionRepositoryService {
   TransmissionRepository transmissionRepository;
 
   public Transmission createTransmissionRecord(Submission submission) {
-    var previousTransmission = this.transmissionRepository.latestTransmission();
-    var previousApplicationNumber = (previousTransmission == null) ? null : previousTransmission.getApplicationNumber();
+    if (!submission.getFlow().equals("pebt")) {
+      throw new RuntimeException("Non-Pebt object passed to createTransmissionRecord");
+    }
+
+    var previousTransmission = this.transmissionRepository.latestApplicationTransmission();
+    var previousApplicationNumber = (previousTransmission == null) ? null : previousTransmission.getConfirmationNumber();
 
     var transmission = Transmission.fromSubmission(submission);
-    transmission.setApplicationNumber(nextApplicationNumber(previousApplicationNumber));
+    transmission.setConfirmationNumber(nextApplicationConfirmationNumber(previousApplicationNumber));
 
+    this.transmissionRepository.save(transmission);
+
+    return transmission;
+  }
+
+  public Transmission createLaterdocTransmissionRecord(Submission submission) {
+    if (!submission.getFlow().equals("docUpload")) {
+      throw new RuntimeException("Non-LaterDoc object passed to createTransmissionRecord");
+    }
+
+    var previousTransmission = this.transmissionRepository.latestLaterdocTransmission();
+    var previousConfirmationNumber = (previousTransmission == null) ? null : previousTransmission.getConfirmationNumber();
+
+    var transmission = Transmission.fromSubmission(submission);
+    transmission.setConfirmationNumber(nextLaterdocConfirmationNumber(previousConfirmationNumber));
     this.transmissionRepository.save(transmission);
 
     return transmission;
@@ -40,12 +59,25 @@ public class TransmissionRepositoryService {
     e.g. 001000142 - a possible first application number (will be presented to client as 1000142)
     e.g. 002523469 - a possible 15,234th application number (will be presented to client as 2523469)
   */
-  private String nextApplicationNumber(String currentApplicationNumber) {
+  private String nextApplicationConfirmationNumber(String currentConfirmationNumber) {
     var autoIncrementPortion = 1 + Integer.parseInt(
-      (currentApplicationNumber == null) ? "0010000" : currentApplicationNumber.substring(0, currentApplicationNumber.length() - 2)
+      (currentConfirmationNumber == null) ? "0010000" : currentConfirmationNumber.substring(0, currentConfirmationNumber.length() - 2)
     );
     var randomPortion = Math.floor(Math.random() * 90 + 10);
 
     return "%07d%.0f".formatted(autoIncrementPortion, randomPortion);
+  }
+
+  /*
+    Laterdocs have the same format as application confirmation numbers except they
+    end with an L.
+   */
+  private String nextLaterdocConfirmationNumber(String currentConfirmationNumber) {
+    var autoIncrementPortion = 1 + Integer.parseInt(
+      (currentConfirmationNumber == null) ? "0010000" : currentConfirmationNumber.substring(0, currentConfirmationNumber.length() - 3)
+    );
+    var randomPortion = Math.floor(Math.random() * 90 + 10);
+
+    return "%07d%.0fL".formatted(autoIncrementPortion, randomPortion);
   }
 }

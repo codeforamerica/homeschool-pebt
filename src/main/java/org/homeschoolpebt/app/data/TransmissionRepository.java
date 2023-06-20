@@ -14,6 +14,9 @@ public interface TransmissionRepository extends JpaRepository<Transmission, UUID
   @Query(value = "SELECT s FROM Submission s WHERE s.submittedAt IS NOT NULL")
   List<Submission> submissionsToTransmit(Sort sort);
 
-  @Query(value = "SELECT t FROM Transmission t ORDER BY t.applicationNumber DESC LIMIT 1")
-  Transmission latestTransmission();
+  @Query(value = "SELECT t FROM Transmission t WHERE t.flow = 'pebt' ORDER BY t.confirmationNumber DESC LIMIT 1")
+  Transmission latestApplicationTransmission();
+
+  @Query(value = "SELECT t FROM Transmission t WHERE t.flow = 'docUpload' ORDER BY t.confirmationNumber DESC LIMIT 1")
+  Transmission latestLaterdocTransmission();
 }
