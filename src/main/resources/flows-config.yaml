@@ -297,6 +297,9 @@ name: docUpload
 flow:
   addDocumentsSignpost:
     nextScreens:
+      - name: applicationNumber
+  applicationNumber:
+    nextScreens:
       - name: uploadDocuments
   uploadDocuments:
     nextScreens:
