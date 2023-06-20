@@ -10,8 +10,15 @@ public class LaterDocsJourneyTest extends AbstractBasePageTest {
     // Homepage
     assertPageTitle("Get food money for students.");
     testPage.clickLink("Submit documents");
+
     // Add documents signpost
     testPage.clickButton("Get started");
+
+    // Application Number Page
+    testPage.enter("firstName", "John");
+    testPage.enter("lastName", "Doe");
+    testPage.enter("applicationNumber", "1234567");
+    testPage.clickContinue();
 
     // Upload docs screen
     assertPageTitle("Upload documents");
