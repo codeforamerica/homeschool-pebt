@@ -300,6 +300,9 @@ flow:
       - name: applicationNumber
   applicationNumber:
     nextScreens:
+      - name: docUploadHowTo
+  docUploadHowTo:
+    nextScreens:
       - name: uploadDocuments
   uploadDocuments:
     nextScreens:

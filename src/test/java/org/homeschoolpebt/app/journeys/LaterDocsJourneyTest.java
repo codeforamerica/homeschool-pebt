@@ -20,6 +20,9 @@ public class LaterDocsJourneyTest extends AbstractBasePageTest {
     testPage.enter("applicationNumber", "1234567");
     testPage.clickContinue();
 
+    // How to
+    testPage.clickButton("Got it");
+
     // Upload docs screen
     assertPageTitle("Upload documents");
     uploadJpgFile("docUpload");
