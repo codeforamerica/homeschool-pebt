@@ -2060,6 +2060,45 @@
       ],
       "value": ""
     }, {
+      "id": "945a3cd5-2806-4ecb-bb02-f8acbf3b7189",
+      "comment": "",
+      "command": "click",
+      "target": "id=clear-combobox",
+      "targets": [
+        ["id=clear-combobox", "id"],
+        ["css=#clear-combobox", "css:finder"],
+        ["xpath=//i[@id='clear-combobox']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/form/div/div/span/i", "xpath:idRelative"],
+        ["xpath=//i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "13c352e2-5ba2-461b-9fc8-5a8195753d17",
+      "comment": "",
+      "command": "type",
+      "target": "id=combobox",
+      "targets": [
+        ["id=combobox", "id"],
+        ["css=#combobox", "css:finder"],
+        ["xpath=//input[@id='combobox']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/form/div/div/span/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "OTHER SCHOOL NAME"
+    }, {
+      "id": "879c9f0e-522c-47a6-b7e4-9e67e2c2c5ea",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=combobox",
+      "targets": [
+        ["id=combobox", "id"],
+        ["css=#combobox", "css:finder"],
+        ["xpath=//input[@id='combobox']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/form/div/div/span/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_TAB}"
+    }, {
       "id": "9b55a069-aa53-4dd3-aa5e-7a15027d0342",
       "comment": "",
       "command": "click",
@@ -2130,20 +2169,6 @@
         ["xpath=//a[contains(@href, '/flow/pebt/gettingToKnowYou/navigation')]", "xpath:href"],
         ["xpath=//div[3]/a", "xpath:position"],
         ["xpath=//a[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "a3c429bc-161c-4ff7-8e93-342cd81a7eda",
-      "comment": "",
-      "command": "click",
-      "target": "id=firstName",
-      "targets": [
-        ["id=firstName", "id"],
-        ["name=firstName", "name"],
-        ["css=#firstName", "css:finder"],
-        ["xpath=//input[@id='firstName']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div/div/input", "xpath:idRelative"],
-        ["xpath=//div/input", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -2447,40 +2472,19 @@
       ],
       "value": ""
     }, {
-      "id": "b053c03e-23e5-41c1-8a4c-60d117b19f18",
+      "id": "8d0b64c4-2fcf-40ed-a453-c6881dc39bb6",
       "comment": "",
       "command": "click",
-      "target": "css=#householdMemberReceivesBenefits-CalFresh-label > span",
+      "target": "css=#householdMemberReceivesBenefits-None\\ of\\ the\\ Above-label > span",
       "targets": [
-        ["css=#householdMemberReceivesBenefits-CalFresh-label > span", "css:finder"],
-        ["xpath=//label[@id='householdMemberReceivesBenefits-CalFresh-label']/span", "xpath:idRelative"],
-        ["xpath=//span", "xpath:position"],
-        ["xpath=//span[contains(.,'CalFresh')]", "xpath:innerText"]
+        ["css=#householdMemberReceivesBenefits-None\\ of\\ the\\ Above-label > span", "css:finder"],
+        ["xpath=//label[@id='householdMemberReceivesBenefits-None of the Above-label']/span", "xpath:idRelative"],
+        ["xpath=//label[4]/span", "xpath:position"],
+        ["xpath=//span[contains(.,'None of the Above')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "75301e43-3271-4721-8389-ba42f6abd7ea",
-      "comment": "",
-      "command": "click",
-      "target": "id=householdMemberBenefitsCaseNumberCalfresh",
-      "targets": [
-        ["id=householdMemberBenefitsCaseNumber", "id"],
-        ["name=householdMemberBenefitsCaseNumber", "name"],
-        ["css=#householdMemberBenefitsCaseNumber", "css:finder"],
-        ["xpath=//input[@id='householdMemberBenefitsCaseNumber']", "xpath:attributes"],
-        ["xpath=//div[@id='calfresh-calworks-follow-up']/div/input", "xpath:idRelative"],
-        ["xpath=//div/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "49181240-0336-415c-9f90-ec3e318855d5",
-      "comment": "",
-      "command": "type",
-      "target": "id=householdMemberBenefitsCaseNumberCalfresh",
-      "targets": [],
-      "value": "abc1234"
-    }, {
-      "id": "2088c716-c25c-45ec-9719-bba65724ac08",
+      "id": "00716f9f-cd9b-4e1f-a72b-e4c0fe84b862",
       "comment": "",
       "command": "click",
       "target": "id=form-submit-button",
@@ -3169,31 +3173,15 @@
       ],
       "value": ""
     }, {
-      "id": "e43566b3-c4d7-4bfc-8831-866654eaff72",
-      "comment": "",
-      "command": "click",
-      "target": "id=incomeRegularPayAmount",
-      "targets": [
-        ["id=incomeRegularPayAmount", "id"],
-        ["name=incomeRegularPayAmount", "name"],
-        ["css=#incomeRegularPayAmount", "css:finder"],
-        ["xpath=//input[@id='incomeRegularPayAmount']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div/div[2]/div/input", "xpath:idRelative"],
-        ["xpath=//div/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
       "id": "1cafc6e6-5093-4e8f-b482-6551926a7467",
       "comment": "",
       "command": "type",
-      "target": "id=incomeRegularPayAmount",
+      "target": "css=#follow-up-semimonthly #incomeRegularPayAmount",
       "targets": [
-        ["id=incomeRegularPayAmount", "id"],
-        ["name=incomeRegularPayAmount", "name"],
-        ["css=#incomeRegularPayAmount", "css:finder"],
-        ["xpath=//input[@id='incomeRegularPayAmount']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div/div[2]/div/input", "xpath:idRelative"],
-        ["xpath=//div/input", "xpath:position"]
+        ["css=.is-focused > #incomeRegularPayAmount", "css:finder"],
+        ["xpath=(//input[@id='incomeRegularPayAmount'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='follow-up-semimonthly']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/input", "xpath:position"]
       ],
       "value": "400"
     }, {

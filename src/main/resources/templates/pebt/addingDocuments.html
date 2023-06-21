@@ -18,7 +18,7 @@
           <p class="text--centered"><strong th:text="#{adding-documents.we-will-tell-you}"></strong></p>
           <ol class="list--numbered">
             <li th:text="#{adding-documents.students-identity}"></li>
-            <li th:text="#{adding-documents.students-enrollment}"></li>
+            <li th:text="#{adding-documents.students-enrollment}" th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).needsEnrollmentDocs(submission)}"></li>
             <li th:text="#{adding-documents.income-proof}" th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).needsIncomeVerification(submission)}"></li>
           </ol>
         </div>

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 public class NeedsEnrollmentDocs implements Condition {
 
   public Boolean run(Submission submission) {
-    var enrollmentStudentsList = SubmissionUtilities.getDocUploadEnrollmentStudentsList(submission);
-
-    return enrollmentStudentsList.size() > 0;
+    return SubmissionUtilities.needsEnrollmentDocs(submission);
   }
 }
