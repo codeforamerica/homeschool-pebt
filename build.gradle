@@ -1,78 +1,78 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.5'
-    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-    id 'java'
-    id 'com.gorylenko.gradle-git-properties' version '2.3.2'
-    id 'com.adarshr.test-logger' version '3.2.0'
+  id 'org.springframework.boot' version '3.0.5'
+  id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+  id 'java'
+  id 'com.gorylenko.gradle-git-properties' version '2.3.2'
+  id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 configurations.configureEach {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+  resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 def props = new Properties()
 if (file(".env").exists()) {
-    file(".env").withInputStream { props.load(it) }
+  file(".env").withInputStream { props.load(it) }
 }
 
 repositories {
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
-    }
-    mavenCentral()
+  maven {
+    url 'https://oss.sonatype.org/content/repositories/snapshots'
+  }
+  mavenCentral()
 }
 
 def profile = props.getProperty('SPRING_PROFILES_ACTIVE')
 def formFlowLibraryVersion = '0.0.5-SNAPSHOT'
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.session:spring-session-jdbc'
-    implementation 'org.springframework.shell:spring-shell-starter:3.0.4'
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.session:spring-session-jdbc'
+  implementation 'org.springframework.shell:spring-shell-starter:3.0.4'
 
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'com.opencsv:opencsv:5.7.1'
+  implementation 'org.flywaydb:flyway-core'
+  implementation 'com.opencsv:opencsv:5.7.1'
+  implementation 'com.jcraft:jsch:0.1.55'
+  implementation 'org.apache.commons:commons-vfs2:2.4'
 
-    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.22.0'
+  implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.22.0'
     implementation 'io.sentry:sentry-logback:6.22.0'
 
-    implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
+  implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
 
-    implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.6.2'
+  implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.6.2'if (profile == 'dev') {
+    implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
+    println "📚Using form flow library ${formFlowLibraryVersion}"
+    // implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
+    // println "📦 Using local library"
+  } else {
+    implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
+    println "📚Using form flow library ${formFlowLibraryVersion}"
+  }
 
-    if (profile == 'dev') {
-        implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
-        println "📚Using form flow library ${formFlowLibraryVersion}"
-        // implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
-        // println "📦 Using local library"
-    } else {
-        implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
-        println "📚Using form flow library ${formFlowLibraryVersion}"
-    }
+  compileOnly 'org.projectlombok:lombok'
 
-    compileOnly 'org.projectlombok:lombok'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  annotationProcessor 'org.projectlombok:lombok'
 
-    annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.security:spring-security-test'
+  testImplementation 'org.seleniumhq.selenium:selenium-java'
+  testImplementation 'io.percy:percy-java-selenium:1.1.0'
+  testImplementation 'org.awaitility:awaitility'
+  testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
+  testImplementation 'com.h2database:h2'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.seleniumhq.selenium:selenium-java'
-    testImplementation 'io.percy:percy-java-selenium:1.1.0'
-    testImplementation 'org.awaitility:awaitility'
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
-    testImplementation 'com.h2database:h2'
-
-    runtimeOnly 'org.postgresql:postgresql'
+  runtimeOnly 'org.postgresql:postgresql'
 }
 
 dependencyManagement {
@@ -82,11 +82,11 @@ dependencyManagement {
 }
 
 springBoot {
-    buildInfo()
+  buildInfo()
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 task i18nNormalize(type: JavaExec) {

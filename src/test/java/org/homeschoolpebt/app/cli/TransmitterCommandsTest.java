@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepository;
 import formflow.library.data.UserFile;
@@ -12,6 +14,7 @@ import formflow.library.data.UserFileRepository;
 import formflow.library.pdf.PdfService;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -90,7 +93,7 @@ class TransmitterCommandsTest {
   }
 
   @Test
-  void transmitZipFile() throws IOException {
+  void transmitZipFile() throws IOException, JSchException, SftpException {
     when(pdfService.getFilledOutPDF(any())).thenReturn("some bytes".getBytes());
     when(pdfService.generatePdfName(any())).thenReturn("applicant_summary.pdf");
 

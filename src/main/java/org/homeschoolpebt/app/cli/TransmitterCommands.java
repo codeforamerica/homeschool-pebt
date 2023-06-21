@@ -1,13 +1,15 @@
 package org.homeschoolpebt.app.cli;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
-import formflow.library.data.SubmissionRepository;
 import formflow.library.data.UserFile;
-import formflow.library.data.UserFileRepositoryService;
 import formflow.library.pdf.PdfService;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,11 +19,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.VFS;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
-import org.homeschoolpebt.app.data.TransmissionRepositoryService;
 import org.homeschoolpebt.app.upload.CloudFile;
 import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -29,26 +35,23 @@ import org.springframework.shell.standard.ShellMethod;
 @ShellComponent
 public class TransmitterCommands {
 
-  private final TransmissionRepositoryService transmissionRepositoryService;
   private final TransmissionRepository transmissionRepository;
-  private final SubmissionRepository submissionRepository;
   private final PdfService pdfService;
 
-  private final UserFileRepositoryService uploadedFileRepositoryService;
   private final ReadOnlyCloudFileRepository fileRepository;
 
-  public TransmitterCommands(TransmissionRepositoryService transmissionRepositoryService, TransmissionRepository transmissionRepository, SubmissionRepository submissionRepository,
-    PdfService pdfService, UserFileRepositoryService uploadedFileRepositoryService, ReadOnlyCloudFileRepository fileRepository) {
-    this.transmissionRepositoryService = transmissionRepositoryService;
+  private final SftpClient sftpClient;
+
+  public TransmitterCommands(TransmissionRepository transmissionRepository,
+    PdfService pdfService, ReadOnlyCloudFileRepository fileRepository, SftpClient sftpClient) {
     this.transmissionRepository = transmissionRepository;
-    this.submissionRepository = submissionRepository;
     this.pdfService = pdfService;
-    this.uploadedFileRepositoryService = uploadedFileRepositoryService;
     this.fileRepository = fileRepository;
+    this.sftpClient = sftpClient;
   }
 
   @ShellMethod(key = "transmit")
-  public void transmit() throws IOException {
+  public void transmit() throws IOException, JSchException, SftpException {
     System.out.println("Submissions to transmit....");
 
     List<UUID> submissionIds = new ArrayList<>();
@@ -65,7 +68,19 @@ public class TransmitterCommands {
       }
     });
 
-    // initialize zip
+    String zipFilename = createZipFilename(appIdToSubmission);
+    zipFiles(appIdToSubmission, zipFilename);
+
+    // send zip file
+    sftpClient.uploadFile(zipFilename);
+
+
+    // TODO update transmission in DB
+  }
+
+  @NotNull
+  private static String createZipFilename(Map<String, Submission> appIdToSubmission) {
+    // Format: Apps__2023-07-05__100010-100300.zip
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
@@ -73,8 +88,11 @@ public class TransmitterCommands {
     String firstAppId = appIdToSubmission.keySet().stream().min(String::compareTo).get();
     String lastAppId = appIdToSubmission.keySet().stream().max(String::compareTo).get();
 
-    //Format Apps__2023-07-05__100010-100300.zip
-    try (FileOutputStream baos = new FileOutputStream("Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip");
+    return "Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip";
+  }
+
+  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName) throws IOException {
+    try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
 
       appIdToSubmission.forEach((appNumber, submission) -> {
@@ -116,9 +134,5 @@ public class TransmitterCommands {
         }
       });
     }
-
-    // TODO send zip file
-
-    // TODO update transmission in DB
   }
 }
