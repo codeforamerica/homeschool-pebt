@@ -471,7 +471,7 @@ public class SubmissionUtilities {
       missing.add("identity");
     }
 
-    var neededEnrollment = getDocUploadEnrollmentStudentsList(submission).size() > 0;
+    var neededEnrollment = needsEnrollmentDocs(submission);
     var skippedEnrollment = submission.getInputData().getOrDefault("enrollmentFiles", "[]").equals("[]");
     if (neededEnrollment && skippedEnrollment) {
       missing.add("enrollment");
@@ -486,6 +486,10 @@ public class SubmissionUtilities {
     }
 
     return missing;
+  }
+
+  public static boolean needsEnrollmentDocs(Submission submission) {
+    return getDocUploadEnrollmentStudentsList(submission).size() > 0;
   }
 }
 
