@@ -106,5 +106,8 @@ class TransmitterCommandsTest {
     String date = dtf.format(now);
     File zipFile = new File("Apps__" + date + "__1001-1002.zip");
     assertTrue(zipFile.exists());
+
+    // cleanup
+    zipFile.delete();
   }
 }
