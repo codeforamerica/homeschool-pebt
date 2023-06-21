@@ -475,5 +475,5 @@ inputFields:
   # TODO: file20-submission-date
   # TODO: file20-type
 dbFields:
-  # TODO: case-number.case-number
+  case-number.case-number: case-number.case-number
   submittedAt: submission-timestamp
