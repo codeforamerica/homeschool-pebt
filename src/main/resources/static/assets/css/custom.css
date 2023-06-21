@@ -158,6 +158,18 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   color: #D13F00;
 }
 
+.doc-upload-desktop-only {
+  display: none;
+}
+@media screen and (min-width: 601px) {
+  .doc-upload-desktop-only {
+    display: initial;
+  }
+  .doc-upload-mobile-only {
+    display: none;
+  }
+}
+
 /* **************************************************************************
  * FORM FLOW LIBRARY STYLES
  * ************************************************************************** */
