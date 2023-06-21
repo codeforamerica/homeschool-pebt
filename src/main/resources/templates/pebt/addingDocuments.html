@@ -19,11 +19,21 @@
           <ol class="list--numbered">
             <li th:text="#{adding-documents.students-identity}"></li>
             <li th:text="#{adding-documents.students-enrollment}"></li>
-            <li th:text="#{adding-documents.income-proof}" th:if="${!T(org.homeschoolpebt.app.utils.SubmissionUtilities).canSkipIncomeSections(submission)}"></li>
+            <li th:text="#{adding-documents.income-proof}" th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).needsIncomeVerification(submission)}"></li>
           </ol>
         </div>
+
+        <th:block th:with="deadline=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLaterdocDeadline(#dates.createNow())}">
+          <div class="notice notice--success" th:utext="#{adding-documents.you-can-do-it-later(${deadline})}"></div>
+        </th:block>
+
         <div class="form-card__footer text--centered">
-          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{adding-documents.button})}" />
+          <dIv class="spacing-below-35">
+            <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{adding-documents.button})}" />
+          </div>
+          <div>
+            <a href="/flow/pebt/docPendingConfirmation" th:text="#{adding-documents.ill-do-this-later}"></a>
+          </div>
         </div>
       </main>
     </div>

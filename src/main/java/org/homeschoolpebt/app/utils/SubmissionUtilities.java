@@ -3,6 +3,7 @@ package org.homeschoolpebt.app.utils;
 import formflow.library.data.Submission;
 import org.homeschoolpebt.app.preparers.StudentsPreparer;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -421,7 +422,7 @@ public class SubmissionUtilities {
       .allMatch(schoolName -> StudentsPreparer.OFFICAL_SCHOOL_FORMAT.matcher(schoolName).matches());
   }
 
-  public static boolean canSkipIncomeSections(Submission submission) {
+  public static boolean needsIncomeVerification(Submission submission) {
     var students = (List<Map<String, Object>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
 
     // All students have designation (foster/runaway/etc.)?
@@ -430,7 +431,7 @@ public class SubmissionUtilities {
       return designations.size() >= 1 && !designations.get(0).equals("none");
     });
     if (allStudentsHaveDesignation) {
-      return true;
+      return false;
     }
 
     // All students would have attended a CEP school?
@@ -441,16 +442,50 @@ public class SubmissionUtilities {
     }).toList();
     var allStudentsWouldAttendCepSchool = SchoolListUtilities.allCepSchools((List<String>) wouldAttendCdsCodes);
     if (allStudentsWouldAttendCepSchool) {
-      return true;
+      return false;
     }
 
     // Any household member receiving benefits?
     var receivingBenefits = submission.getInputData().getOrDefault("householdMemberReceivesBenefits", "none");
     if (!receivingBenefits.equals("None of the Above")) {
-      return true;
+      return false;
     }
 
-    return false;
+    return true;
+  }
+  static final DateTime LAST_DAY_OF_APPLICATIONS = new DateTime(2023, 8, 15, 17, 00); // 5pm on Aug 15
+  public static String getLaterdocDeadline(Date now) {
+    var oneWeekHence = new DateTime(now).plus(Duration.standardDays(7));
+    var deadline = oneWeekHence.compareTo(LAST_DAY_OF_APPLICATIONS) < 0 ? oneWeekHence : LAST_DAY_OF_APPLICATIONS;
+
+    String pattern = "MMMM d, yyyy";
+    SimpleDateFormat formatDate = new SimpleDateFormat(pattern);
+    return formatDate.format(deadline.toDate());
+  }
+
+  public static List<String> getMissingDocUploads(Submission submission) {
+    var missing = new ArrayList<String>();
+
+    var skippedIdentity = submission.getInputData().getOrDefault("identityFiles", "[]").equals("[]");
+    if (skippedIdentity) {
+      missing.add("identity");
+    }
+
+    var neededEnrollment = getDocUploadEnrollmentStudentsList(submission).size() > 0;
+    var skippedEnrollment = submission.getInputData().getOrDefault("enrollmentFiles", "[]").equals("[]");
+    if (neededEnrollment && skippedEnrollment) {
+      missing.add("enrollment");
+    }
+
+    var neededIncome = needsIncomeVerification(submission);
+    var skippedIncome = submission.getInputData().getOrDefault("incomeFiles", "[]").equals("[]");
+    var neededUnearned = getDocUploadUnearnedIncomeList(submission).size() > 0;
+    var skippedUnearned = submission.getInputData().getOrDefault("unearnedIncomeFiles", "[]").equals("[]");
+    if ((neededIncome && skippedIncome) || (neededUnearned && skippedUnearned)) {
+      missing.add("income");
+    }
+
+    return missing;
   }
 }
 
