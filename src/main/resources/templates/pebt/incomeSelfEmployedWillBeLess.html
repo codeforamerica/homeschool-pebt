@@ -3,7 +3,7 @@
   operatingExpenses=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelfEmployedOperatingExpensesAmount(fieldData)},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
-  title=${isApplicant ? #messages.msgWithParams('income-self-employed-will-be-less.title.you', netIncome) : #messages.msgWithParams('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)},
+  title=${isApplicant ? #messages.msg('income-self-employed-will-be-less.title.you', netIncome) : #messages.msg('income-self-employed-will-be-less.title.person-name', fieldData.incomeMember, netIncome)},
   incomeGrossMonthlyIndividual=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).formatMoney(fieldData.incomeGrossMonthlyIndividual)},
 ">
   <!DOCTYPE html>

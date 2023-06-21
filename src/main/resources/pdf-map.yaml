@@ -2,11 +2,11 @@ flow: pebt
 pdf: /pdfs/applicant_summary.pdf
 inputFields:
   # submission field name --> PDF field name
+  # Overview Page
   address: address
   zip-code: zip-code
   firstName: applicant-first-name
   lastName: applicant-last-name
-  # TODO: applicant-middle-initial
   phoneNumber: phone-number
   household-member: household-member
   student: student
@@ -17,30 +17,93 @@ inputFields:
   program-case-number: program-case-number
   email: email
   household-count: household-count
-  # TODO: interview-pref
-
+  income-hh-future-total: income-hh-future-total
+  income-hh-past-total: income-hh-past-total
+  income-hh-future-earned: income-hh-future-earned
+  income-hh-past-earned: income-hh-past-earned
   income-hh-unearned: income-hh-unearned
-  income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
+  income-social-security: income-social-security
+  income-unemployment: income-unemployment
+  income-disability: income-disability
+  income-ssi: income-ssi
   income-workers-comp: income-workers-comp
+  income-veterans: income-veterans
+  income-401k: income-401k
   income-spousal-support: income-spousal-support
   income-child-support: income-child-support
   income-pension: income-pension
-  income-retirement: income-retirement
-  income-ssi: income-ssi
   income-other: income-other
   income-unearned-comments: income-unearned-comments
 
-  income-hh-future-earned: income-hh-future-earned
-  income-hh-future-total: income-hh-future-total
-  income-hh-past-earned: income-hh-past-earned
-  income-hh-past-total: income-hh-past-total
+  # Household Members page
+  hhmember1: hhmember1
+  hhmember1-future-income: hhmember1-future-income
+  hhmember1-student: hhmember1-student
+  hhmember2: hhmember2
+  hhmember2-future-income: hhmember2-future-income
+  hhmember2-student: hhmember2-student
+  hhmember20: hhmember20
+  hhmember20-future-income: hhmember20-future-income
+  hhmember20-student: hhmember20-student
+  hhmember3: hhmember3
+  hhmember3-future-income: hhmember3-future-income
+  hhmember3-student: hhmember3-student
+  hhmember4: hhmember4
+  hhmember4-future-income: hhmember4-future-income
+  hhmember4-student: hhmember4-student
+  hhmember5: hhmember5
+  hhmember5-future-income: hhmember5-future-income
+  hhmember5-student: hhmember5-student
+  hhmember6: hhmember6
+  hhmember6-future-income: hhmember6-future-income
+  hhmember6-student: hhmember6-student
+  hhmember7: hhmember7
+  hhmember7-future-income: hhmember7-future-income
+  hhmember7-student: hhmember7-student
+  hhmember8: hhmember8
+  hhmember8-future-income: hhmember8-future-income
+  hhmember8-student: hhmember8-student
+  hhmember9: hhmember9
+  hhmember9-future-income: hhmember9-future-income
+  hhmember9-student: hhmember9-student
+  hhmember10: hhmember10
+  hhmember10-future-income: hhmember10-future-income
+  hhmember10-student: hhmember10-student
+  hhmember11: hhmember11
+  hhmember11-future-income: hhmember11-future-income
+  hhmember12: hhmember12
+  hhmember12-future-income: hhmember12-future-income
+  hhmember13: hhmember13
+  hhmember13-future-income: hhmember13-future-income
+  hhmember14: hhmember14
+  hhmember14-future-income: hhmember14-future-income
+  hhmember14-student: hhmember14-student
+  hhmember15: hhmember15
+  hhmember15-future-income: hhmember15-future-income
+  hhmember15-student: hhmember15-student
+  hhmember16: hhmember16
+  hhmember16-future-income: hhmember16-future-income
+  hhmember16-student: hhmember16-student
+  hhmember17: hhmember17
+  hhmember17-future-income: hhmember17-future-income
+  hhmember17-student: hhmember17-student
+  hhmember18: hhmember18
+  hhmember18-future-income: hhmember18-future-income
+  hhmember18-student: hhmember18-student
+  hhmember19: hhmember19
+  hhmember19-future-income: hhmember19-future-income
+  hhmember19-student: hhmember19-student
 
+  # Students list!
   student1-anticipated-school: student1-anticipated-school
   student1-anticipated-school-code: student1-anticipated-school-code
+  student1-anticipated-school-cep: student1-anticipated-school-cep
   student1-anticipated-school-district: student1-anticipated-school-district
   student1-first-name: student1-first-name
   student1-foster: student1-foster
   student1-homeschool: student1-homeschool
+  student1-dob: student1-dob
+  student1-grade: student1-grade
   student1-last-name: student1-last-name
   student1-middle-initial: student1-middle-initial
   student1-migrant: student1-migrant
@@ -51,14 +114,17 @@ inputFields:
   student1-virtual-school-district: student1-virtual-school-district
   student1-withdrawn-school: student1-withdrawn-school
   student1-withdrawn-school-code: student1-withdrawn-school-code
+  student1-withdrawn-school-cep: student1-withdrawn-school-cep
   student1-withdrawn-school-district: student1-withdrawn-school-district
-
   student2-anticipated-school: student2-anticipated-school
   student2-anticipated-school-code: student2-anticipated-school-code
+  student2-anticipated-school-cep: student2-anticipated-school-cep
   student2-anticipated-school-district: student2-anticipated-school-district
   student2-first-name: student2-first-name
   student2-foster: student2-foster
   student2-homeschool: student2-homeschool
+  student2-dob: student2-dob
+  student2-grade: student2-grade
   student2-last-name: student2-last-name
   student2-middle-initial: student2-middle-initial
   student2-migrant: student2-migrant
@@ -69,13 +135,17 @@ inputFields:
   student2-virtual-school-district: student2-virtual-school-district
   student2-withdrawn-school: student2-withdrawn-school
   student2-withdrawn-school-code: student2-withdrawn-school-code
+  student2-withdrawn-school-cep: student2-withdrawn-school-cep
   student2-withdrawn-school-district: student2-withdrawn-school-district
   student3-anticipated-school: student3-anticipated-school
   student3-anticipated-school-code: student3-anticipated-school-code
+  student3-anticipated-school-cep: student3-anticipated-school-cep
   student3-anticipated-school-district: student3-anticipated-school-district
   student3-first-name: student3-first-name
   student3-foster: student3-foster
   student3-homeschool: student3-homeschool
+  student3-dob: student3-dob
+  student3-grade: student3-grade
   student3-last-name: student3-last-name
   student3-middle-initial: student3-middle-initial
   student3-migrant: student3-migrant
@@ -86,13 +156,17 @@ inputFields:
   student3-virtual-school-district: student3-virtual-school-district
   student3-withdrawn-school: student3-withdrawn-school
   student3-withdrawn-school-code: student3-withdrawn-school-code
+  student3-withdrawn-school-cep: student3-withdrawn-school-cep
   student3-withdrawn-school-district: student3-withdrawn-school-district
   student4-anticipated-school: student4-anticipated-school
   student4-anticipated-school-code: student4-anticipated-school-code
+  student4-anticipated-school-cep: student4-anticipated-school-cep
   student4-anticipated-school-district: student4-anticipated-school-district
   student4-first-name: student4-first-name
   student4-foster: student4-foster
   student4-homeschool: student4-homeschool
+  student4-dob: student4-dob
+  student4-grade: student4-grade
   student4-last-name: student4-last-name
   student4-middle-initial: student4-middle-initial
   student4-migrant: student4-migrant
@@ -103,13 +177,17 @@ inputFields:
   student4-virtual-school-district: student4-virtual-school-district
   student4-withdrawn-school: student4-withdrawn-school
   student4-withdrawn-school-code: student4-withdrawn-school-code
+  student4-withdrawn-school-cep: student4-withdrawn-school-cep
   student4-withdrawn-school-district: student4-withdrawn-school-district
   student5-anticipated-school: student5-anticipated-school
   student5-anticipated-school-code: student5-anticipated-school-code
+  student5-anticipated-school-cep: student5-anticipated-school-cep
   student5-anticipated-school-district: student5-anticipated-school-district
   student5-first-name: student5-first-name
   student5-foster: student5-foster
   student5-homeschool: student5-homeschool
+  student5-dob: student5-dob
+  student5-grade: student5-grade
   student5-last-name: student5-last-name
   student5-middle-initial: student5-middle-initial
   student5-migrant: student5-migrant
@@ -120,13 +198,17 @@ inputFields:
   student5-virtual-school-district: student5-virtual-school-district
   student5-withdrawn-school: student5-withdrawn-school
   student5-withdrawn-school-code: student5-withdrawn-school-code
+  student5-withdrawn-school-cep: student5-withdrawn-school-cep
   student5-withdrawn-school-district: student5-withdrawn-school-district
   student6-anticipated-school: student6-anticipated-school
   student6-anticipated-school-code: student6-anticipated-school-code
+  student6-anticipated-school-cep: student6-anticipated-school-cep
   student6-anticipated-school-district: student6-anticipated-school-district
   student6-first-name: student6-first-name
   student6-foster: student6-foster
   student6-homeschool: student6-homeschool
+  student6-dob: student6-dob
+  student6-grade: student6-grade
   student6-last-name: student6-last-name
   student6-middle-initial: student6-middle-initial
   student6-migrant: student6-migrant
@@ -137,12 +219,16 @@ inputFields:
   student6-virtual-school-district: student6-virtual-school-district
   student6-withdrawn-school: student6-withdrawn-school
   student6-withdrawn-school-code: student6-withdrawn-school-code
+  student6-withdrawn-school-cep: student6-withdrawn-school-cep
   student6-withdrawn-school-district: student6-withdrawn-school-district
   student7-anticipated-school-code: student7-anticipated-school-code
+  student7-anticipated-school-cep: student7-anticipated-school-cep
   student7-anticipated-school-district: student7-anticipated-school-district
   student7-first-name: student7-first-name
   student7-foster: student7-foster
   student7-homeschool: student7-homeschool
+  student7-dob: student7-dob
+  student7-grade: student7-grade
   student7-last-name: student7-last-name
   student7-middle-initial: student7-middle-initial
   student7-migrant: student7-migrant
@@ -153,13 +239,17 @@ inputFields:
   student7-virtual-school-district: student7-virtual-school-district
   student7-withdrawn-school: student7-withdrawn-school
   student7-withdrawn-school-code: student7-withdrawn-school-code
+  student7-withdrawn-school-cep: student7-withdrawn-school-cep
   student7-withdrawn-school-district: student7-withdrawn-school-district
   student8-anticipated-school: student8-anticipated-school
   student8-anticipated-school-code: student8-anticipated-school-code
+  student8-anticipated-school-cep: student8-anticipated-school-cep
   student8-anticipated-school-district: student8-anticipated-school-district
   student8-first-name: student8-first-name
   student8-foster: student8-foster
   student8-homeschool: student8-homeschool
+  student8-dob: student8-dob
+  student8-grade: student8-grade
   student8-last-name: student8-last-name
   student8-middle-initial: student8-middle-initial
   student8-migrant: student8-migrant
@@ -170,13 +260,17 @@ inputFields:
   student8-virtual-school-district: student8-virtual-school-district
   student8-withdrawn-school: student8-withdrawn-school
   student8-withdrawn-school-code: student8-withdrawn-school-code
+  student8-withdrawn-school-cep: student8-withdrawn-school-cep
   student8-withdrawn-school-district: student8-withdrawn-school-district
   student9-anticipated-school: student9-anticipated-school
   student9-anticipated-school-code: student9-anticipated-school-code
+  student9-anticipated-school-cep: student9-anticipated-school-cep
   student9-anticipated-school-district: student9-anticipated-school-district
   student9-first-name: student9-first-name
   student9-foster: student9-foster
   student9-homeschool: student9-homeschool
+  student9-dob: student9-dob
+  student9-grade: student9-grade
   student9-last-name: student9-last-name
   student9-middle-initial: student9-middle-initial
   student9-migrant: student9-migrant
@@ -187,6 +281,7 @@ inputFields:
   student9-virtual-school-district: student9-virtual-school-district
   student9-withdrawn-school: student9-withdrawn-school
   student9-withdrawn-school-code: student9-withdrawn-school-code
+  student9-withdrawn-school-cep: student9-withdrawn-school-cep
   student9-withdrawn-school-district: student9-withdrawn-school-district
 
   job1-employee-name: job1-employee-name

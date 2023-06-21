@@ -28,10 +28,16 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     fields.put("income-workers-comp", new SingleField("income-workers-comp", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeWorkersCompensationAmount")), null));
     fields.put("income-spousal-support", new SingleField("income-spousal-support", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSpousalSupportAmount")), null));
     fields.put("income-child-support", new SingleField("income-child-support", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeChildSupportAmount")), null));
-    fields.put("income-pension", new SingleField("income-pension", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomePensionAmount")), null));
-    fields.put("income-retirement", new SingleField("income-retirement", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeRetirementAmount")), null));
-    fields.put("income-ssi", new SingleField("income-ssi", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSSIAmount")), null));
+    fields.put("income-disability", new SingleField("income-disability", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeDisabilityAmount")), null));
+    fields.put("income-veterans", new SingleField("income-veterans", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeVeteransAmount")), null));
     fields.put("income-other", new SingleField("income-other", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeOtherAmount")), null));
+
+    // unearned (retirement)
+    fields.put("income-ssi", new SingleField("income-ssi", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSSIAmount")), null));
+    fields.put("income-pension", new SingleField("income-pension", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomePensionAmount")), null));
+    fields.put("income-social-security", new SingleField("income-social-security", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSocialSecurityAmount")), null));
+    fields.put("income-401k", new SingleField("income-401k", SubmissionUtilities.formatMoney((String) submission.getInputData().get("income401k403bAmount")), null));
+
     var totalUnearnedIncome = calc.totalUnearnedIncome();
     fields.put("income-hh-unearned", new SingleField("income-hh-unearned", SubmissionUtilities.formatMoney(totalUnearnedIncome), null));
     fields.put("income-unearned-comments", new SingleField("income-unearned-comments", (String) submission.getInputData().get("incomeUnearnedDescription"), null));
