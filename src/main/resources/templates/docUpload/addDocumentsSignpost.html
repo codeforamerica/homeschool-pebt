@@ -10,7 +10,7 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="text--centered" >
           <th:block th:replace="~{'fragments/icons' :: documentAndEnvelope}"></th:block>
-          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{add-documents-signpost.title})}"/>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{add-documents-signpost.title}, subtext=#{add-documents-signpost.subtext})}"/>
         </div>
         <div class="boxed-content">
           <p class="text--centered"><strong th:text="#{add-documents-signpost.youll-need}"></strong></p>

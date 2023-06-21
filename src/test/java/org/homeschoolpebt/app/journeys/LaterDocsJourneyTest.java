@@ -33,6 +33,6 @@ public class LaterDocsJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Yes, submit and finish");
 
     // Success!
-    assertPageTitle("Success");
+    assertPageTitle("Great! We sent your documents.");
   }
 }

@@ -6,14 +6,22 @@
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <main id="content" role="main" class="form-card spacing-above-35">
+      <main id="content" role="main" class="form-card spacing-above-35" th:with="
+        completionDate=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getFormattedSubmittedAtDate(submission)},
+        applicationNumber=${submission.getInputData().getOrDefault('applicationNumber', '')}
+      ">
         <div>
           <th:block th:replace="~{'fragments/icons' :: documentsSuccess}"></th:block>
         </div>
-        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-success.title}, subtext=#{doc-upload-success.subtitle})}"/>
-        <div class="form-card__footer">
-          <a href="/" class="button button--other" th:utext="#{doc-upload-success.return-to-homepage}"></a>
-        </div>
+        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-success.title}, subtext=#{doc-upload-success.subtext(${applicationNumber})})}"/>
+        <p class="text--help help--header-spacing" th:text="#{doc-upload-success.your-docs-were-submitted(${completionDate})}"></p>
+
+        <hr class="spacing-above-15 spacing-below-25">
+        <h2 th:text="#{success.helpful-resources}"></h2>
+        <p th:utext="#{index.find-your-local-food-bank}"></p>
+        <p th:utext="#{index.apply-on-gcf}"></p>
+
+        <a href="/" class="button button--other spacing-above-35" th:utext="#{doc-upload-success.return-to-homepage}"></a>
       </main>
     </div>
   </section>
