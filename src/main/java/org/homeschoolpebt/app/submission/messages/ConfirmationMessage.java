@@ -6,6 +6,7 @@ import org.homeschoolpebt.app.data.TransmissionRepositoryService;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 @Component
 public class ConfirmationMessage implements PebtMessage {
@@ -28,7 +29,7 @@ public class ConfirmationMessage implements PebtMessage {
     String body = """
       <html>
         <body>
-          <p>Dear %s</p>
+          <p>Dear %s,</p>
           <p>Thank you for submitting your application for P-EBT benefits for the 2022-2023 school year.\s
           You should hear back from the California Department of Social Services by phone or mail in the next 2-4 weeks.</p>
           <p>Your application number is %s.</p>
@@ -36,7 +37,7 @@ public class ConfirmationMessage implements PebtMessage {
           <p>- California Department of Social Services</p>
         </body>
       </html>
-      """.formatted(confirmationNumber, applicantFullName);
+      """.formatted(StringUtils.escapeXml(applicantFullName), confirmationNumber);
     return new Email(subject, body);
   }
 
