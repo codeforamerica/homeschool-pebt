@@ -63,6 +63,28 @@ public class Page {
     clickButton("Continue");
   }
 
+  public void enterByCssSelector(String cssSelector, String value) {
+    checkForBadMessageKeys();
+    List<WebElement> formInputElements = driver.findElements(By.cssSelector(cssSelector));
+    WebElement firstElement = formInputElements.get(0);
+    FormInputHtmlTag formInputHtmlTag = FormInputHtmlTag.valueOf(firstElement.getTagName());
+    switch (formInputHtmlTag) {
+      case select -> selectFromDropdown(firstElement, value);
+      case button -> choose(formInputElements, value);
+      case textarea -> enterInput(firstElement, value);
+      case input -> {
+        switch (InputTypeHtmlAttribute.valueOf(firstElement.getAttribute("type"))) {
+          case text -> {
+            enterInput(firstElement, value);
+          }
+          case radio, checkbox -> selectEnumeratedInput(formInputElements, value);
+          default -> enterInput(firstElement, value);
+        }
+      }
+      default -> throw new IllegalArgumentException("Cannot find element");
+    }
+  }
+
   public void enter(String inputName, String value) {
     checkForBadMessageKeys();
     List<WebElement> formInputElements = driver.findElements(By.name(inputName));
