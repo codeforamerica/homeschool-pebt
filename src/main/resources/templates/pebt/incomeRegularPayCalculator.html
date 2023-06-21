@@ -75,10 +75,18 @@
         )"/>
         </div>
       </div>
+      <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                linkLabel=~{::revealLabel},
+                content=~{::revealContent})}">
+        <th:block th:ref="revealLabel">
+          <th:block th:text="#{income-regular-pay-calculator.reveal-label}"></th:block>
+        </th:block>
+        <th:block th:ref="revealContent">
+          <p th:text="#{income-regular-pay-calculator.reveal-contents.p1}"></p>
+          <p th:text="#{income-regular-pay-calculator.reveal-contents.p2}"></p>
+        </th:block>
+      </th:block>
     </th:block>
-
-    <input type="hidden" name="incomeCalculationMethod" value="regularPay"/>
-    <!-- TODO: Add "What if their pay changes often?" reveal -->
   </th:block>
 </th:block>
 </th:block>

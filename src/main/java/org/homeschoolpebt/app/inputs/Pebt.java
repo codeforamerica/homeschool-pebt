@@ -127,7 +127,6 @@ public class Pebt extends FlowInputs {
   @Money
   private String incomeCustomMonthlyIncome;
   private String incomeWillBeLessDescription;
-  private String incomeCalculationMethod;
 
   @NotEmpty(message = "{income-unearned-types.error}")
   private ArrayList<String> incomeUnearnedRetirementTypes;

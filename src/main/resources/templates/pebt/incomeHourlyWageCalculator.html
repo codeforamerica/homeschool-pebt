@@ -38,7 +38,6 @@
                       label=${#messages.msg('income-hourly-wage-calculator.hours-per-week-title.' + messageVariantYouThey)},
                       helpText=#{income-hourly-wage-calculator.hours-per-week-help-text(${lastMonth})},
                       placeholder='10 hours per week')}"/>
-                  <input type="hidden" name="incomeCalculationMethod" value="hourlyWage"/>
                 </th:block>
                 <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
                 linkLabel=~{::revealLabel},
