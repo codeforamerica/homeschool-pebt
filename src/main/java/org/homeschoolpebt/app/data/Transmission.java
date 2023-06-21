@@ -25,12 +25,15 @@ public class Transmission {
   @Column(name = "created_at")
   private Date createdAt;
 
+  @Column(name = "flow")
+  private String flow;
+
   @ManyToOne
   @JoinColumn(name = "submission_id")
   private Submission submission;
 
-  @Column(name = "application_number")
-  private String applicationNumber;
+  @Column(name = "confirmation_number")
+  private String confirmationNumber;
 
   @Temporal(TIMESTAMP)
   @Column(name = "submitted_to_state_at")
@@ -42,6 +45,7 @@ public class Transmission {
   public static Transmission fromSubmission(Submission submission) {
     var transmission = new Transmission();
     transmission.setSubmission(submission);
+    transmission.setFlow(submission.getFlow());
     return transmission;
   }
 }

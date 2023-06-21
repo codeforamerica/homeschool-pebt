@@ -295,8 +295,21 @@ subflows:
 ---
 name: docUpload
 flow:
+  addDocumentsSignpost:
+    nextScreens:
+      - name: applicationNumber
+  applicationNumber:
+    nextScreens:
+      - name: docUploadHowTo
+  docUploadHowTo:
+    nextScreens:
+      - name: uploadDocuments
   uploadDocuments:
     nextScreens:
-      - name: success
-  success:
+      - name: docUploadConfirm
+  docUploadConfirm:
+    nextScreens:
+      - name: docUploadSuccess
+    afterSaveAction: HandleLaterdocSubmitted
+  docUploadSuccess:
     nextScreens: null
