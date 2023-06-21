@@ -61,7 +61,7 @@ public class TransmitterCommands {
       Submission submission = Submission.builder().id(id).build();
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
       if (transmission.getSubmittedToStateAt() == null) {
-        appIdToSubmission.put(transmission.getApplicationNumber(), transmission.getSubmission());
+        appIdToSubmission.put(transmission.getConfirmationNumber(), transmission.getSubmission());
       }
     });
 
@@ -81,7 +81,7 @@ public class TransmitterCommands {
 
         String fileName = pdfService.generatePdfName(submission);
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        String subfolder = transmission.getApplicationNumber() + "_" + submission.getInputData().get("lastName") + "/";
+        String subfolder = transmission.getConfirmationNumber() + "_" + submission.getInputData().get("lastName") + "/";
         try {
           // generate PDF
           byte[] file = pdfService.getFilledOutPDF(submission);

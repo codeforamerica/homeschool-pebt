@@ -65,7 +65,7 @@ class TransmitterCommandsTest {
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
-    transmission.setApplicationNumber("1001");
+    transmission.setConfirmationNumber("1001");
     transmissionRepository.save(transmission);
 
     var submission2 = Submission.builder()
@@ -79,7 +79,7 @@ class TransmitterCommandsTest {
     submissionRepository.save(submission2);
 
     transmission = Transmission.fromSubmission(submission2);
-    transmission.setApplicationNumber("1002");
+    transmission.setConfirmationNumber("1002");
     transmissionRepository.save(transmission);
 
     UserFile docfile = new UserFile();
