@@ -1,4 +1,3 @@
-<!-- TODO: Add disabled/enabled in JS -->
 <th:block th:with="
   messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
@@ -15,24 +14,28 @@
   )}">
     <th:block th:ref="inputContent">
       <div class="question-with-follow-up">
-        <div class="question-with-follow-up__question">
+        <div class="question-with-follow-up__question follow-up-inputs-enabled-when-selected">
           <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
-        inputName='incomeRegularPayInterval',
-        ariaLabel='header',
-        content=~{::radioContent}
-      )}">
-
-            <th:block th:ref="radioContent">
+            inputName='incomeRegularPayInterval',
+            ariaLabel='header',
+            content=~{::radioFieldSet}
+          )}">
+            <th:block th:ref="radioFieldSet">
               <th:block
                 th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly}, followUpId='#follow-up-weekly')}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
               <th:block
                 th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly}, followUpId='#follow-up-semimonthly')}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
               <th:block
                 th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally}, followUpId='#follow-up-yearly')}"/>
-              <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
             </th:block>
+            <th:block
+              th:replace="~{fragments/inputError :: validationError(inputName='incomeRegularPayInterval')}"></th:block>
           </th:block>
         </div>
 
