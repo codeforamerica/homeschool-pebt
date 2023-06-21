@@ -162,6 +162,9 @@ public class SubmissionUtilities {
   }
 
   public static Double getRegularPayAmount(Map<String, Object> fieldData) {
+    if (fieldData.getOrDefault("incomeRegularPaymentAmount", "").equals("")) {
+      return null;
+    }
     var amount = Double.parseDouble(fieldData.get("incomeRegularPayAmount").toString());
     switch (fieldData.getOrDefault("incomeRegularPayInterval", "").toString()) {
       case "weekly" -> {
