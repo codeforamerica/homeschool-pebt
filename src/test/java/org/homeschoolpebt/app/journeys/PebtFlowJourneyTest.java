@@ -93,9 +93,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     assertPageTitle("Contact Info");
     testPage.enter("phoneNumber", "(312) 877-1021");
     testPage.enter("email", "foo@test.com");
-    // Assert JavaScript is checking the phone and email checkboxes when values are entered
-    assertThat(testPage.findElementById("howToContactYou-phoneNumber").isSelected()).isTrue();
-    assertThat(testPage.findElementById("howToContactYou-email").isSelected()).isTrue();
     testPage.clickContinue();
     // Review personal info
     assertPageTitle("Let's review your information");

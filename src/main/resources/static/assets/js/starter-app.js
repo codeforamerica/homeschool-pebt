@@ -41,8 +41,6 @@ class FollowUpInputsEnabledWhenSelected {
 }
 
 window.onload = function () {
-  selectCheckboxFieldIfTextFieldIsNotEmpty("email", "howToContactYou-email");
-  selectCheckboxFieldIfTextFieldIsNotEmpty("phoneNumber", "howToContactYou-phoneNumber");
   noneOfTheAbove.init();
   followUpQuestion.init();
   FollowUpInputsEnabledWhenSelected.init();
