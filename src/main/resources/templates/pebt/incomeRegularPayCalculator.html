@@ -13,30 +13,73 @@
     buttonLabel=#{general.inputs.continue}
   )}">
     <th:block th:ref="inputContent">
-      <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
-        inputName='incomeRegularPayInterval',
-        ariaLabel='header',
-        content=~{::radioContent}
-      )}">
-        <th:block th:ref="radioContent">
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly})}"/>
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly})}"/>
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly})}"/>
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly})}"/>
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally})}"/>
-          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly})}"/>
-        </th:block>
-      </th:block>
+      <div class="question-with-follow-up">
+        <div class="question-with-follow-up__question follow-up-inputs-enabled-when-selected">
+          <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
+            inputName='incomeRegularPayInterval',
+            ariaLabel='header',
+            content=~{::radioFieldSet}
+          )}">
+            <th:block th:ref="radioFieldSet">
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly}, followUpId='#follow-up-weekly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly}, followUpId='#follow-up-semimonthly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally}, followUpId='#follow-up-yearly')}"/>
+              <th:block
+                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
+            </th:block>
+            <th:block
+              th:replace="~{fragments/inputError :: validationError(inputName='incomeRegularPayInterval')}"></th:block>
+          </th:block>
+        </div>
 
-      <!-- TODO: Put this in a reveal, and change the copy so it's dynamic instead of "each interval" -->
-      <th:block th:replace="'fragments/inputs/money' :: money(
-        inputName='incomeRegularPayAmount',
-        label=#{income-regular-pay-calculator.amount-label},
-        helpText=#{income-regular-pay-calculator.amount-help-text}
-      )"/>
-
-      <input type="hidden" name="incomeCalculationMethod" value="regularPay" />
-      <!-- TODO: Add "What if their pay changes often?" reveal -->
+        <div class="question-with-follow-up__follow-up" id="follow-up-weekly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.weekly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.weekly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-biweekly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.biweekly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.biweekly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-semimonthly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.semimonthly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.semimonthly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-monthly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.monthly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.monthly}
+        )"/>
+        </div>
+        <div class="question-with-follow-up__follow-up" id="follow-up-yearly">
+          <th:block th:replace="'fragments/inputs/money' :: money(
+          inputName='incomeRegularPayAmount',
+          label=#{income-regular-pay-calculator.amount-label.yearly},
+          helpText=#{income-regular-pay-calculator.amount-help-text.yearly}
+        )"/>
+        </div>
+      </div>
     </th:block>
+
+    <input type="hidden" name="incomeCalculationMethod" value="regularPay"/>
+    <!-- TODO: Add "What if their pay changes often?" reveal -->
   </th:block>
+</th:block>
+</th:block>
 </th:block>

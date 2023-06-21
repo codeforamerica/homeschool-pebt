@@ -53,7 +53,7 @@ public class IncomeCalculator {
     }
   }
 
-  public static Double futureIncomeForJob(Map<String, Object> job) {
+  public static double futureIncomeForJob(Map<String, Object> job) {
     if (job.getOrDefault("incomeWillBeLess", "false").toString().equals("true")) {
       if (job.getOrDefault("incomeSelfEmployed", "false").toString().equals("true")) {
         var annual = Double.parseDouble(job.get("incomeCustomAnnualIncome").toString());

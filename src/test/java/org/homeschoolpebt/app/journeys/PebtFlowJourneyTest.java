@@ -185,7 +185,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.goBack();
     testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?
     testPage.findElementById("incomeRegularPayInterval-semimonthly-label").click(); // How does [x] get paid?
-    testPage.enter("incomeRegularPayAmount", "1000");
+    testPage.enterByCssSelector("#follow-up-semimonthly input[name='incomeRegularPayAmount']", "1000");
     testPage.clickContinue();
     testPage.findElementById("incomeWillBeLess-true-label").click(); // Will income be less?
     testPage.enter("incomeCustomMonthlyIncome", "500");
