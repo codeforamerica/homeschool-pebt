@@ -91,6 +91,11 @@ public abstract class AbstractBasePageTest {
 
   protected void uploadJpgFile(String dzName) {
     uploadFile(UPLOADED_JPG_FILE_NAME, dzName);
+
+    // wait for upload to complete
+    new WebDriverWait(driver, Duration.ofSeconds(3))
+      .until(ExpectedConditions.javaScriptThrowsNoExceptions("if (!window[\"isUploadComplete" + dzName + "\"]) { throw new Exception(\"upload incomplete\"); }"));
+
     assertThat(driver.findElement(By.id("dropzone-" + dzName)).getText().replace("\n", ""))
         .contains(UPLOADED_JPG_FILE_NAME);
   }

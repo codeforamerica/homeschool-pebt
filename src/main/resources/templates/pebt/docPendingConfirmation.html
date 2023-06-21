@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{doc-pending-confirmation.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="text--centered">
+          <th:block th:replace="~{'fragments/icons' :: success}"></th:block>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-pending-confirmation.title})}"/>
+        </div>
+        
+        <div class="form-card__content">
+          <p th:text="#{doc-pending-confirmation.youll-still-need}"></p>
+
+          <th:block th:with="missingDocs=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getMissingDocUploads(submission)}">
+            <ul class="list--bulleted">
+              <li th:if="${#arrays.contains(missingDocs, 'identity')}" th:text="#{adding-documents.students-identity}"></li>
+              <li th:if="${#arrays.contains(missingDocs, 'enrollment')}" th:text="#{adding-documents.students-enrollment}"></li>
+              <li th:if="${#arrays.contains(missingDocs, 'income')}" th:text="#{adding-documents.income-proof}"></li>
+            </ul>
+          </th:block>
+
+          <th:block th:with="deadline=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLaterdocDeadline(#dates.createNow())}">
+            <p th:utext="#{doc-pending-confirmation.laterdocs-instructions(${deadline})}"></p>
+          </th:block>
+        </div>
+        <div class="form-card__footer">
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{general.inputs.continue})}" />
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

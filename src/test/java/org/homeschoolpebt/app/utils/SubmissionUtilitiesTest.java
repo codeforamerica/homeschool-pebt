@@ -1,6 +1,7 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+import org.joda.time.DateTime;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -631,7 +632,7 @@ class SubmissionUtilitiesTest {
   @Nested
   class SkipIncomeTests {
     @Test
-    void falseByDefault() {
+    void trueByDefault() {
       var student1 = new HashMap<String, Object>() {{
         put("studentFirstName", "Sally");
         put("studentMiddleInitial", "A");
@@ -653,11 +654,11 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isFalse();
+      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isTrue();
     }
 
     @Test
-    void trueWhenAllStudentsHaveDesignation() {
+    void falseWhenAllStudentsHaveDesignation() {
       var student1 = new HashMap<String, Object>() {{
         put("studentFirstName", "Sally");
         put("studentMiddleInitial", "A");
@@ -676,11 +677,11 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
     }
 
     @Test
-    void trueWhenAllStudentsWouldAttendCepSchool() {
+    void falseWhenAllStudentsWouldAttendCepSchool() {
       var student1 = new HashMap<String, Object>() {{
         put("studentFirstName", "Sally");
         put("studentMiddleInitial", "A");
@@ -699,11 +700,11 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
     }
 
     @Test
-    void trueWhenHouseholdMemberReceivesCalfresh() {
+    void falseWhenHouseholdMemberReceivesCalfresh() {
       var student1 = new HashMap<String, Object>() {{
         put("studentFirstName", "Sally");
         put("studentMiddleInitial", "A");
@@ -726,7 +727,19 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.canSkipIncomeSections(submission)).isTrue();
+      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
     }
+  }
+
+  @Test
+  void testLaterdocDeadline() {
+    var early = DateTime.parse("2023-07-01").toDate();
+    assertThat(SubmissionUtilities.getLaterdocDeadline(early)).isEqualTo("July 8, 2023");
+
+    var justBefore = DateTime.parse("2023-08-07").toDate();
+    assertThat(SubmissionUtilities.getLaterdocDeadline(justBefore)).isEqualTo("August 14, 2023");
+
+    var justAfter = DateTime.parse("2023-08-10").toDate();
+    assertThat(SubmissionUtilities.getLaterdocDeadline(justAfter)).isEqualTo("August 15, 2023");
   }
 }

@@ -49,8 +49,13 @@
             <div class="form-card__content">
               <th:block th:replace="~{fragments/fileUploader :: fileUploader(inputName='incomeFiles')}"></th:block>
             </div>
-            <div class="form-card__footer" id="submit">
-              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+            <div class="form-card__footer">
+              <div class="spacing-below-35">
+                <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue}, classes='button button--primary display-none')}"/>
+              </div>
+              <div>
+                <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'">Skip</a>
+              </div>
             </div>
           </th:block>
         </th:block>
@@ -59,5 +64,10 @@
   </section>
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    FormFlowDZ.hideContinueIfNoFiles('incomeFiles', 'form-submit-button');
+  });
+</script>
 </body>
 </html>

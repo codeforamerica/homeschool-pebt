@@ -6,9 +6,9 @@ import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SkipIncomeVerification implements Condition {
+public class NeedsIncomeVerification implements Condition {
   @Override
   public Boolean run(Submission submission) {
-    return SubmissionUtilities.canSkipIncomeSections(submission);
+    return SubmissionUtilities.needsIncomeVerification(submission);
   }
 }
