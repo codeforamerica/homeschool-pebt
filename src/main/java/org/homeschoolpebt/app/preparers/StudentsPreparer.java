@@ -61,15 +61,13 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     fields.put("withdrawn-school", withdrawn.get(2));
 
     fields.put("virtual-school", student.getOrDefault("studentVirtualSchoolName", "").toString());
-    // TODO: student1-virtual-school-code
-    // TODO: student1-virtual-school-district
-    // TODO: Needs field for grade level
-    // TODO: Needs field for birthday
 
     fields.put("first-name", (String) student.get("studentFirstName"));
     fields.put("last-name", (String) student.get("studentLastName"));
     fields.put("middle-initial", (String) student.get("studentMiddleInitial"));
     fields.put("homeschool", (String) student.get("studentHomeschoolAffidavitNumber"));
+    fields.put("grade", (String) student.get("studentGrade"));
+    fields.put("dob", (String) student.get("studentBirthdayDate"));
     fields.put("foster", designationsIncludes(student, "foster") ? "Yes" : "No");
     fields.put("migrant", designationsIncludes(student, "migrant") ? "Yes" : "No");
     fields.put("runaway", designationsIncludes(student, "runaway") ? "Yes" : "No");
