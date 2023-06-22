@@ -2,6 +2,7 @@ package org.homeschoolpebt.app.submission.actions;
 
 import formflow.library.config.submission.Action;
 import formflow.library.data.FormSubmission;
+import formflow.library.data.Submission;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ public class ClearOtherCaseNumberFields implements Action {
   private static final String CALWORKS = "CalWORKs";
   private static final String FDPIR = "FDPIR";
 
-  public void run(FormSubmission formsubmission) {
+  public void run(FormSubmission formsubmission, Submission submission) {
     String selection = (String) formsubmission.getFormData().get("householdMemberReceivesBenefits");
 
     if (CALFRESH.equals(selection)) {
