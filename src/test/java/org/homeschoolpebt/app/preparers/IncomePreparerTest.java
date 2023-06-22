@@ -120,7 +120,7 @@ public class IncomePreparerTest {
     IncomePreparer preparer = new IncomePreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
       // $831 = 101+102+103+104+105+106+200+1+2+3+4
-      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$813", null)),
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$831", null)),
 
       // $1736.67 = $100 (job1) + $50 (job2) + $720 (job3) + $866.67 (job4)
       Map.entry("income-hh-future-earned", new SingleField("income-hh-future-earned", "$1736.67", null)),
