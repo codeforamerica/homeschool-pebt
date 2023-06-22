@@ -2,4 +2,5 @@ spring:
   thymeleaf:
     cache: true
 sentry:
+  dsn: ${SENTRY_DSN}
   environment: production
