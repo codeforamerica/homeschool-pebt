@@ -46,15 +46,10 @@ public class StaticPageController {
   }
 
   /**
-   * Renders the website faq page.
+   * Renders the website privacy policy page.
    *
    * @return the static page template
    */
-  @GetMapping("/faq")
-  String getFaq() {
-    return "faq";
-  }
-
   @GetMapping("/privacy")
   String getPrivacy() {
     return "privacy";
