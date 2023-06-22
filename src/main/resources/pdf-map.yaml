@@ -284,6 +284,7 @@ inputFields:
   student9-withdrawn-school-cep: student9-withdrawn-school-cep
   student9-withdrawn-school-district: student9-withdrawn-school-district
 
+  # Jobs
   job1-employee-name: job1-employee-name
   job1-future-monthly-pay: job1-future-monthly-pay
   job1-future-pay-comments: job1-future-pay-comments
@@ -395,85 +396,164 @@ inputFields:
   job16-past-monthly-pay-calculation: job16-past-monthly-pay-calculation
   job16-pay-type: job16-pay-type
 
-  # TODO: file1-name
-  # TODO: file1-size
-  # TODO: file1-submission-date
-  # TODO: file1-type
-  # TODO: file2-name
-  # TODO: file2-size
-  # TODO: file2-submission-date
-  # TODO: file2-type
-  # TODO: file3-name
-  # TODO: file3-size
-  # TODO: file3-submission-date
-  # TODO: file3-type
-  # TODO: file4-name
-  # TODO: file4-size
-  # TODO: file4-submission-date
-  # TODO: file4-type
-  # TODO: file5-name
-  # TODO: file5-size
-  # TODO: file5-submission-date
-  # TODO: file5-type
-  # TODO: file6-name
-  # TODO: file6-size
-  # TODO: file6-submission-date
-  # TODO: file6-type
-  # TODO: file7-name
-  # TODO: file7-size
-  # TODO: file7-submission-date
-  # TODO: file7-type
-  # TODO: file8-name
-  # TODO: file8-submission-date
-  # TODO: file8-type
-  # TODO: file9-name
-  # TODO: file9-size
-  # TODO: file9-submission-date
-  # TODO: file9-type
-  # TODO: file10-name
-  # TODO: file10-size
-  # TODO: file10-submission-date
-  # TODO: file10-type
-  # TODO: file11-name
-  # TODO: file11-size
-  # TODO: file11-submission-date
-  # TODO: file11-type
-  # TODO: file12-name
-  # TODO: file12-size
-  # TODO: file12-submission-date
-  # TODO: file12-type
-  # TODO: file13-name
-  # TODO: file13-size
-  # TODO: file13-submission-date
-  # TODO: file13-type
-  # TODO: file14-name
-  # TODO: file14-size
-  # TODO: file14-submission-date
-  # TODO: file14-type
-  # TODO: file15-name
-  # TODO: file15-size
-  # TODO: file15-submission-date
-  # TODO: file15-type
-  # TODO: file16-name
-  # TODO: file16-size
-  # TODO: file16-submission-date
-  # TODO: file16-type
-  # TODO: file17-name
-  # TODO: file17-size
-  # TODO: file17-submission-date
-  # TODO: file17-type
-  # TODO: file18-name
-  # TODO: file18-size
-  # TODO: file18-submission-date
-  # TODO: file18-type
-  # TODO: file19-name
-  # TODO: file19-size
-  # TODO: file19-submission-date
-  # TODO: file19-type
-  # TODO: file20-name
-  # TODO: file20-size
-  # TODO: file20-submission-date
-  # TODO: file20-type
+  # The files pages
+  file1-name: file1-name
+  file1-size: file1-size
+  file1-submission-date: file1-submission-date
+  file1-type: file1-type
+  file2-name: file2-name
+  file2-size: file2-size
+  file2-submission-date: file2-submission-date
+  file2-type: file2-type
+  file3-name: file3-name
+  file3-size: file3-size
+  file3-submission-date: file3-submission-date
+  file3-type: file3-type
+  file4-name: file4-name
+  file4-size: file4-size
+  file4-submission-date: file4-submission-date
+  file4-type: file4-type
+  file5-name: file5-name
+  file5-size: file5-size
+  file5-submission-date: file5-submission-date
+  file5-type: file5-type
+  file6-name: file6-name
+  file6-size: file6-size
+  file6-submission-date: file6-submission-date
+  file6-type: file6-type
+  file7-name: file7-name
+  file7-size: file7-size
+  file7-submission-date: file7-submission-date
+  file7-type: file7-type
+  file8-name: file8-name
+  file8-submission-date: file8-submission-date
+  file8-type: file8-type
+  file9-name: file9-name
+  file9-size: file9-size
+  file9-submission-date: file9-submission-date
+  file9-type: file9-type
+  file10-name: file10-name
+  file10-size: file10-size
+  file10-submission-date: file10-submission-date
+  file10-type: file10-type
+  file11-name: file11-name
+  file11-size: file11-size
+  file11-submission-date: file11-submission-date
+  file11-type: file11-type
+  file12-name: file12-name
+  file12-size: file12-size
+  file12-submission-date: file12-submission-date
+  file12-type: file12-type
+  file13-name: file13-name
+  file13-size: file13-size
+  file13-submission-date: file13-submission-date
+  file13-type: file13-type
+  file14-name: file14-name
+  file14-size: file14-size
+  file14-submission-date: file14-submission-date
+  file14-type: file14-type
+  file15-name: file15-name
+  file15-size: file15-size
+  file15-submission-date: file15-submission-date
+  file15-type: file15-type
+  file16-name: file16-name
+  file16-size: file16-size
+  file16-submission-date: file16-submission-date
+  file16-type: file16-type
+  file17-name: file17-name
+  file17-size: file17-size
+  file17-submission-date: file17-submission-date
+  file17-type: file17-type
+  file18-name: file18-name
+  file18-size: file18-size
+  file18-submission-date: file18-submission-date
+  file18-type: file18-type
+  file19-name: file19-name
+  file19-size: file19-size
+  file19-submission-date: file19-submission-date
+  file19-type: file19-type
+  file20-name: file20-name
+  file20-size: file20-size
+  file20-submission-date: file20-submission-date
+  file20-type: file20-type
+  file21-name: file21-name
+  file21-size: file21-size
+  file21-submission-date: file21-submission-date
+  file21-type: file21-type
+  file22-name: file22-name
+  file22-size: file22-size
+  file22-submission-date: file22-submission-date
+  file22-type: file22-type
+  file23-name: file23-name
+  file23-size: file23-size
+  file23-submission-date: file23-submission-date
+  file23-type: file23-type
+  file24-name: file24-name
+  file24-size: file24-size
+  file24-submission-date: file24-submission-date
+  file24-type: file24-type
+  file25-name: file25-name
+  file25-size: file25-size
+  file25-submission-date: file25-submission-date
+  file25-type: file25-type
+  file26-name: file26-name
+  file26-size: file26-size
+  file26-submission-date: file26-submission-date
+  file26-type: file26-type
+  file27-name: file27-name
+  file27-size: file27-size
+  file27-submission-date: file27-submission-date
+  file27-type: file27-type
+  file28-name: file28-name
+  file28-size: file28-size
+  file28-submission-date: file28-submission-date
+  file28-type: file28-type
+  file29-name: file29-name
+  file29-size: file29-size
+  file29-submission-date: file29-submission-date
+  file29-type: file29-type
+  file30-name: file30-name
+  file30-size: file30-size
+  file30-submission-date: file30-submission-date
+  file30-type: file30-type
+  file31-name: file31-name
+  file31-size: file31-size
+  file31-submission-date: file31-submission-date
+  file31-type: file31-type
+  file32-name: file32-name
+  file32-size: file32-size
+  file32-submission-date: file32-submission-date
+  file33-name: file33-name
+  file33-size: file33-size
+  file33-submission-date: file33-submission-date
+  file33-type: file33-type
+  file34-name: file34-name
+  file34-size: file34-size
+  file34-submission-date: file34-submission-date
+  file34-type: file34-type
+  file35-name: file35-name
+  file35-size: file35-size
+  file35-submission-date: file35-submission-date
+  file35-type: file35-type
+  file36-name: file36-name
+  file36-size: file36-size
+  file36-submission-date: file36-submission-date
+  file36-type: file36-type
+  file37-name: file37-name
+  file37-size: file37-size
+  file37-submission-date: file37-submission-date
+  file37-type: file37-type
+  file38-name: file38-name
+  file38-submission-date: file38-submission-date
+  file38-type: file38-type
+  file39-size: file39-size
+  file39-submission-date: file39-submission-date
+  file39-type: file39-type
+  file40-name: file40-name
+  file40-size: file40-size
+  file40-submission-date: file40-submission-date
+  file40-type: file40-type
+
 dbFields:
   case-number.case-number: case-number.case-number
   submittedAt: submission-timestamp

@@ -5,6 +5,7 @@ import formflow.library.data.UserFile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface TransmissionRepository extends JpaRepository<Transmission, UUID
 
   @Query(value = "SELECT u FROM UserFile u WHERE u.submission_id = :submission")
   List<UserFile> userFilesBySubmission(Submission submission);
+
+  @Query(value = "SELECT u FROM UserFile u WHERE u.file_id IN :ids")
+  List<UserFile> userFilesByID(@Param("ids") List<UUID> ids);
 }
