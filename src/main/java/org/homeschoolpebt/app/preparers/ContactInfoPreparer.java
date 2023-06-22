@@ -5,7 +5,9 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,6 +15,9 @@ import java.util.Map;
 
 @Component
 public class ContactInfoPreparer implements SubmissionFieldPreparer {
+  @Autowired
+  TransmissionRepository transmissionRepository;
+
   @Override
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
     SingleField applicantTypeCheckbox;
@@ -34,6 +39,11 @@ public class ContactInfoPreparer implements SubmissionFieldPreparer {
 
     if (applicantTypeCheckbox != null) {
       fields.put(applicantTypeCheckbox.getName(), applicantTypeCheckbox);
+    }
+
+    var transmission = this.transmissionRepository.getTransmissionBySubmission(submission);
+    if (transmission != null) {
+      fields.put("case-number.case-number", new SingleField("case-number.case-number", transmission.getConfirmationNumber(), null));
     }
 
     return fields;

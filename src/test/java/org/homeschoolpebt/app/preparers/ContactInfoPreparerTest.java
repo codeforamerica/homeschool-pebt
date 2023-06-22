@@ -1,13 +1,24 @@
 package org.homeschoolpebt.app.preparers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
-import java.util.Map;
+import org.homeschoolpebt.app.data.Transmission;
+import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 public class ContactInfoPreparerTest {
+  @InjectMocks ContactInfoPreparer preparer;
+  @Mock private TransmissionRepository transmissionRepository;
 
   @Test
   void rendersAnUnvalidatedAddress() {
@@ -19,7 +30,6 @@ public class ContactInfoPreparerTest {
       "residentialAddressZipCode", "90210"
     )).build();
 
-    ContactInfoPreparer preparer = new ContactInfoPreparer();
     assertThat(preparer.prepareSubmissionFields(submission,null)).isEqualTo(Map.of(
       "address", new SingleField("address", "999 South St, Los Agreles, CA", null),
       "zip-code", new SingleField("zip-code", "90210", null)
@@ -37,7 +47,6 @@ public class ContactInfoPreparerTest {
       "residentialAddressZipCode_validated", "90210"
     )).build();
 
-    ContactInfoPreparer preparer = new ContactInfoPreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).isEqualTo(Map.of(
       "address", new SingleField("address", "123 Main St, Apt B, San Fransokyo, CA", null),
       "zip-code", new SingleField("zip-code", "90210", null)
@@ -50,7 +59,6 @@ public class ContactInfoPreparerTest {
     "isApplyingForSelf", "true"
     )).build();
 
-    ContactInfoPreparer preparer = new ContactInfoPreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).contains(
       Map.entry("student", new SingleField("student", "Yes", null))
     );
@@ -62,7 +70,6 @@ public class ContactInfoPreparerTest {
       "applicantIsInHousehold", "true"
     )).build();
 
-    ContactInfoPreparer preparer = new ContactInfoPreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).contains(
       Map.entry("household-member", new SingleField("household-member", "Yes", null))
     );
@@ -74,9 +81,21 @@ public class ContactInfoPreparerTest {
       "applicantIsInHousehold", "false"
     )).build();
 
-    ContactInfoPreparer preparer = new ContactInfoPreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).contains(
       Map.entry("assister", new SingleField("assister", "Yes", null))
+    );
+  }
+
+  @Test
+  void rendersTheCaseNumber() {
+    Submission submission = Submission.builder().flow("pebt").inputData(Map.of()).build();
+    Transmission transmission = Transmission.fromSubmission(submission);
+    transmission.setConfirmationNumber("ABC1234");
+
+    when(transmissionRepository.getTransmissionBySubmission(submission)).thenReturn(transmission);
+
+    assertThat(preparer.prepareSubmissionFields(submission, null)).contains(
+      Map.entry("case-number.case-number", new SingleField("case-number.case-number", transmission.getConfirmationNumber(), null))
     );
   }
 }

@@ -14,30 +14,39 @@ public class IncomePreparerTest {
   @Test
   void includesUnearnedIncome() {
     Submission submission = Submission.builder().inputData(Map.ofEntries(
-      // TODO: Add incomeSocialSecurity, income401k403b when it is present on applicant summary PDF
-      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomePension")),
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomePension", "incomeSocialSecurity", "income401k403b")),
       Map.entry("incomeSSIAmount", "1"),
       Map.entry("incomePensionAmount", "2"),
-      // TODO: Add disability, veterans when it is present on applicant summary PDF
-      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeOther")),
+      Map.entry("incomeSocialSecurityAmount", "3"),
+      Map.entry("income401k403bAmount", "4"),
+      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeDisability", "incomeVeterans", "incomeOther")),
       Map.entry("incomeUnemploymentAmount", "101"),
       Map.entry("incomeWorkersCompensationAmount", "102"),
       Map.entry("incomeSpousalSupportAmount", "103"),
       Map.entry("incomeChildSupportAmount", "104"),
-      Map.entry("incomeOtherAmount", "105")
+      Map.entry("incomeDisabilityAmount", "105"),
+      Map.entry("incomeVeteransAmount", "106"),
+      Map.entry("incomeOtherAmount", "200")
     )).build();
 
     IncomePreparer preparer = new IncomePreparer();
-    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.of(
-      "income-unemployment", new SingleField("income-unemployment", "$101", null),
-      "income-workers-comp", new SingleField("income-workers-comp", "$102", null),
-      "income-spousal-support", new SingleField("income-spousal-support", "$103", null),
-      "income-child-support", new SingleField("income-child-support", "$104", null),
-      "income-pension", new SingleField("income-pension", "$2", null),
-      "income-ssi", new SingleField("income-ssi", "$1", null),
-      "income-other", new SingleField("income-other", "$105", null),
-      "income-hh-unearned", new SingleField("income-hh-unearned", "$518", null)
-    ));
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("income-unemployment", new SingleField("income-unemployment", "$101", null)),
+      Map.entry("income-workers-comp", new SingleField("income-workers-comp", "$102", null)),
+      Map.entry("income-spousal-support", new SingleField("income-spousal-support", "$103", null)),
+      Map.entry("income-child-support", new SingleField("income-child-support", "$104", null)),
+      Map.entry("income-disability", new SingleField("income-disability", "$105", null)),
+      Map.entry("income-veterans", new SingleField("income-veterans", "$106", null)),
+      Map.entry("income-other", new SingleField("income-other", "$200", null)),
+
+      Map.entry("income-ssi", new SingleField("income-ssi", "$1", null)),
+      Map.entry("income-pension", new SingleField("income-pension", "$2", null)),
+      Map.entry("income-social-security", new SingleField("income-social-security", "$3", null)),
+      Map.entry("income-401k", new SingleField("income-401k", "$4", null)),
+
+      // $831 = 101+102+103+104+105+106+200+1+2+3+4
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$831", null)
+    )));
   }
 
   @Test
@@ -92,23 +101,26 @@ public class IncomePreparerTest {
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
       Map.entry("income", List.of(job1, job2, job3, job4)),
-      // TODO: Add incomeSocialSecurity, income401k403b when it is present on applicant summary PDF
-      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomePension")),
+
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomePension", "incomeSocialSecurity", "income401k403b")),
       Map.entry("incomeSSIAmount", "1"),
       Map.entry("incomePensionAmount", "2"),
-      // TODO: Add disability, veterans when it is present on applicant summary PDF
-      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeOther")),
+      Map.entry("incomeSocialSecurityAmount", "3"),
+      Map.entry("income401k403bAmount", "4"),
+      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeDisability", "incomeVeterans", "incomeOther")),
       Map.entry("incomeUnemploymentAmount", "101"),
       Map.entry("incomeWorkersCompensationAmount", "102"),
       Map.entry("incomeSpousalSupportAmount", "103"),
       Map.entry("incomeChildSupportAmount", "104"),
-      Map.entry("incomeOtherAmount", "105")
+      Map.entry("incomeDisabilityAmount", "105"),
+      Map.entry("incomeVeteransAmount", "106"),
+      Map.entry("incomeOtherAmount", "200")
     )).build();
 
     IncomePreparer preparer = new IncomePreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
-      // 518 = sum([1, 2, 101, 102, 103, 104, 105])
-      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$518", null)),
+      // $831 = 101+102+103+104+105+106+200+1+2+3+4
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$831", null)),
 
       // $1736.67 = $100 (job1) + $50 (job2) + $720 (job3) + $866.67 (job4)
       Map.entry("income-hh-future-earned", new SingleField("income-hh-future-earned", "$1736.67", null)),
@@ -116,11 +128,11 @@ public class IncomePreparerTest {
       // $1806.67 = $120 (job1) + $100 (job2) + $720 (job3) + $866.67 (job4)
       Map.entry("income-hh-past-earned", new SingleField("income-hh-past-earned", "$1806.67", null)),
 
-      // $2254.67 = sum([518, 1736.67]) # (unearned) + (income-hh-future-earned)
-      Map.entry("income-hh-future-total", new SingleField("income-hh-future-total", "$2254.67", null)),
+      // $2567.67 = sum([831, 1736.67]) # (unearned) + (income-hh-future-earned)
+      Map.entry("income-hh-future-total", new SingleField("income-hh-future-total", "$2567.67", null)),
 
-      // $2324.67 = sum([518, 1806.67]) # (unearned) + (income-hh-past-earned)
-      Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$2324.67", null))
+      // $2637.67 = sum([831, 1806.67]) # (unearned) + (income-hh-past-earned)
+      Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$2637.67", null))
     ));
   }
 

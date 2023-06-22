@@ -22,6 +22,8 @@ class StudentsPreparerTest {
       put("studentWouldAttendSchoolName", "38684786040935 - Thomas Edison Charter Academy (San Francisco Unified)");
       put("studentDesignations[]", List.of("foster", "unhoused", "migrant", "runaway"));
       put("studentHomeschoolAffidavitNumber", "12345678901234");
+      put("studentGrade", "9th");
+      put("studentBirthdayDate", "01/02/1991");
     }};
 
     Submission submission = Submission.builder().inputData(Map.of(
@@ -36,15 +38,19 @@ class StudentsPreparerTest {
       Map.entry("student1-withdrawn-school-code", new SingleField("student1-withdrawn-school-code", "37680230135277", null)),
       Map.entry("student1-withdrawn-school-district", new SingleField("student1-withdrawn-school-district", "Chula Vista Elementary", null)),
       Map.entry("student1-withdrawn-school", new SingleField("student1-withdrawn-school", "Muraoka (Saburo) Elementary", null)),
+      Map.entry("student1-withdrawn-school-cep", new SingleField("student1-withdrawn-school-cep", "Yes", null)),
       Map.entry("student1-anticipated-school-code", new SingleField("student1-anticipated-school-code", "38684786040935", null)),
       Map.entry("student1-anticipated-school-district", new SingleField("student1-anticipated-school-district", "San Francisco Unified", null)),
+      Map.entry("student1-anticipated-school-cep", new SingleField("student1-anticipated-school-cep", "No", null)),
       Map.entry("student1-anticipated-school", new SingleField("student1-anticipated-school", "Thomas Edison Charter Academy", null)),
       Map.entry("student1-virtual-school", new SingleField("student1-virtual-school", "Some Virtual Academy", null)),
       Map.entry("student1-migrant", new SingleField("student1-migrant", "Yes", null)),
       Map.entry("student1-unhoused", new SingleField("student1-unhoused", "Yes", null)),
       Map.entry("student1-foster", new SingleField("student1-foster", "Yes", null)),
       Map.entry("student1-runaway", new SingleField("student1-runaway", "Yes", null)),
-      Map.entry("student1-homeschool", new SingleField("student1-homeschool", "12345678901234", null))
+      Map.entry("student1-homeschool", new SingleField("student1-homeschool", "12345678901234", null)),
+      Map.entry("student1-grade", new SingleField("student1-grade", "9th", null)),
+      Map.entry("student1-dob", new SingleField("student1-dob", "01/02/1991", null))
     ));
   }
 

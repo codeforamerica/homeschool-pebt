@@ -2,11 +2,20 @@ flow: pebt
 pdf: /pdfs/applicant_summary.pdf
 inputFields:
   # submission field name --> PDF field name
+
+  # Cross-check this list against the PDF with this command:
+  #   diff \
+  #     <(pdftk src/main/resources/pdfs/applicant_summary.pdf dump_data_fields | grep 'FieldName: ' | cut -d' ' -f2 | sort) \
+  #     <(ruby -ryaml -e "y = YAML.load_file('src/main/resources/pdf-map.yaml'); puts y['inputFields'].values.concat(y['dbFields'].values)" | sort)
+  #
+  # Red lines = in PDF but not YAML
+  # Green lines = in YAML but not PDF
+
+  # Overview Page
   address: address
   zip-code: zip-code
   firstName: applicant-first-name
   lastName: applicant-last-name
-  # TODO: applicant-middle-initial
   phoneNumber: phone-number
   household-member: household-member
   student: student
@@ -17,30 +26,93 @@ inputFields:
   program-case-number: program-case-number
   email: email
   household-count: household-count
-  # TODO: interview-pref
-
+  income-hh-future-total: income-hh-future-total
+  income-hh-past-total: income-hh-past-total
+  income-hh-future-earned: income-hh-future-earned
+  income-hh-past-earned: income-hh-past-earned
   income-hh-unearned: income-hh-unearned
-  income-unemployment: income-unemploment # TODO: Fix typo in applicant summary PDF field name
+  income-social-security: income-social-security
+  income-unemployment: income-unemployment
+  income-disability: income-disability
+  income-ssi: income-ssi
   income-workers-comp: income-workers-comp
+  income-veterans: income-veterans
+  income-401k: income-401k
   income-spousal-support: income-spousal-support
   income-child-support: income-child-support
   income-pension: income-pension
-  income-retirement: income-retirement
-  income-ssi: income-ssi
   income-other: income-other
   income-unearned-comments: income-unearned-comments
 
-  income-hh-future-earned: income-hh-future-earned
-  income-hh-future-total: income-hh-future-total
-  income-hh-past-earned: income-hh-past-earned
-  income-hh-past-total: income-hh-past-total
+  # Household Members page
+  hhmember1: hhmember1
+  hhmember1-future-income: hhmember1-future-income
+  hhmember1-student: hhmember1-student
+  hhmember2: hhmember2
+  hhmember2-future-income: hhmember2-future-income
+  hhmember2-student: hhmember2-student
+  hhmember20: hhmember20
+  hhmember20-future-income: hhmember20-future-income
+  hhmember20-student: hhmember20-student
+  hhmember3: hhmember3
+  hhmember3-future-income: hhmember3-future-income
+  hhmember3-student: hhmember3-student
+  hhmember4: hhmember4
+  hhmember4-future-income: hhmember4-future-income
+  hhmember4-student: hhmember4-student
+  hhmember5: hhmember5
+  hhmember5-future-income: hhmember5-future-income
+  hhmember5-student: hhmember5-student
+  hhmember6: hhmember6
+  hhmember6-future-income: hhmember6-future-income
+  hhmember6-student: hhmember6-student
+  hhmember7: hhmember7
+  hhmember7-future-income: hhmember7-future-income
+  hhmember7-student: hhmember7-student
+  hhmember8: hhmember8
+  hhmember8-future-income: hhmember8-future-income
+  hhmember8-student: hhmember8-student
+  hhmember9: hhmember9
+  hhmember9-future-income: hhmember9-future-income
+  hhmember9-student: hhmember9-student
+  hhmember10: hhmember10
+  hhmember10-future-income: hhmember10-future-income
+  hhmember10-student: hhmember10-student
+  hhmember11: hhmember11
+  hhmember11-future-income: hhmember11-future-income
+  hhmember12: hhmember12
+  hhmember12-future-income: hhmember12-future-income
+  hhmember13: hhmember13
+  hhmember13-future-income: hhmember13-future-income
+  hhmember14: hhmember14
+  hhmember14-future-income: hhmember14-future-income
+  hhmember14-student: hhmember14-student
+  hhmember15: hhmember15
+  hhmember15-future-income: hhmember15-future-income
+  hhmember15-student: hhmember15-student
+  hhmember16: hhmember16
+  hhmember16-future-income: hhmember16-future-income
+  hhmember16-student: hhmember16-student
+  hhmember17: hhmember17
+  hhmember17-future-income: hhmember17-future-income
+  hhmember17-student: hhmember17-student
+  hhmember18: hhmember18
+  hhmember18-future-income: hhmember18-future-income
+  hhmember18-student: hhmember18-student
+  hhmember19: hhmember19
+  hhmember19-future-income: hhmember19-future-income
+  hhmember19-student: hhmember19-student
 
+  # Students list!
   student1-anticipated-school: student1-anticipated-school
   student1-anticipated-school-code: student1-anticipated-school-code
+  student1-anticipated-school-cep: student1-anticipated-school-cep
   student1-anticipated-school-district: student1-anticipated-school-district
   student1-first-name: student1-first-name
   student1-foster: student1-foster
   student1-homeschool: student1-homeschool
+  student1-dob: student1-dob
+  student1-grade: student1-grade
   student1-last-name: student1-last-name
   student1-middle-initial: student1-middle-initial
   student1-migrant: student1-migrant
@@ -51,14 +123,17 @@ inputFields:
   student1-virtual-school-district: student1-virtual-school-district
   student1-withdrawn-school: student1-withdrawn-school
   student1-withdrawn-school-code: student1-withdrawn-school-code
+  student1-withdrawn-school-cep: student1-withdrawn-school-cep
   student1-withdrawn-school-district: student1-withdrawn-school-district
-
   student2-anticipated-school: student2-anticipated-school
   student2-anticipated-school-code: student2-anticipated-school-code
+  student2-anticipated-school-cep: student2-anticipated-school-cep
   student2-anticipated-school-district: student2-anticipated-school-district
   student2-first-name: student2-first-name
   student2-foster: student2-foster
   student2-homeschool: student2-homeschool
+  student2-dob: student2-dob
+  student2-grade: student2-grade
   student2-last-name: student2-last-name
   student2-middle-initial: student2-middle-initial
   student2-migrant: student2-migrant
@@ -69,13 +144,17 @@ inputFields:
   student2-virtual-school-district: student2-virtual-school-district
   student2-withdrawn-school: student2-withdrawn-school
   student2-withdrawn-school-code: student2-withdrawn-school-code
+  student2-withdrawn-school-cep: student2-withdrawn-school-cep
   student2-withdrawn-school-district: student2-withdrawn-school-district
   student3-anticipated-school: student3-anticipated-school
   student3-anticipated-school-code: student3-anticipated-school-code
+  student3-anticipated-school-cep: student3-anticipated-school-cep
   student3-anticipated-school-district: student3-anticipated-school-district
   student3-first-name: student3-first-name
   student3-foster: student3-foster
   student3-homeschool: student3-homeschool
+  student3-dob: student3-dob
+  student3-grade: student3-grade
   student3-last-name: student3-last-name
   student3-middle-initial: student3-middle-initial
   student3-migrant: student3-migrant
@@ -86,13 +165,17 @@ inputFields:
   student3-virtual-school-district: student3-virtual-school-district
   student3-withdrawn-school: student3-withdrawn-school
   student3-withdrawn-school-code: student3-withdrawn-school-code
+  student3-withdrawn-school-cep: student3-withdrawn-school-cep
   student3-withdrawn-school-district: student3-withdrawn-school-district
   student4-anticipated-school: student4-anticipated-school
   student4-anticipated-school-code: student4-anticipated-school-code
+  student4-anticipated-school-cep: student4-anticipated-school-cep
   student4-anticipated-school-district: student4-anticipated-school-district
   student4-first-name: student4-first-name
   student4-foster: student4-foster
   student4-homeschool: student4-homeschool
+  student4-dob: student4-dob
+  student4-grade: student4-grade
   student4-last-name: student4-last-name
   student4-middle-initial: student4-middle-initial
   student4-migrant: student4-migrant
@@ -103,13 +186,17 @@ inputFields:
   student4-virtual-school-district: student4-virtual-school-district
   student4-withdrawn-school: student4-withdrawn-school
   student4-withdrawn-school-code: student4-withdrawn-school-code
+  student4-withdrawn-school-cep: student4-withdrawn-school-cep
   student4-withdrawn-school-district: student4-withdrawn-school-district
   student5-anticipated-school: student5-anticipated-school
   student5-anticipated-school-code: student5-anticipated-school-code
+  student5-anticipated-school-cep: student5-anticipated-school-cep
   student5-anticipated-school-district: student5-anticipated-school-district
   student5-first-name: student5-first-name
   student5-foster: student5-foster
   student5-homeschool: student5-homeschool
+  student5-dob: student5-dob
+  student5-grade: student5-grade
   student5-last-name: student5-last-name
   student5-middle-initial: student5-middle-initial
   student5-migrant: student5-migrant
@@ -120,13 +207,17 @@ inputFields:
   student5-virtual-school-district: student5-virtual-school-district
   student5-withdrawn-school: student5-withdrawn-school
   student5-withdrawn-school-code: student5-withdrawn-school-code
+  student5-withdrawn-school-cep: student5-withdrawn-school-cep
   student5-withdrawn-school-district: student5-withdrawn-school-district
   student6-anticipated-school: student6-anticipated-school
   student6-anticipated-school-code: student6-anticipated-school-code
+  student6-anticipated-school-cep: student6-anticipated-school-cep
   student6-anticipated-school-district: student6-anticipated-school-district
   student6-first-name: student6-first-name
   student6-foster: student6-foster
   student6-homeschool: student6-homeschool
+  student6-dob: student6-dob
+  student6-grade: student6-grade
   student6-last-name: student6-last-name
   student6-middle-initial: student6-middle-initial
   student6-migrant: student6-migrant
@@ -137,12 +228,17 @@ inputFields:
   student6-virtual-school-district: student6-virtual-school-district
   student6-withdrawn-school: student6-withdrawn-school
   student6-withdrawn-school-code: student6-withdrawn-school-code
+  student6-withdrawn-school-cep: student6-withdrawn-school-cep
   student6-withdrawn-school-district: student6-withdrawn-school-district
+  student7-anticipated-school: student7-anticipated-school
   student7-anticipated-school-code: student7-anticipated-school-code
+  student7-anticipated-school-cep: student7-anticipated-school-cep
   student7-anticipated-school-district: student7-anticipated-school-district
   student7-first-name: student7-first-name
   student7-foster: student7-foster
   student7-homeschool: student7-homeschool
+  student7-dob: student7-dob
+  student7-grade: student7-grade
   student7-last-name: student7-last-name
   student7-middle-initial: student7-middle-initial
   student7-migrant: student7-migrant
@@ -153,13 +249,17 @@ inputFields:
   student7-virtual-school-district: student7-virtual-school-district
   student7-withdrawn-school: student7-withdrawn-school
   student7-withdrawn-school-code: student7-withdrawn-school-code
+  student7-withdrawn-school-cep: student7-withdrawn-school-cep
   student7-withdrawn-school-district: student7-withdrawn-school-district
   student8-anticipated-school: student8-anticipated-school
   student8-anticipated-school-code: student8-anticipated-school-code
+  student8-anticipated-school-cep: student8-anticipated-school-cep
   student8-anticipated-school-district: student8-anticipated-school-district
   student8-first-name: student8-first-name
   student8-foster: student8-foster
   student8-homeschool: student8-homeschool
+  student8-dob: student8-dob
+  student8-grade: student8-grade
   student8-last-name: student8-last-name
   student8-middle-initial: student8-middle-initial
   student8-migrant: student8-migrant
@@ -170,13 +270,17 @@ inputFields:
   student8-virtual-school-district: student8-virtual-school-district
   student8-withdrawn-school: student8-withdrawn-school
   student8-withdrawn-school-code: student8-withdrawn-school-code
+  student8-withdrawn-school-cep: student8-withdrawn-school-cep
   student8-withdrawn-school-district: student8-withdrawn-school-district
   student9-anticipated-school: student9-anticipated-school
   student9-anticipated-school-code: student9-anticipated-school-code
+  student9-anticipated-school-cep: student9-anticipated-school-cep
   student9-anticipated-school-district: student9-anticipated-school-district
   student9-first-name: student9-first-name
   student9-foster: student9-foster
   student9-homeschool: student9-homeschool
+  student9-dob: student9-dob
+  student9-grade: student9-grade
   student9-last-name: student9-last-name
   student9-middle-initial: student9-middle-initial
   student9-migrant: student9-migrant
@@ -187,8 +291,10 @@ inputFields:
   student9-virtual-school-district: student9-virtual-school-district
   student9-withdrawn-school: student9-withdrawn-school
   student9-withdrawn-school-code: student9-withdrawn-school-code
+  student9-withdrawn-school-cep: student9-withdrawn-school-cep
   student9-withdrawn-school-district: student9-withdrawn-school-district
 
+  # Jobs
   job1-employee-name: job1-employee-name
   job1-future-monthly-pay: job1-future-monthly-pay
   job1-future-pay-comments: job1-future-pay-comments
@@ -224,6 +330,7 @@ inputFields:
   job5-past-monthly-pay: job5-past-monthly-pay
   job5-past-monthly-pay-calculation: job5-past-monthly-pay-calculation
   job5-pay-type: job5-pay-type
+  job6-employee-name: job6-employee-name
   job6-future-monthly-pay: job6-future-monthly-pay
   job6-future-pay-comments: job6-future-pay-comments
   job6-name: job6-name
@@ -245,6 +352,7 @@ inputFields:
   job8-past-monthly-pay-calculation: job8-past-monthly-pay-calculation
   job8-pay-type: job8-pay-type
   job9-employee-name: job9-employee-name
+  job9-past-monthly-pay: job9-past-monthly-pay
   job9-future-monthly-pay: job9-future-monthly-pay
   job9-future-pay-comments: job9-future-pay-comments
   job9-name: job9-name
@@ -300,84 +408,168 @@ inputFields:
   job16-past-monthly-pay-calculation: job16-past-monthly-pay-calculation
   job16-pay-type: job16-pay-type
 
-  # TODO: file1-name
-  # TODO: file1-size
-  # TODO: file1-submission-date
-  # TODO: file1-type
-  # TODO: file2-name
-  # TODO: file2-size
-  # TODO: file2-submission-date
-  # TODO: file2-type
-  # TODO: file3-name
-  # TODO: file3-size
-  # TODO: file3-submission-date
-  # TODO: file3-type
-  # TODO: file4-name
-  # TODO: file4-size
-  # TODO: file4-submission-date
-  # TODO: file4-type
-  # TODO: file5-name
-  # TODO: file5-size
-  # TODO: file5-submission-date
-  # TODO: file5-type
-  # TODO: file6-name
-  # TODO: file6-size
-  # TODO: file6-submission-date
-  # TODO: file6-type
-  # TODO: file7-name
-  # TODO: file7-size
-  # TODO: file7-submission-date
-  # TODO: file7-type
-  # TODO: file8-name
-  # TODO: file8-submission-date
-  # TODO: file8-type
-  # TODO: file9-name
-  # TODO: file9-size
-  # TODO: file9-submission-date
-  # TODO: file9-type
-  # TODO: file10-name
-  # TODO: file10-size
-  # TODO: file10-submission-date
-  # TODO: file10-type
-  # TODO: file11-name
-  # TODO: file11-size
-  # TODO: file11-submission-date
-  # TODO: file11-type
-  # TODO: file12-name
-  # TODO: file12-size
-  # TODO: file12-submission-date
-  # TODO: file12-type
-  # TODO: file13-name
-  # TODO: file13-size
-  # TODO: file13-submission-date
-  # TODO: file13-type
-  # TODO: file14-name
-  # TODO: file14-size
-  # TODO: file14-submission-date
-  # TODO: file14-type
-  # TODO: file15-name
-  # TODO: file15-size
-  # TODO: file15-submission-date
-  # TODO: file15-type
-  # TODO: file16-name
-  # TODO: file16-size
-  # TODO: file16-submission-date
-  # TODO: file16-type
-  # TODO: file17-name
-  # TODO: file17-size
-  # TODO: file17-submission-date
-  # TODO: file17-type
-  # TODO: file18-name
-  # TODO: file18-size
-  # TODO: file18-submission-date
-  # TODO: file18-type
-  # TODO: file19-name
-  # TODO: file19-size
-  # TODO: file19-submission-date
-  # TODO: file19-type
-  # TODO: file20-name
-  # TODO: file20-size
-  # TODO: file20-submission-date
-  # TODO: file20-type
-dbFields: {}
-  # TODO: submission-timestamp
+  # The files pages
+  file1-name: file1-name
+  file1-size: file1-size
+  file1-submission-date: file1-submission-date
+  file1-type: file1-type
+  file2-name: file2-name
+  file2-size: file2-size
+  file2-submission-date: file2-submission-date
+  file2-type: file2-type
+  file3-name: file3-name
+  file3-size: file3-size
+  file3-submission-date: file3-submission-date
+  file3-type: file3-type
+  file4-name: file4-name
+  file4-size: file4-size
+  file4-submission-date: file4-submission-date
+  file4-type: file4-type
+  file5-name: file5-name
+  file5-size: file5-size
+  file5-submission-date: file5-submission-date
+  file5-type: file5-type
+  file6-name: file6-name
+  file6-size: file6-size
+  file6-submission-date: file6-submission-date
+  file6-type: file6-type
+  file7-name: file7-name
+  file7-size: file7-size
+  file7-submission-date: file7-submission-date
+  file7-type: file7-type
+  file8-name: file8-name
+  file8-size: file8-size
+  file8-submission-date: file8-submission-date
+  file8-type: file8-type
+  file9-name: file9-name
+  file9-size: file9-size
+  file9-submission-date: file9-submission-date
+  file9-type: file9-type
+  file10-name: file10-name
+  file10-size: file10-size
+  file10-submission-date: file10-submission-date
+  file10-type: file10-type
+  file11-name: file11-name
+  file11-size: file11-size
+  file11-submission-date: file11-submission-date
+  file11-type: file11-type
+  file12-name: file12-name
+  file12-size: file12-size
+  file12-submission-date: file12-submission-date
+  file12-type: file12-type
+  file13-name: file13-name
+  file13-size: file13-size
+  file13-submission-date: file13-submission-date
+  file13-type: file13-type
+  file14-name: file14-name
+  file14-size: file14-size
+  file14-submission-date: file14-submission-date
+  file14-type: file14-type
+  file15-name: file15-name
+  file15-size: file15-size
+  file15-submission-date: file15-submission-date
+  file15-type: file15-type
+  file16-name: file16-name
+  file16-size: file16-size
+  file16-submission-date: file16-submission-date
+  file16-type: file16-type
+  file17-name: file17-name
+  file17-size: file17-size
+  file17-submission-date: file17-submission-date
+  file17-type: file17-type
+  file18-name: file18-name
+  file18-size: file18-size
+  file18-submission-date: file18-submission-date
+  file18-type: file18-type
+  file19-name: file19-name
+  file19-size: file19-size
+  file19-submission-date: file19-submission-date
+  file19-type: file19-type
+  file20-name: file20-name
+  file20-size: file20-size
+  file20-submission-date: file20-submission-date
+  file20-type: file20-type
+  file21-name: file21-name
+  file21-size: file21-size
+  file21-submission-date: file21-submission-date
+  file21-type: file21-type
+  file22-name: file22-name
+  file22-size: file22-size
+  file22-submission-date: file22-submission-date
+  file22-type: file22-type
+  file23-name: file23-name
+  file23-size: file23-size
+  file23-submission-date: file23-submission-date
+  file23-type: file23-type
+  file24-name: file24-name
+  file24-size: file24-size
+  file24-submission-date: file24-submission-date
+  file24-type: file24-type
+  file25-name: file25-name
+  file25-size: file25-size
+  file25-submission-date: file25-submission-date
+  file25-type: file25-type
+  file26-name: file26-name
+  file26-size: file26-size
+  file26-submission-date: file26-submission-date
+  file26-type: file26-type
+  file27-name: file27-name
+  file27-size: file27-size
+  file27-submission-date: file27-submission-date
+  file27-type: file27-type
+  file28-name: file28-name
+  file28-size: file28-size
+  file28-submission-date: file28-submission-date
+  file28-type: file28-type
+  file29-name: file29-name
+  file29-size: file29-size
+  file29-submission-date: file29-submission-date
+  file29-type: file29-type
+  file30-name: file30-name
+  file30-size: file30-size
+  file30-submission-date: file30-submission-date
+  file30-type: file30-type
+  file31-name: file31-name
+  file31-size: file31-size
+  file31-submission-date: file31-submission-date
+  file31-type: file31-type
+  file32-name: file32-name
+  file32-type: file32-type
+  file32-size: file32-size
+  file32-submission-date: file32-submission-date
+  file33-name: file33-name
+  file33-size: file33-size
+  file33-submission-date: file33-submission-date
+  file33-type: file33-type
+  file34-name: file34-name
+  file34-size: file34-size
+  file34-submission-date: file34-submission-date
+  file34-type: file34-type
+  file35-name: file35-name
+  file35-size: file35-size
+  file35-submission-date: file35-submission-date
+  file35-type: file35-type
+  file36-name: file36-name
+  file36-size: file36-size
+  file36-submission-date: file36-submission-date
+  file36-type: file36-type
+  file37-name: file37-name
+  file37-size: file37-size
+  file37-submission-date: file37-submission-date
+  file37-type: file37-type
+  file38-name: file38-name
+  file38-size: file38-size
+  file38-submission-date: file38-submission-date
+  file38-type: file38-type
+  file39-name: file39-name
+  file39-size: file39-size
+  file39-submission-date: file39-submission-date
+  file39-type: file39-type
+  file40-name: file40-name
+  file40-size: file40-size
+  file40-submission-date: file40-submission-date
+  file40-type: file40-type
+
+dbFields:
+  case-number.case-number: case-number.case-number
+  submittedAt: submission-timestamp
