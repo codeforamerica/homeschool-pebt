@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["Run tests"]
     types: [completed]
-    branches: [main]
+    branches: [main, doc-reminder-messages]
   workflow_dispatch:
     inputs:
       environment:
@@ -19,6 +19,10 @@ on:
 env:
   USERNAME: ${{ secrets.GPR_USER }}
   TOKEN: ${{ secrets.GPR_KEY }}
+  # Latest releases available at https://github.com/aptible/supercronic/releases
+  SUPERCRONIC_URL: https://github.com/aptible/supercronic/releases/download/v0.2.2/supercronic-linux-amd64
+  SUPERCRONIC: supercronic-linux-amd64
+  SUPERCRONIC_SHA1SUM: 2319da694833c7a147976b8e5f337cd83397d6be
 
 jobs:
   deploy:
@@ -35,13 +39,20 @@ jobs:
         with:
           key: ${{ secrets.APTIBLE_SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.APTIBLE_KNOWN_HOSTS }}
-      - name: Initialize Git, Aptible, and Slack deploy message
+      - name: Initialize Git, Aptible
         run: |
           ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           git remote add aptible ${{ vars.APTIBLE_REMOTE_URL }}
           wget --quiet -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
           sudo dpkg -i aptible-package
           aptible login --email=${{ secrets.APTIBLE_USERNAME }} --password=${{ secrets.APTIBLE_PASSWORD}}
+      - name: Install Supercronic
+        run: |
+          wget -qSL "$SUPERCRONIC_URL" \
+          && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+          && chmod +x "$SUPERCRONIC" \
+          && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+          && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
       - name: Prepare Slack message
         id: slack-message
         continue-on-error: true
