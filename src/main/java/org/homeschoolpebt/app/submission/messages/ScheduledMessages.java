@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import java.time.temporal.TemporalAdjuster;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Slf4j
 @Component
@@ -20,6 +22,7 @@ public class ScheduledMessages {
   MailgunEmailClient mailgunEmailClient;
   TwilioSmsClient twilioSmsClient;
   private final TransmissionRepository transmissionRepository;
+  static final TemporalAdjuster REMINDER_TIME_FRAME = t -> t.minus(2, DAYS);
 
   public ScheduledMessages(TransmissionRepository transmissionRepository) {
     this.transmissionRepository = transmissionRepository;
@@ -27,44 +30,39 @@ public class ScheduledMessages {
 
   @Scheduled(cron = "0 0 19 * * *") // every day at 7pm GMT/Noon PDT
   void checkForUnsubmittedDocs() {
-    Instant twoDaysAgo = Instant.now().minus(2, ChronoUnit.DAYS);
+    Instant reminderTime = Instant.now().with(REMINDER_TIME_FRAME);
     List<Transmission> transmissions = transmissionRepository.findAll();
-    transmissions.forEach(transmission -> {
-      Submission submission = transmission.getSubmission();
-      if (SubmissionUtilities.getMissingDocUploads(submission).size() == 0) {
-        return;
-      }
+    transmissions.stream()
+      .filter(transmission -> SubmissionUtilities.getMissingDocUploads(transmission.getSubmission()).size() > 0)
+      .filter(transmission -> isTimeToSendReminder(reminderTime, transmission.getSubmission().getCreatedAt().toInstant()))
+      .forEach(this::sendDocReminderMessages);
+  }
 
-      // Only send a reminder if the submission was created 2 days ago, plus or minus 12 hours from now
-      Date submissionCreatedAt = submission.getCreatedAt();
-      long diffHours = ChronoUnit.HOURS.between(submissionCreatedAt.toInstant(), twoDaysAgo);
-      if (diffHours < -12 || diffHours >= 12) {
-        return;
-      }
+  static boolean isTimeToSendReminder(Instant reminderTime, Instant date) {
+    long diffHours = ChronoUnit.HOURS.between(date, reminderTime);
+    return diffHours > -12 && diffHours < 12;
+  }
 
-      var message = new ReminderMessage(submission, transmission);
-      String emailAddress = (String) submission.getInputData().getOrDefault("email", "");
+  private void sendDocReminderMessages(Transmission transmission) {
+    Submission submission = transmission.getSubmission();
+    var message = new DocReminderMessage(submission, transmission);
 
-      if (!emailAddress.isBlank()) {
-        var emailMessage = message.renderEmail();
-        log.info("Sending email ReminderMessage for submission " + submission.getId());
-        mailgunEmailClient.sendEmail(
-          emailMessage.getSubject(),
-          emailAddress,
-          emailMessage.getBodyHtml()
-        );
-      } else {
-        log.info("Not sending email ReminderMessage: no email address for submission " + submission.getId());
-      }
+    String emailAddress = (String) submission.getInputData().getOrDefault("email", "");
+    if (!emailAddress.isBlank()) {
+      var emailMessage = message.renderEmail();
+      log.info("Sending email DocReminderMessage for submission " + submission.getId());
+      mailgunEmailClient.sendEmail(emailMessage.getSubject(), emailAddress, emailMessage.getBodyHtml());
+    } else {
+      log.info("Not sending email DocReminderMessage: no email address for submission " + submission.getId());
+    }
 
-      String phoneNumber = (String) submission.getInputData().getOrDefault("phoneNumber", "");
-      if (!phoneNumber.isBlank()) {
-        var smsMessage = message.renderSms();
-        log.info("Sending SMS ReminderMessage for submission " + submission.getId());
-        twilioSmsClient.sendMessage(phoneNumber, smsMessage.getBody());
-      } else {
-        log.info("Not sending SMS ReminderMessage: no phone number for submission " + submission.getId());
-      }
-    });
+    String phoneNumber = (String) submission.getInputData().getOrDefault("phoneNumber", "");
+    if (!phoneNumber.isBlank()) {
+      var smsMessage = message.renderSms();
+      log.info("Sending SMS DocReminderMessage for submission " + submission.getId());
+      twilioSmsClient.sendMessage(phoneNumber, smsMessage.getBody());
+    } else {
+      log.info("Not sending SMS DocReminderMessage: no phone number for submission " + submission.getId());
+    }
   }
 }
