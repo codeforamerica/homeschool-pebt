@@ -327,6 +327,11 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
   margin-bottom: 1rem;
 }
 
+.link--subtle:visited,
+.link--subtle:active {
+  color: inherit;
+}
+
 /*
   *************************************************************************************************
   SCHOOL NAME AUTOCOMPLETE

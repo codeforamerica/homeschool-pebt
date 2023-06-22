@@ -4,22 +4,17 @@
   <div class="grid">
     <div class="grid__item">
       <div class="grid__item width-one-half">
-        <p th:text="#{footer.this-benefits-application-is}"></p>
-        <a class="text--small" target="_blank" rel="noopener noreferrer" href="/faq"
-           th:text="#{footer.faq}"></a><br/>
-        <a class="text--small" target="_blank" rel="noopener noreferrer" href="/privacy"
-           th:text="#{footer.privacy}"></a><br/>
+        <p th:utext="#{footer.this-benefits-application-is}"></p>
+        <a class="text--small link--subtle" target="_blank" rel="noopener noreferrer" href="/privacy" th:text="#{footer.privacy}"></a><br/>
 
         <th:block th:if="${#arrays.contains(@environment.getActiveProfiles(), 'demo') || #arrays.contains(@environment.getActiveProfiles(), 'dev')}">
-          <a class="text--small" target="_blank" rel="noopener noreferrer" th:if="${submission != null}" th:href="'/download/pebt/' + ${submission.getId()}">Download Applicant Summary PDF</a><br/>
-          <a class="text--small" target="_blank" rel="noopener noreferrer" th:if="${!#strings.isEmpty(screen)}" th:with="transifexKey=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).transifexKeyPrefix(screen)}" th:href="'https://app.transifex.com/code-for-america-1/homeschool-pebt/translate/#en/messages/123?q=key%3A' + ${transifexKey}">Edit on Transifex</a><br/>
+          <a class="text--small link--subtle" target="_blank" rel="noopener noreferrer" th:if="${submission != null}" th:href="'/download/pebt/' + ${submission.getId()}">Download Applicant Summary PDF</a><br/>
+          <a class="text--small link--subtle" target="_blank" rel="noopener noreferrer" th:if="${!#strings.isEmpty(screen)}" th:with="transifexKey=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).transifexKeyPrefix(screen)}" th:href="'https://app.transifex.com/code-for-america-1/homeschool-pebt/translate/#en/messages/123?q=key%3A' + ${transifexKey}">Edit on Transifex</a><br/>
         </th:block>
       </div>
       <div class="main-footer__cfa-logo grid__item">
-        <a href="https://www.codeforamerica.org" class="spacing-below-0">
-          <img src="/webjars/form-flow/0.0.1/images/code-for-america-logo_white.svg"
-               alt="Code for America logo"
-               style="width: 100px;">
+        <a href="/" class="spacing-below-0">
+          <img src="/assets/images/getpebt-logo.svg" alt="Get PEBT logo" style="width: 126px;"/>
         </a>
       </div>
     </div>
