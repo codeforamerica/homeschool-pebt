@@ -2,4 +2,4 @@ spring:
   thymeleaf:
     cache: true
 sentry:
-  environment: demo
+  environment: production
