@@ -5,6 +5,7 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.homeschoolpebt.app.utils.SchoolListUtilities;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -51,14 +52,18 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     var fields = new HashMap<String, String>();
 
     var anticipated = parseSchoolName((String) student.get("studentWouldAttendSchoolName"));
+    var anticipatedCep = SchoolListUtilities.allCepSchools(List.of(anticipated.get(0)));
     fields.put("anticipated-school-code", anticipated.get(0));
     fields.put("anticipated-school-district", anticipated.get(1));
     fields.put("anticipated-school", anticipated.get(2));
+    fields.put("anticipated-school-cep", anticipatedCep ? "Yes" : "No");
 
     var withdrawn = parseSchoolName((String) student.get("studentUnenrolledSchoolName"));
+    var withdrawnCep = SchoolListUtilities.allCepSchools(List.of(withdrawn.get(0)));
     fields.put("withdrawn-school-code", withdrawn.get(0));
     fields.put("withdrawn-school-district", withdrawn.get(1));
     fields.put("withdrawn-school", withdrawn.get(2));
+    fields.put("withdrawn-school-cep", withdrawnCep ? "Yes" : "No");
 
     fields.put("virtual-school", student.getOrDefault("studentVirtualSchoolName", "").toString());
 
