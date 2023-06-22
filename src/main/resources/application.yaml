@@ -93,7 +93,6 @@ server:
     whitelabel:
       enabled: false
 sentry:
-  dsn: ${SENTRY_DSN:-""}
   traces-sample-rate: 0.3
   environment: production
   exception-resolver-order: -2147483647 # send to sentry exceptions handled by @ExceptionHandler's

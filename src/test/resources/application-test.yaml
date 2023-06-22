@@ -42,5 +42,4 @@ logging:
     root: INFO
     org.apache.commons.beanutils: INFO
 sentry:
-  dsn: ""
   traces-sample-rate: 0
