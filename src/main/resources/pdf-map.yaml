@@ -2,6 +2,15 @@ flow: pebt
 pdf: /pdfs/applicant_summary.pdf
 inputFields:
   # submission field name --> PDF field name
+
+  # Cross-check this list against the PDF with this command:
+  #   diff \
+  #     <(pdftk src/main/resources/pdfs/applicant_summary.pdf dump_data_fields | grep 'FieldName: ' | cut -d' ' -f2 | sort) \
+  #     <(ruby -ryaml -e "y = YAML.load_file('src/main/resources/pdf-map.yaml'); puts y['inputFields'].values.concat(y['dbFields'].values)" | sort)
+  #
+  # Red lines = in PDF but not YAML
+  # Green lines = in YAML but not PDF
+
   # Overview Page
   address: address
   zip-code: zip-code
@@ -221,6 +230,7 @@ inputFields:
   student6-withdrawn-school-code: student6-withdrawn-school-code
   student6-withdrawn-school-cep: student6-withdrawn-school-cep
   student6-withdrawn-school-district: student6-withdrawn-school-district
+  student7-anticipated-school: student7-anticipated-school
   student7-anticipated-school-code: student7-anticipated-school-code
   student7-anticipated-school-cep: student7-anticipated-school-cep
   student7-anticipated-school-district: student7-anticipated-school-district
@@ -320,6 +330,7 @@ inputFields:
   job5-past-monthly-pay: job5-past-monthly-pay
   job5-past-monthly-pay-calculation: job5-past-monthly-pay-calculation
   job5-pay-type: job5-pay-type
+  job6-employee-name: job6-employee-name
   job6-future-monthly-pay: job6-future-monthly-pay
   job6-future-pay-comments: job6-future-pay-comments
   job6-name: job6-name
@@ -341,6 +352,7 @@ inputFields:
   job8-past-monthly-pay-calculation: job8-past-monthly-pay-calculation
   job8-pay-type: job8-pay-type
   job9-employee-name: job9-employee-name
+  job9-past-monthly-pay: job9-past-monthly-pay
   job9-future-monthly-pay: job9-future-monthly-pay
   job9-future-pay-comments: job9-future-pay-comments
   job9-name: job9-name
@@ -426,6 +438,7 @@ inputFields:
   file7-submission-date: file7-submission-date
   file7-type: file7-type
   file8-name: file8-name
+  file8-size: file8-size
   file8-submission-date: file8-submission-date
   file8-type: file8-type
   file9-name: file9-name
@@ -521,6 +534,7 @@ inputFields:
   file31-submission-date: file31-submission-date
   file31-type: file31-type
   file32-name: file32-name
+  file32-type: file32-type
   file32-size: file32-size
   file32-submission-date: file32-submission-date
   file33-name: file33-name
@@ -544,8 +558,10 @@ inputFields:
   file37-submission-date: file37-submission-date
   file37-type: file37-type
   file38-name: file38-name
+  file38-size: file38-size
   file38-submission-date: file38-submission-date
   file38-type: file38-type
+  file39-name: file39-name
   file39-size: file39-size
   file39-submission-date: file39-submission-date
   file39-type: file39-type
