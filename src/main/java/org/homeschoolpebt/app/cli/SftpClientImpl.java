@@ -27,7 +27,7 @@ public class SftpClientImpl implements SftpClient {
   @Override
   public void uploadFile(String zipFilename) throws JSchException, SftpException {
     JSch jsch = new JSch();
-    jsch.setKnownHosts("~/.ssh/known_hosts");
+    jsch.setKnownHosts("src/main/resources/known_hosts");
     Session jschSession = jsch.getSession(username, uploadUrl);
     jschSession.setPassword(password);
     jschSession.connect(10000);

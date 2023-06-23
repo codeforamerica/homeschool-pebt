@@ -91,6 +91,9 @@ jobs:
           'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
           'FORCE_SSL=${{ vars.FORCE_SSL }}' \
           'RELEASE_HEALTHCHECK_TIMEOUT=${{ vars.RELEASE_HEALTHCHECK_TIMEOUT }}' \
+          'SFTP_USERNAME=${{ secrets.SFTP_USERNAME }}' \
+          'SFTP_PASSWORD=${{ secrets.SFTP_PASSWORD }}' \
+          'SFTP_UPLOAD_URL=${{ secrets.SFTP_UPLOAD_URL }}' \
           'TWILIO_ACCOUNT_SID=${{ secrets.TWILIO_ACCOUNT_SID }}' \
           'TWILIO_AUTH_TOKEN=${{ secrets.TWILIO_AUTH_TOKEN }}' \
           'TWILIO_MESSAGING_SERVICE_SID=${{ secrets.TWILIO_MESSAGING_SERVICE_SID }}' \
