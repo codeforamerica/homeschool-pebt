@@ -205,6 +205,7 @@ flow:
     subflow: income
     nextScreens:
       - name: incomeSelfEmployedWillBeLess
+    crossFieldValidationAction: CustomSelfEmployedOperatingExpensesMustBeHighEnough
   incomeSelfEmployedWillBeLess:
     subflow: income
     nextScreens:
