@@ -7,6 +7,7 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 
@@ -37,6 +38,11 @@ public class StaticPageController {
     model.put("applicationsDisabled", applicationsDisabled.equals("true"));
 
     return new ModelAndView("index", model);
+  }
+
+  @GetMapping("/docs")
+  RedirectView getDocs() {
+    return new RedirectView("/flow/docUpload/addDocumentsSignpost");
   }
 
   /**
