@@ -7,9 +7,15 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-public interface SftpClient {
+@Component
+@Profile("test")
+public class MockSftpClientImpl implements SftpClient {
 
-  void uploadFile(String zipFilename) throws JSchException, SftpException;
+  @Override
+  public void uploadFile(String zipFilename) {
+    // Do nothing
+  }
 }

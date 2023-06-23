@@ -8,21 +8,16 @@ import formflow.library.pdf.PdfService;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.VFS;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
@@ -74,8 +69,14 @@ public class TransmitterCommands {
     // send zip file
     sftpClient.uploadFile(zipFilename);
 
-
-    // TODO update transmission in DB
+    // Update transmission in DB
+    submissionIds.forEach(id -> {
+      Submission submission = Submission.builder().id(id).build();
+      Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
+      transmission.setSubmittedToStateAt(new Date());
+      transmission.setSubmittedToStateFilename(zipFilename);
+      transmissionRepository.save(transmission);
+    });
   }
 
   @NotNull

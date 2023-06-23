@@ -1,8 +1,11 @@
 package org.homeschoolpebt.app.cli;
 
 import static org.assertj.core.util.DateUtil.now;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.jcraft.jsch.JSchException;
@@ -14,7 +17,6 @@ import formflow.library.data.UserFileRepository;
 import formflow.library.pdf.PdfService;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -23,7 +25,6 @@ import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
 import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
-import org.homeschoolpebt.app.upload.S3ReadOnlyCloudFileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,9 @@ class TransmitterCommandsTest {
 
   @MockBean
   ReadOnlyCloudFileRepository fileRepository;
+
+  @MockBean
+  SftpClient sftpClient;
 
 
   Submission submission;
@@ -109,6 +113,12 @@ class TransmitterCommandsTest {
     String date = dtf.format(now);
     File zipFile = new File("Apps__" + date + "__1001-1002.zip");
     assertTrue(zipFile.exists());
+
+    verify(sftpClient).uploadFile(zipFile.getName());
+
+    Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
+    assertNotNull(transmission.getSubmittedToStateAt());
+    assertEquals(transmission.getSubmittedToStateFilename(), zipFile.getName());
 
     // cleanup
     zipFile.delete();
