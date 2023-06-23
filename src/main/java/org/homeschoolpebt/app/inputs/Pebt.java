@@ -105,6 +105,8 @@ public class Pebt extends FlowInputs {
   private String incomeJobsCount;
   private String incomeSelfEmployed;
   private String incomeSelfEmployedCustomOperatingExpenses;
+  private String incomeTransientStandardOperatingExpensesAmount; // Transient field for passing data into the self-employed expenses validator
+
 
   // TODO: Validate this is > 40% of incomeGrossMonthlyIndividual
   @Money(message = "{income-amounts.must-be-dollars-cents}")
