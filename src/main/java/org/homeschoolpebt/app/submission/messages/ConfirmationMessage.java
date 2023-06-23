@@ -30,7 +30,7 @@ public class ConfirmationMessage implements PebtMessage {
           <p>Thank you for submitting your application for P-EBT benefits for the 2022-2023 school year.\s
           You should hear back from the California Department of Social Services by phone or mail in the next 2-4 weeks.</p>
           <p>Your application number is %s.</p>
-          <p>If you need food now, you can contact your local food bank at https://www.cafoodbanks.org/find-food. You can also apply for CalFresh at GetCalFresh.org.</p>
+          <p>If you need food now, you can contact your local food bank at https://www.cafoodbanks.org/find-food. You can also apply for CalFresh at https://www.getcalfresh.org.</p>
           <p>- California Department of Social Services</p>
         </body>
       </html>

@@ -27,9 +27,9 @@ public class DocReminderMessage implements PebtMessage {
           <p>Dear %s,</p>
           <p>Thank you for beginning the application for P-EBT benefits. This is a reminder to upload the documents for your application.\s
           You will need proof of income, a student  ID and virtual school documentation for each student, if applicable.</p>
-          <p>You can find the link here: https://getpebt.org/docs</p>
+          <p>You can find the link here: https://www.getpebt.org/docs</p>
           <p>Your application number is %s.</p>
-          <p>If you need food now, you can contact your local food bank at https://www.cafoodbanks.org/find-food. You can also apply for CalFresh at GetCalFresh.org.</p>
+          <p>If you need food now, you can contact your local food bank at https://www.cafoodbanks.org/find-food. You can also apply for CalFresh at https://www.getcalfresh.org.</p>
           <p>- California Department of Social Services</p>
         </body>
       </html>
@@ -43,7 +43,7 @@ public class DocReminderMessage implements PebtMessage {
     String body = """
       Thank you for beginning the application for P-EBT benefits. This is a reminder to upload the documents for your application.\s
       You will need to upload proof of identity for each student, proof of income, and virtual school documentation for each student, if applicable.\s
-      Your application number is %s and you can find the link here: https://getpebt.org/docs
+      Your application number is %s and you can find the link here: https://www.getpebt.org/docs
       """.formatted(confirmationNumber);
     return new Sms(body);
   }
