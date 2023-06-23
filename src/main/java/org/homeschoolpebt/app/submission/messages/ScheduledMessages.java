@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -17,7 +17,7 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Slf4j
-@Component
+@ShellComponent
 public class ScheduledMessages {
   MailgunEmailClient mailgunEmailClient;
   TwilioSmsClient twilioSmsClient;
@@ -28,7 +28,7 @@ public class ScheduledMessages {
     this.transmissionRepository = transmissionRepository;
   }
 
-  @Scheduled(cron = "0 0 19 * * *") // every day at 7pm GMT/Noon PDT
+  @ShellMethod(key = "checkForUnsubmittedDocs")
   void checkForUnsubmittedDocs() {
     Instant reminderTime = Instant.now().with(REMINDER_TIME_FRAME);
     List<Transmission> transmissions = transmissionRepository.findAll();
