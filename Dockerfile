@@ -23,5 +23,3 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
     
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/opt/form-flow-starter-app/app.jar"]

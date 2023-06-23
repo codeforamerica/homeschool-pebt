@@ -1,2 +1,2 @@
-# Run every day at Noon PDT
-0 12 * * * java -jar [build.jar] -Dspring.main.web-application-type=NONE checkForUnsubmittedDocs
+# Run every day at 7pm GMT/Noon PDT
+0 19 * * * java -jar /opt/form-flow-starter-app/app.jar -Dspring.main.web-application-type=NONE checkForUnsubmittedDocs
