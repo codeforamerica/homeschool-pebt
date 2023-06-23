@@ -44,11 +44,12 @@ dependencies {
   implementation 'org.apache.commons:commons-vfs2:2.4'
 
   implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.22.0'
-    implementation 'io.sentry:sentry-logback:6.22.0'
+  implementation 'io.sentry:sentry-logback:6.22.0'
 
   implementation group: 'org.webjars', name: 'jquery-ui', version: '1.12.1'
 
-  implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.6.2'if (profile == 'dev') {
+  implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.6.2'
+  if (profile == 'dev') {
     implementation "org.codeforamerica.platform:form-flow:${formFlowLibraryVersion}"
     println "📚Using form flow library ${formFlowLibraryVersion}"
     // implementation fileTree(dir: "$rootDir/../form-flow/build/libs", include: '*.jar')
