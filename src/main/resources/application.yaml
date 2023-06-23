@@ -92,6 +92,10 @@ server:
   error:
     whitelabel:
       enabled: false
+sftp:
+  username: ${SFTP_USERNAME}
+  password: ${SFTP_PASSWORD}
+  upload-url: ${SFTP_UPLOAD_URL}
 sentry:
   traces-sample-rate: 0.3
   environment: production
