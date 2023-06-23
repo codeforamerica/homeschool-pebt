@@ -38,19 +38,19 @@ public class HandleApplicationSigned implements Action {
     String emailAddress = (String) submission.getInputData().getOrDefault("email", "");
     if (!emailAddress.isBlank()) {
       var emailMessage = message.renderEmail();
-      log.info("Sending email PebtMessage for submission " + submission.getId());
+      log.info("Sending email %s for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
       mailgunEmailClient.sendEmail(emailMessage.getSubject(), emailAddress, emailMessage.getBodyHtml());
     } else {
-      log.info("Not sending email PebtMessage: no email address for submission " + submission.getId());
+      log.info("Not sending email %s: no email address for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
     }
 
     String phoneNumber = (String) submission.getInputData().getOrDefault("phoneNumber", "");
     if (!phoneNumber.isBlank()) {
       var smsMessage = message.renderSms();
-      log.info("Sending SMS ConfirmationMessage for submission " + submission.getId());
+      log.info("Sending SMS %s for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
       twilioSmsClient.sendMessage(phoneNumber, smsMessage.getBody());
     } else {
-      log.info("Not sending SMS PebtMessage: no phone number for submission " + submission.getId());
+      log.info("Not sending SMS %s: no phone number for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
     }
   }
 }
