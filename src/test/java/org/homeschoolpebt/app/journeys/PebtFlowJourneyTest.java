@@ -4,12 +4,10 @@ import formflow.library.email.MailgunEmailClient;
 import org.homeschoolpebt.app.submission.messages.TwilioSmsClient;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Duration;
@@ -18,7 +16,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -233,7 +232,9 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
     assertPageTitle("Doc submit confirmation");
     testPage.clickButton("Yes, submit and finish");
-    testPage.clickContinue();
+
+    // Submitting your application
+    testPage.clickButton("Get started");
     testPage.clickElementById("agreesToLegalTerms-true-label");
     testPage.clickContinue();
     testPage.enter("signature", "Anything");
