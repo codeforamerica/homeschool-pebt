@@ -181,9 +181,6 @@ public class Pebt extends FlowInputs {
   @Money(message = "{income-amounts.must-be-dollars-cents}")
   private String reportedTotalAnnualHouseholdIncome;
 
-  //Economic Hardship Screen
-  private ArrayList<String> economicHardshipTypes;
-
   @NotEmpty(message = "{legal-stuff.make-sure-you-answer-this-question}")
   private ArrayList<String> agreesToLegalTerms;
   @NotBlank
