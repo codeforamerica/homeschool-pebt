@@ -95,7 +95,7 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
   }
 
   private boolean designationsIncludes(Map<String, Object> student, String target) {
-    var designations = (List<String>) student.getOrDefault("studentDesignations[][]", new ArrayList<String>());
+    var designations = (List<String>) student.getOrDefault("studentDesignations[]", new ArrayList<String>());
     return designations.contains(target);
   }
 }

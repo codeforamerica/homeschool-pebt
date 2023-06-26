@@ -20,7 +20,7 @@ class StudentsPreparerTest {
       put("studentVirtualSchoolName", "Some Virtual Academy");
       put("studentUnenrolledSchoolName", "37680230135277 - Muraoka (Saburo) Elementary (Chula Vista Elementary)");
       put("studentWouldAttendSchoolName", "38684786040935 - Thomas Edison Charter Academy (San Francisco Unified)");
-      put("studentDesignations[][]", List.of("foster", "unhoused", "migrant", "runaway"));
+      put("studentDesignations[]", List.of("foster", "unhoused", "migrant", "runaway"));
       put("studentHomeschoolAffidavitNumber", "12345678901234");
       put("studentGrade", "9th");
       put("studentBirthdayDate", "01/02/1991");
