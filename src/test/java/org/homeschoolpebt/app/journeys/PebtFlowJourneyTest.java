@@ -211,8 +211,6 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
 
     testPage.clickLink("Next step"); // Done (with income)! Let's get your application submitted.
-    testPage.clickElementById("economicHardshipTypes-Furloughed due to COVID-19"); // Has anybody in your household experienced economic hardship as a result of the COVID-19 pandemic?
-    testPage.clickButton("Submit");
 
     // Document Uploader
     assertPageTitle("Adding Documents");

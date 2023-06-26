@@ -4,7 +4,7 @@ flow:
     nextScreens:
       - name: eligibility
 
-  # Step 1 of 6: Pre-Screen
+  # Step 1 of 7: Pre-Screen
   eligibility:
     nextScreens:
       - name: preScreenMoreThanOneStudent
@@ -35,7 +35,7 @@ flow:
     nextScreens:
       - name: studentsSignpost
 
-  # Step 2 of 6: Student Information
+  # Step 2 of 7: Student Information
   studentsSignpost:
     nextScreens:
       - name: studentsAdd
@@ -78,7 +78,7 @@ flow:
     nextScreens:
       - name: gettingToKnowYou
 
-  # Step 3 of 6: Basic Info ("Getting to know you")
+  # Step 3 of 7: Basic Info ("Getting to know you")
   gettingToKnowYou:
     nextScreens:
       - name: personalInfo
@@ -111,7 +111,7 @@ flow:
     nextScreens:
       - name: housemates
 
-  # Step 4 of 6: Household builder ("Household Details")
+  # Step 4 of 7: Household builder ("Household Details")
   housemates:
     nextScreens:
       - name: signpostHouseholdDetails
@@ -139,7 +139,7 @@ flow:
   householdDeleteConfirmation:
     nextScreens: null
 
-  # Step 5 of 6: Income
+  # Step 5 of 7: Income
   signpostIncome:
     nextScreens:
       - name: hasIncome
@@ -147,7 +147,7 @@ flow:
     nextScreens:
       - name: incomeAddJob
         condition: HasIncome
-      - name: economicHardship
+      - name: addingDocuments
   incomeAddJob:
     nextScreens:
       - name: incomeChooseHouseholdMember
@@ -229,14 +229,11 @@ flow:
       - name: incomeComplete
   incomeComplete:
     nextScreens:
-      - name: economicHardship
-  economicHardship:
-    nextScreens:
       - name: addingDocuments
   incomeDeleteConfirmation:
     nextScreens: null
 
-  # Step 6 of 6: Adding documents
+  # Step 6 of 7: Adding documents
   addingDocuments:
     nextScreens:
       - name: uploadIdentityDocuments
@@ -275,7 +272,7 @@ flow:
     nextScreens:
       - name: submitting
 
-  # Step 7: Sign + Submit!
+  # Step 7 of 7: Sign + Submit!
   submitting:
     nextScreens:
       - name: legalStuff
