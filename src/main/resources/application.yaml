@@ -14,22 +14,22 @@ form-flow:
   aws:
     region: 'us-west-1'
     s3_bucket_name: ${AWS_BUCKET_NAME:-""}
-    access_key: ${AWS_ACCESS_KEY}
-    secret_key: ${AWS_SECRET_KEY}
+    access_key: ${AWS_ACCESS_KEY:-""}
+    secret_key: ${AWS_SECRET_KEY:-""}
   address-validation:
     disabled: false
     smarty:
-      auth-id: ${SMARTY_AUTH_ID}
-      auth-token: ${SMARTY_AUTH_TOKEN}
+      auth-id: ${SMARTY_AUTH_ID:-""}
+      auth-token: ${SMARTY_AUTH_TOKEN:-""}
       license: us-core-cloud
   pdf:
     path: 'src/main/resources/pdfs/'
     map-file: pdf-map.yaml
   email-client:
     mailgun:
-      sender-email: noreply@${MAILGUN_DOMAIN}
-      key: ${MAILGUN_API_KEY}
-      domain: ${MAILGUN_DOMAIN}
+      sender-email: noreply@${MAILGUN_DOMAIN:-""}
+      key: ${MAILGUN_API_KEY:-""}
+      domain: ${MAILGUN_DOMAIN:-""}
 spring:
   profiles:
     group:
@@ -93,9 +93,9 @@ server:
     whitelabel:
       enabled: false
 sftp:
-  username: ${SFTP_USERNAME}
-  password: ${SFTP_PASSWORD}
-  upload-url: ${SFTP_UPLOAD_URL}
+  username: ${SFTP_USERNAME:-""}
+  password: ${SFTP_PASSWORD:-""}
+  upload-url: ${SFTP_UPLOAD_URL:-""}
 sentry:
   traces-sample-rate: 0.3
   environment: production
