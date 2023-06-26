@@ -3,7 +3,6 @@ package org.homeschoolpebt.app.data;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -34,6 +33,10 @@ public class TransmissionRepositoryService {
     this.transmissionRepository.save(transmission);
 
     return transmission;
+  }
+
+  public boolean transmissionExists(Submission submission) {
+    return transmissionRepository.getTransmissionBySubmission(submission) != null;
   }
 
   public Transmission createLaterdocTransmissionRecord(Submission submission) {

@@ -13,8 +13,6 @@ import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Slf4j
 @Component
 public class HandleApplicationSigned implements Action {
@@ -26,6 +24,11 @@ public class HandleApplicationSigned implements Action {
   private TransmissionRepositoryService transmissionRepositoryService;
 
   public void run(Submission submission) {
+    if (transmissionRepositoryService.transmissionExists(submission)) {
+      // already submitted. don't do anything again.
+      return;
+    }
+
     var transmission = transmissionRepositoryService.createTransmissionRecord(submission);
 
     PebtMessage message;

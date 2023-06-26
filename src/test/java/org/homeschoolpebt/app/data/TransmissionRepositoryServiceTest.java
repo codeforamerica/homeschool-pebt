@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class TransmissionReposItoryServiceTest {
+class TransmissionRepositoryServiceTest {
   @Autowired
   private SubmissionRepositoryService submissionRepositoryService;
 
