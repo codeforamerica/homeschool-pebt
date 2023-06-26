@@ -233,6 +233,8 @@ flow:
   economicHardship:
     nextScreens:
       - name: addingDocuments
+  incomeDeleteConfirmation:
+    nextScreens: null
 
   # Step 6 of 6: Adding documents
   addingDocuments:
