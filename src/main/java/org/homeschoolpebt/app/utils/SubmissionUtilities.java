@@ -491,5 +491,9 @@ public class SubmissionUtilities {
   public static boolean needsEnrollmentDocs(Submission submission) {
     return getDocUploadEnrollmentStudentsList(submission).size() > 0;
   }
+
+  public static String getSubmissionLanguage(Submission submission) {
+    return submission.getUrlParams() == null ? "en" : submission.getUrlParams().getOrDefault("lang", "en");
+  }
 }
 

@@ -2,11 +2,11 @@ package org.homeschoolpebt.app.submission.messages;
 
 import formflow.library.data.Submission;
 import org.homeschoolpebt.app.data.Transmission;
-import org.homeschoolpebt.app.data.TransmissionRepositoryService;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
+
+import static org.homeschoolpebt.app.utils.SubmissionUtilities.getSubmissionLanguage;
 
 @Component
 public class ConfirmationMessage implements PebtMessage {
@@ -24,9 +24,20 @@ public class ConfirmationMessage implements PebtMessage {
     var applicantFullName = SubmissionUtilities.applicantFullName(submission);
     String subject;
     String body;
-    if (submission.getUrlParams().getOrDefault("lang", "en").equals("es")) {
-      subject = "Placeholder for Spanish ConfirmationMessage email subject";
-      body = "Placeholder for Spanish ConfirmationMessage email body";
+    if (getSubmissionLanguage(submission).equals("es")) {
+      subject = "Solicitud presentada para P-EBT 4.0";
+      body = """
+        <html>
+          <body>
+            <p>Estimado %s,</p>
+            <p>Gracias por enviar su solicitud de beneficios P-EBT para el año escolar 2022-2023.\s
+            El Departamento de Servicios Sociales de California le responderá por teléfono o por correo en las próximas 2 a 4 semanas.</p>
+            <p>Su número de solicitud es %s.</p>
+            <p>Si necesita alimentos ahora, puede ponerse en contacto con su banco de alimentos local en https://www.cafoodbanks.org/find-food. También puede solicitar CalFresh en https://www.getcalfresh.org.</p>
+            <p>- Departamento de Servicios Sociales de California</p>
+          </body>
+        </html>
+        """.formatted(StringUtils.escapeXml(applicantFullName), confirmationNumber);
     } else {
       subject = "Application Submitted for P-EBT 4.0";
       body = """
@@ -49,8 +60,11 @@ public class ConfirmationMessage implements PebtMessage {
   public Sms renderSms() {
     var confirmationNumber = SubmissionUtilities.getFormattedConfirmationNumber(transmission.getConfirmationNumber());
     String body;
-    if (submission.getUrlParams().getOrDefault("lang", "en").equals("es")) {
-      body = "Placeholder for Spanish ConfirmationMessage SMS body";
+    if (getSubmissionLanguage(submission).equals("es")) {
+      body = """
+        Gracias por enviar la solicitud de prestaciones P-EBT para el curso escolar 2022-2023. Le contestaremos en un plazo de 2 a 4 semanas. Su número de solicitud es %s.\s
+        -CDSS (Departamento de Servicios Sociales de California)
+        """.formatted(confirmationNumber);
     } else {
       body = """
         Thank you for submitting the application for P-EBT benefits for the 2022-2023 school year. You will hear back within 2-4 weeks. Your application number is %s.\s
