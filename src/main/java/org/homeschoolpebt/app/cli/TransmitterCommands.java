@@ -132,7 +132,7 @@ public class TransmitterCommands {
           }
 
         } catch (IOException e) {
-          System.out.println("Unable to write file, " + zipFileName);
+          System.out.println("Unable to write file for appNumber, " + appNumber);
         }
       });
     }
