@@ -18,6 +18,11 @@ public class HandleLaterdocSubmitted implements Action {
   private TransmissionRepositoryService transmissionRepositoryService;
 
   public void run(Submission submission) {
+    if (transmissionRepositoryService.transmissionExists(submission)) {
+      // already submitted. don't do anything again.
+      return;
+    }
+
     var transmission = transmissionRepositoryService.createLaterdocTransmissionRecord(submission);
 
     // send laterdoc receipt confirmation message
