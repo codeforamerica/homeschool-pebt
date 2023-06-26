@@ -19,28 +19,34 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Slf4j
 @ShellComponent
 public class ScheduledMessages {
-  MailgunEmailClient mailgunEmailClient;
-  TwilioSmsClient twilioSmsClient;
+  private final MailgunEmailClient mailgunEmailClient;
+  private final TwilioSmsClient twilioSmsClient;
   private final TransmissionRepository transmissionRepository;
-  static final TemporalAdjuster REMINDER_TIME_FRAME = t -> t.minus(2, DAYS);
+  static final List<TemporalAdjuster> REMINDER_TIME_FRAMES = List.of(
+    t -> t.minus(2, DAYS),
+    t -> t.minus(4, DAYS));
 
-  public ScheduledMessages(TransmissionRepository transmissionRepository) {
+  public ScheduledMessages(MailgunEmailClient mailgunEmailClient, TwilioSmsClient twilioSmsClient, TransmissionRepository transmissionRepository) {
+    this.mailgunEmailClient = mailgunEmailClient;
+    this.twilioSmsClient = twilioSmsClient;
     this.transmissionRepository = transmissionRepository;
   }
 
   @ShellMethod(key = "checkForUnsubmittedDocs")
   void checkForUnsubmittedDocs() {
-    Instant reminderTime = Instant.now().with(REMINDER_TIME_FRAME);
+    List<Instant> reminderTimes = REMINDER_TIME_FRAMES.stream().map(Instant.now()::with).toList();
     List<Transmission> transmissions = transmissionRepository.findAll();
     transmissions.stream()
       .filter(transmission -> SubmissionUtilities.getMissingDocUploads(transmission.getSubmission()).size() > 0)
-      .filter(transmission -> isTimeToSendReminder(reminderTime, transmission.getSubmission().getCreatedAt().toInstant()))
+      .filter(transmission -> isTimeToSendReminder(reminderTimes, transmission.getSubmission().getCreatedAt().toInstant()))
       .forEach(this::sendDocReminderMessages);
   }
 
-  static boolean isTimeToSendReminder(Instant reminderTime, Instant date) {
-    long diffHours = ChronoUnit.HOURS.between(date, reminderTime);
-    return diffHours > -12 && diffHours < 12;
+  static boolean isTimeToSendReminder(List<Instant> reminderTimes, Instant date) {
+    return reminderTimes.stream().anyMatch(reminderTime -> {
+      long diffHours = ChronoUnit.HOURS.between(date, reminderTime);
+      return diffHours > -12 && diffHours < 12;
+    });
   }
 
   private void sendDocReminderMessages(Transmission transmission) {

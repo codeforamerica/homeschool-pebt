@@ -1,13 +1,16 @@
 package org.homeschoolpebt.app.submission.messages;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAdjuster;
+import java.util.stream.Stream;
 
 import static java.time.temporal.ChronoUnit.*;
-import static org.homeschoolpebt.app.submission.messages.ScheduledMessages.REMINDER_TIME_FRAME;
+import static org.homeschoolpebt.app.submission.messages.ScheduledMessages.REMINDER_TIME_FRAMES;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,37 +21,45 @@ public class ScheduledMessagesTest {
     .with(ChronoField.SECOND_OF_MINUTE, 0)
     .toInstant();
 
-  @Test
-  void testReturnTrueWhenItIsTimeToSendAReminderSubmittedAfterMidnightTwoDaysEarlier() {
+  private static Stream<TemporalAdjuster> provideReminderTimeFrames() {
+    return REMINDER_TIME_FRAMES.stream();
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideReminderTimeFrames")
+  void testReturnTrueWhenItIsTimeToSendAReminderSubmittedAfterMidnightTwoDaysEarlier(TemporalAdjuster temporalAdjuster) {
     assertTrue(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).minus(12, HOURS).plusSeconds(1))); // 00:00:01
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).minus(12, HOURS).plusSeconds(1))); // 00:00:01
   }
 
-  @Test
-  void testReturnTrueWhenItIsTimeToSendAReminderSubmittedBeforeMidnightTwoDaysEarlier() {
+  @ParameterizedTest
+  @MethodSource("provideReminderTimeFrames")
+  void testReturnTrueWhenItIsTimeToSendAReminderSubmittedBeforeMidnightTwoDaysEarlier(TemporalAdjuster temporalAdjuster) {
     assertTrue(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).plus(12, HOURS).minusSeconds(1))); // 23:59:59
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).plus(12, HOURS).minusSeconds(1))); // 23:59:59
   }
 
-  @Test
-  void testReturnFalseWhenItIsTooLateToSendAReminderSubmittedBeforeMidnightThreeDaysBefore() {
+  @ParameterizedTest
+  @MethodSource("provideReminderTimeFrames")
+  void testReturnFalseWhenItIsTooLateToSendAReminderSubmittedBeforeMidnightThreeDaysBefore(TemporalAdjuster temporalAdjuster) {
     assertFalse(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).minus(12, HOURS).minusSeconds(1))); // 23:59:59
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).minus(12, HOURS).minusSeconds(1))); // 23:59:59
     assertFalse(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).minus(12, HOURS))); // 00:00:00
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).minus(12, HOURS))); // 00:00:00
   }
 
-  @Test
-  void testReturnFalseWhenItIsTooSoonToSendAReminderSubmittedAfterMidnightOneDayBefore() {
+  @ParameterizedTest
+  @MethodSource("provideReminderTimeFrames")
+  void testReturnFalseWhenItIsTooSoonToSendAReminderSubmittedAfterMidnightOneDayBefore(TemporalAdjuster temporalAdjuster) {
     assertFalse(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).plus(12, HOURS).plusSeconds(1))); // 00:00:01
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).plus(12, HOURS).plusSeconds(1))); // 00:00:01
     assertFalse(ScheduledMessages.isTimeToSendReminder(
-      NOW.with(REMINDER_TIME_FRAME),
-      NOW.with(REMINDER_TIME_FRAME).plus(12, HOURS))); // 00:00:00
+      REMINDER_TIME_FRAMES.stream().map(NOW::with).toList(),
+      NOW.with(temporalAdjuster).plus(12, HOURS))); // 00:00:00
   }
 }
