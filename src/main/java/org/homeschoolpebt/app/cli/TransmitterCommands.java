@@ -1,5 +1,7 @@
 package org.homeschoolpebt.app.cli;
 
+import static java.util.Collections.emptyList;
+
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
@@ -30,6 +32,10 @@ import org.springframework.shell.standard.ShellMethod;
 @ShellComponent
 public class TransmitterCommands {
 
+  public static final List<String> UPLOAD_DOCS = List.of("identityFiles", "enrollmentFiles", "incomeFiles", "unearnedIncomeFiles");
+
+  public static final int SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
+
   private final TransmissionRepository transmissionRepository;
   private final PdfService pdfService;
 
@@ -54,17 +60,23 @@ public class TransmitterCommands {
       submissionIds.add(i.getId());
     });
 
+    Map<String, List<String>> appIdToLaterDoc = new HashMap<>();
     Map<String, Submission> appIdToSubmission = new HashMap<>();
     submissionIds.forEach(id -> {
-      Submission submission = Submission.builder().id(id).build();
-      Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
+      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
+      Submission submission = transmission.getSubmission();
       if (transmission.getSubmittedToStateAt() == null) {
-        appIdToSubmission.put(transmission.getConfirmationNumber(), transmission.getSubmission());
+        appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+        if ("docUpload".equals(submission.getFlow())) {
+          String appId = (String) submission.getInputData().get("applicationNumber");
+          List<String> confirmationNumbers = appIdToLaterDoc.computeIfAbsent(appId, k -> new ArrayList<>());
+          confirmationNumbers.add(transmission.getConfirmationNumber());
+        }
       }
     });
 
     String zipFilename = createZipFilename(appIdToSubmission);
-    zipFiles(appIdToSubmission, zipFilename);
+    zipFiles(appIdToSubmission, zipFilename, appIdToLaterDoc);
 
     // send zip file
     sftpClient.uploadFile(zipFilename);
@@ -92,7 +104,7 @@ public class TransmitterCommands {
     return "Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip";
   }
 
-  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName) throws IOException {
+  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Map<String, List<String>> appIdToLaterDoc) throws IOException {
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
 
@@ -102,16 +114,24 @@ public class TransmitterCommands {
         String subfolder = createSubfolderName(submission, transmission);
         try {
           if ("pebt".equals(submission.getFlow())) {
-            // generate applicant summary
-            byte[] file = pdfService.getFilledOutPDF(submission);
+            // delay 7 days if there aren't any uploaded docs associated with this application
+            Date submittedAt = submission.getSubmittedAt();
+            Date sevenDaysAgo = new Date(System.currentTimeMillis() - SEVEN_DAYS_IN_MS);
+            boolean hasLaterDocs = appIdToLaterDoc.containsKey(appNumber);
 
-            String fileName = pdfService.generatePdfName(submission);
-            zos.putNextEntry(new ZipEntry(subfolder));
-            ZipEntry entry = new ZipEntry(subfolder + fileName);
-            entry.setSize(file.length);
-            zos.putNextEntry(entry);
-            zos.write(file);
-            zos.closeEntry();
+            Map<String, Object> inputData = submission.getInputData();
+            if (submittedAt.before(sevenDaysAgo) || hasLaterDocs || UPLOAD_DOCS.stream().anyMatch(k -> inputData.get(k) != null && !inputData.get(k).equals(emptyList()))) {
+              // generate applicant summary
+              byte[] file = pdfService.getFilledOutPDF(submission);
+
+              String fileName = pdfService.generatePdfName(submission);
+              zos.putNextEntry(new ZipEntry(subfolder));
+              ZipEntry entry = new ZipEntry(subfolder + fileName);
+              entry.setSize(file.length);
+              zos.putNextEntry(entry);
+              zos.write(file);
+              zos.closeEntry();
+            }
           }
 
           // Add uploaded docs

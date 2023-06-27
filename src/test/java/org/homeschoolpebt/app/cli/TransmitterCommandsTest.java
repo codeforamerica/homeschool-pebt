@@ -16,11 +16,16 @@ import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepository;
 import formflow.library.pdf.PdfService;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
@@ -75,46 +80,60 @@ class TransmitterCommandsTest {
     transmission.setConfirmationNumber("1001");
     transmissionRepository.save(transmission);
 
-    var submission2 = Submission.builder()
+    var submissionWithDocs = Submission.builder()
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
       .inputData(Map.of(
         "firstName", "Other",
-        "lastName", "McOtherson"
+        "lastName", "McOtherson",
+        "identityFiles", List.of("some-file-id")
       )).build();
-    submissionRepository.save(submission2);
+    submissionRepository.save(submissionWithDocs);
 
-    transmission = Transmission.fromSubmission(submission2);
+    transmission = Transmission.fromSubmission(submissionWithDocs);
     transmission.setConfirmationNumber("1002");
     transmissionRepository.save(transmission);
 
     UserFile docfile = new UserFile();
     docfile.setFilesize(10.0f);
-    docfile.setSubmission_id(submission2);
+    docfile.setSubmission_id(submissionWithDocs);
     docfile.setOriginalName("originalFilename.png");
     userFileRepository.save(docfile);
 
-    var submission3 = Submission.builder()
+    var docUploadOnly = Submission.builder()
       .submittedAt(now())
       .flow("docUpload")
       .urlParams(new HashMap<>())
       .inputData(Map.of(
         "firstName", "Tester",
         "lastName", "McTest",
-        "applicationNumber", "011001"
+        "applicationNumber", "1001"
       )).build();
-    submissionRepository.save(submission3);
+    submissionRepository.save(docUploadOnly);
 
-    transmission = Transmission.fromSubmission(submission3);
+    transmission = Transmission.fromSubmission(docUploadOnly);
     transmission.setConfirmationNumber("1003");
     transmissionRepository.save(transmission);
 
     docfile = new UserFile();
     docfile.setFilesize(10.0f);
-    docfile.setSubmission_id(submission3);
+    docfile.setSubmission_id(docUploadOnly);
     docfile.setOriginalName("laterdoc.png");
     userFileRepository.save(docfile);
+
+    var submissionWithoutDocs = Submission.builder()
+      .submittedAt(now())
+      .flow("pebt")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        "firstName", "Testing",
+        "lastName", "McTesting"
+      )).build();
+    submissionRepository.save(submissionWithoutDocs);
+    transmission = Transmission.fromSubmission(submissionWithoutDocs);
+    transmission.setConfirmationNumber("1004");
+    transmissionRepository.save(transmission);
   }
 
   @Test
@@ -132,7 +151,7 @@ class TransmitterCommandsTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
-    File zipFile = new File("Apps__" + date + "__1001-1003.zip");
+    File zipFile = new File("Apps__" + date + "__1001-1004.zip");
     assertTrue(zipFile.exists());
 
     verify(sftpClient).uploadFile(zipFile.getName());
@@ -141,8 +160,42 @@ class TransmitterCommandsTest {
     assertNotNull(transmission.getSubmittedToStateAt());
     assertEquals(transmission.getSubmittedToStateFilename(), zipFile.getName());
 
+    String destDir = "output";
+    List<String> fileNames = unzip(zipFile.getPath(), destDir);
+
+    assertEquals(fileNames.size(), 6);
+    assertTrue(fileNames.contains("output/1001_McTest/"));
+    assertTrue(fileNames.contains("output/1001_McTest/applicant_summary.pdf"));
+    assertTrue(fileNames.contains("output/LaterDoc_1001_McTest_Tester/laterdoc.png"));
+    assertTrue(fileNames.contains("output/1002_McOtherson/"));
+    assertTrue(fileNames.contains("output/1002_McOtherson/applicant_summary.pdf"));
+    assertTrue(fileNames.contains("output/1002_McOtherson/originalFilename.png"));
+
     // cleanup
     zipFile.delete();
     docFile.delete();
+  }
+
+  private static List<String> unzip(String zipFilePath, String destDir) {
+    List<String> result = new ArrayList<>();
+    //buffer for read and write data to file
+    byte[] buffer = new byte[1024];
+    try (FileInputStream fis = new FileInputStream(zipFilePath)) {
+      ZipInputStream zis = new ZipInputStream(fis);
+      ZipEntry ze = zis.getNextEntry();
+      while (ze != null) {
+        String fileName = ze.getName();
+        result.add(destDir + File.separator + fileName);
+        while (zis.read(buffer) > 0) {
+        }
+        zis.closeEntry();
+        ze = zis.getNextEntry();
+      }
+      zis.closeEntry();
+      zis.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 }
