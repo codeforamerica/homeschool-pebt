@@ -143,10 +143,8 @@ public class TransmitterCommands {
     Map<String, Object> inputData = submission.getInputData();
     if ("pebt".equals(submission.getFlow())) {
       return transmission.getConfirmationNumber() + "_" + inputData.get("lastName") + "/";
-    } else if (inputData.get("applicationNumber") != null) {
-      return "LaterDoc_" + inputData.get("applicationNumber") + "_" + inputData.get("lastName") + "_" + inputData.get("firstName") + "/";
     } else {
-      return "LaterDoc_" + transmission.getConfirmationNumber() + "_" + inputData.get("lastName") + "_" + inputData.get("firstName") + "/";
+      return "LaterDoc_" + inputData.get("applicationNumber") + "_" + inputData.get("lastName") + "_" + inputData.get("firstName") + "/";
     }
   }
 }
