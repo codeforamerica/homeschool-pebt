@@ -1,4 +1,6 @@
 name: Deploy to Aptible
+concurrency:
+  group: deploy-${{ github.event.inputs.environment || 'demo' }}
 
 on:
   workflow_run:
@@ -135,6 +137,6 @@ jobs:
           update-ts: ${{ steps.slack.outputs.ts }}
           channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
           payload: |
-            {"text":":rocket: :x: Skipping deploy of ${{GITHUB_SHA}} to ${{ github.event.inputs.environment || 'demo' }} as it appears to already be deployed!"}
+            {"text":":rocket: :x: Skipping deploy of ${GITHUB_SHA} to ${{ github.event.inputs.environment || 'demo' }} as it appears to already be deployed!"}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
