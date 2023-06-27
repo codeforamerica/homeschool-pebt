@@ -17,19 +17,19 @@ public class AssistanceProgramsPreparer implements SubmissionFieldPreparer {
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
     var fields = new HashMap<String, SubmissionField>();
 
-    if (submission.getInputData().get("householdMemberReceivesBenefits").equals("CalFresh")) {
+    if ("CalFresh".equals(submission.getInputData().get("householdMemberReceivesBenefits"))) {
       var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumberCalfresh", "");
       fields.put("calfresh", new SingleField("calfresh", "Yes", null));
       fields.put("program-case-number", new SingleField("program-case-number", caseNumber, null));
     }
 
-    if (submission.getInputData().get("householdMemberReceivesBenefits").equals("CalWORKs")) {
+    if ("CalWORKs".equals(submission.getInputData().get("householdMemberReceivesBenefits"))) {
       var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumberCalworks", "");
       fields.put("calworks", new SingleField("calworks", "Yes", null));
       fields.put("program-case-number", new SingleField("program-case-number", caseNumber, null));
     }
 
-    if (submission.getInputData().get("householdMemberReceivesBenefits").equals("FDPIR")) {
+    if ("FDPIR".equals(submission.getInputData().get("householdMemberReceivesBenefits"))) {
       var caseNumber = (String) submission.getInputData().getOrDefault("householdMemberBenefitsCaseNumberFDPIR", "");
       fields.put("fdpir", new SingleField("fdpir", "Yes", null));
       fields.put("program-case-number", new SingleField("program-case-number", caseNumber, null));
