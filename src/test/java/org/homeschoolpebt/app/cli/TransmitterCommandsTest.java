@@ -66,9 +66,9 @@ class TransmitterCommandsTest {
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
-      .inputData(Map.ofEntries(
-        Map.entry("firstName", "Tester"),
-        Map.entry("lastName", "McTest")
+      .inputData(Map.of(
+        "firstName", "Tester",
+        "lastName", "McTest"
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
@@ -79,9 +79,9 @@ class TransmitterCommandsTest {
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
-      .inputData(Map.ofEntries(
-        Map.entry("firstName", "Other"),
-        Map.entry("lastName", "McOtherson")
+      .inputData(Map.of(
+        "firstName", "Other",
+        "lastName", "McOtherson"
       )).build();
     submissionRepository.save(submission2);
 
@@ -99,9 +99,10 @@ class TransmitterCommandsTest {
       .submittedAt(now())
       .flow("docUpload")
       .urlParams(new HashMap<>())
-      .inputData(Map.ofEntries(
-        Map.entry("firstName", "Tester"),
-        Map.entry("lastName", "McTest")
+      .inputData(Map.of(
+        "firstName", "Tester",
+        "lastName", "McTest",
+        "applicationNumber", "011001"
       )).build();
     submissionRepository.save(submission3);
 
@@ -142,5 +143,6 @@ class TransmitterCommandsTest {
 
     // cleanup
     zipFile.delete();
+    docFile.delete();
   }
 }
