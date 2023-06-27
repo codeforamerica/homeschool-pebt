@@ -17,23 +17,23 @@
             <th:block th:ref="formContent">
               <div class="form-card__content">
                 <th:block
-                  th:replace="'fragments/inputs/select' :: select(label=#{students-school-year.grade}, inputName='studentGrade', content=~{::studentGradeContent})">
+                  th:replace="~{'fragments/inputs/select' :: select(label=#{students-school-year.grade}, inputName='studentGrade', content=~{::studentGradeContent})}">
                   <th:block th:ref="studentGradeContent">
-                    <th:block th:replace="'fragments/inputs/selectOptionPlaceholder' :: selectOptionPlaceholder(optionText='Select One')"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='TK', optionText=#{students-school-year.grade-tk})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='K', optionText=#{students-school-year.grade-k})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='1st', optionText=#{students-school-year.grade-1})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='2nd', optionText=#{students-school-year.grade-2})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='3rd', optionText=#{students-school-year.grade-3})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='4th', optionText=#{students-school-year.grade-4})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='5th', optionText=#{students-school-year.grade-5})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='6th', optionText=#{students-school-year.grade-6})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='7th', optionText=#{students-school-year.grade-7})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='8th', optionText=#{students-school-year.grade-8})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='9th', optionText=#{students-school-year.grade-9})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='10th', optionText=#{students-school-year.grade-10})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='11th', optionText=#{students-school-year.grade-11})"/>
-                    <th:block th:replace="'fragments/inputs/selectOption' :: selectOption(value='12th', optionText=#{students-school-year.grade-12})"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOptionPlaceholder' :: selectOptionPlaceholder(optionText='Select One')}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='TK', optionText=#{students-school-year.grade-tk})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='K', optionText=#{students-school-year.grade-k})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='1st', optionText=#{students-school-year.grade-1})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='2nd', optionText=#{students-school-year.grade-2})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='3rd', optionText=#{students-school-year.grade-3})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='4th', optionText=#{students-school-year.grade-4})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='5th', optionText=#{students-school-year.grade-5})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='6th', optionText=#{students-school-year.grade-6})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='7th', optionText=#{students-school-year.grade-7})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='8th', optionText=#{students-school-year.grade-8})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='9th', optionText=#{students-school-year.grade-9})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='10th', optionText=#{students-school-year.grade-10})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='11th', optionText=#{students-school-year.grade-11})}"/>
+                    <th:block th:replace="~{'fragments/inputs/selectOption' :: selectOption(value='12th', optionText=#{students-school-year.grade-12})}"/>
                   </th:block>
                 </th:block>
 
