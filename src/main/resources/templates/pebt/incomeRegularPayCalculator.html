@@ -40,39 +40,39 @@
         </div>
 
         <div class="question-with-follow-up__follow-up" id="follow-up-weekly">
-          <th:block th:replace="'fragments/inputs/money' :: money(
+          <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.weekly},
           helpText=#{income-regular-pay-calculator.amount-help-text.weekly}
-        )"/>
+        )}"/>
         </div>
         <div class="question-with-follow-up__follow-up" id="follow-up-biweekly">
-          <th:block th:replace="'fragments/inputs/money' :: money(
+          <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.biweekly},
           helpText=#{income-regular-pay-calculator.amount-help-text.biweekly}
-        )"/>
+        )}"/>
         </div>
         <div class="question-with-follow-up__follow-up" id="follow-up-semimonthly">
-          <th:block th:replace="'fragments/inputs/money' :: money(
+          <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.semimonthly},
           helpText=#{income-regular-pay-calculator.amount-help-text.semimonthly}
-        )"/>
+        )}"/>
         </div>
         <div class="question-with-follow-up__follow-up" id="follow-up-monthly">
-          <th:block th:replace="'fragments/inputs/money' :: money(
+          <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.monthly},
           helpText=#{income-regular-pay-calculator.amount-help-text.monthly}
-        )"/>
+        )}"/>
         </div>
         <div class="question-with-follow-up__follow-up" id="follow-up-yearly">
-          <th:block th:replace="'fragments/inputs/money' :: money(
+          <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.yearly},
           helpText=#{income-regular-pay-calculator.amount-help-text.yearly}
-        )"/>
+        )}"/>
         </div>
       </div>
       <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
