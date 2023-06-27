@@ -6,11 +6,13 @@ import formflow.library.data.validators.Phone;
 import formflow.library.utils.RegexUtils;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Pebt extends FlowInputs {
 
   private MultipartFile identityFiles;
