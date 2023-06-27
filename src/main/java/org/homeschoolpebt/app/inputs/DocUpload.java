@@ -4,9 +4,11 @@ import formflow.library.data.FlowInputs;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DocUpload extends FlowInputs {
   @NotBlank(message = "{personal-info.provide-first-name}")
   private String firstName;
