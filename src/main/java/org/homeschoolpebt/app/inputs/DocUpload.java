@@ -12,7 +12,8 @@ public class DocUpload extends FlowInputs {
   private String firstName;
   @NotBlank(message = "{personal-info.provide-last-name}")
   private String lastName;
-  @Pattern(regexp = "\\d{7,9}", message = "{validation.application-number-format}")
+  @NotBlank(message = "{validation.application-number-presence}")
+  @Pattern(regexp = "\\d{7,9}|^$", message = "{validation.application-number-format}")
   private String applicationNumber;
 
   MultipartFile docUpload;
