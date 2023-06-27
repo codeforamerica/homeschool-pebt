@@ -42,14 +42,20 @@ jobs:
           wget --quiet -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
           sudo dpkg -i aptible-package
           aptible login --email=${{ secrets.APTIBLE_USERNAME }} --password=${{ secrets.APTIBLE_PASSWORD}}
-      - name: Prepare Slack message
-        id: slack-message
-        continue-on-error: true
-        run: |
           APTIBLE_OUTPUT_FORMAT=json aptible services --app ${{ vars.APTIBLE_APP_NAME }} | \
             jq -r '.[0].app.last_deploy_operation.git_ref' > .last-deploy-sha
-          echo "last_deploy_sha=$(git rev-parse --short $(cat .last-deploy-sha))" >> "$GITHUB_ENV"
-          
+      - name: Check whether deploy is empty (and therefore we can skip it)
+        continue-on-error: true
+        id: skip-deploy
+        # If this "succeeds", it means the last deploy SHA is the same as the current deploy,
+        # and we should skip/cancel this deploy.
+        run: |
+          [ "$(cat .last-deploy-sha)" = "${GITHUB_SHA}" ]
+      - name: Prepare Slack message
+        id: slack-message
+        if: steps.skip-deploy.outcome == 'failure'
+        continue-on-error: true
+        run: |
           cat <<EOF > .deploy-message
           :rocket: ${{ github.actor }} <${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|is deploying> \`$(git rev-parse --short ${GITHUB_SHA})\` to ${{ github.event.inputs.environment || 'demo' }}
           \`\`\`
@@ -71,9 +77,11 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Push to Aptible remote branch
+        if: steps.skip-deploy.outcome == 'failure'
         run: |
           git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.APTIBLE_REMOTE_BRANCH }}
       - name: Set Aptible environment variables and deploy
+        if: steps.skip-deploy.outcome == 'failure'
         run: |
           aptible deploy --app ${{ vars.APTIBLE_APP_NAME }} --git-commitish ${GITHUB_SHA} \
           'SPRING_PROFILES_ACTIVE=${{ vars.SPRING_PROFILES_ACTIVE}}' \
@@ -117,5 +125,16 @@ jobs:
           channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
           payload: |
             {"text":"", "attachments": [{"text": ${{toJSON(env.deploy_message)}}, "color": "#D64733"}]}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Announce Deploy Skipped
+        id: slack-failure
+        if: steps.skip-deploy.outcome == 'success'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          update-ts: ${{ steps.slack.outputs.ts }}
+          channel-id: ${{ vars.SLACK_NOTIFY_CHANNEL_ID }}
+          payload: |
+            {"text":":rocket: :x: Skipping deploy of ${{GITHUB_SHA}} to ${{ github.event.inputs.environment || 'demo' }} as it appears to already be deployed!"}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
