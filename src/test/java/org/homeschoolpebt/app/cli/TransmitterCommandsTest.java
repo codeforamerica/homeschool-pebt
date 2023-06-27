@@ -66,9 +66,9 @@ class TransmitterCommandsTest {
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
-      .inputData(Map.ofEntries(
-        Map.entry("firstName", "Tester"),
-        Map.entry("lastName", "McTest")
+      .inputData(Map.of(
+        "firstName", "Tester",
+        "lastName", "McTest"
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
@@ -79,9 +79,9 @@ class TransmitterCommandsTest {
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
-      .inputData(Map.ofEntries(
-        Map.entry("firstName", "Other"),
-        Map.entry("lastName", "McOtherson")
+      .inputData(Map.of(
+        "firstName", "Other",
+        "lastName", "McOtherson"
       )).build();
     submissionRepository.save(submission2);
 
@@ -93,6 +93,27 @@ class TransmitterCommandsTest {
     docfile.setFilesize(10.0f);
     docfile.setSubmission_id(submission2);
     docfile.setOriginalName("originalFilename.png");
+    userFileRepository.save(docfile);
+
+    var submission3 = Submission.builder()
+      .submittedAt(now())
+      .flow("docUpload")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        "firstName", "Tester",
+        "lastName", "McTest",
+        "applicationNumber", "011001"
+      )).build();
+    submissionRepository.save(submission3);
+
+    transmission = Transmission.fromSubmission(submission3);
+    transmission.setConfirmationNumber("1003");
+    transmissionRepository.save(transmission);
+
+    docfile = new UserFile();
+    docfile.setFilesize(10.0f);
+    docfile.setSubmission_id(submission3);
+    docfile.setOriginalName("laterdoc.png");
     userFileRepository.save(docfile);
   }
 
@@ -111,7 +132,7 @@ class TransmitterCommandsTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
-    File zipFile = new File("Apps__" + date + "__1001-1002.zip");
+    File zipFile = new File("Apps__" + date + "__1001-1003.zip");
     assertTrue(zipFile.exists());
 
     verify(sftpClient).uploadFile(zipFile.getName());
@@ -122,5 +143,6 @@ class TransmitterCommandsTest {
 
     // cleanup
     zipFile.delete();
+    docFile.delete();
   }
 }

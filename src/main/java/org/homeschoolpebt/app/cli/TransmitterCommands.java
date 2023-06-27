@@ -98,19 +98,21 @@ public class TransmitterCommands {
 
       appIdToSubmission.forEach((appNumber, submission) -> {
 
-        String fileName = pdfService.generatePdfName(submission);
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        String subfolder = transmission.getConfirmationNumber() + "_" + submission.getInputData().get("lastName") + "/";
+        String subfolder = createSubfolderName(submission, transmission);
         try {
-          // generate PDF
-          byte[] file = pdfService.getFilledOutPDF(submission);
+          if ("pebt".equals(submission.getFlow())) {
+            // generate applicant summary
+            byte[] file = pdfService.getFilledOutPDF(submission);
 
-          zos.putNextEntry(new ZipEntry(subfolder));
-          ZipEntry entry = new ZipEntry(subfolder + fileName);
-          entry.setSize(file.length);
-          zos.putNextEntry(entry);
-          zos.write(file);
-          zos.closeEntry();
+            String fileName = pdfService.generatePdfName(submission);
+            zos.putNextEntry(new ZipEntry(subfolder));
+            ZipEntry entry = new ZipEntry(subfolder + fileName);
+            entry.setSize(file.length);
+            zos.putNextEntry(entry);
+            zos.write(file);
+            zos.closeEntry();
+          }
 
           // Add uploaded docs
           List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
@@ -130,10 +132,19 @@ public class TransmitterCommands {
           }
 
         } catch (IOException e) {
-          e.printStackTrace();
-          System.out.println("Unable to write file, " + fileName);
+          System.out.println("Unable to write file for appNumber, " + appNumber);
         }
       });
+    }
+  }
+
+  @NotNull
+  private static String createSubfolderName(Submission submission, Transmission transmission) {
+    Map<String, Object> inputData = submission.getInputData();
+    if ("pebt".equals(submission.getFlow())) {
+      return transmission.getConfirmationNumber() + "_" + inputData.get("lastName") + "/";
+    } else {
+      return "LaterDoc_" + inputData.get("applicationNumber") + "_" + inputData.get("lastName") + "_" + inputData.get("firstName") + "/";
     }
   }
 }
