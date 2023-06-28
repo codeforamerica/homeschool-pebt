@@ -35,7 +35,7 @@ body {
 
 @media screen and (min-width: 1200px) {
   .slab--hero {
-    background-position: right 9em bottom 7em;
+    background-position: right 15em bottom 7em;
     background-size: 550px;
   }
 }
@@ -54,6 +54,39 @@ body {
   margin-bottom: 2.5rem;
 }
 
+.index__step-item {
+  display: flex !important;
+}
+
+.index__step-item i {
+  font-size: 3rem;
+  margin-right: 2rem;
+  color: #CFC5BF;
+}
+@media screen and (min-width: 601px) {
+  .index__step-item i {
+    font-size: 5rem;
+    margin-right: 3.5rem;
+  }
+}
+
+.index__docs-card {
+  background-color: #F7F5F4;
+  padding: 5rem;
+  border: 2px solid #CFC5BF;;
+  border-radius: 1rem;
+  margin-bottom: 2.5rem;
+}
+.index__docs-card__header {
+  text-align: center;
+}
+.index__docs-card__header i {
+  font-size: 5rem;
+}
+.index__docs-card hr {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
 
 /* Flow styles (mostyl from libraryStyles.css) */
 @font-face {
@@ -142,6 +175,26 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 
 .icon-person-outline::before {
   content: "\e7ff";
+}
+
+.icon-search::before {
+  content: "\e8b6";
+}
+
+.icon-school::before {
+  content: "\e80c";
+}
+
+.icon-monetization_on::before {
+  content: "\e263";
+}
+
+.icon-attach_money::before {
+  content: "\e227";
+}
+
+.icon-credit_card::before {
+  content: "\e870";
 }
 
 .subflow-list__item-actions a:not(:last-child) {

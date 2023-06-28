@@ -8,7 +8,7 @@ public class LaterDocsJourneyTest extends AbstractBasePageTest {
   @Test
   void fullLaterDocs() {
     // Homepage
-    assertPageTitle("Get food money for students.");
+    assertPageTitle("Get food money for students TK-12.");
     testPage.clickLink("Submit documents");
 
     // Add documents signpost
