@@ -16,7 +16,7 @@ public class StaticPagesJourneyTest extends AbstractBasePageTest {
   void staticPagesJourney() {
     var windowHandle = driver.getWindowHandle();
     // Landing screen
-    assertPageTitle("Get food money for students.");
+    assertPageTitle("Get food money for students TK-12.");
     // Go to privacy policy tab
     testPage.clickLink("Privacy Policy");
     switchAwayFromOriginalWindow(windowHandle);

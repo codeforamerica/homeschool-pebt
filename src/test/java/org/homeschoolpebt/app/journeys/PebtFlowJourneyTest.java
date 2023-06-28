@@ -30,7 +30,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
   @Test
   void fullUbiFlow() {
     // Landing screen
-    assertPageTitle("Get food money for students.");
+    assertPageTitle("Get food money for students TK-12.");
     testPage.clickButton("Apply now");
     // How this works
     testPage.clickContinue();
