@@ -22,12 +22,11 @@
                     label=#{legal-stuff.i-agree},
                     value='true')}">
                   </th:block>
+
+                  <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}" />
                 </div>
               </div>
-            <div class="form-card__footer spacing-above-0">
-              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
-                text=#{general.inputs.continue})}" />
-            </div>
           </th:block>
         </th:block>
       </main>
