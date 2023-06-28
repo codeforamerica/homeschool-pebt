@@ -187,6 +187,7 @@ public class Pebt extends FlowInputs {
   private ArrayList<String> agreesToLegalTerms;
   @NotBlank
   private String signature;
+  @NotBlank(message = "{contact-info.missing-phone-number}")
   @Phone(message = "{contact-info.invalid-phone-number}")
   private String phoneNumber;
   @Email(message = "{contact-info.invalid-email}", regexp = RegexUtils.EMAIL_REGEX)
