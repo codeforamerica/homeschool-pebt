@@ -50,6 +50,7 @@ flow:
       - name: studentsSchoolYear
   studentsSchoolYear:
     subflow: students
+    crossFieldValidationAction: SchoolTypeSelectionValidation
     nextScreens:
       - name: studentsWouldAttendSchoolName
         condition: PreScreenHasOnlyOneStudent
