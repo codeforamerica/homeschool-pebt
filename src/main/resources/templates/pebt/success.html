@@ -1,46 +1,128 @@
-<!DOCTYPE html>
-<html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{success.title})}"></head>
-<body>
-<div class="page-wrapper">
-  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
-  <section class="slab">
-    <div class="grid">
-      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
-      <main th:with="completionDate=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getFormattedSubmittedAtDate(submission)}" id="content" role="main" class="form-card spacing-above-35">
-        <div>
+<th:block th:ref="success" th:with="
+  missingDocs=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).hasMissingDocUploads(submission)},
+  defaultTitle=${missingDocs ? #messages.msg('success.header-missing-docs') : #messages.msg('success.header')},
+  title=${#strings.isEmpty(title) ? defaultTitle : title},
+  completionDate=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getFormattedSubmittedAtDate(submission)},
+  laterDocDeadline=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLaterdocDeadline(#dates.createNow())},
+  submittedText=${missingDocs ? #messages.msg('success.submitted-on-missing-docs', completionDate) : #messages.msg('success.submitted-on', laterDocDeadline)},
+  confirmationNumber=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getFormattedConfirmationNumber(submission.getInputData().getOrDefault('confirmationNumber', ''))},
+  applicantSummaryUrl='/download/pebt/' + ${submission.getId()},
+  showFeedbackSection=${!#bools.isTrue(feedbackProvided)}
+">
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <main id="content" role="main" class="form-card spacing-above-35">
           <th:block th:replace="~{'fragments/icons' :: computerWithCheckmark}"></th:block>
-        </div>
-        <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{success.header})}"/>
-        <p class="text--help help--header-spacing" th:text="#{success.your-application-was-submitted(${completionDate})}"></p>
-        <div class="form-card__content">
-          <div class="notice--success">
-            <p th:text="#{success.applications-will-close-on}"></p>
-          </div>
-          <hr class="spacing-above-15 spacing-below-25">
-          <h2 th:text="#{success.helpful-resources}"></h2>
-          <div class="success-confirmation-box zero-flex-shrink spacing-below-60">
-              <th:block th:replace="~{'fragments/icons' :: smallDownloadDocuments}"></th:block>
-              <div>
-                <p th:text="#{success.save-a-copy-of-your-application}"></p>
-                <a th:href="'/download/pebt/' + ${submission.getId()}"
-                   th:text="#{success.download-your-application}"></a>
-              </div>
-          </div>
-          <div class="success-confirmation-box zero-flex-shrink move-box-left">
-            <th:block th:replace="~{'fragments/icons' :: smallFile}"></th:block>
-            <div>
-              <p th:utext="#{success.return-to-GetUBI.org}"></p>
-            </div>
-          </div>
-        </div>
-        <div class="form-card__footer">
 
-        </div>
-      </main>
-    </div>
-  </section>
-</div>
-<th:block th:replace="~{fragments/footer :: footer}"/>
-</body>
-</html>
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=${title})}"/>
+          <div class="form-card__content">
+            <th:block th:if="${missingDocs}">
+              <p class="help--header-spacing" th:utext="#{success.subtext-missing-docs(${laterDocDeadline})}"></p>
+              <div class="notice--warning" th:utext="#{success.missing-docs-notice(${applicantSummaryUrl})}"></div>
+            </th:block>
+
+            <p th:class="${missingDocs ? '' : 'help--header-spacing'}" th:utext="#{success.application-number(${confirmationNumber})}"></p>
+
+            <p class="text--help" th:utext="${submittedText}"></p>
+
+            <div class="success-confirmation-box  spacing-below-35">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: smallDownloadDocuments}"></th:block>
+              </div>
+              <div>
+                <strong th:text="#{success.download-your-application}"></strong>
+                <br>
+                <a th:href="${applicantSummaryUrl}" th:text="#{success.applicant-summary-url}"></a>
+              </div>
+            </div>
+
+            <div class="success-confirmation-box  spacing-below-35">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: smallFile}"></th:block>
+              </div>
+              <div>
+                <strong th:text="#{success.submit-more-docs}"></strong>
+                <br>
+                <a href="/docs" th:utext="#{success.laterdocs-url}"></a>
+              </div>
+            </div>
+
+            <div class="success-confirmation-box  spacing-below-10">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: contactPhoneSmall}"></th:block>
+              </div>
+              <div th:utext="#{success.save-helpline-numbers}"></div>
+            </div>
+
+            <p class="text--help" th:utext="#{success.avoid-scams}"></p>
+
+            <hr class="spacing-above-35 spacing-below-35">
+
+            <th:block th:replace="~{fragments/icons :: nextSteps}"/>
+            <h2 class="h2 spacing-above-15" th:text="#{success.whats-next}"></h2>
+
+            <div class="success-confirmation-box move-box-left">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: textSms}"></th:block>
+              </div>
+              <p th:text="#{success.confirmation-text}"></p>
+            </div>
+            <div class="success-confirmation-box move-box-left">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: phoneInTalkBack}"></th:block>
+              </div>
+              <p th:text="#{success.phone-call-from-worker}"></p>
+            </div>
+            <div class="success-confirmation-box move-box-left">
+              <div class="success-confirmation-box__icon">
+                <th:block th:replace="~{'fragments/icons' :: creditCardSmall}"></th:block>
+              </div>
+              <p th:text="#{success.credit-card-in-mail}"></p>
+            </div>
+
+            <hr class="spacing-above-35 spacing-below-35">
+            <h2 class="h3 spacing-above-15" th:text="#{success.helpful-resources}"></h2>
+            <p th:utext="#{index.find-your-local-food-bank}"></p>
+            <p th:utext="#{index.apply-on-gcf}"></p>
+
+            <th:block th:if="${showFeedbackSection}">
+              <hr class="spacing-above-35 spacing-below-35">
+              <h3 id="feedbackHeader" th:text="#{success.how-was-your-experience}"></h3>
+              <th:block th:replace="~{'fragments/form' :: form(action=${formAction}, content=~{::formContent})}">
+                <th:block th:ref="formContent">
+                  <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
+                    inputName='feedbackOption',
+                    ariaLabel='feedbackHeader',
+                    content=~{::content})
+                  }">
+                    <th:block th:ref="content">
+                      <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='feedbackOption',value='great', label=#{success.feedback-great})}"/>
+                      <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='feedbackOption',value='neutral', label=#{success.feedback-neutral})}"/>
+                      <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='feedbackOption',value='not_good', label=#{success.feedback-not-good})}"/>
+                    </th:block>
+                  </th:block>
+
+                  <th:block th:replace="~{'fragments/inputs/textArea' :: textArea(
+                    inputName='feedbackText',
+                    label=#{success.feedback-text-label}
+                  )}"/>
+
+                  <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{success.submit-feedback}, classes='button')}"/>
+                </th:block>
+              </th:block>
+            </th:block>
+          </div>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
+</th:block>

@@ -193,4 +193,7 @@ public class Pebt extends FlowInputs {
   private String phoneNumber;
   @Email(message = "{contact-info.invalid-email}", regexp = RegexUtils.EMAIL_REGEX)
   private String email;
+
+  private String feedbackOption;
+  private String feedbackText;
 }

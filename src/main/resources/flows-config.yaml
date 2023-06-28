@@ -286,9 +286,6 @@ flow:
   signName:
     afterSaveAction: HandleApplicationSigned
     nextScreens:
-      - name: nextSteps
-  nextSteps:
-    nextScreens:
       - name: success
   success:
     nextScreens: null

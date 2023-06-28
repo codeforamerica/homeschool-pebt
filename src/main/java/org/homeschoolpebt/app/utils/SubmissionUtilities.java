@@ -463,6 +463,10 @@ public class SubmissionUtilities {
     return formatDate.format(deadline.toDate());
   }
 
+  public static boolean hasMissingDocUploads(Submission submission) {
+    return getMissingDocUploads(submission).size() > 0;
+  }
+
   public static List<String> getMissingDocUploads(Submission submission) {
     var missing = new ArrayList<String>();
 
