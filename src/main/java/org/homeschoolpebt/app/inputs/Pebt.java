@@ -33,6 +33,7 @@ public class Pebt extends FlowInputs {
   private String studentFirstName;
   private String studentMiddleInitial;
   private String studentLastName;
+  @NotBlank
   private String studentSchoolType; // TODO: Make this an enum.
   @NotBlank(message = "{date-error.day-presence}")
   @Min(value = 1, message = "{date-error.day-range}")
