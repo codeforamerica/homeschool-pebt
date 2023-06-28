@@ -106,39 +106,41 @@ public class TransmitterCommands {
       ZipOutputStream zos = new ZipOutputStream(baos)) {
       appIdToSubmission.forEach((appNumber, submission) -> {
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        String subfolder = createSubfolderName(submission, transmission);
-        try {
-          if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
-            // generate applicant summary
-            byte[] file = pdfService.getFilledOutPDF(submission);
-            String fileName = pdfService.generatePdfName(submission);
+        if (transmission != null) {
+          String subfolder = createSubfolderName(submission, transmission);
+          try {
+            if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
+              // generate applicant summary
+              byte[] file = pdfService.getFilledOutPDF(submission);
+              String fileName = pdfService.generatePdfName(submission);
 
-            zos.putNextEntry(new ZipEntry(subfolder));
-            ZipEntry entry = new ZipEntry(subfolder + fileName);
-            entry.setSize(file.length);
-            zos.putNextEntry(entry);
-            zos.write(file);
-            zos.closeEntry();
-          }
-
-          // Add uploaded docs
-          List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
-          for (UserFile userFile : userFiles) {
-            ZipEntry docEntry = new ZipEntry(subfolder + userFile.getOriginalName());
-            docEntry.setSize(userFile.getFilesize().longValue());
-            zos.putNextEntry(docEntry);
-
-            CloudFile docFile = fileRepository.download(userFile.getRepositoryPath());
-            byte[] bytes = new byte[Math.toIntExact(docFile.getFilesize())];
-            try (FileInputStream fis = new FileInputStream(docFile.getFile())) {
-              fis.read(bytes);
-              zos.write(bytes);
+              zos.putNextEntry(new ZipEntry(subfolder));
+              ZipEntry entry = new ZipEntry(subfolder + fileName);
+              entry.setSize(file.length);
+              zos.putNextEntry(entry);
+              zos.write(file);
+              zos.closeEntry();
             }
-            zos.closeEntry();
-          }
 
-        } catch (IOException e) {
-          System.out.println("Unable to write file for appNumber, " + appNumber);
+            // Add uploaded docs
+            List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
+            for (UserFile userFile : userFiles) {
+              ZipEntry docEntry = new ZipEntry(subfolder + userFile.getOriginalName());
+              docEntry.setSize(userFile.getFilesize().longValue());
+              zos.putNextEntry(docEntry);
+
+              CloudFile docFile = fileRepository.download(userFile.getRepositoryPath());
+              byte[] bytes = new byte[Math.toIntExact(docFile.getFilesize())];
+              try (FileInputStream fis = new FileInputStream(docFile.getFile())) {
+                fis.read(bytes);
+                zos.write(bytes);
+              }
+              zos.closeEntry();
+            }
+
+          } catch (IOException e) {
+            System.out.println("Unable to write file for appNumber, " + appNumber);
+          }
         }
       });
     }
