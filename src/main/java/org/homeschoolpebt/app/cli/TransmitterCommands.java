@@ -8,13 +8,17 @@ import formflow.library.pdf.PdfService;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -22,6 +26,7 @@ import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
 import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
+import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
@@ -54,17 +59,21 @@ public class TransmitterCommands {
       submissionIds.add(i.getId());
     });
 
+    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
     Map<String, Submission> appIdToSubmission = new HashMap<>();
     submissionIds.forEach(id -> {
-      Submission submission = Submission.builder().id(id).build();
-      Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
+      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
+      Submission submission = transmission.getSubmission();
       if (transmission.getSubmittedToStateAt() == null) {
-        appIdToSubmission.put(transmission.getConfirmationNumber(), transmission.getSubmission());
+        appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+        if ("docUpload".equals(submission.getFlow())) {
+          submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
+        }
       }
     });
 
     String zipFilename = createZipFilename(appIdToSubmission);
-    zipFiles(appIdToSubmission, zipFilename);
+    zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
 
     // send zip file
     sftpClient.uploadFile(zipFilename);
@@ -92,50 +101,60 @@ public class TransmitterCommands {
     return "Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip";
   }
 
-  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName) throws IOException {
+  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Set<String> appIdsWithLaterDocs) throws IOException {
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
-
       appIdToSubmission.forEach((appNumber, submission) -> {
-
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        String subfolder = createSubfolderName(submission, transmission);
-        try {
-          if ("pebt".equals(submission.getFlow())) {
-            // generate applicant summary
-            byte[] file = pdfService.getFilledOutPDF(submission);
+        if (transmission != null) {
+          String subfolder = createSubfolderName(submission, transmission);
+          try {
+            if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
+              // generate applicant summary
+              byte[] file = pdfService.getFilledOutPDF(submission);
+              String fileName = pdfService.generatePdfName(submission);
 
-            String fileName = pdfService.generatePdfName(submission);
-            zos.putNextEntry(new ZipEntry(subfolder));
-            ZipEntry entry = new ZipEntry(subfolder + fileName);
-            entry.setSize(file.length);
-            zos.putNextEntry(entry);
-            zos.write(file);
-            zos.closeEntry();
-          }
-
-          // Add uploaded docs
-          List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
-          for (UserFile userFile : userFiles) {
-            ZipEntry docEntry = new ZipEntry(subfolder + userFile.getOriginalName());
-            docEntry.setSize(userFile.getFilesize().longValue());
-            zos.putNextEntry(docEntry);
-
-            CloudFile docFile = fileRepository.download(userFile.getRepositoryPath());
-            byte[] bytes = new byte[Math.toIntExact(docFile.getFilesize())];
-            try (FileInputStream fis = new FileInputStream(docFile.getFile())) {
-              fis.read(bytes);
-              zos.write(bytes);
+              zos.putNextEntry(new ZipEntry(subfolder));
+              ZipEntry entry = new ZipEntry(subfolder + fileName);
+              entry.setSize(file.length);
+              zos.putNextEntry(entry);
+              zos.write(file);
+              zos.closeEntry();
             }
 
-            zos.closeEntry();
-          }
+            // Add uploaded docs
+            List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
+            for (UserFile userFile : userFiles) {
+              ZipEntry docEntry = new ZipEntry(subfolder + userFile.getOriginalName());
+              docEntry.setSize(userFile.getFilesize().longValue());
+              zos.putNextEntry(docEntry);
 
-        } catch (IOException e) {
-          System.out.println("Unable to write file for appNumber, " + appNumber);
+              CloudFile docFile = fileRepository.download(userFile.getRepositoryPath());
+              byte[] bytes = new byte[Math.toIntExact(docFile.getFilesize())];
+              try (FileInputStream fis = new FileInputStream(docFile.getFile())) {
+                fis.read(bytes);
+                zos.write(bytes);
+              }
+              zos.closeEntry();
+            }
+
+          } catch (IOException e) {
+            System.out.println("Unable to write file for appNumber, " + appNumber);
+          }
         }
       });
     }
+  }
+
+  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
+    // delay 7 days if there aren't any uploaded docs associated with this application
+    Instant submittedAt = submission.getSubmittedAt().toInstant();
+    long diffDays = ChronoUnit.DAYS.between(submittedAt, Instant.now());
+    boolean submitted7daysAgo = Math.abs(diffDays) >= 7;
+    boolean hasLaterDocs = appIdsWithLaterDocs.contains(appNumber);
+    List<String> missingDocUploads = SubmissionUtilities.getMissingDocUploads(submission);
+    boolean hasUploadedDocs = missingDocUploads.isEmpty();
+    return submitted7daysAgo || hasLaterDocs || hasUploadedDocs;
   }
 
   @NotNull
