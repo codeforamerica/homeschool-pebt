@@ -9,7 +9,7 @@
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="text--centered" >
-          <th:block th:replace="~{'fragments/icons' :: householdYellow}"></th:block>
+          <th:block th:replace="~{'fragments/icons' :: mailSent}"></th:block>
           <p class="text--grey-dark" th:text="#{submitting.step}"></p>
           <th:block
               th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{submitting.title}, subtext=#{submitting.almost-there})}"/>
