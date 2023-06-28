@@ -11,41 +11,14 @@
         <th:block th:replace="~{fragments/icons :: prepareToApply}"></th:block>
         <th:block
             th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{how-this-works.how-this-works}, subtext=#{how-this-works.this-application-form})}"/>
-        <div class="form-card__content">
-          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
-            buttonLabel=#{how-this-works.pre-check},
-            content=~{::preCheckAccordion})}">
-            <th:block th:ref="preCheckAccordion">
-                <p th:utext="#{how-this-works.answer-a-few-questions}"></p>
-            </th:block>
-          </th:block>
-          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
-            buttonLabel=#{how-this-works.submit-application},
-            content=~{::submitApplicationAccordion})}">
-            <th:block th:ref="submitApplicationAccordion">
-              <p th:utext="#{how-this-works.well-guide-you}"></p>
-              <ul class="list--bulleted">
-                <li th:text="#{how-this-works.personal-information}"></li>
-                <li th:text="#{how-this-works.people-who-live}"></li>
-                <li th:text="#{how-this-works.income}"></li>
-                <li th:text="#{how-this-works.economic-hardship}"></li>
-              </ul>
-            </th:block>
-          </th:block>
-          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
-            buttonLabel=#{how-this-works.get-money-for-food},
-            content=~{::getMoneyAccordion})}">
-            <th:block th:ref="getMoneyAccordion">
-              <p th:utext="#{how-this-works.well-guide-you}"></p>
-              <ul class="list--bulleted">
-                <li th:text="#{how-this-works.personal-information}"></li>
-                <li th:text="#{how-this-works.people-who-live}"></li>
-                <li th:text="#{how-this-works.income}"></li>
-                <li th:text="#{how-this-works.economic-hardship}"></li>
-              </ul>
-            </th:block>
-          </th:block>
+
+        <div class="boxed-content spacing-below-60">
+          <p class="text--centered"><strong th:text="#{how-this-works.steps-title}"></strong></p>
+          <th:block th:utext="#{how-this-works.steps-list}"></th:block>
         </div>
+
+        <div class="notice--warning notice-container spacing-below-25" th:utext="#{how-this-works.notice-text}"></div>
+
         <div class="form-card__footer">
           <th:block th:replace="~{'fragments/continueButton' :: continue}"/>
           <div>
