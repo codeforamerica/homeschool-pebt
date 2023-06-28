@@ -17,9 +17,10 @@ public class TwilioSmsClient {
   @Value("${twilio.messaging.service.sid}")
   private String twilioMessagingServiceSid;
 
-  public void sendMessage(String to, String body) {
+  public Message sendMessage(String to, String body) {
     Twilio.init(twilioAccountSid, twilioAuthToken);
     Message twilioMessage = Message.creator(new PhoneNumber(to), twilioMessagingServiceSid, body).create();
-    log.info("Twilio message request sent; SID=%s; Status=%s".formatted(twilioMessage.getAccountSid(), twilioMessage.getStatus()));
+    log.info("Twilio message request sent; SID=%s; Status=%s".formatted(twilioMessage.getSid(), twilioMessage.getStatus()));
+    return twilioMessage;
   }
 }

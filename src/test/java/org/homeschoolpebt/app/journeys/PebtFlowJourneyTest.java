@@ -1,5 +1,7 @@
 package org.homeschoolpebt.app.journeys;
 
+import com.mailgun.model.message.MessageResponse;
+import com.twilio.rest.api.v2010.account.Message;
 import formflow.library.email.MailgunEmailClient;
 import org.homeschoolpebt.app.submission.messages.TwilioSmsClient;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
@@ -16,10 +18,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class PebtFlowJourneyTest extends AbstractBasePageTest {
   @MockBean
@@ -29,6 +31,10 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void fullUbiFlow() {
+    var mockMessageResponse = MessageResponse.builder().id("id").message("message").build();
+    when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(mockMessageResponse);
+    when(twilioSmsClient.sendMessage(any(), any())).thenReturn(mock(Message.class));
+
     // Landing screen
     assertPageTitle("Get food money for students.");
     testPage.clickButton("Apply now");

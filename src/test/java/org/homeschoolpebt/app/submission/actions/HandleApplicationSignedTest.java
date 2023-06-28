@@ -1,7 +1,10 @@
 package org.homeschoolpebt.app.submission.actions;
 
+import com.mailgun.model.message.MessageResponse;
+import com.twilio.rest.api.v2010.account.Message;
 import formflow.library.data.Submission;
 import formflow.library.email.MailgunEmailClient;
+import org.homeschoolpebt.app.data.SentMessageRepositoryService;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepositoryService;
 import org.homeschoolpebt.app.submission.messages.TwilioSmsClient;
@@ -24,6 +27,9 @@ class HandleApplicationSignedTest {
   TransmissionRepositoryService transmissionRepositoryService;
 
   @Mock
+  SentMessageRepositoryService sentMessageRepositoryService;
+
+  @Mock
   MailgunEmailClient mailgunEmailClient;
 
   @Mock
@@ -41,9 +47,10 @@ class HandleApplicationSignedTest {
     Transmission transmission = Transmission.fromSubmission(submission);
     transmission.setConfirmationNumber("1000100");
 
+    var mockMessageResponse = MessageResponse.builder().id("id").message("message").build();
     when(transmissionRepositoryService.createTransmissionRecord(submission)).thenReturn(transmission);
-    when(mailgunEmailClient.sendEmail(anyString(), anyString(), anyString())).thenReturn(null);
-    doNothing().when(twilioSmsClient).sendMessage(anyString(), anyString());
+    when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(mockMessageResponse);
+    when(twilioSmsClient.sendMessage(any(), any())).thenReturn(mock(Message.class));
 
     handleApplicationSigned.run(submission);
 

@@ -1,6 +1,9 @@
 package org.homeschoolpebt.app.journeys;
 
+import com.mailgun.model.message.MessageResponse;
+import com.twilio.rest.api.v2010.account.Message;
 import formflow.library.email.MailgunEmailClient;
+import org.homeschoolpebt.app.data.SentMessageRepositoryService;
 import org.homeschoolpebt.app.submission.messages.TwilioSmsClient;
 import org.homeschoolpebt.app.utils.AbstractBasePageTest;
 import org.junit.jupiter.api.Test;
@@ -16,19 +19,23 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.NO;
 import static org.homeschoolpebt.app.utils.YesNoAnswer.YES;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
   @MockBean
   MailgunEmailClient mailgunEmailClient;
   @MockBean
+  SentMessageRepositoryService sentMessageRepositoryService;
+  @MockBean
   TwilioSmsClient twilioSmsClient;
 
   @Test
   void fullUbiFlow() {
+    var mockMessageResponse = MessageResponse.builder().id("id").message("message").build();
+    when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(mockMessageResponse);
+    when(twilioSmsClient.sendMessage(any(), any())).thenReturn(mock(Message.class));
+
     // Landing screen
     assertPageTitle("Get food money for students.");
     testPage.clickButton("Apply now");
@@ -248,5 +255,11 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     verify(twilioSmsClient, times(1)).sendMessage(
       eq("(312) 877-1021"),
       contains("Thank you for beginning the application for P-EBT benefits."));
+    verify(sentMessageRepositoryService).save(
+      argThat(sm -> sm.getProvider().equals("twilio"))
+    );
+    verify(sentMessageRepositoryService).save(
+      argThat(sm -> sm.getProvider().equals("mailgun"))
+    );
   }
 }
