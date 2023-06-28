@@ -334,7 +334,13 @@ url('/webjars/form-flow/0.0.1/fonts/MaterialIcons-Regular.svg') format('svg');
 .success-confirmation-box {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 1.5rem;
+}
+
+.success-confirmation-box__icon {
+  width: 4rem;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .zero-flex-shrink svg {
