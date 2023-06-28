@@ -237,6 +237,9 @@ flow:
   # Step 6 of 7: Adding documents
   addingDocuments:
     nextScreens:
+      - name: docUploadHowTo
+  docUploadHowTo:
+    nextScreens:
       - name: uploadIdentityDocuments
   uploadIdentityDocuments:
     nextScreens:

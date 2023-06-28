@@ -215,6 +215,7 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     // Document Uploader
     assertPageTitle("Adding Documents");
     testPage.clickButton("Get started");
+    testPage.clickButton("Got it"); // How to add files from your device
     assertPageTitle("Add proof of identity");
     assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Stud McStudenty");
     uploadJpgFile("identityFiles");
