@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{doc-upload-how-to.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="doc-upload-mobile-only">
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-how-to.header-mobile})}"/>
+        </div>
+        <div class="doc-upload-desktop-only">
+          <th:block th:replace="~{'fragments/cardHeader' :: cardHeader(header=#{doc-upload-how-to.header-desktop})}"/>
+        </div>
+
+        <div class="form-card__content">
+          <div class="doc-upload-mobile-only">
+            <th:block th:replace="~{'fragments/icons' :: takingPicWithPhone}"></th:block>
+
+            <ul class="list--bulleted">
+              <li th:text="#{doc-upload-how-to.mobile-step-1}"></li>
+              <li th:text="#{doc-upload-how-to.mobile-step-2}"></li>
+              <li th:text="#{doc-upload-how-to.mobile-step-3}"></li>
+            </ul>
+          </div>
+          <div class="doc-upload-desktop-only">
+            <th:block th:replace="~{'fragments/icons' :: uploadingPicWithDesktop}"></th:block>
+
+            <ul class="list--bulleted spacing-below-35">
+              <li th:text="#{doc-upload-how-to.desktop-step-1}"></li>
+              <li th:text="#{doc-upload-how-to.desktop-step-2}"></li>
+              <li th:text="#{doc-upload-how-to.desktop-step-3}"></li>
+            </ul>
+
+            <div class="notice" th:utext="#{doc-upload-how-to.desktop-tip-text}"></div>
+          </div>
+        </div>
+        <div class="form-card__footer">
+          <th:block th:replace="~{'fragments/continueButton' :: continue(text=#{doc-upload-how-to.got-it})}" />
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
