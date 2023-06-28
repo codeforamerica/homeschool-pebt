@@ -163,7 +163,7 @@ class TransmitterCommandsTest {
     String destDir = "output";
     List<String> fileNames = unzip(zipFile.getPath(), destDir);
 
-    assertEquals(fileNames.size(), 6);
+    assertEquals(6, fileNames.size());
     assertTrue(fileNames.contains("output/1001_McTest/"));
     assertTrue(fileNames.contains("output/1001_McTest/applicant_summary.pdf"));
     assertTrue(fileNames.contains("output/LaterDoc_1001_McTest_Tester/laterdoc.png"));

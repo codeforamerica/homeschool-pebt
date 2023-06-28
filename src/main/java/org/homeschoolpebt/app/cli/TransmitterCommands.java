@@ -1,7 +1,5 @@
 package org.homeschoolpebt.app.cli;
 
-import static java.util.Collections.emptyList;
-
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
@@ -10,13 +8,17 @@ import formflow.library.pdf.PdfService;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -24,6 +26,7 @@ import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
 import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
+import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
@@ -31,10 +34,6 @@ import org.springframework.shell.standard.ShellMethod;
 
 @ShellComponent
 public class TransmitterCommands {
-
-  public static final List<String> UPLOAD_DOCS = List.of("identityFiles", "enrollmentFiles", "incomeFiles", "unearnedIncomeFiles");
-
-  public static final int SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
 
   private final TransmissionRepository transmissionRepository;
   private final PdfService pdfService;
@@ -60,7 +59,7 @@ public class TransmitterCommands {
       submissionIds.add(i.getId());
     });
 
-    Map<String, List<String>> appIdToLaterDoc = new HashMap<>();
+    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
     Map<String, Submission> appIdToSubmission = new HashMap<>();
     submissionIds.forEach(id -> {
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
@@ -68,15 +67,13 @@ public class TransmitterCommands {
       if (transmission.getSubmittedToStateAt() == null) {
         appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
         if ("docUpload".equals(submission.getFlow())) {
-          String appId = (String) submission.getInputData().get("applicationNumber");
-          List<String> confirmationNumbers = appIdToLaterDoc.computeIfAbsent(appId, k -> new ArrayList<>());
-          confirmationNumbers.add(transmission.getConfirmationNumber());
+          submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
         }
       }
     });
 
     String zipFilename = createZipFilename(appIdToSubmission);
-    zipFiles(appIdToSubmission, zipFilename, appIdToLaterDoc);
+    zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
 
     // send zip file
     sftpClient.uploadFile(zipFilename);
@@ -104,34 +101,24 @@ public class TransmitterCommands {
     return "Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip";
   }
 
-  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Map<String, List<String>> appIdToLaterDoc) throws IOException {
+  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Set<String> appIdsWithLaterDocs) throws IOException {
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
-
       appIdToSubmission.forEach((appNumber, submission) -> {
-
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
         String subfolder = createSubfolderName(submission, transmission);
         try {
-          if ("pebt".equals(submission.getFlow())) {
-            // delay 7 days if there aren't any uploaded docs associated with this application
-            Date submittedAt = submission.getSubmittedAt();
-            Date sevenDaysAgo = new Date(System.currentTimeMillis() - SEVEN_DAYS_IN_MS);
-            boolean hasLaterDocs = appIdToLaterDoc.containsKey(appNumber);
+          if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
+            // generate applicant summary
+            byte[] file = pdfService.getFilledOutPDF(submission);
+            String fileName = pdfService.generatePdfName(submission);
 
-            Map<String, Object> inputData = submission.getInputData();
-            if (submittedAt.before(sevenDaysAgo) || hasLaterDocs || UPLOAD_DOCS.stream().anyMatch(k -> inputData.get(k) != null && !inputData.get(k).equals(emptyList()))) {
-              // generate applicant summary
-              byte[] file = pdfService.getFilledOutPDF(submission);
-
-              String fileName = pdfService.generatePdfName(submission);
-              zos.putNextEntry(new ZipEntry(subfolder));
-              ZipEntry entry = new ZipEntry(subfolder + fileName);
-              entry.setSize(file.length);
-              zos.putNextEntry(entry);
-              zos.write(file);
-              zos.closeEntry();
-            }
+            zos.putNextEntry(new ZipEntry(subfolder));
+            ZipEntry entry = new ZipEntry(subfolder + fileName);
+            entry.setSize(file.length);
+            zos.putNextEntry(entry);
+            zos.write(file);
+            zos.closeEntry();
           }
 
           // Add uploaded docs
@@ -147,7 +134,6 @@ public class TransmitterCommands {
               fis.read(bytes);
               zos.write(bytes);
             }
-
             zos.closeEntry();
           }
 
@@ -156,6 +142,17 @@ public class TransmitterCommands {
         }
       });
     }
+  }
+
+  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
+    // delay 7 days if there aren't any uploaded docs associated with this application
+    Instant submittedAt = submission.getSubmittedAt().toInstant();
+    long diffDays = ChronoUnit.DAYS.between(submittedAt, Instant.now());
+    boolean submitted7daysAgo = Math.abs(diffDays) >= 7;
+    boolean hasLaterDocs = appIdsWithLaterDocs.contains(appNumber);
+    List<String> missingDocUploads = SubmissionUtilities.getMissingDocUploads(submission);
+    boolean hasUploadedDocs = missingDocUploads.isEmpty();
+    return submitted7daysAgo || hasLaterDocs || hasUploadedDocs;
   }
 
   @NotNull
