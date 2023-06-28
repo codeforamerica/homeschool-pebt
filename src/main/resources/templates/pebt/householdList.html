@@ -16,7 +16,7 @@
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <th:block th:unless="${inputData.applicantIsInHousehold}">
+              <th:block th:if="${inputData.getOrDefault('applicantIsInHousehold', '').equals('false')}">
                 <li class="spacing-below-15" th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
               </th:block>
               <th:block th:if="${inputData.containsKey('students')}">
