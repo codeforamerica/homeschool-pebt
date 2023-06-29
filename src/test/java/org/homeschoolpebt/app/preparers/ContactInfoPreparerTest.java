@@ -90,12 +90,12 @@ public class ContactInfoPreparerTest {
   void rendersTheCaseNumber() {
     Submission submission = Submission.builder().flow("pebt").inputData(Map.of()).build();
     Transmission transmission = Transmission.fromSubmission(submission);
-    transmission.setConfirmationNumber("ABC1234");
+    transmission.setConfirmationNumber("001001234");
 
     when(transmissionRepository.getTransmissionBySubmission(submission)).thenReturn(transmission);
 
     assertThat(preparer.prepareSubmissionFields(submission, null)).contains(
-      Map.entry("case-number.case-number", new SingleField("case-number.case-number", transmission.getConfirmationNumber(), null))
+      Map.entry("case-number.case-number", new SingleField("case-number.case-number", "1001234", null))
     );
   }
 }
