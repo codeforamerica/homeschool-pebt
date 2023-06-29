@@ -16,7 +16,7 @@
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <th:block th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantIsInHousehold(submission)} && !${T(org.homeschoolpebt.app.utils.SubmissionUtilities).isApplyingForSelf(submission)}">
+              <th:block th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantIsInHousehold(submission) && !T(org.homeschoolpebt.app.utils.SubmissionUtilities).isApplyingForSelf(submission)}">
                 <li class="spacing-below-15" th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
               </th:block>
               <th:block th:if="${inputData.containsKey('students')}">
