@@ -245,5 +245,12 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     verify(twilioSmsClient, times(1)).sendMessage(
       eq("(312) 877-1021"),
       contains("Thank you for submitting the application for P-EBT benefits for the 2022-2023 school year."));
+
+    assertPageTitle("Done! Your application has been submitted to the State of California.");
+    testPage.clickElementById("feedbackOption-great-label");
+    testPage.enter("feedbackText", "Yay feedback!");
+    testPage.clickButton("Submit Feedback");
+
+    assertPageTitle("Thanks for your feedback!");
   }
 }
