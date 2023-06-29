@@ -29,11 +29,11 @@ public class SchoolTypeSelectionValidation implements Action {
     String virtualSchoolName = (String) inputData.get(VIRTUAL_INPUT);
 
     if (schoolType.equalsIgnoreCase("homeschool") && (homeschoolAffidavitNumber == null || homeschoolAffidavitNumber.isEmpty())) {
-      errorMessages.put(HOMESCHOOL_INPUT, List.of(source.getMessage("error.cannot-be-blank", null, LocaleContextHolder.getLocale())));
+      errorMessages.put(HOMESCHOOL_INPUT, List.of(source.getMessage("error.answer-this-question", null, LocaleContextHolder.getLocale())));
     }
 
     if (schoolType.equalsIgnoreCase("virtual") && (virtualSchoolName == null || virtualSchoolName.isEmpty())) {
-      errorMessages.put(VIRTUAL_INPUT, List.of(source.getMessage("error.cannot-be-blank", null, LocaleContextHolder.getLocale())));
+      errorMessages.put(VIRTUAL_INPUT, List.of(source.getMessage("error.answer-this-question", null, LocaleContextHolder.getLocale())));
     }
 
     return errorMessages;
