@@ -288,6 +288,9 @@ flow:
     nextScreens:
       - name: success
   success:
+    nextScreens:
+      - name: feedbackReceived
+  feedbackReceived:
     nextScreens: null
 
 subflows:
