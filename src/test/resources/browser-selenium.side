@@ -473,35 +473,49 @@
       ],
       "value": ""
     }, {
+      "id": "56ea1c55-936f-4dbd-97c1-4c750b3d9c17",
+      "comment": "",
+      "command": "type",
+      "target": "id=studentVirtualSchoolName",
+      "targets": [
+        ["id=studentVirtualSchoolName", "id"],
+        ["name=studentVirtualSchoolName", "name"],
+        ["css=#studentVirtualSchoolName", "css:finder"],
+        ["xpath=//input[@id='studentVirtualSchoolName']", "xpath:attributes"],
+        ["xpath=//div[@id='follow-up-virtual-school-name']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Some Virtual School Name"
+    }, {
+      "id": "f22e292b-52a3-469d-92b1-1c7a60479db1",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-submit-button",
+      "targets": [
+        ["id=form-submit-button", "id"],
+        ["css=#form-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-submit-button']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/form/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e34c94da-a151-4f3f-aa71-1564b074e94d",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-submit-button",
+      "targets": [
+        ["id=form-submit-button", "id"],
+        ["css=#form-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-submit-button']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/form/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
       "id": "21201deb-f757-4f45-98c0-ce27392a90bd",
-      "comment": "",
-      "command": "click",
-      "target": "id=form-submit-button",
-      "targets": [
-        ["id=form-submit-button", "id"],
-        ["css=#form-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-submit-button']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "cbd7f49e-eb06-4490-839f-c0d98cfa39d3",
-      "comment": "",
-      "command": "click",
-      "target": "id=form-submit-button",
-      "targets": [
-        ["id=form-submit-button", "id"],
-        ["css=#form-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-submit-button']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/form/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "1fad67b3-e996-4c6e-b8b7-ad05b90b9fb7",
       "comment": "",
       "command": "click",
       "target": "id=form-submit-button",
@@ -2275,22 +2289,12 @@
       ],
       "value": ""
     }, {
-      "id": "f530e67e-67d4-4993-a00f-b5b7ac3ceb61",
+      "id": "87f81608-e0a5-4f59-a9e5-281ae2e62113",
       "comment": "",
-      "command": "click",
-      "target": "id=continue-link",
-      "targets": [
-        ["id=continue-link", "id"],
-        ["linkText=Continue", "linkText"],
-        ["css=#continue-link", "css:finder"],
-        ["xpath=//a[contains(text(),'Continue')]", "xpath:link"],
-        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/div[2]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/flow/pebt/nextSteps/navigation')]", "xpath:href"],
-        ["xpath=//div[2]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
+      "command": "assertText",
+      "target": "id=header",
+      "targets": [],
+      "value": "Great! We got your application."
     }]
   }, {
     "id": "75d5cf17-2bdb-40a8-981f-b09abfaa25c2",
@@ -3013,6 +3017,23 @@
       ],
       "value": ""
     }, {
+      "id": "43d68fb6-81a1-4cf6-94e8-e735a9c6f200",
+      "comment": "",
+      "command": "click",
+      "target": "id=continue-link",
+      "targets": [
+        ["id=continue-link", "id"],
+        ["linkText=Got it", "linkText"],
+        ["css=#continue-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Got it')]", "xpath:link"],
+        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/flow/pebt/docUploadHowTo/navigation')]", "xpath:href"],
+        ["xpath=//div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Got it')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
       "id": "79483329-7224-48e8-9db5-33b459a2ffc3",
       "comment": "",
       "command": "click",
@@ -3145,22 +3166,12 @@
       ],
       "value": ""
     }, {
-      "id": "8ab5f210-beeb-454a-aef6-7baf2d504fe7",
+      "id": "d5440d91-fabd-4bce-9a77-b4a69b74babe",
       "comment": "",
-      "command": "click",
-      "target": "id=continue-link",
-      "targets": [
-        ["id=continue-link", "id"],
-        ["linkText=Continue", "linkText"],
-        ["css=#continue-link", "css:finder"],
-        ["xpath=//a[contains(text(),'Continue')]", "xpath:link"],
-        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/div[2]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/flow/pebt/nextSteps/navigation')]", "xpath:href"],
-        ["xpath=//div[2]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
+      "command": "assertText",
+      "target": "id=header",
+      "targets": [],
+      "value": "Great! We got your application."
     }]
   }, {
     "id": "cbe7d465-a53c-4ecb-bf59-73aab0918786",
@@ -4079,6 +4090,23 @@
       ],
       "value": ""
     }, {
+      "id": "8898ffeb-1709-4147-932d-526b85cb0c0c",
+      "comment": "",
+      "command": "click",
+      "target": "id=continue-link",
+      "targets": [
+        ["id=continue-link", "id"],
+        ["linkText=Got it", "linkText"],
+        ["css=#continue-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Got it')]", "xpath:link"],
+        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/flow/pebt/docUploadHowTo/navigation')]", "xpath:href"],
+        ["xpath=//div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Got it')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
       "id": "040717b3-19e8-4f43-b85f-e47ec7cebf6b",
       "comment": "",
       "command": "click",
@@ -4209,22 +4237,75 @@
       ],
       "value": ""
     }, {
-      "id": "e76fe37a-daf4-4d62-b0a6-0135b6c2631e",
+      "id": "d0dd7472-c5ec-461f-8bae-de5e66c61574",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=header",
+      "targets": [],
+      "value": "Great! We got your application."
+    }, {
+      "id": "05cf465e-a700-46f4-b569-5ed1d29ce82b",
       "comment": "",
       "command": "click",
-      "target": "id=continue-link",
+      "target": "id=feedbackOption-great-label",
       "targets": [
-        ["id=continue-link", "id"],
-        ["linkText=Continue", "linkText"],
-        ["css=#continue-link", "css:finder"],
-        ["xpath=//a[contains(text(),'Continue')]", "xpath:link"],
-        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/div[2]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/flow/pebt/nextSteps/navigation')]", "xpath:href"],
-        ["xpath=//div[2]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Continue')]", "xpath:innerText"]
+        ["id=feedbackOption-great-label", "id"],
+        ["css=#feedbackOption-great-label", "css:finder"],
+        ["xpath=//label[@id='feedbackOption-great-label']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div/form/div/fieldset/label", "xpath:idRelative"],
+        ["xpath=//fieldset/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Great!')]", "xpath:innerText"]
       ],
       "value": ""
+    }, {
+      "id": "0394f7e7-a760-44c7-861a-720c87d04bf2",
+      "comment": "",
+      "command": "click",
+      "target": "id=feedbackText",
+      "targets": [
+        ["id=feedbackText", "id"],
+        ["name=feedbackText", "name"],
+        ["css=#feedbackText", "css:finder"],
+        ["xpath=//textarea[@id='feedbackText']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div/form/div[2]/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b66c8975-def6-49b7-963a-2af9eb612d43",
+      "comment": "",
+      "command": "type",
+      "target": "id=feedbackText",
+      "targets": [
+        ["id=feedbackText", "id"],
+        ["name=feedbackText", "name"],
+        ["css=#feedbackText", "css:finder"],
+        ["xpath=//textarea[@id='feedbackText']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div/form/div[2]/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "it was great!"
+    }, {
+      "id": "0b88f8b5-b30e-4371-b020-0ae03e4b6f77",
+      "comment": "",
+      "command": "click",
+      "target": "id=form-submit-button",
+      "targets": [
+        ["id=form-submit-button", "id"],
+        ["css=#form-submit-button", "css:finder"],
+        ["xpath=//button[@id='form-submit-button']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div/form/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Feedback')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a3a27d22-355b-4fe2-8c8c-761d49d00439",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=header",
+      "targets": [],
+      "value": "Thanks for your feedback!"
     }]
   }, {
     "id": "8a23b09e-9d79-4c48-aa79-c93baebf4c39",
@@ -5017,6 +5098,23 @@
       ],
       "value": ""
     }, {
+      "id": "4c8856ad-81f6-40cf-80ff-8ceb2f0f924f",
+      "comment": "",
+      "command": "click",
+      "target": "id=continue-link",
+      "targets": [
+        ["id=continue-link", "id"],
+        ["linkText=Got it", "linkText"],
+        ["css=#continue-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Got it')]", "xpath:link"],
+        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
+        ["xpath=//main[@id='content']/div[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/flow/pebt/docUploadHowTo/navigation')]", "xpath:href"],
+        ["xpath=//div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Got it')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
       "id": "d252d1f6-41b4-4450-9b15-1629bb6ed8d9",
       "comment": "",
       "command": "click",
@@ -5147,22 +5245,12 @@
       ],
       "value": ""
     }, {
-      "id": "fd97adca-66bb-4871-967c-559e6dc4c477",
+      "id": "f10d4e54-b6d6-4b97-b142-1f9d82dfd6a4",
       "comment": "",
-      "command": "click",
-      "target": "id=continue-link",
-      "targets": [
-        ["id=continue-link", "id"],
-        ["linkText=Continue", "linkText"],
-        ["css=#continue-link", "css:finder"],
-        ["xpath=//a[contains(text(),'Continue')]", "xpath:link"],
-        ["xpath=//a[@id='continue-link']", "xpath:attributes"],
-        ["xpath=//main[@id='content']/div[2]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/flow/pebt/nextSteps/navigation')]", "xpath:href"],
-        ["xpath=//div[2]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Continue')]", "xpath:innerText"]
-      ],
-      "value": ""
+      "command": "assertText",
+      "target": "id=header",
+      "targets": [],
+      "value": "Great! We got your application."
     }]
   }],
   "suites": [{
