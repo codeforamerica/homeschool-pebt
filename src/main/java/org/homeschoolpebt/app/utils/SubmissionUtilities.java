@@ -499,5 +499,13 @@ public class SubmissionUtilities {
   public static String getSubmissionLanguage(Submission submission) {
     return submission.getUrlParams() == null ? "en" : submission.getUrlParams().getOrDefault("lang", "en");
   }
+
+  public static boolean isApplyingForSelf(Submission submission) {
+    return submission.getInputData().getOrDefault("isApplyingForSelf", "false").equals("true");
+  }
+
+  public static boolean applicantIsInHousehold(Submission submission) {
+    return submission.getInputData().getOrDefault("applicantIsInHousehold", "false").equals("true");
+  }
 }
 
