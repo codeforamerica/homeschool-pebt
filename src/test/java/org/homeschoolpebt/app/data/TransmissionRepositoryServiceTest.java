@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -24,9 +25,9 @@ class TransmissionRepositoryServiceTest {
 
   @Test
   void createsTransmissionRecord() {
-    var submission = Submission.builder().inputData(Map.ofEntries(
+    var submission = Submission.builder().inputData(new HashMap<>(Map.ofEntries(
       Map.entry("signature", "Avery Apple")
-    )).flow("pebt").submittedAt(new Date()).build();
+    ))).flow("pebt").submittedAt(new Date()).build();
 
     this.submissionRepositoryService.save(submission);
     var transmission = this.transmissionRepositoryService.createTransmissionRecord(submission);
@@ -39,27 +40,29 @@ class TransmissionRepositoryServiceTest {
 
   @Test
   void setsApplicationNumberAutoIncrement() {
-    var submission1 = Submission.builder().inputData(Map.ofEntries(
+    var submission1 = Submission.builder().inputData(new HashMap<>(Map.ofEntries(
       Map.entry("signature", "Avery Apple")
-    )).flow("pebt").submittedAt(new Date()).build();
+    ))).flow("pebt").submittedAt(new Date()).build();
     this.submissionRepositoryService.save(submission1);
     var transmission1 = this.transmissionRepositoryService.createTransmissionRecord(submission1);
     transmission1.setConfirmationNumber("002123442");
     this.transmissionRepositoryService.save(transmission1);
 
-    var submission2 = Submission.builder().inputData(Map.ofEntries(
+    var submission2 = Submission.builder().inputData(new HashMap<>(Map.ofEntries(
       Map.entry("signature", "Billy Banana")
-    )).flow("pebt").submittedAt(new Date()).build();
+    ))).flow("pebt").submittedAt(new Date()).build();
     this.submissionRepositoryService.save(submission2);
     var transmission2 = this.transmissionRepositoryService.createTransmissionRecord(submission2);
     assertThat(transmission2.getConfirmationNumber()).startsWith("0021235");
+    submission2 = this.submissionRepositoryService.findById(submission2.getId()).get();
+    assertThat((String) submission2.getInputData().get("confirmationNumber")).startsWith("0021235");
   }
 
   @Test
   void testCreateLaterdocTransmissionRecord() {
-    var submission = Submission.builder().inputData(Map.ofEntries(
+    var submission = Submission.builder().inputData(new HashMap<>(Map.ofEntries(
       Map.entry("signature", "Avery Apple")
-    )).flow("docUpload").submittedAt(new Date()).build();
+    ))).flow("docUpload").submittedAt(new Date()).build();
 
     this.submissionRepositoryService.save(submission);
     var transmission = this.transmissionRepositoryService.createLaterdocTransmissionRecord(submission);

@@ -196,4 +196,8 @@ public class Pebt extends FlowInputs {
 
   private String feedbackOption;
   private String feedbackText;
+
+  // TODO: This is a copy of the number stored in Transmission. It's only here
+  // so it can be accessed from the view. Figure out if there is a better way?
+  private String confirmationNumber;
 }
