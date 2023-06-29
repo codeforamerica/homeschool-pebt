@@ -43,7 +43,8 @@ public class ContactInfoPreparer implements SubmissionFieldPreparer {
 
     var transmission = this.transmissionRepository.getTransmissionBySubmission(submission);
     if (transmission != null) {
-      fields.put("case-number.case-number", new SingleField("case-number.case-number", transmission.getConfirmationNumber(), null));
+      var formattedConfirmationNumber = SubmissionUtilities.getFormattedConfirmationNumber(transmission.getConfirmationNumber());
+      fields.put("case-number.case-number", new SingleField("case-number.case-number", formattedConfirmationNumber, null));
     }
 
     return fields;
