@@ -29,7 +29,10 @@ public class TransmissionRepositoryService {
 
     var transmission = Transmission.fromSubmission(submission);
     transmission.setConfirmationNumber(nextApplicationConfirmationNumber(previousApplicationNumber));
+    var inputData = submission.getInputData();
+    inputData.put("confirmationNumber", transmission.getConfirmationNumber());
 
+    this.submissionRepository.save(submission);
     this.transmissionRepository.save(transmission);
 
     return transmission;
