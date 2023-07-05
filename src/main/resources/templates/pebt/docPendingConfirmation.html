@@ -21,7 +21,7 @@
             <ul class="list--bulleted">
               <li th:if="${#arrays.contains(missingDocs, 'identity')}" th:text="#{adding-documents.students-identity}"></li>
               <li th:if="${#arrays.contains(missingDocs, 'enrollment')}" th:text="#{adding-documents.students-enrollment}"></li>
-              <li th:if="${#arrays.contains(missingDocs, 'income')}" th:text="#{adding-documents.income-proof}"></li>
+              <li th:if="${#arrays.contains(missingDocs, 'income') or #arrays.contains(missingDocs, 'unearned-income')}" th:text="#{adding-documents.income-proof}"></li>
             </ul>
           </th:block>
 
