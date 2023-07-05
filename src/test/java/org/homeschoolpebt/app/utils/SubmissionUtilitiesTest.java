@@ -646,15 +646,40 @@ class SubmissionUtilitiesTest {
         put("studentDesignations[]", List.of("none"));
         put("studentWouldAttendSchoolName", "01100170124172 - Yu Ming Charter (Alameda County Office of Education)"); // not a CEP school
       }};
+      var job = new HashMap<String, Object>() {{
+        put("incomeJobName", "Hubby Lubby");
+        put("incomeMember", "Rodger Rocklobster");
+      }};
 
       var submission = Submission.builder().inputData(Map.ofEntries(
         Map.entry("firstName", "Johnny"),
         Map.entry("lastName", "Appleseed"),
         Map.entry("householdMemberReceivesBenefits", "None of the Above"),
-        Map.entry("students", List.of(student1, student2))
+        Map.entry("students", List.of(student1, student2)),
+        Map.entry("income", List.of(job))
       )).build();
 
-      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isTrue();
+      assertThat(SubmissionUtilities.needsEarnedIncomeDocuments(submission)).isTrue();
+    }
+
+    @Test
+    void falseWhenHasIncomeIsFalse() {
+      var student1 = new HashMap<String, Object>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Custom School Name");
+      }};
+
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("hasIncome", "false"),
+        Map.entry("students", List.of(student1))
+      )).build();
+
+      assertThat(SubmissionUtilities.needsEarnedIncomeDocuments(submission)).isFalse();
     }
 
     @Test
@@ -677,7 +702,7 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
+      assertThat(SubmissionUtilities.needsEarnedIncomeDocuments(submission)).isFalse();
     }
 
     @Test
@@ -700,7 +725,7 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
+      assertThat(SubmissionUtilities.needsEarnedIncomeDocuments(submission)).isFalse();
     }
 
     @Test
@@ -727,7 +752,7 @@ class SubmissionUtilitiesTest {
         Map.entry("students", List.of(student1, student2))
       )).build();
 
-      assertThat(SubmissionUtilities.needsIncomeVerification(submission)).isFalse();
+      assertThat(SubmissionUtilities.needsEarnedIncomeDocuments(submission)).isFalse();
     }
   }
 

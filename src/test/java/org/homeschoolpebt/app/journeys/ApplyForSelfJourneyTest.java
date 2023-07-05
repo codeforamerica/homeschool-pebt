@@ -31,7 +31,7 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
   TwilioSmsClient twilioSmsClient;
 
   @Test
-  void fullUbiFlow() {
+  void selfApplyFullFlow() {
     var mockMessageResponse = MessageResponse.builder().id("id").message("message").build();
     when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(mockMessageResponse);
     when(twilioSmsClient.sendMessage(any(), any())).thenReturn(mock(Message.class));
@@ -180,35 +180,8 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     // Income
     testPage.clickButton("Get started"); // Income signpost
     assertPageTitle("Do you have a job?");
-    testPage.clickButton(YES.getDisplayValue());
-    assertPageTitle("Great! Let's add all your jobs.");
-    testPage.clickButton("Add a job");
-    assertPageTitle("Who do you want to add the job for?");
-    testPage.findElementByCssSelector("input[type=radio]").click(); // Click first radio button
-    testPage.clickContinue();
-    assertPageTitle("Add your job");
-    testPage.enter("incomeJobName", "Hobby Jobby"); // Name of job
-    testPage.clickButton("Continue");
-    // TODO: Add a case for self-employed income as well.
-    testPage.clickButton(NO.getDisplayValue()); // Was self-employed?
-    testPage.clickButton(YES.getDisplayValue()); // Is this job paid by the hour?
-    testPage.enter("incomeHourlyWage", "10"); // What's [x]'s hourly wage?
-    testPage.enter("incomeHoursPerWeek", "40");
-    testPage.clickContinue();
-    assertPageTitle("Do you think you will make less from this job in future months?");
-    testPage.goBack();
-    testPage.goBack();
-    testPage.clickButton(NO.getDisplayValue()); // Is this job paid by the hour?
-    testPage.findElementById("incomeRegularPayInterval-semimonthly-label").click(); // How does [x] get paid?
-    testPage.enterByCssSelector("#follow-up-semimonthly input[name='incomeRegularPayAmount']", "1000");
-    testPage.clickContinue();
-    testPage.findElementById("incomeWillBeLess-true-label").click(); // Will income be less?
-    testPage.enter("incomeCustomMonthlyIncome", "500");
-    testPage.enter("incomeWillBeLessDescription", "Some string about why income will be less.");
-    testPage.clickContinue();
-    assertPageTitle("Great! Any other jobs in the household to add?");
-    testPage.clickButton("I'm done adding jobs");
-    testPage.clickLink("Keep going"); // Almost done with income!
+    testPage.clickButton(NO.getDisplayValue());
+    // Skips earned income
     testPage.findElementById("incomeUnearnedRetirementTypes-incomeSocialSecurity").click(); // Does anyone get retirement income?
     testPage.clickButton("Submit");
     testPage.findElementById("incomeUnearnedTypes-incomeChildSupport").click(); // Does anyone get unearned income i.e. benefits income?
@@ -221,6 +194,9 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
 
     // Document Uploader
     assertPageTitle("Adding Documents");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Students' proof of identity");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Proof of virtual school enrollment");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Proof of income");
     testPage.clickButton("Get started");
     testPage.clickButton("Got it"); // How to add files from your device
     assertPageTitle("Add proof of identity");
@@ -232,10 +208,6 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     // https://app.asana.com/0/1204253048942731/1204911485797535
     assertPageTitle("Add proof of virtual school enrollment");
     testPage.clickLink("Skip");
-    assertPageTitle("Add proof of income from the last 30 days");
-    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson (that's you!)");
-    uploadJpgFile("incomeFiles");
-    testPage.clickContinue();
     assertPageTitle("Add proof for other income sources");
     assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Social Security");
     uploadJpgFile("unearnedIncomeFiles");

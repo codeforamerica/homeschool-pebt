@@ -421,7 +421,9 @@ public class SubmissionUtilities {
       .allMatch(schoolName -> StudentsPreparer.OFFICAL_SCHOOL_FORMAT.matcher(schoolName).matches());
   }
 
-  public static boolean needsIncomeVerification(Submission submission) {
+  // Whether the applicant must verify income
+  // (i.e. they are not exempt for some reason - CEP, etc.)
+  public static boolean isRequiredToVerifyIncome(Submission submission) {
     var students = (List<Map<String, Object>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
 
     // All students have designation (foster/runaway/etc.)?
@@ -445,13 +447,26 @@ public class SubmissionUtilities {
     }
 
     // Any household member receiving benefits?
-    var receivingBenefits = submission.getInputData().getOrDefault("householdMemberReceivesBenefits", "none");
+    var receivingBenefits = submission.getInputData().getOrDefault("householdMemberReceivesBenefits", "None of the Above");
     if (!receivingBenefits.equals("None of the Above")) {
       return false;
     }
 
     return true;
   }
+
+  // Whether the applicant needs to upload earned income documents
+  // (i.e. they are required to verify AND they have a job)
+  public static boolean needsEarnedIncomeDocuments(Submission submission) {
+    if (!isRequiredToVerifyIncome(submission)) {
+      return false;
+    }
+
+    // No exception qualifies. Income verification is necessary if there is any earned income.
+    var jobs = (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>());
+    return jobs.size() > 0;
+  }
+
   static final DateTime LAST_DAY_OF_APPLICATIONS = new DateTime(2023, 8, 15, 17, 00); // 5pm on Aug 15
   public static String getLaterdocDeadline(Date now) {
     var oneWeekHence = new DateTime(now).plus(Duration.standardDays(7));
@@ -480,12 +495,16 @@ public class SubmissionUtilities {
       missing.add("enrollment");
     }
 
-    var neededIncome = needsIncomeVerification(submission);
+    var neededIncome = needsEarnedIncomeDocuments(submission);
     var skippedIncome = submission.getInputData().getOrDefault("incomeFiles", "[]").equals("[]");
+    if (neededIncome && skippedIncome) {
+      missing.add("income");
+    }
+
     var neededUnearned = getDocUploadUnearnedIncomeList(submission).size() > 0;
     var skippedUnearned = submission.getInputData().getOrDefault("unearnedIncomeFiles", "[]").equals("[]");
-    if ((neededIncome && skippedIncome) || (neededUnearned && skippedUnearned)) {
-      missing.add("income");
+    if (neededUnearned && skippedUnearned) {
+      missing.add("unearned-income");
     }
 
     return missing;

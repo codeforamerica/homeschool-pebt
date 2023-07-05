@@ -118,7 +118,7 @@ flow:
       - name: signpostHouseholdDetails
         condition: HasHousehold
       - name: signpostIncome
-        condition: NeedsIncomeVerification
+        condition: IsRequiredToVerifyIncome
       - name: addingDocuments
   signpostHouseholdDetails:
     nextScreens:
@@ -133,7 +133,7 @@ flow:
   householdReceivesBenefits:
     nextScreens:
       - name: signpostIncome
-        condition: NeedsIncomeVerification
+        condition: IsRequiredToVerifyIncome
       - name: addingDocuments
     onPostAction: ClearOtherCaseNumberFields
     crossFieldValidationAction: FDPIRCaseNumberValidationAction
@@ -148,7 +148,7 @@ flow:
     nextScreens:
       - name: incomeAddJob
         condition: HasIncome
-      - name: addingDocuments
+      - name: incomeUnearnedRetirementTypes
   incomeAddJob:
     nextScreens:
       - name: incomeChooseHouseholdMember
@@ -246,14 +246,18 @@ flow:
       - name: uploadEnrollmentDocuments
         condition: NeedsEnrollmentDocs
       - name: uploadIncomeDocuments
-        condition: NeedsIncomeVerification
+        condition: NeedsEarnedIncomeDocs
+      - name: uploadUnearnedIncomeDocuments
+        condition: NeedsUnearnedIncomeDocs
       - name: docPendingConfirmation
         condition: MissingAnyDocumentUploads
       - name: docSubmitConfirmation
   uploadEnrollmentDocuments:
     nextScreens:
       - name: uploadIncomeDocuments
-        condition: NeedsIncomeVerification
+        condition: NeedsEarnedIncomeDocs
+      - name: uploadUnearnedIncomeDocuments
+        condition: NeedsUnearnedIncomeDocs
       - name: docPendingConfirmation
         condition: MissingAnyDocumentUploads
       - name: docSubmitConfirmation
