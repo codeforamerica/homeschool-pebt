@@ -24,8 +24,16 @@
               </th:block>
             </div>
             <div class="form-card__footer">
-              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
-                        text=#{general.inputs.continue})}"/>
+              <div class="spacing-below-25">
+                <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                          text=#{general.inputs.continue})}"/>
+              </div>
+              <div>
+                <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
+                   th:text="#{general.inputs.unsure}"
+                   class="button"
+                   id="continue-link"></a>
+              </div>
             </div>
           </th:block>
         </th:block>
