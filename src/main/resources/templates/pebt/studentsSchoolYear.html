@@ -50,14 +50,14 @@
                           th:replace="~{'fragments/inputs/radio' :: radio(inputName='studentSchoolType',value='homeschool', label=#{students-add.homeschool}, followUpId='#follow-up-affidavit-number')}"/>
                       </th:block>
                     </th:block>
+                  </div>
 
-                    <div class="question-with-follow-up__follow-up" id="follow-up-affidavit-number">
-                      <th:block th:replace="~{'fragments/inputs/text' :: text(
-                        inputName='studentHomeschoolAffidavitNumber',
-                        label=#{students-school-year.homeschool-affidavit-label},
-                        helpText=#{students-school-year.homeschool-affidavit-help-text})}
-                      "/>
-                    </div>
+                  <div class="question-with-follow-up__follow-up" id="follow-up-affidavit-number">
+                    <th:block th:replace="~{'fragments/inputs/text' :: text(
+                      inputName='studentHomeschoolAffidavitNumber',
+                      label=#{students-school-year.homeschool-affidavit-label},
+                      helpText=#{students-school-year.homeschool-affidavit-help-text})}
+                    "/>
                   </div>
 
                   <div class="question-with-follow-up__follow-up" id="follow-up-virtual-school-name">
@@ -67,6 +67,7 @@
                       "/>
                   </div>
                 </div>
+
                 <div class="form-card__footer">
                   <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
                 </div>
