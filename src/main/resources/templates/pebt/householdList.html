@@ -16,9 +16,9 @@
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <th:block th:with="householdMembers=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelectableStudents(submission, #messages.msg('household-list.thats-you'))}">
-                <th:block th:each="householdMember, iter: ${householdMembers.entrySet()}">
-                  <li class="spacing-below-15" th:text="${householdMember.getKey()}"></li>
+              <th:block th:with="selectableStudents=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelectableStudents(submission, #messages.msg('household-list.thats-you'))}">
+                <th:block th:each="student, iter: ${selectableStudents.keySet()}">
+                  <li class="spacing-below-15" th:text="${student}"></li>
                 </th:block>
               </th:block>
               <th:block th:if="${inputData.containsKey('household')}">

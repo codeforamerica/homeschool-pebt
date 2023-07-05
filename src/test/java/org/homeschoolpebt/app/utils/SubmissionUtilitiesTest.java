@@ -473,51 +473,6 @@ class SubmissionUtilitiesTest {
   }
 
   @Test
-  void docUploadIdentityStudentsListContainsStudents() {
-    var student1 = new HashMap<String, Object>() {{
-      put("studentFirstName", "Sally");
-      put("studentMiddleInitial", "A");
-      put("studentLastName", "Starfish");
-    }};
-
-    var student2 = new HashMap<String, Object>() {{
-      put("studentFirstName", "George");
-      put("studentLastName", "Washington Carver");
-    }};
-
-    var submission = Submission.builder().inputData(Map.ofEntries(
-      Map.entry("firstName", "Johnny"),
-      Map.entry("lastName", "Appleseed"),
-      Map.entry("students", List.of(student1, student2))
-    )).build();
-
-    var items = SubmissionUtilities.getDocUploadIdentityStudentsList(submission);
-    assertThat(items.get(0)).containsAllEntriesOf(Map.ofEntries(
-      Map.entry("name", "Sally A Starfish"),
-      Map.entry("isApplicant", "false")
-    ));
-    assertThat(items.get(1)).containsAllEntriesOf(Map.ofEntries(
-      Map.entry("name", "George Washington Carver"),
-      Map.entry("isApplicant", "false")
-    ));
-  }
-
-  @Test
-  void docUploadIdentityStudentsListContainsApplicantIfNecessary() {
-    var submission = Submission.builder().inputData(Map.ofEntries(
-      Map.entry("firstName", "Johnny"),
-      Map.entry("lastName", "Appleseed"),
-      Map.entry("isApplyingForSelf", "true")
-    )).build();
-
-    var items = SubmissionUtilities.getDocUploadIdentityStudentsList(submission);
-    assertThat(items.get(0)).containsAllEntriesOf(Map.ofEntries(
-      Map.entry("name", "Johnny Appleseed"),
-      Map.entry("isApplicant", "true")
-    ));
-  }
-
-  @Test
   void docUploadEnrollmentStudentsListContainsStudents() {
     var student1 = new HashMap<String, Object>() {{
       put("studentFirstName", "Sally");
