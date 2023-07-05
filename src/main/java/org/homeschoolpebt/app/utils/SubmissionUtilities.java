@@ -1,17 +1,24 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.homeschoolpebt.app.preparers.StudentsPreparer;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 public class SubmissionUtilities {
+
   public static DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
   public static DecimalFormat decimalFormatWithoutComma = new DecimalFormat("#.00");
   public static final String APPLICANT = "applicant";
@@ -516,6 +523,16 @@ public class SubmissionUtilities {
     var students = (Collection<HashMap<String, String>>) submission.getInputData().getOrDefault("students", List.of());
     for(var student: students) {
       var fullName = studentFullName(student);
+      result.put(fullName, fullName);
+    }
+    return result;
+  }
+
+  public static Map<String, String> getSelectableStudentsAndHousehold(Submission submission, String thatsYou) {
+    var result = getSelectableStudents(submission, thatsYou);
+    var household = (Collection<Map<String, String>>) submission.getInputData().getOrDefault("household", List.of());
+    for (var member : household) {
+      var fullName = householdMemberFullName(member);
       result.put(fullName, fullName);
     }
     return result;

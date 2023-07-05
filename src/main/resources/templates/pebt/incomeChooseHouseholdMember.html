@@ -20,23 +20,10 @@
                     ariaLabel='header',
                     content=~{::householdMembers})}">
                   <th:block th:ref="householdMembers">
-                    <th:block th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantFullName(submission)}">
-                      <th:block
-                          th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName + ' (' + #messages.msg('household-list.thats-you') + ')'})}"/>
-                    </th:block>
-                    <th:block th:if="${inputData.containsKey('students')}">
-                      <th:block th:each="student, iter: ${inputData.students}">
-                        <th:block th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).studentFullName(student)}">
-                          <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
-                        </th:block>
+                    <th:block th:with="household=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelectableStudentsAndHousehold(submission, #messages.msg('household-list.thats-you'))}">
+                      <th:block th:each="member, iter: ${household.entrySet()}">
+                        <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${member.getValue()}, label=${member.getKey()})}"/>
                       </th:block>
-                    </th:block>
-                    <th:block th:if="${inputData.containsKey('household')}">
-                      <th:block th:each="hm, iter: ${inputData.household}"
-                                th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).householdMemberFullName(hm)}">
-                        <th:block th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName})}"/>
-                      </th:block>
-                    </th:block>
                   </th:block>
                 </th:block>
               </th:block>
