@@ -69,8 +69,8 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     // Students subflow
     testPage.clickButton("Get started"); // "Student information" signpost
     assertPageTitle("Add a student");
-    testPage.enter("studentFirstName", "Stud");
-    testPage.enter("studentLastName", "McStudenty");
+    testPage.enter("studentFirstName", "Testy");
+    testPage.enter("studentLastName", "McTesterson");
     testPage.enter("studentBirthdayDay", "1");
     testPage.enter("studentBirthdayMonth", "2");
     testPage.enter("studentBirthdayYear", "1991");
@@ -233,7 +233,7 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     assertPageTitle("Add proof of virtual school enrollment");
     testPage.clickLink("Skip");
     assertPageTitle("Add proof of income from the last 30 days");
-    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson (that's you!)");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson");
     uploadJpgFile("incomeFiles");
     testPage.clickContinue();
     assertPageTitle("Add proof for other income sources");
