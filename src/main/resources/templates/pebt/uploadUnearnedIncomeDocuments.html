@@ -34,7 +34,7 @@
                 <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue}, classes='button button--primary display-none')}"/>
               </div>
               <div>
-                <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'">Skip</a>
+                <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'" th:text="#{general.skip}"></a>
               </div>
             </div>
           </th:block>
