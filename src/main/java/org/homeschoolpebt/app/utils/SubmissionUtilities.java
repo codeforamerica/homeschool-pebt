@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SubmissionUtilities {
-
   public static DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
   public static DecimalFormat decimalFormatWithoutComma = new DecimalFormat("#.00");
   public static final String APPLICANT = "applicant";
@@ -507,5 +506,19 @@ public class SubmissionUtilities {
   public static boolean applicantIsInHousehold(Submission submission) {
     return submission.getInputData().getOrDefault("applicantIsInHousehold", "false").equals("true");
   }
-}
 
+  public static Map<String, String> getSelectableStudents(Submission submission, String thatsYou) {
+    var result = new LinkedHashMap<String, String>();
+    if (applicantIsInHousehold(submission) && isApplyingForSelf(submission)) {
+      var fullName = applicantFullName(submission);
+      var labeledName = fullName + " " + thatsYou;
+      result.put(labeledName, fullName);
+    }
+    var students = (Collection<HashMap<String, String>>) submission.getInputData().getOrDefault("students", List.of());
+    for(var student: students) {
+      var fullName = studentFullName(student);
+      result.put(fullName, fullName);
+    }
+    return result;
+  }
+}

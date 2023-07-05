@@ -16,19 +16,10 @@
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <th:block th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantIsInHousehold(submission) && !T(org.homeschoolpebt.app.utils.SubmissionUtilities).isApplyingForSelf(submission)}">
-                <li class="spacing-below-15" th:text="${inputData.firstName} + ' ' + ${inputData.lastName} + ' (' + #{household-list.thats-you} + ')'"></li>
-              </th:block>
-              <th:block th:if="${inputData.containsKey('students')}">
-                <li th:each="student, iter: ${inputData.students}" class="spacing-below-15">
-                  <span class="space-between">
-                    <span>
-                      <span th:text="${student.studentFirstName}"></span>
-                      <span th:text="${student.studentMiddleInitial}" th:if="${!#strings.isEmpty(student.studentMiddleInitial)}"></span>
-                      <span th:text="${student.studentLastName}"></span>
-                    </span>
-                  </span>
-                </li>
+              <th:block th:with="householdMembers=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelectableStudents(submission, #messages.msg('household-list.thats-you'))}">
+                <th:block th:each="householdMember, iter: ${householdMembers.entrySet()}">
+                  <li class="spacing-below-15" th:text="${householdMember.getKey()}"></li>
+                </th:block>
               </th:block>
               <th:block th:if="${inputData.containsKey('household')}">
                 <li th:each="householdMember, iter: ${inputData.household}" class="spacing-below-15">

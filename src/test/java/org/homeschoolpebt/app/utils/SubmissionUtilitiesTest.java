@@ -742,4 +742,100 @@ class SubmissionUtilitiesTest {
     var justAfter = DateTime.parse("2023-08-10").toDate();
     assertThat(SubmissionUtilities.getLaterdocDeadline(justAfter)).isEqualTo("August 15, 2023");
   }
+
+  @Nested
+  class SelectableStudentsTests {
+    @Test
+    void emptyWhenAllDataMissing() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"))
+      ).build();
+      assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you)")).isEqualTo(
+        Map.of()
+      );
+    }
+
+    @Test
+    void includesStudentsWhenPresent() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1(), student2()))
+      )).build();
+      assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you)")).isEqualTo(
+        Map.of("Sally A Starfish", "Sally A Starfish",
+          "Rodger Rocklobster", "Rodger Rocklobster")
+      );
+    }
+
+    @Test
+    void includesApplicantIfInHouseholdAndApplyingForSelf() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("applicantIsInHousehold", "true"),
+        Map.entry("isApplyingForSelf", "true"),
+        Map.entry("students", List.of(student1(), student2()))
+      )).build();
+      assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you!)")).isEqualTo(
+        Map.of(
+          "Johnny Appleseed (that's you!)", "Johnny Appleseed",
+          "Sally A Starfish", "Sally A Starfish",
+          "Rodger Rocklobster", "Rodger Rocklobster")
+      );
+    }
+
+    @Test
+    void ignoresApplicantIfInHouseholdAndNotApplyingForSelf() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("applicantIsInHousehold", "true"),
+        Map.entry("isApplyingForSelf", "false"),
+        Map.entry("students", List.of(student1(), student2()))
+      )).build();
+      assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you!)")).isEqualTo(
+        Map.of(
+          "Sally A Starfish", "Sally A Starfish",
+          "Rodger Rocklobster", "Rodger Rocklobster")
+      );
+    }
+
+    @Test
+    void ignoresApplicantIfOutsideHousehold() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("applicantIsInHousehold", "false"),
+        Map.entry("isApplyingForSelf", "true"),
+        Map.entry("students", List.of(student1(), student2()))
+      )).build();
+      assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you!)")).isEqualTo(
+        Map.of(
+          "Sally A Starfish", "Sally A Starfish",
+          "Rodger Rocklobster", "Rodger Rocklobster")
+      );
+    }
+
+
+    private HashMap<String, Object> student1() {
+      return new HashMap<>() {{
+        put("studentFirstName", "Sally");
+        put("studentMiddleInitial", "A");
+        put("studentLastName", "Starfish");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Custom School Name");
+      }};
+    }
+
+    private HashMap<String, Object> student2() {
+      return new HashMap<>() {{
+        put("studentFirstName", "Rodger");
+        put("studentLastName", "Rocklobster");
+        put("studentDesignations[]", List.of("none"));
+        put("studentWouldAttendSchoolName", "Other custom school");
+      }};
+    }
+  }
 }
