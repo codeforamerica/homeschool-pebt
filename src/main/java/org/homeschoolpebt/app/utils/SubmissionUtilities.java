@@ -347,26 +347,6 @@ public class SubmissionUtilities {
     return items;
   }
 
-  public static ArrayList<HashMap<String, String>> getDocUploadIdentityStudentsList(Submission submission) {
-    var items = new ArrayList<HashMap<String, String>>();
-    if (submission.getInputData().getOrDefault("isApplyingForSelf", "false").equals("true")) {
-      var item = new HashMap<String, String>();
-      item.put("name", applicantFullName(submission));
-      item.put("isApplicant", "true");
-      items.add(item);
-    }
-
-    var students = (List<Map<String, String>>) submission.getInputData().getOrDefault("students", new ArrayList<HashMap<String, Object>>());
-    for (var student : students) {
-      var item = new HashMap<String, String>();
-      item.put("name", studentFullName(student));
-      item.put("isApplicant", "false");
-      items.add(item);
-    }
-
-    return items;
-  }
-
   public static ArrayList<HashMap<String, String>> getDocUploadEnrollmentStudentsList(Submission submission) {
     var items = new ArrayList<HashMap<String, String>>();
     if (submission.getInputData().getOrDefault("isApplyingForSelf", "false").equals("true")) {

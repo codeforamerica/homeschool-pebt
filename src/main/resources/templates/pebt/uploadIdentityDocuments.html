@@ -15,16 +15,15 @@
           <strong th:text="#{upload-identity-documents.box-title}"></strong>
 
           <ul class="subflow-list">
-            <li th:each="docItem, iter: ${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getDocUploadIdentityStudentsList(submission)}" class="subflow-list__item spacing-below-0">
-              <i class="subflow-list__icon icon-person"></i>
-              <div class="subflow-list__item-title" style="font-weight: normal;">
-                <th:block th:text="${docItem.get('name')}"></th:block>
-                <th:block th:if="${docItem.get('isApplicant').equals('true')}" th:text="#{upload-identity-documents.thats-you}"></th:block>
-              </div>
-            </li>
+            <th:block
+              th:with="selectableStudents=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getSelectableStudents(submission, #messages.msg('upload-identity-documents.thats-you'))}">
+              <li th:each="studentName, iter: ${selectableStudents.keySet()}" class="subflow-list__item spacing-below-0">
+                <i class="subflow-list__icon icon-person"></i>
+                <div class="subflow-list__item-title" style="font-weight: normal;" th:text="${studentName}"></div>
+              </li>
           </ul>
         </div>
-        
+
         <th:block th:utext="#{upload-identity-documents.identity-subtext}"></th:block>
 
         <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(linkLabel=~{::revealLabel}, content=~{::revealContent})}">
@@ -57,7 +56,7 @@
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     FormFlowDZ.hideContinueIfNoFiles('identityFiles', 'form-submit-button');
   });
 </script>
