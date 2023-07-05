@@ -11,7 +11,7 @@
         <th:block th:replace="~{'fragments/icons' :: personIncome}"/>
         <th:block th:replace="~{fragments/cardHeader :: cardHeader(header=#{income-choose-household-member.title})}"/>
         <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+          th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
               <th:block th:ref="inputContent">
@@ -20,9 +20,10 @@
                     ariaLabel='header',
                     content=~{::householdMembers})}">
                   <th:block th:ref="householdMembers">
-                    <th:block th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantFullName(submission)}">
+                    <th:block th:if="${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantIsInHousehold(submission) && !T(org.homeschoolpebt.app.utils.SubmissionUtilities).isApplyingForSelf(submission)}"
+                              th:with="fullName=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).applicantFullName(submission)}">
                       <th:block
-                          th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName + ' (' + #messages.msg('household-list.thats-you') + ')'})}"/>
+                        th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeMember', value=${fullName}, label=${fullName + ' (' + #messages.msg('household-list.thats-you') + ')'})}"/>
                     </th:block>
                     <th:block th:if="${inputData.containsKey('students')}">
                       <th:block th:each="student, iter: ${inputData.students}">
