@@ -798,6 +798,21 @@ class SubmissionUtilitiesTest {
       );
     }
 
+    @Test
+    void includesStudentsAndHouseholdWhenPresent() {
+      var submission = Submission.builder().inputData(Map.ofEntries(
+        Map.entry("firstName", "Johnny"),
+        Map.entry("lastName", "Appleseed"),
+        Map.entry("students", List.of(student1(), student2())),
+        Map.entry("household", List.of(householdMember()))
+      )).build();
+      assertThat(SubmissionUtilities.getSelectableStudentsAndHousehold(submission, "(that's you)")).isEqualTo(
+        Map.of("Patrick Starfish", "Patrick Starfish",
+          "Sally A Starfish", "Sally A Starfish",
+          "Rodger Rocklobster", "Rodger Rocklobster")
+      );
+    }
+
 
     private HashMap<String, Object> student1() {
       return new HashMap<>() {{
@@ -816,6 +831,13 @@ class SubmissionUtilitiesTest {
         put("studentDesignations[]", List.of("none"));
         put("studentWouldAttendSchoolName", "Other custom school");
       }};
+    }
+
+    private Map<String, Object> householdMember() {
+      return Map.of(
+        "householdMemberFirstName", "Patrick",
+        "householdMemberLastName", "Starfish"
+      );
     }
   }
 }

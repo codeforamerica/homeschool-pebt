@@ -95,8 +95,8 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
 
     // Personal info
-    testPage.enter("firstName", "Testy");
-    testPage.enter("lastName", "McTesterson");
+    testPage.enter("firstName", "Stud");
+    testPage.enter("lastName", "McStudenty");
     testPage.clickContinue();
 
     // Home address
