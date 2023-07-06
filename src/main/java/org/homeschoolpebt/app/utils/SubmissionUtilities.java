@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.web.util.HtmlUtils;
 
 public class SubmissionUtilities {
 
@@ -253,7 +254,7 @@ public class SubmissionUtilities {
     String city;
     String state;
 
-    if (submission.getInputData().get("useValidatedResidentialAddress") == "true") {
+    if (submission.getInputData().getOrDefault("useValidatedResidentialAddress", "false").equals("true")) {
       street1 = (String) submission.getInputData().get("residentialAddressStreetAddress1_validated");
       street2 = (String) submission.getInputData().getOrDefault("residentialAddressStreetAddress2_validated", "");
       city = (String) submission.getInputData().get("residentialAddressCity_validated");
@@ -274,8 +275,42 @@ public class SubmissionUtilities {
     }
   }
 
+  /**
+   * Return the combined mailing address suitable for multiline HTML display.
+   *
+   * @param submission submssion contains the submittedAt instance variable that holds the
+   *                   date the application was submitted.
+   * @return a string of HTML containing the address.
+   */
+  public static String combinedAddressHtml(Submission submission) {
+    String street1;
+    String street2;
+    String city;
+    String state;
+
+    if (submission.getInputData().getOrDefault("useValidatedResidentialAddress", "false").equals("true")) {
+      street1 = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressStreetAddress1_validated", ""));
+      street2 = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressStreetAddress2_validated", ""));
+      city = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressCity_validated", ""));
+      state = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressState_validated", ""));
+    } else {
+      street1 = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressStreetAddress1", ""));
+      street2 = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressStreetAddress2", ""));
+      city = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressCity", ""));
+      state = HtmlUtils.htmlEscape((String) submission.getInputData().getOrDefault("residentialAddressState", ""));
+    }
+
+    if (street1.isBlank()) {
+      return "<p></p>";
+    } else if (!street2.isBlank()) {
+      return "<p>%s<br>%s<br>%s, %s</p>".formatted(street1, street2, city, state);
+    } else {
+      return "<p>%s<br>%s, %s</p>".formatted(street1, city, state);
+    }
+  }
+
   public static String zipCode(Submission submission) {
-    if (submission.getInputData().get("useValidatedResidentialAddress") == "true") {
+    if (submission.getInputData().getOrDefault("useValidatedResidentialAddress", "false").equals("true")) {
       return (String) submission.getInputData().get("residentialAddressZipCode_validated");
     } else {
       return (String) submission.getInputData().get("residentialAddressZipCode");
