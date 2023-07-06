@@ -69,13 +69,13 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     // Students subflow
     testPage.clickButton("Get started"); // "Student information" signpost
     assertPageTitle("Add a student");
-    testPage.enter("studentFirstName", "Testy");
-    testPage.enter("studentLastName", "McTesterson");
+    testPage.enter("studentFirstName", "Stud");
+    testPage.enter("studentLastName", "McStudenty");
     testPage.enter("studentBirthdayDay", "1");
     testPage.enter("studentBirthdayMonth", "2");
     testPage.enter("studentBirthdayYear", "1991");
     testPage.clickButton("Add student");
-    assertPageTitle("Do any of the following apply to Testy?");
+    assertPageTitle("Do any of the following apply to Stud?");
     testPage.findElementById("none__checkbox").click();
     testPage.clickContinue();
     assertPageTitle("Tell us about");
@@ -95,8 +95,8 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     testPage.clickContinue();
 
     // Personal info
-    testPage.enter("firstName", "Testy");
-    testPage.enter("lastName", "McTesterson");
+    testPage.enter("firstName", "Stud");
+    testPage.enter("lastName", "McStudenty");
     testPage.clickContinue();
 
     // Home address
@@ -200,7 +200,7 @@ public class ApplyForSelfJourneyTest extends AbstractBasePageTest {
     testPage.clickButton("Get started");
     testPage.clickButton("Got it"); // How to add files from your device
     assertPageTitle("Add proof of identity");
-    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Testy McTesterson");
+    assertThat(testPage.getCssSelectorText(".boxed-content")).contains("Stud McStudenty");
     uploadJpgFile("identityFiles");
     testPage.clickContinue();
     assertPageTitle("Add proof of virtual school enrollment");
