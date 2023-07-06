@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsJobSelfEmployed extends AbstractPebtCondition {
   public Boolean run(Submission submission, String uuid) {
-    var item = currentSubflowItem(submission, uuid);
+    var item = currentIncomeSubflowItem(submission, uuid);
 
     return item != null && item.getOrDefault("incomeSelfEmployed", "false").equals("true");
   }
