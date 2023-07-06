@@ -1,0 +1,12 @@
+<th:block th:replace="~{fragments/screens/screenWithYesAndNoButtons :: screenWithYesAndNoButtons(
+  title=#{pre-screen-t-kto-2.title},
+  header=#{pre-screen-t-kto-2.title},
+  formAction=${formAction},
+  inputName='isTKto2',
+  inputContent=~{::inputContent},
+  iconName='face'
+)}">
+  <th:block th:ref="inputContent">
+    <th:block th:utext="#{pre-screen-t-kto-2.body}"></th:block>
+  </th:block>
+</th:block>

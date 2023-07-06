@@ -23,9 +23,14 @@ flow:
       - name: preScreenUnenrolled
   preScreenUnenrolled:
     nextScreens:
-      - name: preScreenIneligible
+      - name: preScreenTKto2
         condition: PreScreenNotUnenrolledFromVirtualSchool
       - name: preScreenUnenrolledSchoolName
+  preScreenTKto2:
+    nextScreens:
+      - name: preScreenIneligible
+        condition: PreScreenNotTK2
+      - name: eligibilityLikely
   preScreenUnenrolledSchoolName:
     nextScreens:
       - name: eligibilityLikely
