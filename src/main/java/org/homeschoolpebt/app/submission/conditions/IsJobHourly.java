@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsJobHourly extends AbstractPebtCondition {
   public Boolean run(Submission submission, String uuid) {
-    var item = currentSubflowItem(submission, uuid);
+    var item = currentIncomeSubflowItem(submission, uuid);
 
     return item != null && item.getOrDefault("incomeIsJobHourly", "false").equals("true");
   }

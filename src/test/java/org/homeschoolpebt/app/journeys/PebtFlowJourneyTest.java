@@ -75,9 +75,14 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
     testPage.findElementById("none__checkbox").click();
     testPage.clickContinue();
     assertPageTitle("Tell us about");
-    testPage.findElementById("studentGrade").sendKeys("4th Grade");
+    testPage.findElementById("studentGrade").sendKeys("1st Grade");
     testPage.findElementById("studentSchoolType-homeschool").click();
     testPage.findElementById("studentHomeschoolAffidavitNumber").sendKeys("abc1234");
+    testPage.clickContinue();
+    // Test skipping the "Which school did <name> unenroll from?" page for TK-2nd grade
+    assertPageTitle("if they were going to school in person"); // Which school would <name> have attended if in person?
+    testPage.goBack();
+    testPage.findElementById("studentGrade").sendKeys("4th Grade");
     testPage.clickContinue();
     testPage.clickContinue(); // Which school did <name> unenroll from?
     testPage.clickContinue(); // Which school would <name> attend?

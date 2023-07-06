@@ -59,6 +59,8 @@ flow:
     nextScreens:
       - name: studentsWouldAttendSchoolName
         condition: PreScreenHasOnlyOneStudent
+      - name: studentsWouldAttendSchoolName
+        condition: IsStudentTKto2
       - name: studentsUnenrolledSchoolName
   studentsUnenrolledSchoolName:
     subflow: students
