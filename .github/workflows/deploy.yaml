@@ -97,6 +97,7 @@ jobs:
           'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' \
           'MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}' \
           'MAILGUN_DOMAIN=${{ vars.MAILGUN_DOMAIN }}' \
+          'MIXPANEL_TOKEN=${{ vars.MIXPANEL_TOKEN }}' \
           'DISABLE_APPLICATIONS=${{ vars.DISABLE_APPLICATIONS }}' \
           'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
           'FORCE_SSL=${{ vars.FORCE_SSL }}' \

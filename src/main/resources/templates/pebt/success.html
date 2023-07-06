@@ -122,6 +122,11 @@
       </div>
     </section>
   </div>
+  <script>
+    if (typeof window.mixpanel !== "undefined") {
+      mixpanel.track("Application Signed");
+    }
+  </script>
   <th:block th:replace="~{fragments/footer :: footer}"/>
   </body>
   </html>

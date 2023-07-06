@@ -26,6 +26,11 @@
     </div>
   </section>
 </div>
+<script>
+  if (typeof window.mixpanel !== "undefined") {
+    mixpanel.track("LaterDoc Submitted");
+  }
+</script>
 <th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
 </html>
