@@ -124,7 +124,7 @@ flow:
     nextScreens:
       - name: signpostHouseholdDetails
         condition: HasHousehold
-      - name: signpostIncome
+      - name: householdReceivesBenefits
         condition: IsRequiredToVerifyIncome
       - name: addingDocuments
   signpostHouseholdDetails:
