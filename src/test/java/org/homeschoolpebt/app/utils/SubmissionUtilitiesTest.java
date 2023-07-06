@@ -750,12 +750,12 @@ class SubmissionUtilitiesTest {
     }
 
     @Test
-    void includesApplicantIfInHouseholdAndApplyingForSelf() {
+    void includesApplicantIfInHouseholdAndNotApplyingForSelf() {
       var submission = Submission.builder().inputData(Map.ofEntries(
         Map.entry("firstName", "Johnny"),
         Map.entry("lastName", "Appleseed"),
         Map.entry("applicantIsInHousehold", "true"),
-        Map.entry("isApplyingForSelf", "true"),
+        Map.entry("isApplyingForSelf", "false"),
         Map.entry("students", List.of(student1(), student2()))
       )).build();
       assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you!)")).isEqualTo(
@@ -767,12 +767,12 @@ class SubmissionUtilitiesTest {
     }
 
     @Test
-    void ignoresApplicantIfInHouseholdAndNotApplyingForSelf() {
+    void ignoresApplicantIfInHouseholdAndApplyingForSelf() {
       var submission = Submission.builder().inputData(Map.ofEntries(
         Map.entry("firstName", "Johnny"),
         Map.entry("lastName", "Appleseed"),
         Map.entry("applicantIsInHousehold", "true"),
-        Map.entry("isApplyingForSelf", "false"),
+        Map.entry("isApplyingForSelf", "true"),
         Map.entry("students", List.of(student1(), student2()))
       )).build();
       assertThat(SubmissionUtilities.getSelectableStudents(submission, "(that's you!)")).isEqualTo(
