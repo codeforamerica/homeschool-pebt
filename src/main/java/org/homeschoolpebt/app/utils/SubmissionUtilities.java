@@ -508,7 +508,7 @@ public class SubmissionUtilities {
 
   public static Map<String, String> getSelectableStudents(Submission submission, String thatsYou) {
     var result = new LinkedHashMap<String, String>();
-    if (applicantIsInHousehold(submission) && isApplyingForSelf(submission)) {
+    if (applicantIsInHousehold(submission) && !isApplyingForSelf(submission)) {
       var fullName = applicantFullName(submission);
       var labeledName = fullName + " " + thatsYou;
       result.put(labeledName, fullName);
