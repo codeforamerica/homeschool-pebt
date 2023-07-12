@@ -175,6 +175,7 @@ flow:
       - name: incomeIsJobHourly
   incomeIsJobHourly:
     subflow: income
+    onPostAction: ClearIncomePeriodicPayFieldsAfterJobHourly
     nextScreens:
       - name: incomeHourlyWageCalculator
         condition: IsJobHourly

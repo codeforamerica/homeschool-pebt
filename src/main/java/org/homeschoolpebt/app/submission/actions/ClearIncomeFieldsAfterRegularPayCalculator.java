@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ClearIncomeFieldsAfterRegularPayCalculator implements Action {
+  @Override
   public void run(FormSubmission formsubmission, Submission submission, String id) {
     String selection = (String) formsubmission.getFormData().get("incomeRegularPayInterval");
     if (selection != null && !selection.isBlank()) {

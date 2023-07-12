@@ -8,26 +8,26 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class ClearIncomeFieldsAfterRegularPayCalculatorTest {
+class ClearIncomePeriodicPayFieldsAfterJobHourlyTest {
   @Test
-  void clearsHourlyFieldsWhenIntervalPresent() {
+  void clearsIntervalFieldsWhenHourly() {
     var formsubmission = new FormSubmission(new HashMap(Map.of(
-      "incomeRegularPayInterval", "monthly"
+      "incomeIsJobHourly", "true"
     )));
-    new ClearIncomeFieldsAfterRegularPayCalculator().run(formsubmission, null, null);
-    assertThat(formsubmission.getFormData().get("incomeHourlyWage")).isEqualTo("");
+    new ClearIncomePeriodicPayFieldsAfterJobHourly().run(formsubmission, null, null);
+    assertThat(formsubmission.getFormData().get("incomeRegularPayInterval")).isEqualTo("");
+    assertThat(formsubmission.getFormData().get("incomeRegularPayAmount")).isEqualTo("");
     assertThat(formsubmission.getFormData().get("incomeGrossMonthlyIndividual")).isEqualTo("");
-    assertThat(formsubmission.getFormData().get("incomeHoursPerWeek")).isEqualTo("");
   }
 
   @Test
-  void doesNotChangeHourlyFieldsWhenIntervalAbsent() {
+  void retainsIntervalFieldsWhenNotHourly() {
     var formsubmission = new FormSubmission(new HashMap(Map.of(
-      "incomeRegularPayInterval", ""
+      "incomeIsJobHourly", "false"
     )));
     new ClearIncomeFieldsAfterRegularPayCalculator().run(formsubmission, null, null);
-    assertThat(formsubmission.getFormData().containsKey("incomeHourlyWage")).isFalse();
+    assertThat(formsubmission.getFormData().containsKey("incomeRegularPayInterval")).isFalse();
+    assertThat(formsubmission.getFormData().containsKey("incomeRegularPayAmount")).isFalse();
     assertThat(formsubmission.getFormData().containsKey("incomeGrossMonthlyIndividual")).isFalse();
-    assertThat(formsubmission.getFormData().containsKey("incomeHoursPerWeek")).isFalse();
   }
 }
