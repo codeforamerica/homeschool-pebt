@@ -193,6 +193,7 @@ flow:
       - name: incomeWillBeLessMonthly
   incomeRegularPayCalculator:
     subflow: income
+    onPostAction: ClearIncomeFieldsAfterRegularPayCalculator
     nextScreens:
       - name: incomeWillBeLessYearly
         condition: IsJobPaidYearly
