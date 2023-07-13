@@ -29,13 +29,15 @@ class FollowUpInputsEnabledWhenSelected {
   static disableOrEnableAll() {
     // Compute which follow-up should have its inputs enabled. Do this up-front since the follow-up can can be shared among different radio buttons.
     const checkedRadio = document.querySelector(".follow-up-inputs-enabled-when-selected input[type='radio']:checked");
-    let enableFollowUpSelector = (checkedRadio && checkedRadio.dataset['followUp'] !== null && checkedRadio.dataset['followUp'].length > 0) ? checkedRadio.dataset['followUp'] : null;
+    let enableFollowUpSelector = (checkedRadio && checkedRadio.dataset['followUp'] !== null && checkedRadio.dataset['followUp'] !== undefined && checkedRadio.dataset['followUp'].length > 0) ? checkedRadio.dataset['followUp'] : null;
     document.querySelectorAll(".follow-up-inputs-enabled-when-selected input[type='radio']").forEach(radioButton => {
       const radioButtonFollowUpSelector = radioButton.dataset['followUp'];
       const enable = (!!enableFollowUpSelector) && (radioButtonFollowUpSelector === enableFollowUpSelector);
-      document.querySelector(radioButtonFollowUpSelector).querySelectorAll('input').forEach(followUpInput => {
-        followUpInput.disabled = !enable;
-      });
+      if (radioButtonFollowUpSelector) {
+        document.querySelector(radioButtonFollowUpSelector).querySelectorAll('input').forEach(followUpInput => {
+          followUpInput.disabled = !enable;
+        });
+      }
     });
   }
 }
