@@ -1,4 +1,5 @@
 <th:block th:with="
+  isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
   messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
   firstName=${currentSubflowItem.incomeMember}
@@ -7,7 +8,7 @@
     title=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
     header=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
     subtext=#{income-regular-pay-calculator.subtext},
-    iconName='documentsSearch',
+    iconName='moneyTips',
     formAction=${formAction},
     inputContent=~{::inputContent},
     buttonLabel=#{general.inputs.continue}
