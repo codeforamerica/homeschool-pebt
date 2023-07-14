@@ -1,93 +1,121 @@
 <th:block th:with="
+  isApplicant=${fieldData.incomeMember.equals(inputData.firstName + ' ' + inputData.lastName)},
+  messageVariant=${isApplicant ? 'you' : 'person-name'},
+  title=${isApplicant ? #messages.msg('income-regular-pay-calculator.title.you') : #messages.msg('income-regular-pay-calculator.title.person-name', fieldData.incomeMember)},
   messageVariant=${inputData.getOrDefault('isApplyingForSelf', 'false') == 'true' ? 'self' : 'multiple'},
   lastMonth=${T(org.homeschoolpebt.app.utils.SubmissionUtilities).getLastMonth(submission)},
-  firstName=${currentSubflowItem.incomeMember}
+  firstName=${currentSubflowItem.incomeMember},
+  header=${title},
+  subtext=#{income-regular-pay-calculator.subtext},
+  iconName='moneyTips',
+  formAction=${formAction},
+  buttonLabel=#{general.inputs.continue}
 ">
-  <th:block th:replace="~{'fragments/screens/screenWithOneInput' :: screenWithOneInput(
-    title=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
-    header=${#messages.msg('income-regular-pay-calculator.title.' + messageVariant, firstName)},
-    subtext=#{income-regular-pay-calculator.subtext},
-    iconName='documentsSearch',
-    formAction=${formAction},
-    inputContent=~{::inputContent},
-    buttonLabel=#{general.inputs.continue}
-  )}">
-    <th:block th:ref="inputContent">
-      <div class="question-with-follow-up">
-        <div class="question-with-follow-up__question follow-up-inputs-enabled-when-selected">
-          <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
+  <!DOCTYPE html>
+  <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/head :: head(title=${title})}"></head>
+  <body>
+  <div class="page-wrapper">
+    <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+    <section class="slab">
+      <div class="grid">
+        <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+        <main id="content" role="main" class="form-card spacing-above-35">
+          <div class="income-flow-job-name spacing-below-35" th:text="${fieldData.incomeJobName}"></div>
+          <th:block th:replace="~{'fragments/icons' :: ${iconName}}"/>
+          <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=${header}, subtext=${subtext})}"/>
+          <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+            <th:block th:ref="formContent">
+              <div class="form-card__content">
+                <th:block th:ref="inputContent">
+                  <div class="question-with-follow-up">
+                    <div class="question-with-follow-up__question follow-up-inputs-enabled-when-selected">
+                      <th:block th:replace="~{'fragments/inputs/radioFieldset' :: radioFieldset(
             inputName='incomeRegularPayInterval',
             ariaLabel='header',
             content=~{::radioFieldSet}
           )}">
-            <th:block th:ref="radioFieldSet">
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly}, followUpId='#follow-up-weekly')}"/>
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly}, followUpId='#follow-up-semimonthly')}"/>
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally}, followUpId='#follow-up-yearly')}"/>
-              <th:block
-                th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
-            </th:block>
-            <th:block
-              th:replace="~{fragments/inputError :: validationError(inputName='incomeRegularPayInterval')}"></th:block>
-          </th:block>
-        </div>
+                        <th:block th:ref="radioFieldSet">
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='weekly', label=#{income-regular-pay-calculator.weekly}, followUpId='#follow-up-weekly')}"/>
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='biweekly', label=#{income-regular-pay-calculator.biweekly}, followUpId='#follow-up-biweekly')}"/>
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='semimonthly', label=#{income-regular-pay-calculator.semimonthly}, followUpId='#follow-up-semimonthly')}"/>
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='monthly', label=#{income-regular-pay-calculator.monthly}, followUpId='#follow-up-monthly')}"/>
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='seasonally', label=#{income-regular-pay-calculator.seasonally}, followUpId='#follow-up-yearly')}"/>
+                          <th:block
+                            th:replace="~{'fragments/inputs/radio' :: radio(inputName='incomeRegularPayInterval', value='yearly', label=#{income-regular-pay-calculator.yearly}, followUpId='#follow-up-yearly')}"/>
+                        </th:block>
+                        <th:block
+                          th:replace="~{fragments/inputError :: validationError(inputName='incomeRegularPayInterval')}"></th:block>
+                      </th:block>
+                    </div>
 
-        <div class="question-with-follow-up__follow-up" id="follow-up-weekly">
-          <th:block th:replace="~{'fragments/inputs/money' :: money(
+                    <div class="question-with-follow-up__follow-up" id="follow-up-weekly">
+                      <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.weekly},
           helpText=#{income-regular-pay-calculator.amount-help-text.weekly}
         )}"/>
-        </div>
-        <div class="question-with-follow-up__follow-up" id="follow-up-biweekly">
-          <th:block th:replace="~{'fragments/inputs/money' :: money(
+                    </div>
+                    <div class="question-with-follow-up__follow-up" id="follow-up-biweekly">
+                      <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.biweekly},
           helpText=#{income-regular-pay-calculator.amount-help-text.biweekly}
         )}"/>
-        </div>
-        <div class="question-with-follow-up__follow-up" id="follow-up-semimonthly">
-          <th:block th:replace="~{'fragments/inputs/money' :: money(
+                    </div>
+                    <div class="question-with-follow-up__follow-up" id="follow-up-semimonthly">
+                      <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.semimonthly},
           helpText=#{income-regular-pay-calculator.amount-help-text.semimonthly}
         )}"/>
-        </div>
-        <div class="question-with-follow-up__follow-up" id="follow-up-monthly">
-          <th:block th:replace="~{'fragments/inputs/money' :: money(
+                    </div>
+                    <div class="question-with-follow-up__follow-up" id="follow-up-monthly">
+                      <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.monthly},
           helpText=#{income-regular-pay-calculator.amount-help-text.monthly}
         )}"/>
-        </div>
-        <div class="question-with-follow-up__follow-up" id="follow-up-yearly">
-          <th:block th:replace="~{'fragments/inputs/money' :: money(
+                    </div>
+                    <div class="question-with-follow-up__follow-up" id="follow-up-yearly">
+                      <th:block th:replace="~{'fragments/inputs/money' :: money(
           inputName='incomeRegularPayAmount',
           label=#{income-regular-pay-calculator.amount-label.yearly},
           helpText=#{income-regular-pay-calculator.amount-help-text.yearly}
         )}"/>
-        </div>
-      </div>
-      <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
+                    </div>
+                  </div>
+                  <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
                 linkLabel=~{::revealLabel},
                 content=~{::revealContent})}">
-        <th:block th:ref="revealLabel">
-          <th:block th:text="#{income-regular-pay-calculator.reveal-label}"></th:block>
-        </th:block>
-        <th:block th:ref="revealContent">
-          <p th:text="#{income-regular-pay-calculator.reveal-contents.p1}"></p>
-          <p th:text="#{income-regular-pay-calculator.reveal-contents.p2}"></p>
-        </th:block>
-      </th:block>
-    </th:block>
-  </th:block>
-</th:block>
-</th:block>
+                    <th:block th:ref="revealLabel">
+                      <th:block th:text="#{income-regular-pay-calculator.reveal-label}"></th:block>
+                    </th:block>
+                    <th:block th:ref="revealContent">
+                      <p th:text="#{income-regular-pay-calculator.reveal-contents.p1}"></p>
+                      <p th:text="#{income-regular-pay-calculator.reveal-contents.p2}"></p>
+                    </th:block>
+                  </th:block>
+                </th:block>
+              </div>
+              <div class="form-card__footer">
+                <th:block
+                  th:replace="~{fragments/inputs/submitButton :: submitButton(text=${buttonLabel != null ? buttonLabel : 'Submit'})}"/>
+              </div>
+            </th:block>
+          </th:block>
+        </main>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="~{fragments/footer :: footer}"/>
+  </body>
+  </html>
 </th:block>
