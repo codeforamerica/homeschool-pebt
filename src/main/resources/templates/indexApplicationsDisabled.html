@@ -9,7 +9,7 @@
       <div class="grid">
         <div class="width-one-half">
           <h1 class="spacing-below-35 spacing-above-5" th:text="#{index.title}"></h1>
-          <h2 class="h3 spacing-below-30" th:text="#{index.apply-for-benefits-in-10}"></h2>
+          <h2 class="h3 spacing-below-30" th:utext="#{index.apply-for-benefits-in-10}"></h2>
           <div class="notice notice--warning">
             <strong th:text="#{index-applications-disabled.applications-launch}"></strong>
             <br>
@@ -41,13 +41,40 @@
         </div>
       </div>
       <div class="grid">
-        <div class="width-one-half shift-one-fourth">
-          <h3 th:text="#{index.apply}"></h3>
-          <p th:utext="#{index.apply-description}"></p>
-          <h3 th:text="#{index.get-money}"></h3>
-          <p th:text="#{index.get-money-description}"></p>
-          <h3 th:text="#{index.buy-groceries}"></h3>
-          <p th:utext="#{index.buy-groceries-description}"></p>
+        <div class="width-three-fourths shift-one-sixth">
+          <div class="index__step-item">
+            <i class="icon-check_circle"></i>
+
+            <div>
+              <h3 th:text="#{index.apply}" class="spacing-below-15"></h3>
+              <p th:utext="#{index.apply-description}"></p>
+            </div>
+          </div>
+
+          <div class="index__step-item">
+            <i class="icon-file_upload"></i>
+
+            <div>
+              <h3 th:text="#{index.add-documents}" class="spacing-below-15"></h3>
+              <p th:utext="#{index.add-documents-description-without-link}"></p>
+            </div>
+          </div>
+
+          <div class="index__step-item">
+            <i class="icon-search"></i>
+            <div>
+              <h3 th:text="#{index.review}" class="spacing-below-15"></h3>
+              <p th:utext="#{index.review-description}"></p>
+            </div>
+          </div>
+
+          <div class="index__step-item">
+            <i class="icon-credit_card"></i>
+            <div>
+              <h3 th:text="#{index.get-money}" class="spacing-below-15"></h3>
+              <p th:utext="#{index.get-money-description}"></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -57,27 +84,59 @@
         <div class="width-one-half shift-one-fourth text--centered">
           <th:block th:replace="~{fragments/icons :: documentsSearch}"/>
           <h2 th:text="#{index.documents-students-need}"></h2>
-          </div>
+        </div>
 
         <div class="width-one-half shift-one-fourth">
-          <p th:text="#{index.send-these-docs}"></p>
-          <p th:utext="#{index.undocumented}"></p>
+          <p th:utext="#{index.send-these-docs}"></p>
+          <p th:utext="#{index.you-can-use-docs}" class="text--help spacing-below-60"></p>
+        </div>
+      </div>
 
-          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
-            buttonLabel=#{index.proof-of-identity},
-            content=~{::proofIdentityAccordion})}">
-            <th:block th:ref="proofIdentityAccordion">
-              <p th:utext="#{index.proof-of-identity-content}"></p>
-            </th:block>
-          </th:block>
+      <div class="grid">
+        <div class="width-one-half">
+          <div class="index__docs-card">
+            <div class="index__docs-card__header">
+              <i class="icon-">face</i>
+              <h3 th:text="#{index.proof-of-identity}"></h3>
+            </div>
+            <hr>
+            <p th:utext="#{index.proof-of-identity-content}"></p>
+          </div>
+        </div>
 
-          <th:block th:replace="~{'fragments/honeycrisp/accordion' :: accordion(
-            buttonLabel=#{index.virtual-school-documents},
-            content=~{::virtualSchoolAccordion})}">
-            <th:block th:ref="virtualSchoolAccordion">
-              <p th:utext="#{index.virtual-school-documents-content}"></p>
-            </th:block>
-          </th:block>
+        <div class="width-one-half">
+          <div class="index__docs-card">
+            <div class="index__docs-card__header">
+              <i class="icon-school"></i>
+              <h3 th:text="#{index.virtual-school-documents}"></h3>
+            </div>
+            <hr>
+            <p th:utext="#{index.virtual-school-documents-content}"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="width-one-half">
+          <div class="index__docs-card">
+            <div class="index__docs-card__header">
+              <i class="icon-monetization_on"></i>
+              <h3 th:text="#{index.income-docs-card}"></h3>
+            </div>
+            <hr>
+            <p th:utext="#{index.income-docs-card-content}"></p>
+          </div>
+        </div>
+
+        <div class="width-one-half">
+          <div class="index__docs-card">
+            <div class="index__docs-card__header">
+              <i class="icon-attach_money"></i>
+              <h3 th:text="#{index.unearned-income-docs-card}"></h3>
+            </div>
+            <hr>
+            <p th:utext="#{index.unearned-income-docs-card-content}"></p>
+          </div>
         </div>
       </div>
     </section>
