@@ -30,7 +30,7 @@ public class PebtFlowJourneyTest extends AbstractBasePageTest {
   TwilioSmsClient twilioSmsClient;
 
   @Test
-  void fullUbiFlow() {
+  void fullPebtFlow() {
     var mockMessageResponse = MessageResponse.builder().id("id").message("message").build();
     when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(mockMessageResponse);
     when(twilioSmsClient.sendMessage(any(), any())).thenReturn(mock(Message.class));
