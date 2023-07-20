@@ -11,11 +11,10 @@ Table of Contents
 
 * [Form Flow Starter Application](#form-flow-starter-application)
 * [Table of Contents](#table-of-contents)
-* [Universal Basic Income (UBI) Form Flow](#universal-basic-income-ubi-form-flow)
-    * [Static Pages](#static-pages)
-    * [Example Actions and Conditions](#example-actions-and-conditions)
-        * [Actions](#actions)
-        * [Conditions](#conditions)
+* [Static Pages](#static-pages)
+* [Example Actions and Conditions](#example-actions-and-conditions)
+    * [Actions](#actions)
+    * [Conditions](#conditions)
 * [Development setup](#development-setup)
     * [System dependencies](#system-dependencies)
         * [Java Development Kit](#java-development-kit)
@@ -46,32 +45,6 @@ package is [open source](https://github.com/codeforamerica/form-flow).
 
 A detailed explanation of form flow concepts can be found on in
 the [form flow library's readme](https://github.com/codeforamerica/form-flow).
-
-# Universal Basic Income (UBI) Form Flow
-
-This chart below shows the flow created by the `flows-config.yaml` file in this repository.
-
-```mermaid
-flowchart 
-    A[UBI Flow] --> B(howThisWorks)
-    B --> C(languagePreferences)
-    C --> D(fa:fa-person gettingToKnowYou)
-    D --> E(fa:fa-pen personalInfo)
-    E --> F(eligibility)
-    F --> G(fa:fa-house housemates)
-    G --> |Add Household Member| I(housemateInfo)
-    G --> |No Members| K(fa:fa-dollar income)
-    I --> J(householdList)
-    J -- Add Another Member --> I
-    J --> K
-    K --> L(householdMemberIncome)
-    L --subflow--> N(incomeTypes)
-    N --> O(incomeAmounts)
-    O --> P(annualHouseholdIncome)
-    P -- Add Member Income --> L
-    P --> Q(incomeComplete)
-    Q --> R(fa:fa-star success)
-```
 
 ## Static Pages
 
