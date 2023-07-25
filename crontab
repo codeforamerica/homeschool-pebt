@@ -1,5 +1,5 @@
-# Run every day at 7pm GMT/Noon PDT
-0 19 * * * java -jar /opt/form-flow-starter-app/app.jar checkForUnsubmittedDocs
+# Run every day at 7pm GMT/Noon PDT - Temp commenting out while we figure out why it's not stopping
+# 0 19 * * * java -jar /opt/form-flow-starter-app/app.jar checkForUnsubmittedDocs
 
 # Run every day at 5pm PDT
 0 0 * * * java -jar /opt/form-flow-starter-app/app.jar transmit
