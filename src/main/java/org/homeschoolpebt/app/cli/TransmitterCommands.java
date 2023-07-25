@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import lombok.extern.slf4j.Slf4j;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
@@ -32,6 +34,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+@Slf4j
 @ShellComponent
 public class TransmitterCommands {
 
@@ -52,13 +55,14 @@ public class TransmitterCommands {
 
   @ShellMethod(key = "transmit")
   public void transmit() throws IOException, JSchException, SftpException {
-    System.out.println("Submissions to transmit....");
+    log.info("Finding submissions to transmit...");
 
     List<UUID> submissionIds = new ArrayList<>();
     this.transmissionRepository.submissionsToTransmit(Sort.unsorted()).forEach(i -> {
       submissionIds.add(i.getId());
     });
 
+    log.info("Transmitting " + submissionIds.size() + " submissions");
     Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
     Map<String, Submission> appIdToSubmission = new HashMap<>();
     submissionIds.forEach(id -> {
@@ -76,6 +80,7 @@ public class TransmitterCommands {
     zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
 
     // send zip file
+    log.info("Uploading zip file");
     sftpClient.uploadFile(zipFilename);
 
     // Update transmission in DB
@@ -86,6 +91,7 @@ public class TransmitterCommands {
       transmission.setSubmittedToStateFilename(zipFilename);
       transmissionRepository.save(transmission);
     });
+    log.info("Finished transmission");
   }
 
   @NotNull
@@ -139,7 +145,7 @@ public class TransmitterCommands {
             }
 
           } catch (IOException e) {
-            System.out.println("Unable to write file for appNumber, " + appNumber);
+            log.error("Unable to write file for appNumber, " + appNumber);
           }
         }
       });

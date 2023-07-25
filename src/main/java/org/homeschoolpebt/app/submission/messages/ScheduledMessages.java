@@ -41,10 +41,12 @@ public class ScheduledMessages {
   void checkForUnsubmittedDocs() {
     List<Instant> reminderTimes = REMINDER_TIME_FRAMES.stream().map(Instant.now()::with).toList();
     List<Transmission> transmissions = transmissionRepository.findAll();
+    log.info("Looking for submissions to send reminders");
     transmissions.stream()
       .filter(transmission -> SubmissionUtilities.getMissingDocUploads(transmission.getSubmission()).size() > 0)
       .filter(transmission -> isTimeToSendReminder(reminderTimes, transmission.getSubmission().getCreatedAt().toInstant()))
       .forEach(this::sendDocReminderMessages);
+    log.info("sendDocReminderMessages completed");
   }
 
   static boolean isTimeToSendReminder(List<Instant> reminderTimes, Instant date) {
