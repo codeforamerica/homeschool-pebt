@@ -14,8 +14,10 @@ import org.springframework.shell.standard.ShellMethod;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -42,14 +44,20 @@ public class ScheduledMessages {
     List<Instant> reminderTimes = REMINDER_TIME_FRAMES.stream().map(Instant.now()::with).toList();
     List<Transmission> transmissions = transmissionRepository.findAll();
     log.info("Looking for submissions to send reminders");
-    transmissions.stream()
+    Optional.ofNullable(transmissions).orElseGet(Collections::emptyList).stream()
+      .filter(transmission -> transmission.getSubmission() != null)
+      .filter(transmission -> transmission.getSubmission().getInputData() != null)
       .filter(transmission -> SubmissionUtilities.getMissingDocUploads(transmission.getSubmission()).size() > 0)
+      .filter(transmission -> transmission.getSubmission().getCreatedAt() != null)
       .filter(transmission -> isTimeToSendReminder(reminderTimes, transmission.getSubmission().getCreatedAt().toInstant()))
       .forEach(this::sendDocReminderMessages);
     log.info("sendDocReminderMessages completed");
   }
 
   static boolean isTimeToSendReminder(List<Instant> reminderTimes, Instant date) {
+    if (reminderTimes == null || date == null) {
+      return false;
+    }
     return reminderTimes.stream().anyMatch(reminderTime -> {
       long diffHours = ChronoUnit.HOURS.between(date, reminderTime);
       return diffHours > -12 && diffHours < 12;
