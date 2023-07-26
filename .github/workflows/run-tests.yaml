@@ -32,7 +32,7 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
       - name: Set up ChromeDriver
-        uses: nanasess/setup-chromedriver@v1.0.8
+        uses: nanasess/setup-chromedriver@v2
       - uses: actions/checkout@v3
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2

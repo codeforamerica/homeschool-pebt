@@ -120,6 +120,9 @@ public class TransmitterCommands {
               // generate applicant summary
               byte[] file = pdfService.getFilledOutPDF(submission);
               String fileName = pdfService.generatePdfName(submission);
+              if (!fileName.endsWith(".pdf")) {
+                fileName += ".pdf";
+              }
 
               zos.putNextEntry(new ZipEntry(subfolder));
               ZipEntry entry = new ZipEntry(subfolder + fileName);
@@ -146,7 +149,7 @@ public class TransmitterCommands {
             }
             successfullySubmittedIds.add(submission.getId());
           } catch (IOException e) {
-            log.error("Unable to write file for appNumber, " + appNumber);
+            log.error("Unable to write file for appNumber, " + appNumber, e);
           }
         }
       });
