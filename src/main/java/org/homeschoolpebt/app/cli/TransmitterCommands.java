@@ -149,7 +149,7 @@ public class TransmitterCommands {
             }
             successfullySubmittedIds.add(submission.getId());
           } catch (IOException e) {
-            log.error("Unable to write file for appNumber, " + appNumber);
+            log.error("Unable to write file for appNumber, " + appNumber, e);
           }
         }
       });
