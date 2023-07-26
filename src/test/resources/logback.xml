@@ -6,6 +6,20 @@
     </encoder>
   </appender>
 
+  <appender name="JsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+      <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+        <prettyPrint>false</prettyPrint>
+      </jsonFormatter>
+      <appendLineSeparator>true</appendLineSeparator>
+      <timestampFormat>yyyy-MM-dd' 'HH:mm:ss</timestampFormat>
+    </layout>
+  </appender>
+
+  <logger name="org.homeschoolpebt.app.cli.TransmitterCommands" additivity="false" level="info">
+    <appender-ref ref="JsonConsole"/>
+  </logger>
+
   <root level="DEBUG">
     <appender-ref ref="STDOUT" />
   </root>

@@ -77,14 +77,14 @@ public class TransmitterCommands {
     });
 
     String zipFilename = createZipFilename(appIdToSubmission);
-    zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
+    List<UUID> successfullySubmittedIds = zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
 
     // send zip file
     log.info("Uploading zip file");
     sftpClient.uploadFile(zipFilename);
 
     // Update transmission in DB
-    submissionIds.forEach(id -> {
+    successfullySubmittedIds.forEach(id -> {
       Submission submission = Submission.builder().id(id).build();
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
       transmission.setSubmittedToStateAt(new Date());
@@ -107,7 +107,8 @@ public class TransmitterCommands {
     return "Apps__" + date + "__" + firstAppId + "-" + lastAppId + ".zip";
   }
 
-  private void zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Set<String> appIdsWithLaterDocs) throws IOException {
+  private List<UUID> zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Set<String> appIdsWithLaterDocs) throws IOException {
+    List<UUID> successfullySubmittedIds = new ArrayList<>();
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
       appIdToSubmission.forEach((appNumber, submission) -> {
@@ -143,13 +144,14 @@ public class TransmitterCommands {
               }
               zos.closeEntry();
             }
-
+            successfullySubmittedIds.add(submission.getId());
           } catch (IOException e) {
             log.error("Unable to write file for appNumber, " + appNumber);
           }
         }
       });
     }
+    return successfullySubmittedIds;
   }
 
   private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
