@@ -120,6 +120,9 @@ public class TransmitterCommands {
               // generate applicant summary
               byte[] file = pdfService.getFilledOutPDF(submission);
               String fileName = pdfService.generatePdfName(submission);
+              if (!fileName.endsWith(".pdf")) {
+                fileName += ".pdf";
+              }
 
               zos.putNextEntry(new ZipEntry(subfolder));
               ZipEntry entry = new ZipEntry(subfolder + fileName);

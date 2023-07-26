@@ -139,7 +139,7 @@ class TransmitterCommandsTest {
   @Test
   void transmitZipFile() throws IOException, JSchException, SftpException {
     when(pdfService.getFilledOutPDF(any())).thenReturn("some bytes".getBytes());
-    when(pdfService.generatePdfName(any())).thenReturn("applicant_summary.pdf");
+    when(pdfService.generatePdfName(any())).thenReturn("applicant_summary");
 
     File docFile = new File("paystub.png");
     docFile.createNewFile();
