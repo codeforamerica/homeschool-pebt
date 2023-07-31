@@ -1,4 +1,4 @@
-package org.homeschool-pebt.app.filters;
+package org.homeschoolpebt.app.filters;
 
 
 import java.io.IOException;
