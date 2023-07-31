@@ -39,6 +39,7 @@ public class SeleniumFactory implements FactoryBean<RemoteWebDriver> {
     HashMap<String, Object> chromePrefs = new HashMap<>();
     chromePrefs.put("download.default_directory", tempdir.toString());
     options.setExperimentalOption("prefs", chromePrefs);
+    options.setBinary(WebDriverManager.chromedriver().getBrowserPath().get().toString());
     options.addArguments("--window-size=1280,2000");
     options.addArguments("--headless=new");
     options.addArguments("--remote-allow-origins=*");
