@@ -111,7 +111,10 @@ public class TransmitterCommands {
     List<UUID> successfullySubmittedIds = new ArrayList<>();
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
       ZipOutputStream zos = new ZipOutputStream(baos)) {
-      appIdToSubmission.forEach((appNumber, submission) -> {
+      for (var appNumberAndSubmission : appIdToSubmission.entrySet()) {
+        var appNumber = appNumberAndSubmission.getKey();
+        var submission = appNumberAndSubmission.getValue();
+
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
         if (transmission != null) {
           String subfolder = createSubfolderName(submission, transmission);
@@ -119,7 +122,7 @@ public class TransmitterCommands {
             if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
               // generate applicant summary
               byte[] file = pdfService.getFilledOutPDF(submission);
-              String fileName = pdfService.generatePdfName(submission);
+              String fileName = "00_" + pdfService.generatePdfName(submission);
               if (!fileName.endsWith(".pdf")) {
                 fileName += ".pdf";
               }
@@ -134,8 +137,10 @@ public class TransmitterCommands {
 
             // Add uploaded docs
             List<UserFile> userFiles = transmissionRepository.userFilesBySubmission(submission);
+            int fileCount = 0;
             for (UserFile userFile : userFiles) {
-              ZipEntry docEntry = new ZipEntry(subfolder + userFile.getOriginalName());
+              fileCount += 1;
+              ZipEntry docEntry = new ZipEntry(subfolder + String.format("%02d", fileCount) + "_" + userFile.getOriginalName().replaceAll("[/:\\\\]", "_"));
               docEntry.setSize(userFile.getFilesize().longValue());
               zos.putNextEntry(docEntry);
 
@@ -150,9 +155,10 @@ public class TransmitterCommands {
             successfullySubmittedIds.add(submission.getId());
           } catch (IOException e) {
             log.error("Unable to write file for appNumber, " + appNumber, e);
+            throw e;
           }
         }
-      });
+      };
     }
     return successfullySubmittedIds;
   }

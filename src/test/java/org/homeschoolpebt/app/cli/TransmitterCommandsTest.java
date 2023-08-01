@@ -1,6 +1,8 @@
 package org.homeschoolpebt.app.cli;
 
 import static org.assertj.core.util.DateUtil.now;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -101,6 +103,18 @@ class TransmitterCommandsTest {
     docfile.setOriginalName("originalFilename.png");
     userFileRepository.save(docfile);
 
+    UserFile docfileSameName = new UserFile();
+    docfileSameName.setFilesize(10.0f);
+    docfileSameName.setSubmission_id(submissionWithDocs);
+    docfileSameName.setOriginalName("originalFilename.png");
+    userFileRepository.save(docfileSameName);
+
+    UserFile docfileWeirdFilename = new UserFile();
+    docfileWeirdFilename.setFilesize(10.0f);
+    docfileWeirdFilename.setSubmission_id(submissionWithDocs);
+    docfileWeirdFilename.setOriginalName("weird/:\\filename.jpg");
+    userFileRepository.save(docfileWeirdFilename);
+
     var docUploadOnly = Submission.builder()
       .submittedAt(now())
       .flow("docUpload")
@@ -163,13 +177,15 @@ class TransmitterCommandsTest {
     String destDir = "output";
     List<String> fileNames = unzip(zipFile.getPath(), destDir);
 
-    assertEquals(6, fileNames.size());
-    assertTrue(fileNames.contains("output/1001_McTest/"));
-    assertTrue(fileNames.contains("output/1001_McTest/applicant_summary.pdf"));
-    assertTrue(fileNames.contains("output/LaterDoc_1001_McTest_Tester/laterdoc.png"));
-    assertTrue(fileNames.contains("output/1002_McOtherson/"));
-    assertTrue(fileNames.contains("output/1002_McOtherson/applicant_summary.pdf"));
-    assertTrue(fileNames.contains("output/1002_McOtherson/originalFilename.png"));
+    assertEquals(8, fileNames.size());
+    assertThat(fileNames, hasItem("output/1001_McTest/"));
+    assertThat(fileNames, hasItem("output/1001_McTest/00_applicant_summary.pdf"));
+    assertThat(fileNames, hasItem("output/LaterDoc_1001_McTest_Tester/01_laterdoc.png"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/00_applicant_summary.pdf"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/01_originalFilename.png"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/02_originalFilename.png"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird___filename.jpg"));
 
     // cleanup
     zipFile.delete();
