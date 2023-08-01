@@ -112,7 +112,7 @@ class TransmitterCommandsTest {
     UserFile docfileWeirdFilename = new UserFile();
     docfileWeirdFilename.setFilesize(10.0f);
     docfileWeirdFilename.setSubmission_id(submissionWithDocs);
-    docfileWeirdFilename.setOriginalName("weird/:filename.jpg");
+    docfileWeirdFilename.setOriginalName("weird/:\\filename.jpg");
     userFileRepository.save(docfileWeirdFilename);
 
     var docUploadOnly = Submission.builder()
@@ -185,7 +185,7 @@ class TransmitterCommandsTest {
     assertThat(fileNames, hasItem("output/1002_McOtherson/00_applicant_summary.pdf"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/01_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/02_originalFilename.png"));
-    assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird__filename.jpg"));
+    assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird___filename.jpg"));
 
     // cleanup
     zipFile.delete();

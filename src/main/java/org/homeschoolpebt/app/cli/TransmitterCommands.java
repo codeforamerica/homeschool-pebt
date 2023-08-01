@@ -140,7 +140,7 @@ public class TransmitterCommands {
             int fileCount = 0;
             for (UserFile userFile : userFiles) {
               fileCount += 1;
-              ZipEntry docEntry = new ZipEntry(subfolder + String.format("%02d", fileCount) + "_" + userFile.getOriginalName().replaceAll("[/:]", "_"));
+              ZipEntry docEntry = new ZipEntry(subfolder + String.format("%02d", fileCount) + "_" + userFile.getOriginalName().replaceAll("[/:\\\\]", "_"));
               docEntry.setSize(userFile.getFilesize().longValue());
               zos.putNextEntry(docEntry);
 
