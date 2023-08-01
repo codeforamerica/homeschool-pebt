@@ -103,17 +103,17 @@ class TransmitterCommandsTest {
     docfile.setOriginalName("originalFilename.png");
     userFileRepository.save(docfile);
 
-    UserFile docfile_same_name = new UserFile();
-    docfile_same_name.setFilesize(10.0f);
-    docfile_same_name.setSubmission_id(submissionWithDocs);
-    docfile_same_name.setOriginalName("originalFilename.png");
-    userFileRepository.save(docfile_same_name);
+    UserFile docfileSameName = new UserFile();
+    docfileSameName.setFilesize(10.0f);
+    docfileSameName.setSubmission_id(submissionWithDocs);
+    docfileSameName.setOriginalName("originalFilename.png");
+    userFileRepository.save(docfileSameName);
 
-    UserFile docfile_weird_filename = new UserFile();
-    docfile_weird_filename.setFilesize(10.0f);
-    docfile_weird_filename.setSubmission_id(submissionWithDocs);
-    docfile_weird_filename.setOriginalName("weird/:filename.jpg");
-    userFileRepository.save(docfile_weird_filename);
+    UserFile docfileWeirdFilename = new UserFile();
+    docfileWeirdFilename.setFilesize(10.0f);
+    docfileWeirdFilename.setSubmission_id(submissionWithDocs);
+    docfileWeirdFilename.setOriginalName("weird/:filename.jpg");
+    userFileRepository.save(docfileWeirdFilename);
 
     var docUploadOnly = Submission.builder()
       .submittedAt(now())
