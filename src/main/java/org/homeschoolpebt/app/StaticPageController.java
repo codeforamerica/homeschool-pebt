@@ -1,5 +1,6 @@
 package org.homeschoolpebt.app;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +24,15 @@ public class StaticPageController {
   /**
    * Renders the website index page.
    *
-   * @param httpSession The current HTTP session, not null
+   * @param request The current HTTP request, not null
    * @return the static page template
    */
   @GetMapping("/")
-  ModelAndView getIndex(HttpSession httpSession, @Value("${form-flow.applications-disabled}") String applicationsDisabled) {
-    // For dev, reset session if you visit home
+  ModelAndView getIndex(HttpServletRequest request, @Value("${form-flow.applications-disabled}") String applicationsDisabled) {
+    // Reset session if you visit home
+    HttpSession httpSession = request.getSession();
     httpSession.invalidate();
+    httpSession = request.getSession(true);
 
     // provide a model so that we can pass the git commit hash to the footer, via the index page.
     HashMap<String, Object> model = new HashMap<>();
