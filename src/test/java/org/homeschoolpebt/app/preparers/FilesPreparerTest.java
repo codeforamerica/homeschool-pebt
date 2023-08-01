@@ -32,28 +32,28 @@ class FilesPreparerTest {
   @Test
   void includesAllUploadedFiles() throws JsonProcessingException {
     var file1 = UserFile.builder()
-      .file_id(UUID.randomUUID())
+      .fileId(UUID.randomUUID())
       .originalName("file-1.jpg")
       .createdAt(new DateTime(2023, 1, 1, 12, 0 ,0).toDate())
       .filesize(10000F)
       .build();
 
     var file2 = UserFile.builder()
-      .file_id(UUID.randomUUID())
+      .fileId(UUID.randomUUID())
       .originalName("file-2.jpg")
       .createdAt(new DateTime(2023, 2, 2, 12, 0 ,0).toDate())
       .filesize(222222F)
       .build();
 
     var file3 = UserFile.builder()
-      .file_id(UUID.randomUUID())
+      .fileId(UUID.randomUUID())
       .originalName("file-3.jpg")
       .createdAt(new DateTime(2023, 3, 3, 12, 0 ,0).toDate())
       .filesize(3030303F)
       .build();
 
     var file4 = UserFile.builder()
-      .file_id(UUID.randomUUID())
+      .fileId(UUID.randomUUID())
       .originalName("file-4.jpg")
       .createdAt(new DateTime(2023, 4, 4, 12, 0 ,0).toDate())
       .filesize(44044044044F)
@@ -61,13 +61,13 @@ class FilesPreparerTest {
 
     when(transmissionRepository.userFilesByID(anyList())).thenAnswer(invocation -> {
       var arg = (List<UUID>)invocation.getArgument(0);
-      if (arg.contains(file1.getFile_id())) {
+      if (arg.contains(file1.getFileId())) {
         return List.of(file1);
-      } else if (arg.contains(file2.getFile_id())) {
+      } else if (arg.contains(file2.getFileId())) {
         return List.of(file2);
-      } else if (arg.contains(file3.getFile_id())) {
+      } else if (arg.contains(file3.getFileId())) {
         return List.of(file3);
-      } else if (arg.contains(file4.getFile_id())) {
+      } else if (arg.contains(file4.getFileId())) {
         return List.of(file4);
       } else {
         return List.of();
@@ -78,10 +78,10 @@ class FilesPreparerTest {
     Submission submission = Submission.builder().inputData(Map.ofEntries(
       Map.entry("firstName", "Yappy"),
       Map.entry("lastName", "Yellowfruit"),
-      Map.entry("identityFiles", json.writeValueAsString(List.of(file1.getFile_id()))),
-      Map.entry("enrollmentFiles", json.writeValueAsString(List.of(file2.getFile_id()))),
-      Map.entry("incomeFiles", json.writeValueAsString(List.of(file3.getFile_id()))),
-      Map.entry("unearnedIncomeFiles", json.writeValueAsString(List.of(file4.getFile_id())))
+      Map.entry("identityFiles", json.writeValueAsString(List.of(file1.getFileId()))),
+      Map.entry("enrollmentFiles", json.writeValueAsString(List.of(file2.getFileId()))),
+      Map.entry("incomeFiles", json.writeValueAsString(List.of(file3.getFileId()))),
+      Map.entry("unearnedIncomeFiles", json.writeValueAsString(List.of(file4.getFileId())))
     )).build();
 
     var fields = preparer.prepareSubmissionFields(submission, null);

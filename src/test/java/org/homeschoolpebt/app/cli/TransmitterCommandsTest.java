@@ -97,7 +97,7 @@ class TransmitterCommandsTest {
 
     UserFile docfile = new UserFile();
     docfile.setFilesize(10.0f);
-    docfile.setSubmission_id(submissionWithDocs);
+    docfile.setSubmission(submissionWithDocs);
     docfile.setOriginalName("originalFilename.png");
     userFileRepository.save(docfile);
 
@@ -118,7 +118,7 @@ class TransmitterCommandsTest {
 
     docfile = new UserFile();
     docfile.setFilesize(10.0f);
-    docfile.setSubmission_id(docUploadOnly);
+    docfile.setSubmission(docUploadOnly);
     docfile.setOriginalName("laterdoc.png");
     userFileRepository.save(docfile);
 

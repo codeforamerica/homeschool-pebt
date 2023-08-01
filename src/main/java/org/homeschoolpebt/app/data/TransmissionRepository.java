@@ -26,9 +26,9 @@ public interface TransmissionRepository extends JpaRepository<Transmission, UUID
   @Query(value = "SELECT t FROM Transmission t WHERE t.submission = :submission")
   Transmission getTransmissionBySubmission(Submission submission);
 
-  @Query(value = "SELECT u FROM UserFile u WHERE u.submission_id = :submission")
+  @Query(value = "SELECT u FROM UserFile u WHERE u.submission = :submission")
   List<UserFile> userFilesBySubmission(Submission submission);
 
-  @Query(value = "SELECT u FROM UserFile u WHERE u.file_id IN :ids")
+  @Query(value = "SELECT u FROM UserFile u WHERE u.fileId IN :ids")
   List<UserFile> userFilesByID(@Param("ids") List<UUID> ids);
 }
