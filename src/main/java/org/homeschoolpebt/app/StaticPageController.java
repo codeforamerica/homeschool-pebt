@@ -30,7 +30,7 @@ public class StaticPageController {
   @GetMapping("/")
   ModelAndView getIndex(HttpServletRequest request, @Value("${form-flow.applications-disabled}") String applicationsDisabled) {
     // Reset session if you visit home
-    HttpSession httpSession = request.getSession();
+    HttpSession httpSession = request.getSession(false);
     httpSession.invalidate();
     httpSession = request.getSession(true);
 
