@@ -25,7 +25,7 @@ public class FlowSwitchInterceptor implements HandlerInterceptor {
     try {
       var parsedUrl = new AntPathMatcher().extractUriTemplateVariables(PATH_FORMAT, request.getRequestURI());
       String urlFlow = parsedUrl.get("flow");
-      var submissionIdFromSession = (UUID) request.getSession().getAttribute("id");
+      var submissionIdFromSession = (UUID) request.getSession(false).getAttribute("id");
 
       if (submissionIdFromSession != null) {
         var submissionMaybe = this.submissionRepositoryService.findById(submissionIdFromSession);
@@ -35,7 +35,7 @@ public class FlowSwitchInterceptor implements HandlerInterceptor {
 
           if (!Objects.equals(urlFlow, submissionFlow)) {
             log.info("sessionId: %s, submissionFlow: %s, urlFlow: %s, invalidating session".formatted(
-              request.getSession().getId(),
+              request.getSession(false).getId(),
               submissionFlow,
               urlFlow));
             invalidateSession(request);
@@ -49,7 +49,7 @@ public class FlowSwitchInterceptor implements HandlerInterceptor {
   }
 
   private void invalidateSession(HttpServletRequest request) {
-    request.getSession().invalidate();
+    request.getSession(false).invalidate();
     request.getSession(true);
   }
 }
