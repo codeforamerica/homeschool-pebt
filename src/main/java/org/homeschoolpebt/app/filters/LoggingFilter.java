@@ -35,6 +35,8 @@ public class LoggingFilter implements Filter {
     MDC.put("submissionId", subId == null ? "null" : subId.toString());
     MDC.put("method", request.getMethod());
     MDC.put("request", request.getRequestURI());
+    MDC.put("xForwardedFor", request.getHeader("X-Forwarded-For"));
+    MDC.put("amznTraceId", request.getHeader("X-Amzn-Trace-Id"));
 
     filterChain.doFilter(servletRequest, servletResponse);
     MDC.clear();
