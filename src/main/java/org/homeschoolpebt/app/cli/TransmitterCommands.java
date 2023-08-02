@@ -168,7 +168,7 @@ public class TransmitterCommands {
   private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
     // If the submission flow is pebt, only submit if the application looks complete
     var inputData = submission.getInputData();
-    if (submission.getFlow().equals("pebt") &&
+    if ("pebt".equals(submission.getFlow()) &&
       (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null)) {
       return false;
     }

@@ -3,6 +3,7 @@ package org.homeschoolpebt.app.cli;
 import static org.assertj.core.util.DateUtil.now;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,10 +23,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.homeschoolpebt.app.data.Transmission;
@@ -149,8 +148,10 @@ class TransmitterCommandsTest {
       .flow("pebt")
       .urlParams(new HashMap<>())
       .inputData(Map.of(
-        "firstName", "Testing",
-        "lastName", "McOtherson"
+        "firstName", "Sigless",
+        "lastName", "McSigless",
+        "hasMoreThanOneStudent", "false",
+        "identityFiles", List.of("some-file-id")
       )).build();
     submissionRepository.save(submissionWithoutSignature);
     transmission = Transmission.fromSubmission(submissionWithoutSignature);
@@ -199,7 +200,6 @@ class TransmitterCommandsTest {
     String destDir = "output";
     List<String> fileNames = unzip(zipFile.getPath(), destDir);
 
-    assertEquals(8, fileNames.size());
     assertThat(fileNames, hasItem("output/1001_McTest/"));
     assertThat(fileNames, hasItem("output/1001_McTest/00_applicant_summary.pdf"));
     assertThat(fileNames, hasItem("output/LaterDoc_1001_McTest_Tester/01_laterdoc.png"));
@@ -208,6 +208,9 @@ class TransmitterCommandsTest {
     assertThat(fileNames, hasItem("output/1002_McOtherson/01_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/02_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird___filename.jpg"));
+    assertThat(fileNames, not(hasItem("output/1004_McSigless/")));
+    assertEquals(8, fileNames.size());
+
 
     // cleanup
     zipFile.delete();
