@@ -120,11 +120,17 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
           if (submission.getInputData().getOrDefault(requiredData, "").toString().isBlank()) {
             log.error("Submission %s missing field data %s, redirecting to homepage".formatted(submissionId, requiredData));
             response.sendRedirect("/");
+            return false;
           }
         } else {
           log.error("Submission %s not found in database (required field %s), redirecting to homepage".formatted(submissionId, requiredData));
           response.sendRedirect("/");
+          return false;
         }
+      } else {
+        log.error("No submission ID in session (required field %s), redirecting to homepage".formatted(requiredData));
+        response.sendRedirect("/");
+        return false;
       }
 
       return true;
