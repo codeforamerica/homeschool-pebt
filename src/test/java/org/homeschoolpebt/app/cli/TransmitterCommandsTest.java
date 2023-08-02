@@ -76,7 +76,9 @@ class TransmitterCommandsTest {
       .urlParams(new HashMap<>())
       .inputData(Map.of(
         "firstName", "Tester",
-        "lastName", "McTest"
+        "lastName", "McTest",
+        "hasMoreThanOneStudent", "false",
+        "signature", "Tester McTest sig"
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
@@ -91,6 +93,8 @@ class TransmitterCommandsTest {
       .inputData(Map.of(
         "firstName", "Other",
         "lastName", "McOtherson",
+        "signature", "Other McOtherson sig",
+        "hasMoreThanOneStudent", "false",
         "identityFiles", List.of("some-file-id")
       )).build();
     submissionRepository.save(submissionWithDocs);
@@ -140,6 +144,20 @@ class TransmitterCommandsTest {
     docfile.setOriginalName("laterdoc.png");
     userFileRepository.save(docfile);
 
+    var submissionWithoutSignature = Submission.builder()
+      .submittedAt(now())
+      .flow("pebt")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        "firstName", "Testing",
+        "lastName", "McOtherson"
+      )).build();
+    submissionRepository.save(submissionWithoutSignature);
+    transmission = Transmission.fromSubmission(submissionWithoutSignature);
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
+    transmissionRepository.save(transmission);
+    transmissionId++;
+
     var submissionWithoutDocs = Submission.builder()
       .submittedAt(now())
       .flow("pebt")
@@ -169,7 +187,7 @@ class TransmitterCommandsTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
-    File zipFile = new File("Apps__" + date + "__1001-1004.zip");
+    File zipFile = new File("Apps__" + date + "__1001-1005.zip");
     assertTrue(zipFile.exists());
 
     verify(sftpClient).uploadFile(zipFile.getName());

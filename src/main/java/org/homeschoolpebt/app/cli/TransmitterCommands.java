@@ -5,6 +5,7 @@ import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.pdf.PdfService;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class TransmitterCommands {
   private final SftpClient sftpClient;
 
   public TransmitterCommands(TransmissionRepository transmissionRepository,
-    PdfService pdfService, ReadOnlyCloudFileRepository fileRepository, SftpClient sftpClient) {
+                             PdfService pdfService, ReadOnlyCloudFileRepository fileRepository, SftpClient sftpClient) {
     this.transmissionRepository = transmissionRepository;
     this.pdfService = pdfService;
     this.fileRepository = fileRepository;
@@ -110,7 +111,7 @@ public class TransmitterCommands {
   private List<UUID> zipFiles(Map<String, Submission> appIdToSubmission, String zipFileName, Set<String> appIdsWithLaterDocs) throws IOException {
     List<UUID> successfullySubmittedIds = new ArrayList<>();
     try (FileOutputStream baos = new FileOutputStream(zipFileName);
-      ZipOutputStream zos = new ZipOutputStream(baos)) {
+         ZipOutputStream zos = new ZipOutputStream(baos)) {
       for (var appNumberAndSubmission : appIdToSubmission.entrySet()) {
         var appNumber = appNumberAndSubmission.getKey();
         var submission = appNumberAndSubmission.getValue();
@@ -158,12 +159,20 @@ public class TransmitterCommands {
             throw e;
           }
         }
-      };
+      }
+      ;
     }
     return successfullySubmittedIds;
   }
 
   private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
+    // If the submission flow is pebt, only submit if the application looks complete
+    var inputData = submission.getInputData();
+    if (submission.getFlow().equals("pebt") &&
+      (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null)) {
+      return false;
+    }
+
     // delay 7 days if there aren't any uploaded docs associated with this application
     Instant submittedAt = submission.getSubmittedAt().toInstant();
     long diffDays = ChronoUnit.DAYS.between(submittedAt, Instant.now());
