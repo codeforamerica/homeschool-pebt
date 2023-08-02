@@ -31,7 +31,9 @@ public class StaticPageController {
   ModelAndView getIndex(HttpServletRequest request, @Value("${form-flow.applications-disabled}") String applicationsDisabled) {
     // Reset session if you visit home
     HttpSession httpSession = request.getSession(false);
-    httpSession.invalidate();
+    if (httpSession != null) {
+      httpSession.invalidate();
+    }
     httpSession = request.getSession(true);
 
     // provide a model so that we can pass the git commit hash to the footer, via the index page.
