@@ -69,6 +69,7 @@ class TransmitterCommandsTest {
 
   @BeforeEach
   void setup() {
+    int transmissionId = 1001;
     submission = Submission.builder()
       .submittedAt(now())
       .flow("pebt")
@@ -79,8 +80,9 @@ class TransmitterCommandsTest {
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
-    transmission.setConfirmationNumber("1001");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     var submissionWithDocs = Submission.builder()
       .submittedAt(now())
@@ -94,8 +96,9 @@ class TransmitterCommandsTest {
     submissionRepository.save(submissionWithDocs);
 
     transmission = Transmission.fromSubmission(submissionWithDocs);
-    transmission.setConfirmationNumber("1002");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     UserFile docfile = new UserFile();
     docfile.setFilesize(10.0f);
@@ -127,8 +130,9 @@ class TransmitterCommandsTest {
     submissionRepository.save(docUploadOnly);
 
     transmission = Transmission.fromSubmission(docUploadOnly);
-    transmission.setConfirmationNumber("1003");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     docfile = new UserFile();
     docfile.setFilesize(10.0f);
@@ -146,7 +150,7 @@ class TransmitterCommandsTest {
       )).build();
     submissionRepository.save(submissionWithoutDocs);
     transmission = Transmission.fromSubmission(submissionWithoutDocs);
-    transmission.setConfirmationNumber("1004");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
   }
 
