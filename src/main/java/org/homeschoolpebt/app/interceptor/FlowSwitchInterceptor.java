@@ -3,12 +3,13 @@ package org.homeschoolpebt.app.interceptor;
 import formflow.library.data.SubmissionRepositoryService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Objects;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Objects;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -25,8 +26,12 @@ public class FlowSwitchInterceptor implements HandlerInterceptor {
     try {
       var parsedUrl = new AntPathMatcher().extractUriTemplateVariables(PATH_FORMAT, request.getRequestURI());
       String urlFlow = parsedUrl.get("flow");
-      var submissionIdFromSession = (UUID) request.getSession(false).getAttribute("id");
+      var session = request.getSession(false);
+      if (session == null) {
+        return true;
+      }
 
+      var submissionIdFromSession = (UUID) session.getAttribute("id");
       if (submissionIdFromSession != null) {
         var submissionMaybe = this.submissionRepositoryService.findById(submissionIdFromSession);
         if (submissionMaybe.isPresent()) {

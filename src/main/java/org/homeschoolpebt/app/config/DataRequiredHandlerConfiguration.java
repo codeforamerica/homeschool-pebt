@@ -1,7 +1,7 @@
 package org.homeschoolpebt.app.config;
 
 import formflow.library.data.SubmissionRepositoryService;
-import org.homeschoolpebt.app.submission.interceptors.DataRequiredInterceptor;
+import org.homeschoolpebt.app.interceptor.DataRequiredInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
