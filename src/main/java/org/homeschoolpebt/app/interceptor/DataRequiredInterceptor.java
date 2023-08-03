@@ -1,4 +1,4 @@
-package org.homeschoolpebt.app.submission.interceptors;
+package org.homeschoolpebt.app.interceptor;
 
 import formflow.library.data.SubmissionRepositoryService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -112,7 +112,14 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
         return true; // There are no data requirements for this page
       }
 
-      var submissionId = (UUID) request.getSession(false).getAttribute("id");
+      var session = request.getSession(false);
+      if (session == null) {
+        log.info("No session present (missing field data %s), redirecting to homepage".formatted(requiredData));
+        response.sendRedirect("/");
+        return false;
+      }
+
+      var submissionId = (UUID) session.getAttribute("id");
       if (submissionId != null) {
         var submissionMaybe = this.submissionRepositoryService.findById(submissionId);
         if (submissionMaybe.isPresent()) {
