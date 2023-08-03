@@ -117,10 +117,13 @@ public class TransmitterCommands {
         var submission = appNumberAndSubmission.getValue();
 
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        if (transmission != null) {
+        if (transmission != null && (
+          ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) ||
+            ("docUpload".equals(submission.getFlow()) && doTransmitDocUpload(submission)))
+        ) {
           String subfolder = createSubfolderName(submission, transmission);
           try {
-            if ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) {
+            if ("pebt".equals(submission.getFlow())) {
               // generate applicant summary
               byte[] file = pdfService.getFilledOutPDF(submission);
               String fileName = "00_" + pdfService.generatePdfName(submission);
@@ -160,16 +163,25 @@ public class TransmitterCommands {
           }
         }
       }
-      ;
     }
+
     return successfullySubmittedIds;
   }
 
-  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
-    // If the submission flow is pebt, only submit if the application looks complete
+  private boolean doTransmitDocUpload(Submission submission) {
+    // Refuse to proceed if incomplete
     var inputData = submission.getInputData();
-    if ("pebt".equals(submission.getFlow()) &&
-      (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null)) {
+    if (inputData.get("firstName") == null || inputData.get("lastName") == null || inputData.get("applicationNumber") == null) {
+      log.info("Declining to transmit incomplete doc upload submissionId={} -- firstName or lastName or applicationNumber is missing", submission.getId());
+      return false;
+    }
+    return true;
+  }
+
+  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
+    // Bail if the submission looks incomplete
+    var inputData = submission.getInputData();
+    if (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null) {
       log.info("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
       return false;
     }

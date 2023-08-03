@@ -143,6 +143,27 @@ class TransmitterCommandsTest {
     docfile.setOriginalName("laterdoc.png");
     userFileRepository.save(docfile);
 
+    var incompleteDocUpload = Submission.builder()
+      .submittedAt(now())
+      .flow("docUpload")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        // firstName somehow missing
+        "lastName", "McIncompleteLaterDoc",
+        "applicationNumber", "1001"
+      )).build();
+    submissionRepository.save(incompleteDocUpload);
+    transmission = Transmission.fromSubmission(incompleteDocUpload);
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
+    transmissionRepository.save(transmission);
+    transmissionId++;
+
+    docfile = new UserFile();
+    docfile.setFilesize(10.0f);
+    docfile.setSubmission_id(incompleteDocUpload);
+    docfile.setOriginalName("laterdoc.png");
+    userFileRepository.save(docfile);
+
     var submissionWithoutSignature = Submission.builder()
       .submittedAt(now())
       .flow("pebt")
@@ -158,6 +179,12 @@ class TransmitterCommandsTest {
     transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
     transmissionId++;
+
+    docfile = new UserFile();
+    docfile.setFilesize(10.0f);
+    docfile.setSubmission_id(submissionWithoutSignature);
+    docfile.setOriginalName("originalFilename.png");
+    userFileRepository.save(docfile);
 
     var submissionWithoutDocs = Submission.builder()
       .submittedAt(now())
@@ -188,7 +215,7 @@ class TransmitterCommandsTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
-    File zipFile = new File("Apps__" + date + "__1001-1005.zip");
+    File zipFile = new File("Apps__" + date + "__1001-1006.zip");
     assertTrue(zipFile.exists());
 
     verify(sftpClient).uploadFile(zipFile.getName());
@@ -208,7 +235,8 @@ class TransmitterCommandsTest {
     assertThat(fileNames, hasItem("output/1002_McOtherson/01_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/02_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird___filename.jpg"));
-    assertThat(fileNames, not(hasItem("output/1004_McSigless/")));
+    assertThat(fileNames, not(hasItem("output/1005_McSigless/01_originalFilename.png")));
+    assertThat(fileNames, not(hasItem("output/LaterDoc_1001_McIncompleteLaterDoc_null/01_laterdoc.png")));
     assertEquals(8, fileNames.size());
 
 
