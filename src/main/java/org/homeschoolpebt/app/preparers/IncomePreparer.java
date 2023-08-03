@@ -9,9 +9,7 @@ import org.homeschoolpebt.app.utils.IncomeCalculator;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Component
 public class IncomePreparer implements SubmissionFieldPreparer {
@@ -52,8 +50,10 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     double totalUnearnedIncome = 0;
     for (var entry : getUnearnedIncomeFieldNamesByPdfFieldName().entrySet()) {
       var pdfFieldName = entry.getKey();
+      var submissionFieldName = entry.getValue();
+      var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedTypes[]", new ArrayList<String>());
       var submissionAmountFieldName = entry.getValue() + "Amount";
-      var inputDataFieldValue = (String) submission.getInputData().get(submissionAmountFieldName);
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ? (String) submission.getInputData().get(submissionAmountFieldName) : null;
       fields.put(pdfFieldName, new SingleField(pdfFieldName, SubmissionUtilities.formatMoney(inputDataFieldValue), null));
       totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
     }
@@ -61,12 +61,13 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     // unearned (retirement)
     for (var entry : getUnearnedRetirementIncomeFieldNamesByPdfFieldName().entrySet()) {
       var pdfFieldName = entry.getKey();
+      var submissionFieldName = entry.getValue();
+      var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedRetirementTypes[]", new ArrayList<String>());
       var submissionAmountFieldName = entry.getValue() + "Amount";
-      var inputDataFieldValue = (String) submission.getInputData().get(submissionAmountFieldName);
-      fields.put(pdfFieldName, new SingleField(pdfFieldName, SubmissionUtilities.formatMoney((String) submission.getInputData().get(submissionAmountFieldName)), null));
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ? (String) submission.getInputData().get(submissionAmountFieldName) : null;
+      fields.put(pdfFieldName, new SingleField(pdfFieldName, SubmissionUtilities.formatMoney(inputDataFieldValue), null));
       totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
     }
-
 
     fields.put("income-hh-unearned", new SingleField("income-hh-unearned", SubmissionUtilities.formatMoney(totalUnearnedIncome), null));
     fields.put("income-unearned-comments", new SingleField("income-unearned-comments", (String) submission.getInputData().get("incomeUnearnedDescription"), null));
