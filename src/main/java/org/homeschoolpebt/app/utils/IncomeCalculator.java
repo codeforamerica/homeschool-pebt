@@ -12,19 +12,6 @@ public class IncomeCalculator {
     this.submission = submission;
   }
 
-  public Double totalUnearnedIncome() {
-    var incomeUnearnedRetirementTypes = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedRetirementTypes[]", new ArrayList<String>());
-    var retirementTotal = incomeUnearnedRetirementTypes.stream()
-      .map(type -> Double.parseDouble(submission.getInputData().get(type + "Amount").toString()))
-      .reduce(0.0d, Double::sum);
-    var incomeUnearnedTypes = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedTypes[]", new ArrayList<String>());
-    var supportTotal = incomeUnearnedTypes.stream()
-      .map(type -> Double.parseDouble(submission.getInputData().get(type + "Amount").toString()))
-      .reduce(0.0d, Double::sum);
-
-    return supportTotal + retirementTotal;
-  }
-
   public Double totalPastEarnedIncome() {
     var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
     var total = jobs.stream()
