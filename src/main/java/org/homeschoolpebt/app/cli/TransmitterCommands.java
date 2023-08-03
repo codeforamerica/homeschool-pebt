@@ -170,6 +170,7 @@ public class TransmitterCommands {
     var inputData = submission.getInputData();
     if ("pebt".equals(submission.getFlow()) &&
       (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null)) {
+      log.info("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
       return false;
     }
 
