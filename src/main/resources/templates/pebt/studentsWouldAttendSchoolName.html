@@ -28,12 +28,6 @@
                 <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                           text=#{general.inputs.continue})}"/>
               </div>
-              <div>
-                <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
-                   th:text="#{general.inputs.unsure}"
-                   class="button"
-                   id="continue-link"></a>
-              </div>
             </div>
           </th:block>
         </th:block>

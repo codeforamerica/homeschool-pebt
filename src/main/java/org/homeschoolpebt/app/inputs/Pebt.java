@@ -56,7 +56,6 @@ public class Pebt extends FlowInputs {
   private String studentVirtualSchoolName; // TODO: Validate this is present if studentSchoolType = virtual
   @NotBlank
   private String studentUnenrolledSchoolName;
-  @NotBlank
   private String studentWouldAttendSchoolName;
   private String applicantIsInHousehold;
 
