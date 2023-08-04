@@ -58,12 +58,15 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
     fields.put("anticipated-school", anticipated.get(2));
     fields.put("anticipated-school-cep", anticipatedCep ? "Yes" : "No");
 
-    var withdrawn = parseSchoolName((String) student.get("studentUnenrolledSchoolName"));
-    var withdrawnCep = SchoolListUtilities.allCepSchools(List.of(withdrawn.get(0)));
-    fields.put("withdrawn-school-code", withdrawn.get(0));
-    fields.put("withdrawn-school-district", withdrawn.get(1));
-    fields.put("withdrawn-school", withdrawn.get(2));
-    fields.put("withdrawn-school-cep", withdrawnCep ? "Yes" : "No");
+    var studentUnenrolledSchoolName = (String) student.get("studentUnenrolledSchoolName");
+    if (studentUnenrolledSchoolName != null) {
+      var withdrawn = parseSchoolName(studentUnenrolledSchoolName);
+      var withdrawnCep = SchoolListUtilities.allCepSchools(List.of(withdrawn.get(0)));
+      fields.put("withdrawn-school-code", withdrawn.get(0));
+      fields.put("withdrawn-school-district", withdrawn.get(1));
+      fields.put("withdrawn-school", withdrawn.get(2));
+      fields.put("withdrawn-school-cep", withdrawnCep ? "Yes" : "No");
+    }
 
     fields.put("virtual-school", student.getOrDefault("studentVirtualSchoolName", "").toString());
 

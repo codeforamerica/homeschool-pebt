@@ -50,6 +50,84 @@ public class IncomePreparerTest {
   }
 
   @Test
+  void ignoresUnearnedIncomeWhenMissingFromTypesArray() {
+    // This may happen when the client adds some data, and then hits back a few times and unchecks it as a form of unearned income.
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomeSocialSecurity", "income401k403b")),
+      Map.entry("incomeSSIAmount", "1"),
+      Map.entry("incomePensionAmount", "2"), // ignored due to absence in array above
+      Map.entry("incomeSocialSecurityAmount", "3"),
+      Map.entry("income401k403bAmount", "4"),
+      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeSpousalSupport", "incomeChildSupport", "incomeDisability", "incomeVeterans", "incomeOther")),
+      Map.entry("incomeUnemploymentAmount", "101"),
+      Map.entry("incomeWorkersCompensationAmount", "102"), // ignored due to absence in array above
+      Map.entry("incomeSpousalSupportAmount", "103"),
+      Map.entry("incomeChildSupportAmount", "104"),
+      Map.entry("incomeDisabilityAmount", "105"),
+      Map.entry("incomeVeteransAmount", "106"),
+      Map.entry("incomeOtherAmount", "200")
+    )).build();
+
+    IncomePreparer preparer = new IncomePreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("income-unemployment", new SingleField("income-unemployment", "$101", null)),
+      Map.entry("income-workers-comp", new SingleField("income-workers-comp", "", null)),
+      Map.entry("income-spousal-support", new SingleField("income-spousal-support", "$103", null)),
+      Map.entry("income-child-support", new SingleField("income-child-support", "$104", null)),
+      Map.entry("income-disability", new SingleField("income-disability", "$105", null)),
+      Map.entry("income-veterans", new SingleField("income-veterans", "$106", null)),
+      Map.entry("income-other", new SingleField("income-other", "$200", null)),
+
+      Map.entry("income-ssi", new SingleField("income-ssi", "$1", null)),
+      Map.entry("income-pension", new SingleField("income-pension", "", null)),
+      Map.entry("income-social-security", new SingleField("income-social-security", "$3", null)),
+      Map.entry("income-401k", new SingleField("income-401k", "$4", null)),
+
+      // $727 = 101+103+104+105+106+200+1+3+4
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$727", null)
+      )));
+  }
+
+  @Test
+  void includesUnearnedIncomeTreatingNullAsZero() {
+    // This may happen in unusual circumstances the client checks a new box for a form of unearned income, then skips the page where they would enter
+    // the monthly amount.
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("incomeUnearnedRetirementTypes[]", List.of("incomeSSI", "incomeSocialSecurity", "income401k403b")),
+      Map.entry("incomeSSIAmount", "1"),
+      Map.entry("incomePensionAmount", "2"),
+      Map.entry("income401k403bAmount", "4"),
+      Map.entry("incomeUnearnedTypes[]", List.of("incomeUnemployment", "incomeWorkersCompensation", "incomeSpousalSupport", "incomeChildSupport", "incomeDisability", "incomeVeterans", "incomeOther")),
+      Map.entry("incomeUnemploymentAmount", "101"),
+      Map.entry("incomeWorkersCompensationAmount", "102"),
+      Map.entry("incomeSpousalSupportAmount", "103"),
+      Map.entry("incomeChildSupportAmount", "104"),
+      Map.entry("incomeDisabilityAmount", "105"),
+      Map.entry("incomeVeteransAmount", "106"),
+      Map.entry("incomeOtherAmount", "200")
+    )).build();
+
+    IncomePreparer preparer = new IncomePreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("income-unemployment", new SingleField("income-unemployment", "$101", null)),
+      Map.entry("income-workers-comp", new SingleField("income-workers-comp", "$102", null)),
+      Map.entry("income-spousal-support", new SingleField("income-spousal-support", "$103", null)),
+      Map.entry("income-child-support", new SingleField("income-child-support", "$104", null)),
+      Map.entry("income-disability", new SingleField("income-disability", "$105", null)),
+      Map.entry("income-veterans", new SingleField("income-veterans", "$106", null)),
+      Map.entry("income-other", new SingleField("income-other", "$200", null)),
+
+      Map.entry("income-ssi", new SingleField("income-ssi", "$1", null)),
+      Map.entry("income-pension", new SingleField("income-pension", "", null)), // blank because "pension" was not checked
+      Map.entry("income-social-security", new SingleField("income-social-security", "missing", null)), // missing because SS was checked but has no value
+      Map.entry("income-401k", new SingleField("income-401k", "$4", null)),
+
+      // $826 = 101+102+103+104+105+106+200+1+4
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$826", null)
+      )));
+  }
+
+  @Test
   void testThatTheBigImportantCalculationsAreCorrect() {
     // Self Employment w/Standard Deduction
     HashMap<String, Object> job1 = new HashMap<>() {{

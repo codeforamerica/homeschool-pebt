@@ -9,11 +9,34 @@ import org.homeschoolpebt.app.utils.IncomeCalculator;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class IncomePreparer implements SubmissionFieldPreparer {
+  private Map<String, String> getUnearnedIncomeFieldNamesByPdfFieldName() {
+    return new TreeMap<>() {
+      {
+        put("income-unemployment", "incomeUnemployment");
+        put("income-workers-comp", "incomeWorkersCompensation");
+        put("income-spousal-support", "incomeSpousalSupport");
+        put("income-child-support", "incomeChildSupport");
+        put("income-disability", "incomeDisability");
+        put("income-veterans", "incomeVeterans");
+        put("income-other", "incomeOther");
+      }
+    };
+  }
+
+  private Map<String, String> getUnearnedRetirementIncomeFieldNamesByPdfFieldName() {
+    return new TreeMap<>() {
+      {
+        put("income-ssi", "incomeSSI");
+        put("income-pension", "incomePension");
+        put("income-social-security", "incomeSocialSecurity");
+        put("income-401k", "income401k403b");
+      }
+    };
+  }
 
   @Override
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
@@ -24,21 +47,34 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     fields.put("household-count", new SingleField("household-count", SubmissionUtilities.getHouseholdMemberCount(submission).toString(), null));
 
     // unearned
-    fields.put("income-unemployment", new SingleField("income-unemployment", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeUnemploymentAmount")), null));
-    fields.put("income-workers-comp", new SingleField("income-workers-comp", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeWorkersCompensationAmount")), null));
-    fields.put("income-spousal-support", new SingleField("income-spousal-support", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSpousalSupportAmount")), null));
-    fields.put("income-child-support", new SingleField("income-child-support", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeChildSupportAmount")), null));
-    fields.put("income-disability", new SingleField("income-disability", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeDisabilityAmount")), null));
-    fields.put("income-veterans", new SingleField("income-veterans", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeVeteransAmount")), null));
-    fields.put("income-other", new SingleField("income-other", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeOtherAmount")), null));
+    double totalUnearnedIncome = 0;
+    for (var entry : getUnearnedIncomeFieldNamesByPdfFieldName().entrySet()) {
+      var pdfFieldName = entry.getKey();
+      var submissionFieldName = entry.getValue();
+      var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedTypes[]", new ArrayList<String>());
+      var submissionAmountFieldName = entry.getValue() + "Amount";
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ?
+        (String) submission.getInputData().get(submissionAmountFieldName) :
+        null;
+      var formattedValue = typesCheckedByClient.contains(submissionFieldName) && submission.getInputData().get(submissionAmountFieldName) == null ? "missing" : SubmissionUtilities.formatMoney(inputDataFieldValue);
+      fields.put(pdfFieldName, new SingleField(pdfFieldName, formattedValue, null));
+      totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
+    }
 
     // unearned (retirement)
-    fields.put("income-ssi", new SingleField("income-ssi", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSSIAmount")), null));
-    fields.put("income-pension", new SingleField("income-pension", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomePensionAmount")), null));
-    fields.put("income-social-security", new SingleField("income-social-security", SubmissionUtilities.formatMoney((String) submission.getInputData().get("incomeSocialSecurityAmount")), null));
-    fields.put("income-401k", new SingleField("income-401k", SubmissionUtilities.formatMoney((String) submission.getInputData().get("income401k403bAmount")), null));
+    for (var entry : getUnearnedRetirementIncomeFieldNamesByPdfFieldName().entrySet()) {
+      var pdfFieldName = entry.getKey();
+      var submissionFieldName = entry.getValue();
+      var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedRetirementTypes[]", new ArrayList<String>());
+      var submissionAmountFieldName = entry.getValue() + "Amount";
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ?
+        (String) submission.getInputData().get(submissionAmountFieldName) :
+        null;
+      var formattedValue = typesCheckedByClient.contains(submissionFieldName) && submission.getInputData().get(submissionAmountFieldName) == null ? "missing" : SubmissionUtilities.formatMoney(inputDataFieldValue);
+      fields.put(pdfFieldName, new SingleField(pdfFieldName, formattedValue, null));
+      totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
+    }
 
-    var totalUnearnedIncome = calc.totalUnearnedIncome();
     fields.put("income-hh-unearned", new SingleField("income-hh-unearned", SubmissionUtilities.formatMoney(totalUnearnedIncome), null));
     fields.put("income-unearned-comments", new SingleField("income-unearned-comments", (String) submission.getInputData().get("incomeUnearnedDescription"), null));
 
@@ -53,5 +89,12 @@ public class IncomePreparer implements SubmissionFieldPreparer {
     fields.put("income-hh-past-total", new SingleField("income-hh-past-total", SubmissionUtilities.formatMoney(pastTotal), null));
 
     return fields;
+  }
+
+  private double parseDoubleWithNullAsZero(Object o) {
+    if (o == null) {
+      return 0;
+    }
+    return Double.parseDouble(o.toString());
   }
 }

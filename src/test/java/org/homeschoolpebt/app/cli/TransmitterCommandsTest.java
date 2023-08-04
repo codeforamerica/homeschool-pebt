@@ -1,15 +1,5 @@
 package org.homeschoolpebt.app.cli;
 
-import static org.assertj.core.util.DateUtil.now;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
@@ -17,6 +7,17 @@ import formflow.library.data.SubmissionRepository;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepository;
 import formflow.library.pdf.PdfService;
+import org.homeschoolpebt.app.data.Transmission;
+import org.homeschoolpebt.app.data.TransmissionRepository;
+import org.homeschoolpebt.app.upload.CloudFile;
+import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,16 +29,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.homeschoolpebt.app.data.Transmission;
-import org.homeschoolpebt.app.data.TransmissionRepository;
-import org.homeschoolpebt.app.upload.CloudFile;
-import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.util.DateUtil.now;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -69,18 +69,22 @@ class TransmitterCommandsTest {
 
   @BeforeEach
   void setup() {
+    int transmissionId = 1001;
     submission = Submission.builder()
       .submittedAt(now())
       .flow("pebt")
       .urlParams(new HashMap<>())
       .inputData(Map.of(
         "firstName", "Tester",
-        "lastName", "McTest"
+        "lastName", "McTest",
+        "hasMoreThanOneStudent", "false",
+        "signature", "Tester McTest sig"
       )).build();
     submissionRepository.save(submission);
     Transmission transmission = Transmission.fromSubmission(submission);
-    transmission.setConfirmationNumber("1001");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     var submissionWithDocs = Submission.builder()
       .submittedAt(now())
@@ -89,13 +93,16 @@ class TransmitterCommandsTest {
       .inputData(Map.of(
         "firstName", "Other",
         "lastName", "McOtherson",
-        "identityFiles", List.of("some-file-id")
+        "signature", "Other McOtherson sig",
+        "hasMoreThanOneStudent", "false",
+        "identityFiles", "[\"some-file-id\"]"
       )).build();
     submissionRepository.save(submissionWithDocs);
 
     transmission = Transmission.fromSubmission(submissionWithDocs);
-    transmission.setConfirmationNumber("1002");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     UserFile docfile = new UserFile();
     docfile.setFilesize(10.0f);
@@ -127,13 +134,57 @@ class TransmitterCommandsTest {
     submissionRepository.save(docUploadOnly);
 
     transmission = Transmission.fromSubmission(docUploadOnly);
-    transmission.setConfirmationNumber("1003");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
+    transmissionId++;
 
     docfile = new UserFile();
     docfile.setFilesize(10.0f);
     docfile.setSubmission_id(docUploadOnly);
     docfile.setOriginalName("laterdoc.png");
+    userFileRepository.save(docfile);
+
+    var incompleteDocUpload = Submission.builder()
+      .submittedAt(now())
+      .flow("docUpload")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        // firstName somehow missing
+        "lastName", "McIncompleteLaterDoc",
+        "applicationNumber", "1001"
+      )).build();
+    submissionRepository.save(incompleteDocUpload);
+    transmission = Transmission.fromSubmission(incompleteDocUpload);
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
+    transmissionRepository.save(transmission);
+    transmissionId++;
+
+    docfile = new UserFile();
+    docfile.setFilesize(10.0f);
+    docfile.setSubmission_id(incompleteDocUpload);
+    docfile.setOriginalName("laterdoc.png");
+    userFileRepository.save(docfile);
+
+    var submissionWithoutSignature = Submission.builder()
+      .submittedAt(now())
+      .flow("pebt")
+      .urlParams(new HashMap<>())
+      .inputData(Map.of(
+        "firstName", "Sigless",
+        "lastName", "McSigless",
+        "hasMoreThanOneStudent", "false",
+        "identityFiles", "[\"some-file-id\"]"
+      )).build();
+    submissionRepository.save(submissionWithoutSignature);
+    transmission = Transmission.fromSubmission(submissionWithoutSignature);
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
+    transmissionRepository.save(transmission);
+    transmissionId++;
+
+    docfile = new UserFile();
+    docfile.setFilesize(10.0f);
+    docfile.setSubmission_id(submissionWithoutSignature);
+    docfile.setOriginalName("originalFilename.png");
     userFileRepository.save(docfile);
 
     var submissionWithoutDocs = Submission.builder()
@@ -146,7 +197,7 @@ class TransmitterCommandsTest {
       )).build();
     submissionRepository.save(submissionWithoutDocs);
     transmission = Transmission.fromSubmission(submissionWithoutDocs);
-    transmission.setConfirmationNumber("1004");
+    transmission.setConfirmationNumber(String.format("%d", transmissionId));
     transmissionRepository.save(transmission);
   }
 
@@ -165,7 +216,7 @@ class TransmitterCommandsTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     LocalDateTime now = LocalDateTime.now();
     String date = dtf.format(now);
-    File zipFile = new File("Apps__" + date + "__1001-1004.zip");
+    File zipFile = new File("Apps__" + date + "__1001-1006.zip");
     assertTrue(zipFile.exists());
 
     verify(sftpClient).uploadFile(zipFile.getName());
@@ -177,7 +228,6 @@ class TransmitterCommandsTest {
     String destDir = "output";
     List<String> fileNames = unzip(zipFile.getPath(), destDir);
 
-    assertEquals(8, fileNames.size());
     assertThat(fileNames, hasItem("output/1001_McTest/"));
     assertThat(fileNames, hasItem("output/1001_McTest/00_applicant_summary.pdf"));
     assertThat(fileNames, hasItem("output/LaterDoc_1001_McTest_Tester/01_laterdoc.png"));
@@ -186,6 +236,10 @@ class TransmitterCommandsTest {
     assertThat(fileNames, hasItem("output/1002_McOtherson/01_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/02_originalFilename.png"));
     assertThat(fileNames, hasItem("output/1002_McOtherson/03_weird___filename.jpg"));
+    assertThat(fileNames, not(hasItem("output/1005_McSigless/01_originalFilename.png")));
+    assertThat(fileNames, not(hasItem("output/LaterDoc_1001_McIncompleteLaterDoc_null/01_laterdoc.png")));
+    assertEquals(8, fileNames.size());
+
 
     // cleanup
     zipFile.delete();
