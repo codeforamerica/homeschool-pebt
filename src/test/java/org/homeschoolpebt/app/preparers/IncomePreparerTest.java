@@ -118,12 +118,12 @@ public class IncomePreparerTest {
       Map.entry("income-other", new SingleField("income-other", "$200", null)),
 
       Map.entry("income-ssi", new SingleField("income-ssi", "$1", null)),
-      Map.entry("income-pension", new SingleField("income-pension", "$2", null)),
-      Map.entry("income-social-security", new SingleField("income-social-security", "", null)),
+      Map.entry("income-pension", new SingleField("income-pension", "", null)), // blank because "pension" was not checked
+      Map.entry("income-social-security", new SingleField("income-social-security", "missing", null)), // missing because SS was checked but has no value
       Map.entry("income-401k", new SingleField("income-401k", "$4", null)),
 
-      // $828 = 101+102+103+104+105+106+200+1+2+4
-      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$828", null)
+      // $826 = 101+102+103+104+105+106+200+1+4
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$826", null)
       )));
   }
 

@@ -53,8 +53,11 @@ public class IncomePreparer implements SubmissionFieldPreparer {
       var submissionFieldName = entry.getValue();
       var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedTypes[]", new ArrayList<String>());
       var submissionAmountFieldName = entry.getValue() + "Amount";
-      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ? (String) submission.getInputData().get(submissionAmountFieldName) : null;
-      fields.put(pdfFieldName, new SingleField(pdfFieldName, SubmissionUtilities.formatMoney(inputDataFieldValue), null));
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ?
+        (String) submission.getInputData().get(submissionAmountFieldName) :
+        null;
+      var formattedValue = typesCheckedByClient.contains(submissionFieldName) && submission.getInputData().get(submissionAmountFieldName) == null ? "missing" : SubmissionUtilities.formatMoney(inputDataFieldValue);
+      fields.put(pdfFieldName, new SingleField(pdfFieldName, formattedValue, null));
       totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
     }
 
@@ -64,8 +67,11 @@ public class IncomePreparer implements SubmissionFieldPreparer {
       var submissionFieldName = entry.getValue();
       var typesCheckedByClient = (List<String>) submission.getInputData().getOrDefault("incomeUnearnedRetirementTypes[]", new ArrayList<String>());
       var submissionAmountFieldName = entry.getValue() + "Amount";
-      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ? (String) submission.getInputData().get(submissionAmountFieldName) : null;
-      fields.put(pdfFieldName, new SingleField(pdfFieldName, SubmissionUtilities.formatMoney(inputDataFieldValue), null));
+      var inputDataFieldValue = typesCheckedByClient.contains(submissionFieldName) ?
+        (String) submission.getInputData().get(submissionAmountFieldName) :
+        null;
+      var formattedValue = typesCheckedByClient.contains(submissionFieldName) && submission.getInputData().get(submissionAmountFieldName) == null ? "missing" : SubmissionUtilities.formatMoney(inputDataFieldValue);
+      fields.put(pdfFieldName, new SingleField(pdfFieldName, formattedValue, null));
       totalUnearnedIncome += parseDoubleWithNullAsZero(inputDataFieldValue);
     }
 
