@@ -6,25 +6,6 @@ import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.pdf.PdfService;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import formflow.library.pdf.SubmissionFieldPreparer;
 import lombok.extern.slf4j.Slf4j;
 import org.homeschoolpebt.app.data.Transmission;
@@ -36,6 +17,17 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Slf4j
 @ShellComponent
@@ -182,7 +174,7 @@ public class TransmitterCommands {
             }
             successfullySubmittedIds.add(submission.getId());
           } catch (Exception e) {
-            log.error("Error generating file collection for appNumber, " + appNumber, e);
+            log.error("Error generating file collection for submission ID {}", submission.getId(), e);
           }
         }
       }
