@@ -14,8 +14,11 @@ import java.util.UUID;
 @Repository
 public interface TransmissionRepository extends JpaRepository<Transmission, UUID> {
 
-  @Query(value = "SELECT s FROM Submission s WHERE s.submittedAt IS NOT NULL")
+  @Query(value = "SELECT s FROM Submission s JOIN Transmission t ON t.submission = s WHERE s.submittedAt IS NOT NULL AND t.submittedToStateAt IS NULL ORDER BY s.updatedAt ASC ")
   List<Submission> submissionsToTransmit(Sort sort);
+
+  @Query(value = "SELECT s from Submission s WHERE flow = 'docUpload' AND s->>inputData['applicationNumber=")
+  List<Submission> laterDocsBySubmissionIds(Sort sort);
 
   @Query(value = "SELECT t FROM Transmission t WHERE t.flow = 'pebt' ORDER BY t.confirmationNumber DESC LIMIT 1")
   Transmission latestApplicationTransmission();

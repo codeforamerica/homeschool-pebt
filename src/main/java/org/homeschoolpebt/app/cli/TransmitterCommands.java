@@ -1,5 +1,6 @@
 package org.homeschoolpebt.app.cli;
 
+import com.google.common.collect.Lists;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
@@ -56,26 +57,37 @@ public class TransmitterCommands {
 
   @ShellMethod(key = "transmit")
   public void transmit() throws IOException, JSchException, SftpException {
+    // fix the batching to resolve the submissionAppIdsWithLaterDocs issue
+    // adding a failed_at or something
     log.info("Finding submissions to transmit...");
+    var all = this.transmissionRepository.submissionsToTransmit(Sort.unsorted());
+    log.info("Total submissions to transmit in all batches is {}", all.size());
+    var batches = Lists.partition(all, 200);
+    for (var batch : batches) {
+      transmitBatch(batch);
+    }
+    log.info("Finished transmission");
+  }
 
+  private void transmitBatch(List<Submission> batch) throws IOException, JSchException, SftpException {
     List<UUID> submissionIds = new ArrayList<>();
-    this.transmissionRepository.submissionsToTransmit(Sort.unsorted()).forEach(i -> {
+    batch.forEach(i -> {
       submissionIds.add(i.getId());
     });
 
-    log.info("Transmitting " + submissionIds.size() + " submissions");
+    log.info("Transmitting batch of " + submissionIds.size() + " submissions");
     Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
     Map<String, Submission> appIdToSubmission = new HashMap<>();
     submissionIds.forEach(id -> {
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
       Submission submission = transmission.getSubmission();
-      if (transmission.getSubmittedToStateAt() == null) {
-        appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
-        if ("docUpload".equals(submission.getFlow())) {
-          submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
-        }
+      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+      if ("docUpload".equals(submission.getFlow())) {
+        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
       }
     });
+
+
 
     String zipFilename = createZipFilename(appIdToSubmission);
     List<UUID> successfullySubmittedIds = zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
@@ -92,7 +104,7 @@ public class TransmitterCommands {
       transmission.setSubmittedToStateFilename(zipFilename);
       transmissionRepository.save(transmission);
     });
-    log.info("Finished transmission");
+    log.info("Finished transmission of a batch");
   }
 
   @NotNull
