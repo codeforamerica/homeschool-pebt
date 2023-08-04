@@ -3,3 +3,6 @@
 
 # Run every day at 5pm PDT (Pausing until production issues are resolved)
 # 0 0 * * * java -Dserver.port=9191 -jar /opt/form-flow-starter-app/app.jar transmit
+
+# Run transmitter often while we're debugging it.
+*/5 * * * * java -Dserver.port=9292 -jar /opt/form-flow-starter-app/app.jar transmit
