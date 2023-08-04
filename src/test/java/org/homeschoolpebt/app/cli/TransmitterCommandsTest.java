@@ -1,16 +1,5 @@
 package org.homeschoolpebt.app.cli;
 
-import static org.assertj.core.util.DateUtil.now;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
@@ -18,15 +7,6 @@ import formflow.library.data.SubmissionRepository;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepository;
 import formflow.library.pdf.PdfService;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
 import org.homeschoolpebt.app.upload.CloudFile;
@@ -37,6 +17,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import static org.assertj.core.util.DateUtil.now;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -94,7 +95,7 @@ class TransmitterCommandsTest {
         "lastName", "McOtherson",
         "signature", "Other McOtherson sig",
         "hasMoreThanOneStudent", "false",
-        "identityFiles", List.of("some-file-id")
+        "identityFiles", "[\"some-file-id\"]"
       )).build();
     submissionRepository.save(submissionWithDocs);
 
@@ -172,7 +173,7 @@ class TransmitterCommandsTest {
         "firstName", "Sigless",
         "lastName", "McSigless",
         "hasMoreThanOneStudent", "false",
-        "identityFiles", List.of("some-file-id")
+        "identityFiles", "[\"some-file-id\"]"
       )).build();
     submissionRepository.save(submissionWithoutSignature);
     transmission = Transmission.fromSubmission(submissionWithoutSignature);
