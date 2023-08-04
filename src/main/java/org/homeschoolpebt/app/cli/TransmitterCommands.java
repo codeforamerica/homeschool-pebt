@@ -57,11 +57,39 @@ public class TransmitterCommands {
 
   @ShellMethod(key = "transmit")
   public void transmit() throws IOException, JSchException, SftpException {
-    // fix the batching to resolve the submissionAppIdsWithLaterDocs issue
-    // adding a failed_at or something
     log.info("Finding submissions to transmit...");
-    var all = this.transmissionRepository.submissionsToTransmit(Sort.unsorted());
-    log.info("Total submissions to transmit in all batches is {}", all.size());
+    var allSubmissions = this.transmissionRepository.submissionsToTransmit(Sort.unsorted());
+    log.info("Total submissions to transmit in all batches is {}", allSubmissions.size());
+
+    log.info("Computing which app IDs have later docs");
+    List<UUID> allSubmissionIds = new ArrayList<>();
+
+    allSubmissions.forEach(submission -> {
+      allSubmissionIds.add(submission.getId());
+    });
+    allSubmissionIds.forEach(id -> {
+      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
+      Submission submission = transmission.getSubmission();
+      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+      if ("docUpload".equals(submission.getFlow())) {
+        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
+      }
+    })
+
+    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
+
+    Map<String, Submission> appIdToSubmission = new HashMap<>();
+    all.forEach(id -> {
+      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
+      Submission submission = transmission.getSubmission();
+      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+      if ("docUpload".equals(submission.getFlow())) {
+        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
+      }
+    });
+
+
+
     var batches = Lists.partition(all, 200);
     for (var batch : batches) {
       transmitBatch(batch);
@@ -70,7 +98,6 @@ public class TransmitterCommands {
   }
 
   private void transmitBatch(List<Submission> batch) throws IOException, JSchException, SftpException {
-    List<UUID> submissionIds = new ArrayList<>();
     batch.forEach(i -> {
       submissionIds.add(i.getId());
     });
