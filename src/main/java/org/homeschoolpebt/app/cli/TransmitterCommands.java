@@ -69,13 +69,11 @@ public class TransmitterCommands {
     allSubmissionIds.forEach(id -> {
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
       Submission submission = transmission.getSubmission();
-      if (transmission.getSubmittedToStateAt() == null) {
-        appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
-        if ("docUpload".equals(submission.getFlow())) {
-          submissionAppIdsWithLaterDocs.add(
-            (String) submission.getInputData().get("applicationNumber")
-          );
-        }
+      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+      if ("docUpload".equals(submission.getFlow())) {
+        submissionAppIdsWithLaterDocs.add(
+          (String) submission.getInputData().get("applicationNumber")
+        );
       }
     });
 
