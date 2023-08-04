@@ -8,7 +8,7 @@ ARG APTIBLE_ENV=/opt/form-flow-starter-app/.aptible.env
 RUN set -a  && \
     if [ -e ${APTIBLE_ENV} ] ; then . ${APTIBLE_ENV} ; fi && \
     ./gradlew assemble && \
-    cp /opt/form-flow-starter-app/build/libs/app.jar app.jar
+    cp ./build/libs/app.jar app.jar
 
 # Latest releases available at https://github.com/aptible/supercronic/releases
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.25/supercronic-linux-amd64 \

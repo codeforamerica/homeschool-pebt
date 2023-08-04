@@ -1,5 +1,5 @@
 # Run every day at 7pm GMT/Noon PDT
-0 19 * * * java -jar /opt/form-flow-starter-app/app.jar checkForUnsubmittedDocs
+0 19 * * * java -Dspring.main.web-application-type=NONE -jar /opt/form-flow-starter-app/app.jar checkForUnsubmittedDocs
 
 # Run every day at 5pm PDT (Pausing until production issues are resolved)
-# 0 0 * * * java -jar /opt/form-flow-starter-app/app.jar transmit
+# 0 0 * * * java -Dspring.main.web-application-type=NONE -jar /opt/form-flow-starter-app/app.jar transmit

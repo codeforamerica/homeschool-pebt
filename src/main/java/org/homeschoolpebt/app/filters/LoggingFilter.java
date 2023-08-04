@@ -23,14 +23,21 @@ public class LoggingFilter implements Filter {
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                        FilterChain filterChain) throws ServletException, IOException {
     HttpServletRequest request = (HttpServletRequest) servletRequest;
-    HttpSession session = request.getSession();
-    UUID id = (UUID) session.getAttribute("id");
+    HttpSession session = request.getSession(false);
+    UUID subId = session != null ? (UUID) session.getAttribute("id") : null;
+    String sessionId = session != null ? session.getId() : "unset/expired";
+    String sessionCreatedAt = session != null ?
+        new DateTime(session.getCreationTime()).toString("HH:mm:ss.SSS") :
+        "no session";
 
-    MDC.put("sessionId", session.getId());
-    MDC.put("submissionId", id == null ? "null" : id.toString());
-    MDC.put("sessionCreatedAt", new DateTime(session.getCreationTime()).toString("HH:mm:ss.SSS"));
+    MDC.put("sessionId", sessionId);
+    MDC.put("sessionCreatedAt", sessionCreatedAt);
+    MDC.put("submissionId", subId == null ? "null" : subId.toString());
     MDC.put("method", request.getMethod());
     MDC.put("request", request.getRequestURI());
+    MDC.put("xForwardedFor", request.getHeader("X-Forwarded-For"));
+    MDC.put("amznTraceId", request.getHeader("X-Amzn-Trace-Id"));
+
     filterChain.doFilter(servletRequest, servletResponse);
     MDC.clear();
   }
