@@ -4,6 +4,7 @@ import formflow.library.data.Submission;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -24,6 +25,11 @@ public class Transmission {
   @Temporal(TIMESTAMP)
   @Column(name = "created_at")
   private Date createdAt;
+
+  @UpdateTimestamp
+  @Temporal(TIMESTAMP)
+  @Column(name = "updated_at")
+  private Date updatedAt;
 
   @Column(name = "flow")
   private String flow;
