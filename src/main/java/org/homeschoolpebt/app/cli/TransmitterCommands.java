@@ -25,6 +25,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import formflow.library.pdf.SubmissionFieldPreparer;
 import lombok.extern.slf4j.Slf4j;
 import org.homeschoolpebt.app.data.Transmission;
 import org.homeschoolpebt.app.data.TransmissionRepository;
@@ -46,13 +47,18 @@ public class TransmitterCommands {
   private final ReadOnlyCloudFileRepository fileRepository;
 
   private final SftpClient sftpClient;
+  private final List<SubmissionFieldPreparer> customFieldPreparers;
 
   public TransmitterCommands(TransmissionRepository transmissionRepository,
-                             PdfService pdfService, ReadOnlyCloudFileRepository fileRepository, SftpClient sftpClient) {
+                             PdfService pdfService,
+                             ReadOnlyCloudFileRepository fileRepository,
+                             SftpClient sftpClient,
+                             List<SubmissionFieldPreparer> customFieldPreparers) {
     this.transmissionRepository = transmissionRepository;
     this.pdfService = pdfService;
     this.fileRepository = fileRepository;
     this.sftpClient = sftpClient;
+    this.customFieldPreparers = customFieldPreparers;
   }
 
   @ShellMethod(key = "transmit")
@@ -63,61 +69,40 @@ public class TransmitterCommands {
 
     log.info("Computing which app IDs have later docs");
     List<UUID> allSubmissionIds = new ArrayList<>();
-
     allSubmissions.forEach(submission -> {
       allSubmissionIds.add(submission.getId());
     });
+    Map<String, Submission> appIdToSubmission = new HashMap<>();
+    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
     allSubmissionIds.forEach(id -> {
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
       Submission submission = transmission.getSubmission();
-      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
-      if ("docUpload".equals(submission.getFlow())) {
-        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
-      }
-    })
-
-    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
-
-    Map<String, Submission> appIdToSubmission = new HashMap<>();
-    all.forEach(id -> {
-      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
-      Submission submission = transmission.getSubmission();
-      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
-      if ("docUpload".equals(submission.getFlow())) {
-        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
+      if (transmission.getSubmittedToStateAt() == null) {
+        appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
+        if ("docUpload".equals(submission.getFlow())) {
+          submissionAppIdsWithLaterDocs.add(
+            (String) submission.getInputData().get("applicationNumber")
+          );
+        }
       }
     });
 
+    log.info("Preparing batches");
+    var appIdBatches = Lists.partition(appIdToSubmission.keySet().stream().toList(), 200);
+    for (var appIdBatch : appIdBatches) {
+      Map<String, Submission> appIdToSubmissionBatch = new HashMap<>();
+      for (var appId : appIdBatch) {
+        appIdToSubmissionBatch.put(appId, appIdToSubmission.get(appId));
+      }
 
-
-    var batches = Lists.partition(all, 200);
-    for (var batch : batches) {
-      transmitBatch(batch);
+      log.info("Starting batch of size={}", appIdToSubmissionBatch.size());
+      transmitBatch(appIdToSubmissionBatch, submissionAppIdsWithLaterDocs);
     }
-    log.info("Finished transmission");
   }
 
-  private void transmitBatch(List<Submission> batch) throws IOException, JSchException, SftpException {
-    batch.forEach(i -> {
-      submissionIds.add(i.getId());
-    });
-
-    log.info("Transmitting batch of " + submissionIds.size() + " submissions");
-    Set<String> submissionAppIdsWithLaterDocs = new HashSet<>();
-    Map<String, Submission> appIdToSubmission = new HashMap<>();
-    submissionIds.forEach(id -> {
-      Transmission transmission = transmissionRepository.getTransmissionBySubmission(Submission.builder().id(id).build());
-      Submission submission = transmission.getSubmission();
-      appIdToSubmission.put(transmission.getConfirmationNumber(), submission);
-      if ("docUpload".equals(submission.getFlow())) {
-        submissionAppIdsWithLaterDocs.add((String) submission.getInputData().get("applicationNumber"));
-      }
-    });
-
-
-
-    String zipFilename = createZipFilename(appIdToSubmission);
-    List<UUID> successfullySubmittedIds = zipFiles(appIdToSubmission, zipFilename, submissionAppIdsWithLaterDocs);
+  private void transmitBatch(Map<String, Submission> appIdToSubmissionBatch, Set<String> submissionAppIdsWithLaterDocs) throws IOException, JSchException, SftpException{
+    String zipFilename = createZipFilename(appIdToSubmissionBatch);
+    List<UUID> successfullySubmittedIds = zipFiles(appIdToSubmissionBatch, zipFilename, submissionAppIdsWithLaterDocs);
 
     // send zip file
     log.info("Uploading zip file");
@@ -164,7 +149,7 @@ public class TransmitterCommands {
           try {
             if ("pebt".equals(submission.getFlow())) {
               // generate applicant summary
-              byte[] file = pdfService.getFilledOutPDF(submission);
+              byte[] file = renderPDFOrCrash(submission);
               String fileName = "00_" + pdfService.generatePdfName(submission);
               if (!fileName.endsWith(".pdf")) {
                 fileName += ".pdf";
@@ -196,9 +181,8 @@ public class TransmitterCommands {
               zos.closeEntry();
             }
             successfullySubmittedIds.add(submission.getId());
-          } catch (IOException e) {
-            log.error("Unable to write file for appNumber, " + appNumber, e);
-            throw e;
+          } catch (Exception e) {
+            log.error("Error generating file collection for appNumber, " + appNumber, e);
           }
         }
       }
@@ -211,7 +195,7 @@ public class TransmitterCommands {
     // Refuse to proceed if incomplete
     var inputData = submission.getInputData();
     if (inputData.get("firstName") == null || inputData.get("lastName") == null || inputData.get("applicationNumber") == null) {
-      log.info("Declining to transmit incomplete doc upload submissionId={} -- firstName or lastName or applicationNumber is missing", submission.getId());
+      log.warn("Declining to transmit incomplete doc upload submissionId={} -- firstName or lastName or applicationNumber is missing", submission.getId());
       return false;
     }
     return true;
@@ -221,7 +205,7 @@ public class TransmitterCommands {
     // Bail if the submission looks incomplete
     var inputData = submission.getInputData();
     if (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null) {
-      log.info("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
+      log.warn("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
       return false;
     }
 
@@ -243,5 +227,19 @@ public class TransmitterCommands {
     } else {
       return "LaterDoc_" + inputData.get("applicationNumber") + "_" + inputData.get("lastName") + "_" + inputData.get("firstName") + "/";
     }
+  }
+
+  private byte[] renderPDFOrCrash(Submission submission) throws Exception {
+    // Do a dry-run to make sure we're not submitting any partial PDFs.
+    for (var preparer : this.customFieldPreparers) {
+      try {
+        preparer.prepareSubmissionFields(submission, null);
+      } catch (Exception e) {
+        log.error("Preparer {} failed for submission {}, skipping transmit" , preparer.getClass(), submission.getId(), e);
+        throw e;
+      }
+    }
+
+    return pdfService.getFilledOutPDF(submission);
   }
 }
