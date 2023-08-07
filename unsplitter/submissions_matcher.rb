@@ -2,54 +2,56 @@
 require 'csv'
 require 'pry'
 require 'json'
-CSV_FILE = '/Users/amedrano@codeforamerica.org/Documents/quarantine/mismatched_apps_2023_08_03.csv'
+CSV_FILE = '/Users/achoi@codeforamerica.org/Documents/quarantine/toms_merge.csv'
 
 class SubmissionsMatcher
   def initialize(csv_file)
     @csv = CSV.open(csv_file, headers: :first_row)
-    @new_data =[ ["submission_id", "submission_flow", "submission_input_data", "matched_submission_id", "matched_submission_flow", "matched_submission_input_data", "combined_input_data", "errors"] ]
   end
 
   def process
-    @csv.each do |row|
-      submission_id = row['matching_submission']
+    data = @csv.to_a
+    data.each { |row| row['input_data'] = JSON.parse(row['input_data']) }
+    data = data.group_by { |row| row['normalized_name'] }
+    puts "Read #{data.length} groups of people from CSV"
 
-      new_input_data = JSON.parse(row['matching_submission_input_data'])
-      unsubmitted_input_data = JSON.parse(row['unsubmitted_row_input_data'])
-      errors = []
-      unsubmitted_input_data.keys.each do |key|
-        error = {}
-        if(new_input_data[key])
-          if(unsubmitted_input_data[key].to_s == new_input_data[key].to_s)
-            next
-          elsif key == 'firstName' || key == 'lastName'
-            next if unsubmitted_input_data[key].to_s.strip.downcase == new_input_data[key].to_s.strip.downcase
-            error['type'] = "key value mismatched"
-            error['key'] = key
-            error['notes'] = {
-              submission_value: new_input_data[key].to_s,
-              matched_submission_value: unsubmitted_input_data[key].to_s
-            }
-            errors << error
-          else
-            error['type'] = "key value mismatched"
-            error['key'] = key
-            error['notes'] = {
-              submission_value: new_input_data[key].to_s,
-              matched_submission_value: unsubmitted_input_data[key].to_s
-            }
-            errors << error
-          end
-          next
+    submitted_rows = Hash[data.filter { |k, rows| rows.any? { |row| row['submitted_at'] } }]
+    puts "Found #{submitted_rows.length} groups with a submitted_at"
+
+    sql_commands = []
+    submitted_rows.each do |k, rows|
+      begin
+        merged_record, other_ids = merge_records(rows)
+        sql_commands << generate_sql_command(merged_record, other_ids)
+        binding.pry
+      rescue => ex
+        $stderr.puts "Error merging #{k}: #{ex.message}"
+      end
+    end
+  end
+
+  def generate_sql_command(record, other_ids)
+    <<~SQL
+    UPDATE submissions SET input_data = '#{JSON.generate(record['input_data'])}' WHERE id = '#{record['id']}';
+    UPDATE submissions SET merged_into_submission_id='#{record['id']}' WHERE id in ('#{other_ids.join('\',\'')}');
+    SQL
+  end
+
+  def merge_records(rows)
+    # find the submitted record
+    submitted_record = rows.find { |row| row['submitted_at'] }
+    unsubmitted_records = rows.find_all { |row| row['id'] != submitted_record['id'] }
+    unsubmitted_records.each do |row|
+      row['input_data'].each do |k, v|
+        val = submitted_record['input_data'][k]
+        if !val.nil? && val != v
+          raise "key #{k} does not match: #{val} and #{v}"
         else
-          new_input_data[key] = unsubmitted_input_data[key]
+          submitted_record['input_data'][k] = v
         end
       end
-
-      @new_data << [row['matching_submission'], row['matching_submission_flow'], row['matching_submission_input_data'], row['unsubmitted_row_id'], row['unsubmitted_row_flow'], row['unsubmitted_row_input_data'], new_input_data, errors]
     end
-
-    File.write("/Users/amedrano@codeforamerica.org/Documents/quarantine/new_output.csv", @new_data.map(&:to_csv).join)
+    [submitted_record, unsubmitted_records.map { |record| record['id'] }]
   end
 end
 
