@@ -1,10 +1,10 @@
 SELECT sss.id AS matching_submission,
        sss.signature,
-       sss.flow,
+       sss.flow AS matching_submission_flow,
        sss.created_at,
        sss.input_data AS matching_submission_input_data,
        s.id AS unsubmitted_row_id,
-       s.flow,
+       s.flow AS unsubmitted_row_flow,
        s.input_data as unsubmitted_row_input_data,
        s.created_at
 FROM submissions s
