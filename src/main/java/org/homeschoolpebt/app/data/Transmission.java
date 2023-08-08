@@ -48,6 +48,9 @@ public class Transmission {
   @Column(name = "submitted_to_state_filename")
   private String submittedToStateFilename;
 
+  @Column(name = "last_transmission_failure_reason")
+  private String lastTransmissionFailureReason;
+
   public static Transmission fromSubmission(Submission submission) {
     var transmission = new Transmission();
     transmission.setSubmission(submission);
