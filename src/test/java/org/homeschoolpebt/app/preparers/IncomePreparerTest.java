@@ -138,6 +138,7 @@ public class IncomePreparerTest {
       put("incomeCustomAnnualIncome", "1200"); // Future: $100/mo.
       put("incomeGrossMonthlyIndividual", "200"); // Past: $200 monthly gross - 40% standard = $120 net
       put("incomeWillBeLessDescription", "I will be planting fewer potatoes.");
+      put("iterationIsComplete", true);
     }};
 
     // Self Employment w/Custom Deductions
@@ -151,6 +152,7 @@ public class IncomePreparerTest {
       put("incomeCustomAnnualIncome", "600"); // Future: $50/mo.
       put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
       put("incomeWillBeLessDescription", "My operating expenses are very high.");
+      put("iterationIsComplete", true);
     }};
 
     // Hourly
@@ -163,6 +165,7 @@ public class IncomePreparerTest {
       put("incomeHourlyWage", "18"); // Monthly income: $720 (10 * $18 * 4)
       put("incomeWillBeLess", "false");
       put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+      put("iterationIsComplete", true);
     }};
 
     // Regular Pay (weekly)
@@ -175,6 +178,7 @@ public class IncomePreparerTest {
       put("incomeRegularPayInterval", "biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
       put("incomeWillBeLess", "false");
       put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -233,6 +237,28 @@ public class IncomePreparerTest {
     IncomePreparer preparer = new IncomePreparer();
     assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.of(
       "household-count", new SingleField("household-count", "3", null)
+    ));
+  }
+
+  @Test
+  void worksWhenOneSubflowItemIsIncomplete() {
+    HashMap<String, Object> job1 = new HashMap<>() {{
+      put("incomeMember", "Johnny Potato");
+      put("incomeJobName", "Tuber");
+      put("iterationIsComplete", false);
+    }};
+
+    Submission submission = Submission.builder().inputData(Map.ofEntries(
+      Map.entry("income", List.of(job1))
+    )).build();
+
+    IncomePreparer preparer = new IncomePreparer();
+    assertThat(preparer.prepareSubmissionFields(submission, null)).containsAllEntriesOf(Map.ofEntries(
+      Map.entry("income-hh-unearned", new SingleField("income-hh-unearned", "$0", null)),
+      Map.entry("income-hh-future-earned", new SingleField("income-hh-future-earned", "$0", null)),
+      Map.entry("income-hh-past-earned", new SingleField("income-hh-past-earned", "$0", null)),
+      Map.entry("income-hh-future-total", new SingleField("income-hh-future-total", "$0", null)),
+      Map.entry("income-hh-past-total", new SingleField("income-hh-past-total", "$0", null))
     ));
   }
 }
