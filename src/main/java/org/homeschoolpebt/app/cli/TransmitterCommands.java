@@ -104,6 +104,7 @@ public class TransmitterCommands {
       Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
       transmission.setSubmittedToStateAt(new Date());
       transmission.setSubmittedToStateFilename(zipFilename);
+      transmission.setLastTransmissionFailureReason(null);
       transmissionRepository.save(transmission);
     });
     log.info("Finished transmission of a batch");
@@ -131,10 +132,19 @@ public class TransmitterCommands {
         var submission = appNumberAndSubmission.getValue();
 
         Transmission transmission = transmissionRepository.getTransmissionBySubmission(submission);
-        if (transmission != null && (
-          ("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) ||
-            ("docUpload".equals(submission.getFlow()) && doTransmitDocUpload(submission)))
-        ) {
+        if (transmission == null) {
+          log.error("Missing transmission for submission {}", submission.getId());
+          continue;
+        }
+
+        if (!isComplete(submission)) {
+          transmission.setLastTransmissionFailureReason("skip_incomplete");
+          transmissionRepository.save(transmission);
+          continue;
+        }
+
+        if (("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) ||
+            ("docUpload".equals(submission.getFlow()))) {
           String subfolder = createSubfolderName(submission, transmission);
           try {
             if ("pebt".equals(submission.getFlow())) {
@@ -172,8 +182,13 @@ public class TransmitterCommands {
             }
             successfullySubmittedIds.add(submission.getId());
           } catch (Exception e) {
+            transmission.setLastTransmissionFailureReason("error_generating_files");
+            transmissionRepository.save(transmission);
             log.error("Error generating file collection for submission ID {}", submission.getId(), e);
           }
+        } else {
+          transmission.setLastTransmissionFailureReason("skip_awaiting_laterdocs");
+          transmissionRepository.save(transmission);
         }
       }
     }
@@ -181,24 +196,24 @@ public class TransmitterCommands {
     return successfullySubmittedIds;
   }
 
-  private boolean doTransmitDocUpload(Submission submission) {
-    // Refuse to proceed if incomplete
+  private static boolean isComplete(Submission submission) {
+    // Bail if the submission looks incomplete
     var inputData = submission.getInputData();
-    if (inputData.get("firstName") == null || inputData.get("lastName") == null || inputData.get("applicationNumber") == null) {
-      log.warn("Declining to transmit incomplete doc upload submissionId={} -- firstName or lastName or applicationNumber is missing", submission.getId());
-      return false;
+    if (submission.getFlow().equals("pebt")) {
+      if (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null) {
+        log.warn("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
+        return false;
+      }
+    } else if (submission.getFlow().equals("docUpload")) {
+      if (inputData.get("firstName") == null || inputData.get("lastName") == null || inputData.get("applicationNumber") == null) {
+        log.warn("Declining to transmit incomplete doc upload submissionId={} -- firstName or lastName or applicationNumber is missing", submission.getId());
+        return false;
+      }
     }
     return true;
   }
 
   private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
-    // Bail if the submission looks incomplete
-    var inputData = submission.getInputData();
-    if (inputData.get("hasMoreThanOneStudent") == null || inputData.get("firstName") == null || inputData.get("signature") == null) {
-      log.warn("Declining to transmit incomplete pebt app submissionId={} -- hasMoreThanOneStudent or firstName or signature is missing", submission.getId());
-      return false;
-    }
-
     // delay 7 days if there aren't any uploaded docs associated with this application
     Instant submittedAt = submission.getSubmittedAt().toInstant();
     long diffDays = ChronoUnit.DAYS.between(submittedAt, Instant.now());
