@@ -51,12 +51,16 @@ public class StudentsPreparer implements SubmissionFieldPreparer {
   private HashMap<String, String> studentFields(Map<String, Object> student) {
     var fields = new HashMap<String, String>();
 
-    var anticipated = parseSchoolName((String) student.get("studentWouldAttendSchoolName"));
-    var anticipatedCep = SchoolListUtilities.allCepSchools(List.of(anticipated.get(0)));
-    fields.put("anticipated-school-code", anticipated.get(0));
-    fields.put("anticipated-school-district", anticipated.get(1));
-    fields.put("anticipated-school", anticipated.get(2));
-    fields.put("anticipated-school-cep", anticipatedCep ? "Yes" : "No");
+    if (student.get("studentWouldAttendSchoolName") != null) {
+      var anticipated = parseSchoolName((String) student.get("studentWouldAttendSchoolName"));
+      var anticipatedCep = SchoolListUtilities.allCepSchools(List.of(anticipated.get(0)));
+      fields.put("anticipated-school-code", anticipated.get(0));
+      fields.put("anticipated-school-district", anticipated.get(1));
+      fields.put("anticipated-school", anticipated.get(2));
+      fields.put("anticipated-school-cep", anticipatedCep ? "Yes" : "No");
+    } else {
+      fields.put("anticipated-school", "Unknown");
+    }
 
     var studentUnenrolledSchoolName = (String) student.get("studentUnenrolledSchoolName");
     if (studentUnenrolledSchoolName != null) {
