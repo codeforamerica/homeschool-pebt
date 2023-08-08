@@ -57,6 +57,7 @@ class SubmissionsMatcher
     <<~SQL
     UPDATE submissions SET input_data = '#{JSON.generate(record['input_data']).gsub("'", "''")}' WHERE id = '#{record['id']}';
     UPDATE submissions SET merged_into_submission_id='#{record['id']}' WHERE id in ('#{other_ids.join('\',\'')}');
+    UPDATE submissions SET updated_at = NOW() WHERE id = '#{record['id']}' OR id in ('#{other_ids.join('\',\'')}');
     SQL
   end
 
@@ -76,6 +77,7 @@ class SubmissionsMatcher
           if new_val.nil?
             raise "key #{k} does not match (#{old_val.inspect} vs #{v.inspect})"
           end
+          submitted_record['input_data'][k] = new_val
         end
       end
     end
