@@ -424,6 +424,7 @@ class SubmissionUtilitiesTest {
         put("incomeSelfEmployedCustomOperatingExpenses", "true");
         put("incomeGrossMonthlyIndividual", "1000"); // Net income: $500 (= $1000 monthly - $500 expenses)
         put("incomeSelfEmployedOperatingExpenses", "500");
+        put("iterationIsComplete", true);
       }};
 
       Map<String, Object> job2 = new HashMap<>() {{
@@ -431,6 +432,7 @@ class SubmissionUtilitiesTest {
         put("incomeMember", "Sally A Starfish");
         put("incomeSelfEmployed", "true");
         put("incomeGrossMonthlyIndividual", "1000"); // Net income: $600 (= $1000 monthly - $400 standard deduction)
+        put("iterationIsComplete", true);
       }};
 
       Map<String, Object> job3 = new HashMap<>() {{
@@ -439,6 +441,7 @@ class SubmissionUtilitiesTest {
         put("incomeIsJobHourly", "true");
         put("incomeHourlyWage", "10");
         put("incomeHoursPerWeek", "18"); // Gross Income: $720 (= 10 hr/wk * $18 / hr * 4 wk/mo)
+        put("iterationIsComplete", true);
       }};
 
       Map<String, Object> job4 = new HashMap<>() {{
@@ -447,6 +450,7 @@ class SubmissionUtilitiesTest {
         put("incomeIsJobHourly", "false");
         put("incomeRegularPayInterval", "weekly");
         put("incomeRegularPayAmount", "100"); // Gross Income: $433.33 (= $100 * 4.33333 weeks/mo)
+        put("iterationIsComplete", true);
       }};
 
       var submission = Submission.builder().inputData(Map.ofEntries(

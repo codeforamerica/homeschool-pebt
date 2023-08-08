@@ -5,6 +5,7 @@ import formflow.library.data.Submission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class IncomeCalculator {
   Submission submission;
@@ -13,8 +14,7 @@ public class IncomeCalculator {
   }
 
   public Double totalPastEarnedIncome() {
-    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
-    var total = jobs.stream()
+    var total = jobs(submission)
       .map(job -> pastIncomeForJob(job))
       .reduce(0.0d, Double::sum);
 
@@ -22,8 +22,7 @@ public class IncomeCalculator {
   }
 
   public Double totalFutureEarnedIncome() {
-    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
-    var total = jobs.stream()
+    var total = jobs(submission)
       .map(IncomeCalculator::futureIncomeForJob)
       .reduce(0.0d, Double::sum);
 
@@ -57,5 +56,10 @@ public class IncomeCalculator {
     } else {
       return pastIncomeForJob(job);
     }
+  }
+
+  private Stream<Map<String, Object>> jobs(Submission submission) {
+    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
+    return jobs.stream().filter(job -> job.getOrDefault("iterationIsComplete", false).equals(true));
   }
 }
