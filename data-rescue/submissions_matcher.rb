@@ -9,18 +9,29 @@ class SubmissionsMatcher
     # a = old value, b = new value
     # Whatever is returned goes in the new field. If it returns `nil` then the record is different and we raise an error.
     equality: ->(a, b) { b if a == b },
-    string: ->(a, b) { b if a.strip.downcase == b.strip.downcase },
-    uploads: ->(a, b) { JSON.parse(a).concat(JSON.parse(b)) },
+    string: ->(a, b) { b if a.gsub(" ", "").downcase == b.gsub(" ", "").downcase },
+    uploads: ->(a, b) { JSON.generate(JSON.parse(a).concat(JSON.parse(b))) },
+    dont_overwrite: ->(a, _) { a },
   }
   # For some fields, we can afford to be a bit looser with equality checking / merge logic.
   FIELD_MERGE_STRATEGIES = {
     'firstName' => MERGE_STRATEGIES[:string],
     'lastName' => MERGE_STRATEGIES[:string],
     'signature' => MERGE_STRATEGIES[:string],
+    'residentialAddressCity' => MERGE_STRATEGIES[:string],
+    'residentialAddressStreetAddress1' => MERGE_STRATEGIES[:string],
+    'residentialAddressStreetAddress2' => MERGE_STRATEGIES[:string],
+
     'identityFiles' => MERGE_STRATEGIES[:uploads],
     'enrollmentFiles' => MERGE_STRATEGIES[:uploads],
     'incomeFiles' => MERGE_STRATEGIES[:uploads],
     'unearnedIncomeFiles' => MERGE_STRATEGIES[:uploads],
+
+    'students' => MERGE_STRATEGIES[:dont_overwrite],
+    'income' => MERGE_STRATEGIES[:dont_overwrite],
+    'household' => MERGE_STRATEGIES[:dont_overwrite],
+    'confirmationNumber' => MERGE_STRATEGIES[:dont_overwrite],
+    'feedbackText' => MERGE_STRATEGIES[:dont_overwrite],
   }
 
   def initialize(csv_file)
@@ -42,6 +53,7 @@ class SubmissionsMatcher
         merged_record, other_ids = merge_records(rows)
         sql_commands << generate_sql_command(merged_record, other_ids)
       rescue => ex
+        binding.pry if ex.message.match?('implicit')
         $stderr.puts "Error merging #{k}: #{ex.message}"
       end
     end
@@ -66,7 +78,7 @@ class SubmissionsMatcher
     submitted_record = rows.find { |row| row['submitted_at'] }
 
     # merge
-    unsubmitted_records = rows.find_all { |row| row['id'] != submitted_record['id'] }
+    unsubmitted_records = rows.find_all { |row| row['id'] != submitted_record['id'] }.sort_by { |row| DateTime.parse(row['updated_at']) }.reverse
     unsubmitted_records.each do |row|
       row['input_data'].each do |k, v|
         old_val = submitted_record['input_data'][k]

@@ -34,6 +34,7 @@ select
   s.id,
   normalized_name,
   submitted_at,
+  updated_at,
   flow,
   input_data
 from submissions s
