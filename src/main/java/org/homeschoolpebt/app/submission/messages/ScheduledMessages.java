@@ -104,4 +104,26 @@ public class ScheduledMessages {
       log.info("Not sending SMS %s: no phone number for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
     }
   }
+
+  public void sendLastMinuteReminderMessage(Submission submission) {
+    var message = new LastMinuteReminderMessage(submission);
+
+    String emailAddress = (String) submission.getInputData().getOrDefault("email", "");
+    if (!emailAddress.isBlank()) {
+      var emailMessage = message.renderEmail();
+      log.info("Sending email %s for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
+      var mailgunResponse = mailgunEmailClient.sendEmail(emailMessage.getSubject(), emailAddress, emailMessage.getBodyHtml());
+      sentMessageRepositoryService.save(
+        SentMessage.builder()
+          .submission(submission)
+          .messageName(message.getClass().getSimpleName())
+          .sentAt(new Date())
+          .provider("mailgun")
+          .providerMessageId(mailgunResponse.getId())
+          .build()
+      );
+    } else {
+      log.info("Not sending email %s: no email address for submission %s".formatted(message.getClass().getSimpleName(), submission.getId()));
+    }
+  }
 }
