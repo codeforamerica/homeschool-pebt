@@ -1,42 +1,4 @@
-SELECT sss.id AS matching_submission,
-       sss.signature,
-       sss.flow AS matching_submission_flow,
-       sss.created_at,
-       sss.input_data AS matching_submission_input_data,
-       s.id AS unsubmitted_row_id,
-       s.flow AS unsubmitted_row_flow,
-       s.input_data as unsubmitted_row_input_data,
-       s.created_at
-FROM submissions s
-       inner join (WITH split_session_submissions AS (SELECT s.id,
-                                                             s.flow,
-                                                             s.created_at,
-                                                             s.input_data ->> 'firstName'             AS first_name,
-                     s.input_data ->> 'hasMoreThanOneStudent' as has_more_than_one_student,
-                     s.input_data ->> 'signature'             AS signature,
-                     s.input_data,
-                     (
-                     s.input_data ->> 'hasMoreThanOneStudent' is null
-                     OR s.input_data ->> 'firstName' is null
-                     OR s.input_data ->> 'signature' is null
-                     )                                    AS affected_by_split_session
-                   FROM submissions s
-                   WHERE s.submitted_at is not null
-                     AND s.input_data::text not ilike '{}')
-SELECT *
-from split_session_submissions s
-where affected_by_split_session = true) as sss
-on lower(concat(trim(s.input_data ->> 'firstName'), ' ', trim(s.input_data ->> 'lastName'))) =
-  trim(lower(sss.signature))
-
-
-WHERE s.submitted_at is null
-  AND s.input_data::text not ilike '{}'
-  AND s.input_data ->> 'firstName' is not null
-  AND s.input_data ->> 'lastName' is not null;
-
-
--- toms merge
+-- the output of this goes into submissions_matcher.rb (as "toms_merge.csv")
 with incomplete_submissions as (
   select *
   from submissions s
@@ -56,7 +18,16 @@ with incomplete_submissions as (
 ), submissions_with_name as (
   select
     id,
-    coalesce(trim(lower(s.input_data->>'signature')), lower(concat(trim(s.input_data ->> 'firstName'), ' ', trim(s.input_data ->> 'lastName')))) as normalized_name
+    regexp_replace(
+      regexp_replace(
+        translate(
+          coalesce(
+            trim(lower(s.input_data ->> 'signature')),
+            lower(concat(trim(s.input_data ->> 'firstName'), ' ', trim(s.input_data ->> 'lastName'))))
+          , 'áéíóú-', 'aeiou ')
+      , '[\.]', '')
+    , '([a-z]*) [a-z]* ([a-z]*)', '\1 \2')
+    as normalized_name
   from incomplete_submissions s
 )
 select
@@ -70,11 +41,15 @@ inner join submissions_with_name on s.id = submissions_with_name.id
 where submissions_with_name.normalized_name <> ' '
 order by normalized_name;
 
+-- the output of this goes into s3_review.rb as docuplad_submissions_that_had_errored.csv
+select * from submissions s
+                inner join transmissions t on s.id = t.submission_id
+where t.last_transmission_failure_reason = 'skip_incomplete'
+  and s.input_data->>'docUpload' is not null
+  and s.flow = 'docUpload';
 
-select *
-from submissions
-where flow = 'docUpload'
-   AND input_data ->> 'hasMoreThanOneStudent' is not null
-   AND input_data ->> 'firstName' is not null
-   AND input_data ->> 'signature' is not null
-   AND input_data ->> 'docUpload' is null
+-- the output of this goes into s3_review.rb as csv_of_all_completed_submissions_with_confirmationNumber.csv
+select s.input_data->>'firstName' as first_name, s.input_data->>'lastName' as last_name, s.input_data->>'confirmationNumber' as confirmation_number
+from submissions s
+where s.submitted_at is not null
+  and s.input_data->>'confirmationNumber' is not null;
