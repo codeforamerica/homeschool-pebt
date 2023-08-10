@@ -93,7 +93,11 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
     Map.entry("submitting", "firstName"),
     Map.entry("legalStuff", "firstName"),
     Map.entry("signName", "firstName"),
-    Map.entry("success", "firstName")
+    Map.entry("success", "firstName"),
+
+    // docUpload flow
+    Map.entry("uploadDocuments", "firstName"),
+    Map.entry("docUploadConfirm", "firstName")
   );
 
   public DataRequiredInterceptor(SubmissionRepositoryService submissionRepositoryService) {
@@ -104,8 +108,8 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     try {
       var parsedUrl = new AntPathMatcher().extractUriTemplateVariables(PATH_FORMAT, request.getRequestURI());
-      if (!parsedUrl.get("flow").equals("pebt")) {
-        return true; // Only enforce data requirements in PEBT flow.
+      if (!parsedUrl.get("flow").equals("pebt") && !parsedUrl.get("flow").equals("docUpload")) {
+        return true;
       }
       var requiredData = REQUIRED_DATA.get(parsedUrl.get("screen"));
       if (requiredData == null) {
