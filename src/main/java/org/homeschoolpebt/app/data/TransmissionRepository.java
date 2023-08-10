@@ -31,4 +31,15 @@ public interface TransmissionRepository extends JpaRepository<Transmission, UUID
 
   @Query(value = "SELECT u FROM UserFile u WHERE u.file_id IN :ids")
   List<UserFile> userFilesByID(@Param("ids") List<UUID> ids);
+
+  // These should be in SubmissionRepository but can't because it's in the FFL:
+  @Query(value = "SELECT s FROM Submission s " +
+    "WHERE s.submittedAt IS NULL " +
+    "AND jsonb_extract_path_text(s.inputData, 'email') IS NOT NULL")
+  List<Submission> submissionsUnsubmittedWithEmail();
+
+  @Query(value = "SELECT s FROM Submission s " +
+    "WHERE s.submittedAt IS NOT NULL " +
+    "AND jsonb_extract_path_text(s.inputData, 'email') IS NOT NULL")
+  List<Submission> submissionsSubmittedWithEmail();
 }
