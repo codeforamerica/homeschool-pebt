@@ -54,3 +54,15 @@ select s.input_data->>'firstName' as first_name, s.input_data->>'lastName' as la
 from submissions s
 where s.submitted_at is not null
   and s.input_data->>'confirmationNumber' is not null;
+
+
+-- the output of this goes into merge_the_remainder.rb
+-- all_data
+SELECT
+  s.id as "submission_id",
+  s.submitted_at,
+  s.input_data,
+  t.submitted_to_state_at,
+  t.last_transmission_failure_reason
+FROM submissions s
+LEFT OUTER JOIN transmissions t on s.id = t.submission_id
