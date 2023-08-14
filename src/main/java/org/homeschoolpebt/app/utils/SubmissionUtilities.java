@@ -1,22 +1,16 @@
 package org.homeschoolpebt.app.utils;
 
 import formflow.library.data.Submission;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.homeschoolpebt.app.preparers.StudentsPreparer;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.web.util.HtmlUtils;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SubmissionUtilities {
 
@@ -489,10 +483,10 @@ public class SubmissionUtilities {
     return jobs.size() > 0;
   }
 
-  static final DateTime LAST_DAY_OF_APPLICATIONS = new DateTime(2023, 8, 15, 17, 00); // 5pm on Aug 15
+  static final DateTime LAST_DAY_OF_LATERDOCS = new DateTime(2023, 8, 30, 17, 00); // 5pm on Aug 30
   public static String getLaterdocDeadline(Date now) {
     var oneWeekHence = new DateTime(now).plus(Duration.standardDays(7));
-    var deadline = oneWeekHence.compareTo(LAST_DAY_OF_APPLICATIONS) < 0 ? oneWeekHence : LAST_DAY_OF_APPLICATIONS;
+    var deadline = oneWeekHence.compareTo(LAST_DAY_OF_LATERDOCS) < 0 ? oneWeekHence : LAST_DAY_OF_LATERDOCS;
 
     String pattern = "MMMM d, yyyy";
     SimpleDateFormat formatDate = new SimpleDateFormat(pattern);
