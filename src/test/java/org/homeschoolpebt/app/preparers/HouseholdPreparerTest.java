@@ -32,6 +32,7 @@ class HouseholdPreparerTest {
       put("incomeCustomAnnualIncome", "1200"); // Future: $100/mo.
       put("incomeGrossMonthlyIndividual", "200"); // Past: $200 monthly gross - 40% standard = $120 net
       put("incomeWillBeLessDescription", "I will be hustling less.");
+      put("iterationIsComplete", true);
     }};
 
     // Self Employment w/Custom Deductions
@@ -45,6 +46,7 @@ class HouseholdPreparerTest {
       put("incomeCustomAnnualIncome", "600"); // Future: $50/mo.
       put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
       put("incomeWillBeLessDescription", "My operating expenses are very high.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
