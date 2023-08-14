@@ -11,6 +11,7 @@ import org.springframework.web.util.HtmlUtils;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class SubmissionUtilities {
 
@@ -317,7 +318,7 @@ public class SubmissionUtilities {
     var notYetShownNames = getHouseholdMemberNames(submission);
     ArrayList<HashMap<String, Object>> items = new ArrayList<>();
 
-    for (var job : (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
+    for (var job : jobs(submission).toList()) {
       var item = new HashMap<String, Object>();
       item.put("name", job.get("incomeMember"));
       item.put("itemType", "job");
@@ -479,8 +480,7 @@ public class SubmissionUtilities {
     }
 
     // No exception qualifies. Income verification is necessary if there is any earned income.
-    var jobs = (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>());
-    return jobs.size() > 0;
+    return jobs(submission).findAny().isPresent();
   }
 
   static final DateTime LAST_DAY_OF_LATERDOCS = new DateTime(2023, 8, 30, 17, 00); // 5pm on Aug 30
@@ -565,5 +565,10 @@ public class SubmissionUtilities {
       result.put(fullName, fullName);
     }
     return result;
+  }
+
+  public static Stream<Map<String, Object>> jobs(Submission submission) {
+    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
+    return jobs.stream().filter(job -> job.getOrDefault("iterationIsComplete", false).equals(true));
   }
 }

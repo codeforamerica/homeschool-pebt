@@ -9,11 +9,8 @@ import org.homeschoolpebt.app.utils.IncomeCalculator;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Component
 public class JobsPreparer implements SubmissionFieldPreparer {
@@ -22,7 +19,7 @@ public class JobsPreparer implements SubmissionFieldPreparer {
   public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
     var fields = new HashMap<String, SubmissionField>();
 
-    var jobs = jobs(submission).toList();
+    var jobs = SubmissionUtilities.jobs(submission).toList();
     if (jobs == null) {
       return Map.of();
     }
@@ -89,10 +86,5 @@ public class JobsPreparer implements SubmissionFieldPreparer {
     }
 
     return fields;
-  }
-
-  private Stream<Map<String, Object>> jobs(Submission submission) {
-    var jobs = (List<Map<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<Map<String, Object>>());
-    return jobs.stream().filter(job -> job.getOrDefault("iterationIsComplete", false).equals(true));
   }
 }

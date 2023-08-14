@@ -54,9 +54,8 @@ public class HouseholdPreparer implements SubmissionFieldPreparer {
   }
 
   private Double totalFutureIncomeForMember(Submission submission, String memberName) {
-    var incomes = (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>());
-    return incomes
-      .stream()
+    return SubmissionUtilities
+      .jobs(submission)
       .filter(j -> j.get("incomeMember").equals(memberName))
       .map(IncomeCalculator::futureIncomeForJob)
       .reduce(0.0d, Double::sum);
