@@ -723,8 +723,8 @@ class SubmissionUtilitiesTest {
     var justBefore = DateTime.parse("2023-08-07").toDate();
     assertThat(SubmissionUtilities.getLaterdocDeadline(justBefore)).isEqualTo("August 14, 2023");
 
-    var justAfter = DateTime.parse("2023-08-10").toDate();
-    assertThat(SubmissionUtilities.getLaterdocDeadline(justAfter)).isEqualTo("August 15, 2023");
+    var justAfter = DateTime.parse("2023-08-25").toDate();
+    assertThat(SubmissionUtilities.getLaterdocDeadline(justAfter)).isEqualTo("August 30, 2023");
   }
 
   @Nested

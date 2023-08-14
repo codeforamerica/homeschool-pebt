@@ -1,7 +1,4 @@
-<th:block th:if="${applicationsDisabled}">
-  <th:block th:replace="~{indexApplicationsDisabled}"></th:block>
-</th:block>
-<th:block th:if="${!applicationsDisabled}">
+<th:block>
   <!DOCTYPE html>
   <html th:lang="${#locale.language}">
   <head th:replace="~{fragments/head :: head(title=#{index.title})}"></head>
@@ -12,20 +9,25 @@
       <section class="slab slab--hero">
         <div class="grid">
           <div class="width-one-half">
+            <th:block th:if="${applicationsDisabled}">
+              <div class="notice notice--warning" th:utext="#{index-applications-disabled.applications-launch}"></div>
+            </th:block>
             <h1 class="spacing-below-35 spacing-above-5" th:text="#{index.title}"></h1>
-            <h2 class="h3 spacing-below-15" th:utext="#{index.apply-for-benefits-in-10}"></h2>
+            <th:block th:if="${!applicationsDisabled}">
+              <h2 class="h3 spacing-below-15" th:utext="#{index.apply-for-benefits-in-10}"></h2>
+            </th:block>
             <p class="spacing-below-15">
               <a th:text="#{index.already-applied}" href="/flow/docUpload/addDocumentsSignpost"></a>
             </p>
             <p class="text--help" th:text="#{index.official-partner}"></p>
-            <div class="spacing-above-35">
+            <div class="spacing-above-35" th:if="${!applicationsDisabled}">
               <a th:href="#{index.apply-now-primary-link}" th:text="#{index.apply-now}" class="button--primary button spacing-below-10"></a>
               <p class="text--help spacing-below-35">
                 <i class="icon-lock_outline"></i>
                 <span th:text="#{index.safe-and-secure}"></span>
               </p>
             </div>
-            <div class="spacing-below-35">
+            <div class="spacing-below-35" th:if="${!applicationsDisabled}">
               <a th:href="#{index.apply-now-secondary-link}" th:text="#{index.apply-now-secondary}"
                  class="button--small button"></a>
             </div>
@@ -94,7 +96,7 @@
             </div>
           </div>
 
-          <div class="width-one-third shift-one-third">
+          <div class="width-one-third shift-one-third" th:if="${!applicationsDisabled}">
             <a href="/flow/pebt/howThisWorks" class="button button--primary button--full-width spacing-above-35">
               <th:block th:text="#{index.apply-now}"></th:block>
               <i class="icon-arrow_forward"></i>
@@ -187,7 +189,7 @@
           </div>
         </div>
 
-        <div class="grid spacing-above-25">
+        <div class="grid spacing-above-25" th:if="${!applicationsDisabled}">
           <div class="width-one-third shift-one-third">
             <a href="/flow/pebt/howThisWorks" class="button button--primary button--full-width spacing-above-35">
               <th:block th:text="#{index.apply-now}"></th:block>
