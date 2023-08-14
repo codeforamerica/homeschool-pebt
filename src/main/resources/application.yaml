@@ -1,5 +1,6 @@
 form-flow:
   applications-disabled: ${DISABLE_APPLICATIONS:-"false"}
+  laterdoc-delay-disabled: ${DISABLE_LATERDOC_DELAY:-"false"}
   inputs: 'org.homeschoolpebt.app.inputs.'
   uploads:
     accepted-file-types: '.jpeg,.jpg,.png,.pdf,.bmp,.gif,.doc,.docx,.odt,.ods,.odp'

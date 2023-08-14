@@ -14,6 +14,7 @@ import org.homeschoolpebt.app.upload.CloudFile;
 import org.homeschoolpebt.app.upload.ReadOnlyCloudFileRepository;
 import org.homeschoolpebt.app.utils.SubmissionUtilities;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -40,17 +41,20 @@ public class TransmitterCommands {
 
   private final SftpClient sftpClient;
   private final List<SubmissionFieldPreparer> customFieldPreparers;
+  private final Boolean disableLaterdocDelay;
 
   public TransmitterCommands(TransmissionRepository transmissionRepository,
                              PdfService pdfService,
                              ReadOnlyCloudFileRepository fileRepository,
                              SftpClient sftpClient,
-                             List<SubmissionFieldPreparer> customFieldPreparers) {
+                             List<SubmissionFieldPreparer> customFieldPreparers,
+                             @Value("${form-flow.laterdoc-delay-disabled}") String disableLaterdocDelay) {
     this.transmissionRepository = transmissionRepository;
     this.pdfService = pdfService;
     this.fileRepository = fileRepository;
     this.sftpClient = sftpClient;
     this.customFieldPreparers = customFieldPreparers;
+    this.disableLaterdocDelay = disableLaterdocDelay.equals("true");
   }
 
   @ShellMethod(key = "transmit")
@@ -143,7 +147,7 @@ public class TransmitterCommands {
           continue;
         }
 
-        if (("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission)) ||
+        if (("pebt".equals(submission.getFlow()) && doTransmitApplication(appIdsWithLaterDocs, appNumber, submission, this.disableLaterdocDelay)) ||
             ("docUpload".equals(submission.getFlow()))) {
           String subfolder = createSubfolderName(submission, transmission);
           try {
@@ -213,7 +217,7 @@ public class TransmitterCommands {
     return true;
   }
 
-  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission) {
+  private static boolean doTransmitApplication(Set<String> appIdsWithLaterDocs, String appNumber, Submission submission, Boolean disableLaterdocDelay) {
     // delay 7 days if there aren't any uploaded docs associated with this application
     Instant submittedAt = submission.getSubmittedAt().toInstant();
     long diffDays = ChronoUnit.DAYS.between(submittedAt, Instant.now());
@@ -221,7 +225,7 @@ public class TransmitterCommands {
     boolean hasLaterDocs = appIdsWithLaterDocs.contains(appNumber);
     List<String> missingDocUploads = SubmissionUtilities.getMissingDocUploads(submission);
     boolean hasUploadedDocs = missingDocUploads.isEmpty();
-    return submitted7daysAgo || hasLaterDocs || hasUploadedDocs;
+    return submitted7daysAgo || hasLaterDocs || hasUploadedDocs || disableLaterdocDelay;
   }
 
   @NotNull
