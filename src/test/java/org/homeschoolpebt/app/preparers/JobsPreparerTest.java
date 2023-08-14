@@ -21,6 +21,7 @@ class JobsPreparerTest {
       put("incomeCustomAnnualIncome", "1200");
       put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - 40% standard = $120 net
       put("incomeWillBeLessDescription", "I will be planting fewer potatoes.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -51,6 +52,7 @@ class JobsPreparerTest {
       put("incomeCustomAnnualIncome", "600");
       put("incomeGrossMonthlyIndividual", "200"); // $200 monthly gross - $100 custom operating expenses = $100 net
       put("incomeWillBeLessDescription", "My operating expenses are very high.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -80,6 +82,7 @@ class JobsPreparerTest {
       put("incomeHourlyWage", "18"); // Monthly income: $720 (10 * $18 * 4)
       put("incomeWillBeLess", "false");
       put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
@@ -108,6 +111,7 @@ class JobsPreparerTest {
       put("incomeRegularPayInterval", "biweekly"); // Monthly income: $866.67 (400 * 26 / 12)
       put("incomeWillBeLess", "false");
       put("incomeWillBeLessDescription", "I won't be working as many hours next month.");
+      put("iterationIsComplete", true);
     }};
 
     Submission submission = Submission.builder().inputData(Map.ofEntries(
