@@ -8,7 +8,7 @@ raise "need to specify AWS_ACCESS_KEY_ID" unless ENV['AWS_ACCESS_KEY_ID'] && ENV
 # 2. csv of all completed submissions - (firstName, lastName, confirmationNumber)
 DOCUPLOADS_ONLY = File.expand_path('~/Documents/quarantine/docuplad_submissions_that_had_errored.csv')
 COMPLETED_SUBMISSIONS = File.expand_path('~/Documents/quarantine/csv_of_all_completed_submissions_with_confirmationNumber.csv')
-OUTPUT_FILE = File.expand_path('~/Documents/quarantine/manual_laterdoc_investigation_2023-08-09.sql')
+OUTPUT_FILE = File.expand_path('~/Documents/quarantine/manual_laterdoc_investigation_2023-08-15.sql')
 
 def download_files(submission_id)
   s3 = Aws::S3::Client.new(region: 'us-west-1')
@@ -22,6 +22,7 @@ def download_files(submission_id)
       ) do |chunk|
         f.write chunk
       end
+      f.fsync
 
       f
     end
