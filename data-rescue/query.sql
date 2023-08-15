@@ -42,14 +42,16 @@ inner join submissions_with_name on s.id = submissions_with_name.id
 where submissions_with_name.normalized_name <> ' '
 order by normalized_name;
 
--- the output of this goes into s3_review.rb as docuplad_submissions_that_had_errored.csv
+-- the output of this goes into s3_review.rb as:
+-- docuplad_submissions_that_had_errored
 select * from submissions s
                 inner join transmissions t on s.id = t.submission_id
 where t.last_transmission_failure_reason = 'skip_incomplete'
   and s.input_data->>'docUpload' is not null
   and s.flow = 'docUpload';
 
--- the output of this goes into s3_review.rb as csv_of_all_completed_submissions_with_confirmationNumber.csv
+-- the output of this goes into s3_review.rb as
+-- csv_of_all_completed_submissions_with_confirmationNumber
 select s.input_data->>'firstName' as first_name, s.input_data->>'lastName' as last_name, s.input_data->>'confirmationNumber' as confirmation_number
 from submissions s
 where s.submitted_at is not null
