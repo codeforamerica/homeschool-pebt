@@ -77,9 +77,7 @@ spring:
       max-request-size: ${form-flow.uploads.max-file-size}MB
 management:
   endpoints:
-    web:
-      exposure:
-        include: '*'
+    enabled-by-default: false
 logging:
   pattern:
     console:
