@@ -4,7 +4,6 @@ Table of Contents
 =================
 <!--
     **  This is not automatically generated. **
-    Please don't go more than three layers deep, so we can keep the TOC
     a reasonable size.
 -->
 
