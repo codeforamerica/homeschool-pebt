@@ -4,7 +4,6 @@ Table of Contents
 =================
 <!--
     **  This is not automatically generated. **
-    a reasonable size.
 -->
 
 * [Form Flow Starter Application](#form-flow-starter-application)
