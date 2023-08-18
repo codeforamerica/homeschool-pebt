@@ -200,7 +200,7 @@ can do the following:
 
 1. Clone the `form-flow` repo in the same directory as the starter app.
 2. Build the `form-flow` library jar.
-3. In this starter app, set the `SPRING_PROFILES_ACTIVE`  to `dev` in
+3. In this app, set the `SPRING_PROFILES_ACTIVE`  to `dev` in
    the [`.env`](https://github.com/codeforamerica/form-flow-starter-app/blob/main/sample.env) file.
 4. Start the `form-flow-starter-app`.
 
