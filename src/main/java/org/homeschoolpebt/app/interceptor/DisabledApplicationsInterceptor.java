@@ -17,8 +17,8 @@ public class DisabledApplicationsInterceptor implements HandlerInterceptor {
     try {
       var parsedUrl = new AntPathMatcher().extractUriTemplateVariables(PATH_FORMAT, request.getRequestURI());
       String urlFlow = parsedUrl.get("flow");
-      if (urlFlow.equals("pebt")) {
-        log.info("Redirecting to homepage - applications disabled");
+      if (urlFlow.equals("pebt") || urlFlow.equals("docUpload")) {
+        log.info("Redirecting to homepage - flow {} disabled", urlFlow);
         response.sendRedirect("/");
         return false;
       } else {
